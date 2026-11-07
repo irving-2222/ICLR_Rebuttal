@@ -355,11 +355,11 @@ Hence ~700K raw examples fall below the base model, most sharply on SLAKE (−26
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | ~50 | 46 | 草稿完成（可删） |
-| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | ~1,550 | 1,545 | 草稿完成（PPO 证据待定） |
+| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | ~1,750 | 1,780 | 草稿完成（PPO 日志数据待填） |
 | Q2 | 数据泄漏；R7 的选择 | ~900 | — | 待写 |
 | Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | ~900 | — | 待写 |
 | Q4 | 复杂推理基准 | ~700 | — | 待写 |
-| **合计** | | **≤ 5,000** | **1,593** | |
+| **合计** | | **≤ 5,000** | **1,828** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合）。对应关系：W1 → Q1；W2 的复杂推理 → Q4；W2 的重复运行、置信区间、IU-Xray 提升幅度、32B 不如 8B → Q3。
 
@@ -380,7 +380,7 @@ Our answers to Q1–Q4 below also address W1–W2.
 | Principle evolution alone | evolved | stale (R2 / R3) | −2.65 / −2.78 | 1/6 / 0/6 |
 | CoEvoMed | evolved | current | **+1.50** | **6/6** |
 
-*PPO.* Allocation is a sequential decision with delayed effects: retention spent now protects gains in later rounds. The planner therefore optimizes cumulative signed validation gain (Eq. 5, App. F.4) rather than a greedy rule. [PPO evidence: see note.]
+*PPO.* Allocation is a sequential decision with delayed effects: retention spent now protects gains in later rounds. The planner therefore optimizes cumulative signed validation gain (Eq. 5, App. F.4) rather than a greedy rule. The logged policy responds to the learner's state instead of repeating one rule: across R1–R7 it selected [action sequence]. For example, after localization regressed at R4 (Figure 6), it switched to [action] at R[x], and localization recovered to 62.10 by R6.
 
 *Raw-data degradation.* Raw training lacks task-aligned reconstruction, verification, targeted allocation, and adaptation (App. D.3); our response to Reviewer jcb6 (Q1) details each.
 
@@ -401,7 +401,7 @@ Our answers to Q1–Q4 below also address W1–W2.
 | 只有原则演化 | 演化后 | 过时（R2 / R3） | −2.65 / −2.78 | 1/6 / 0/6 |
 | CoEvoMed | 演化后 | 当前 | **+1.50** | **6/6** |
 
-*PPO。* 课程分配是一个效果有延迟的序贯决策：现在花在"保留"上的预算，保护的是后续轮次的收益。因此，规划器优化的是累计的带符号验证收益（式 5，附录 F.4），而不是一条贪心规则。[PPO 证据：见核对清单。]
+*PPO。* 课程分配是一个效果有延迟的序贯决策：现在花在"保留"上的预算，保护的是后续轮次的收益。因此，规划器优化的是累计的带符号验证收益（式 5，附录 F.4），而不是一条贪心规则。日志显示，这个策略会根据学习者的状态做出不同选择，而不是重复同一条规则：R1–R7 中它依次选择了 [动作序列]。例如，定位能力在 R4 出现退化后（Figure 6），它在 R[x] 转向了 [动作]，定位能力到 R6 回升至 62.10。
 
 *原始数据退化。* 原始数据训练缺少面向任务的重构、核验、有针对性的分配和自适应（附录 D.3）；我们在对审稿人 jcb6 的回复（Q1）中逐项做了说明。
 
@@ -409,7 +409,7 @@ Our answers to Q1–Q4 below also address W1–W2.
 
 ### 发布前待核对
 
-- [ ] **Q1 PPO 的证据（必须决定）**：论文里没有 PPO 与更简单分配策略（均匀分配、固定动作、只做行为克隆初始化）的对比，正文目前只有设计上的理由，证据处是占位符。可选做法：(a) 从日志整理 PPO 在 R1–R7 每轮选择的动作，展示它随学习者状态而变化，例如出现退化后转向 retention-heavy，不需要算力；(b) 从 R5 检查点补跑一轮启发式分配（均匀分配，或固定 balanced 动作）作对比，约一轮训练的算力。注意：如果 PPO 在 R5 实际选的就是 balanced，那么固定 balanced 和 PPO 完全相同，应改用均匀分配作对比；(c) 只保留设计理由，不补证据。2Nuw 信心为 4，建议至少做 (a)。
+- [ ] **Q1 PPO 占位符**：已决定用日志中 PPO 每一轮选择的动作来证明（不补跑实验）。需要从日志填入：`[action sequence]`，即 R1–R7 每轮的动作；`[action]` 和 `R[x]`，即定位能力在 R4 退化后，PPO 在哪一轮换成了什么动作。按设计，修复（repair）部分负责薄弱能力和近期退化，所以预期是 repair-heavy 或 weakness-focused。如果日志里看不到这样的对应，就换一个能体现"随状态变化"的例子，或者只保留动作序列那一句。
 - [ ] **Q1 对照条件**：正文写的是"相同教师、支持数据池、每轮预算，同一 R5 检查点"，与 pUjh W1、jcb6 W1 是同一个待确认项。
 - [ ] **Q1 引用 jcb6 的回复**：原始数据部分引用了对 jcb6 的回复。这要求 jcb6 那条先发，并且 Readers 勾选了 Reviewers，2Nuw 才看得到。
 
@@ -424,3 +424,5 @@ Our answers to Q1–Q4 below also address W1–W2.
 | "Selection uses paired supervision comparison, with learner responses assessed in subsequent training rounds." | 附录 B（p.18）原文 |
 | 净修复不为正的原则会被纳入修订 | §4.3（p.6）；附录 A（p.16） |
 | 演化原则比原始原则在 R5 平均高 6.77 | Table 8 条件 D 减 C |
+| 定位能力 R4 退化到 56.16，R6 回升到 62.10 | Figure 6（p.9） |
+| 修复部分针对薄弱能力和近期退化，保留部分维持已习得能力 | §4.2（p.5） |
