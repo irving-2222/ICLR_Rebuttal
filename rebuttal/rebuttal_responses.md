@@ -356,10 +356,10 @@ Hence ~700K raw examples fall below the base model, most sharply on SLAKE (−26
 |---|---|---:|---:|---|
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | ~50 | 46 | 草稿完成（可删） |
 | Q1 | 分别确立贡献、PPO、原始数据、选择标准 | ~2,250 | 2,441 | 草稿完成（PPO 日志数据待填） |
-| Q2 | 数据泄漏；R7 的选择 | ~900 | — | 待写 |
+| Q2 | 数据泄漏；R7 的选择 | ~1,160 | 1,158 | 草稿完成（F_e、移除数量、患者层面待填） |
 | Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | ~900 | — | 待写 |
 | Q4 | 复杂推理基准 | ~700 | — | 待写 |
-| **合计** | | **≤ 5,000** | **2,489** | |
+| **合计** | | **≤ 5,000** | **3,649** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合）。对应关系：W1 → Q1；W2 的复杂推理 → Q4；W2 的重复运行、置信区间、IU-Xray 提升幅度、32B 不如 8B → Q3。
 
@@ -385,6 +385,10 @@ Our answers to Q1–Q4 below also address W1–W2.
 *Raw-data degradation.* App. D.3 trains on the raw sources "without supervision reconstruction or adaptive curriculum allocation", and four properties of these sources explain the drop. They are not task-aligned: 58.3% of 2D records are figure descriptions and most others are label-derived items or reports (Figure 10, App. C.3), so the model learns to describe or label rather than answer, most visibly on short-answer SLAKE (−26.69). They are also not verified for factual consistency or visual dependence, not targeted to the learner's weak capabilities, and not adapted as the learner changes. CoEvoMed handles these four properties through the principles and constructor, the verifier, the planner, and the revision agent, respectively (Sections 4.1–4.3), and the same kinds of sources reach 91.60 on SLAKE with fewer examples (Table 9).
 
 *Selection criteria vs. learning gains.* Usable yield, paired coverage, and semantic review screen supervision quality before deployment; learning gains are then assessed by the loop itself, since "learner responses [are] assessed in subsequent training rounds" (App. B) and any principle whose cells show non-positive net repair is revised again (Section 4.3). The selected principles raise all six benchmarks at R5, where the originals lower all six (+6.77 on average; Table 8).
+
+**Q2 (Overlap; R7 selection).** *Overlap.* Screening is part of evidence preparation (App. C.3) and runs before any supervision is constructed, so neither the constructor nor the learner sees a test item. Every support record was checked against both the internal validation sets and all external test sets by sample identifier, image path, and image pixel hash, and its question, answer, or report text was queried for leakage, which also catches study-level overlap for report data. PubMedVision-IU was screened against IU-Xray in the same way ([n] items removed). [Patient level: see note.]
+
+*R7.* R7 was chosen once, for overall cross-task balance on the external benchmarks (Section 5.2, App. C.4); training, curriculum, and principle revision never use them (App. A, C.6), and one checkpoint serves all six benchmarks. The predefined internal criterion, the validation objective F_e that the planner optimizes (App. F.4), selects [R7, the same checkpoint / R[x], with scores …]. The results also hold without any selection: the final R10 exceeds Hulu-Med-7B on SLAKE (88.67 vs. 86.80) and PathVQA (67.25 vs. 65.60), and Figure 7 reports all ten rounds.
 ```
 
 ### 中文译文（不发布）
@@ -407,15 +411,22 @@ Our answers to Q1–Q4 below also address W1–W2.
 
 *选择标准与学习收益的关系。* 可用产出率、配对覆盖率和语义审查在部署之前筛查监督数据的质量；之后的学习收益由闭环本身检验：论文写明"学习者的反应在后续训练轮次中评估"（附录 B），任何能力单元净修复不为正的原则都会被再次修订（第 4.3 节）。被选中的原则在 R5 让六个基准全部提升，而原始原则让六个基准全部下降（平均高出 6.77；Table 8）。
 
+**Q2（数据重叠；R7 的选择）** *数据重叠。* 筛查是证据准备环节的一部分（附录 C.3），在构建任何监督数据之前进行，因此构建器和学习者都不会接触到任何测试样本。每一条支持数据记录都与内部验证集和全部外部测试集做了比对，比对依据包括样本 ID、图像路径和图像像素哈希；同时对其问题、答案或报告文本做了泄漏查询，这对报告类数据也能发现检查（study）层面的重叠。PubMedVision-IU 与 IU-Xray 之间按同样的方式做了筛查（移除了 [n] 条）。[患者层面：见核对清单。]
+
+*R7。* R7 是按外部基准上跨任务的整体均衡性一次性选定的（第 5.2 节，附录 C.4）；训练、课程分配和原则修订从不使用外部基准（附录 A、C.6），而且六个基准共用同一个检查点。按照预先定义的内部标准，即规划器优化的验证目标 F_e（附录 F.4），选出的是 [R7，同一个检查点 / R[x]，其分数为……]。即使不做任何选择，结果依然成立：最后一轮 R10 在 SLAKE（88.67 对 86.80）和 PathVQA（67.25 对 65.60）上仍超过 Hulu-Med-7B，Figure 7 也报告了全部十轮。
+
 ### 发布前待核对
 
 - [ ] **Q1 PPO 占位符**：已决定用日志中 PPO 每一轮选择的动作来证明（不补跑实验）。需要从日志填入：`[action sequence]`，即 R1–R7 每轮的动作；`[action]` 和 `R[x]`，即定位能力在 R4 退化后，PPO 在哪一轮换成了什么动作。按设计，修复（repair）部分负责薄弱能力和近期退化，所以预期是 repair-heavy 或 weakness-focused。如果日志里看不到这样的对应，就换一个能体现"随状态变化"的例子，或者只保留动作序列那一句。
 - [ ] **Q1 对照条件**：正文写的是"相同教师、支持数据池、每轮预算，同一 R5 检查点"，与 pUjh W1、jcb6 W1 是同一个待确认项。
 - [ ] **Q1 原始数据的组成**：与 jcb6 Q1 相同，需要确认 D.3 中约 70 万条原始数据和支持数据池来自同一批数据源。
 
-- [ ] **Q2 R7 的选择（已确认事实）**：R7 是根据外部基准的整体均衡性选出的。论文 §5.2（p.7）和附录 C.4（p.24）写了"为什么选 R7"（跨任务整体最均衡），但没有写明这个"均衡"是在外部基准上衡量的；附录 A、C.4、C.6 反复说明外部基准不参与自适应和训练，但这些说法不涉及检查点选择。Q2 必须如实说明 R7 依据外部基准选出，不能写成"按内部验证标准选出"。
-- [ ] **Q2 需要从日志计算**：每一轮在内部验证集上的目标值 F_e（附录 F.4 定义：VQA 与报告两类任务验证分数的等权平均，也就是规划器优化的量），看按这个预先定义的内部标准会选出哪一轮，以及那一轮在外部基准上的分数。
-- [ ] **Q2 去重的实际做法**：论文写明的是按样本 ID、图像路径和 RGB 像素内容去重，并检查与验证集的图像重叠（附录 C.3）；训练数据不包含验证集和外部基准（附录 A、C.6）。没有写明是否检查了支持数据与外部测试集之间的重叠，也没有提到患者或检查（study）层面。需要你确认实际做了什么，尤其是 PubMedVision-IU 与 IU-Xray 测试集之间。
+- [x] **Q2 R7 的选择（已确认事实）**：R7 是根据外部基准的整体均衡性选出的。论文 §5.2 和附录 C.4 写了"为什么选 R7"，但没有写明依据的是外部基准。Q2 已如实写明。
+- [ ] **Q2 F_e 计算**：用日志算出每一轮内部验证集上的 F_e（附录 F.4：VQA 与报告两类任务验证分数的等权平均，即规划器优化的目标），看它选出哪一轮。选出 R7 时，占位符改为 "R7, the same checkpoint"；选出其他轮次时，写明轮次和该轮在外部基准上的分数。
+- [x] **Q2 去重的实际做法（已确认事实）**：与内部验证集和全部外部测试集比对，依据样本 ID、图像路径、像素哈希，并对每条样本的文本做泄漏查询；PubMedVision-IU 与 IU-Xray 专门做过。
+- [ ] **Q2 移除数量 `[n]`**：PubMedVision-IU 与 IU-Xray 筛查后移除（或命中）了多少条？如果是 0，改为 "and no overlap was found"。
+- [ ] **Q2 患者层面**：2Nuw 也问了患者层面。像素哈希和路径覆盖图像层面，文本查询覆盖检查层面；患者层面需要患者 ID。据我所知 IU-Xray（Open-i）没有公开患者 ID，无法在患者层面匹配。如果确实如此，占位符改为 "IU-Xray releases no patient identifiers, so matching there is at study and image level"。请确认你们是否做过患者层面的匹配，以及 IU-Xray 是否确实没有患者 ID。
+- [ ] **Q2 定稿时补进论文**：附录 C.3 目前只写了与验证集的重叠检查。定稿时补上与外部测试集的筛查、文本泄漏查询，以及 R7 依据外部基准选出这一点。
 
 ### 论据出处
 
@@ -433,3 +444,8 @@ Our answers to Q1–Q4 below also address W1–W2.
 | 演化原则比原始原则在 R5 平均高 6.77 | Table 8 条件 D 减 C |
 | 定位能力 R4 退化到 56.16，R6 回升到 62.10 | Figure 6（p.9） |
 | 修复部分针对薄弱能力和近期退化，保留部分维持已习得能力 | §4.2（p.5） |
+| Q2：去重依据样本 ID、图像路径和 RGB 像素内容；检查与验证集的重叠 | 附录 C.3（p.22）；与外部测试集的比对和文本查询为作者确认的实际做法，论文未写 |
+| Q2：R7 按跨任务整体均衡性选定 | §5.2（p.7）；附录 C.4（p.24） |
+| Q2：外部基准不参与训练、课程和原则更新 | 附录 A（p.16）；附录 C.6（p.25） |
+| Q2：F_e 定义 | 附录 F.4（p.29） |
+| Q2：R10 SLAKE 88.67、PathVQA 67.25；Hulu-Med-7B 86.80、65.60 | Figure 7（p.9）；Table 1（p.6） |
