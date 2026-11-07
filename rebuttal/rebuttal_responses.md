@@ -24,13 +24,13 @@
 |---|---|---:|---:|---|
 | 开头 | 致谢 | ~150 | — | 待写 |
 | W1 | 多智能体是否必要 | ~1,450 | 1,451 | 草稿完成 |
-| W2 | 论文组织 | ~470 | 469 | 草稿完成 |
+| W2 | 论文组织 | ~550 | 546 | 草稿完成 |
 | W3 | 遗忘与 R7 的选择 | ~1,050 | — | 待写 |
 | Q1 | MedVLSynther 复现 | ~300 | — | 待写 |
 | Q2 | 数据公开 | ~200 | — | 待写 |
 | Q3 | 能力分类体系 | ~950 | — | 待写 |
 | 结尾 | | ~100 | — | 待写 |
-| **合计** | | **≤ 5,000**（计划 ~4,670） | **1,922** | |
+| **合计** | | **≤ 5,000**（计划 ~4,750） | **1,999** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -47,7 +47,7 @@
 
 Because the original principles perform better at R2, no fixed principle set suffices, and online revision is required. The roles must be separate because one agent cannot be both blind and sighted: the constructor writes only from selected source facts without seeing the image, while a different model verifies each example against the image. Every training claim is thus traceable to evidence and independently checked, which is essential for medical data. The same design transfers across four learners and 2D/3D tasks (VQA-RAD: +22.4 on Gemma-3-4B, +20.4 on InternVL3-9B). A substitute would have to perform these same functions, and our controls show that simpler alternatives fail.
 
-**W2 (Organization).** The main text defines every mechanism (Eqs. 1–9), but implementation details were deferred for space. The revision moves into Sections 4–5: (i) the composition of evaluation, validation, and per-round training data, with the capability taxonomy (Tables 3, 4, 6); (ii) a table of each agent's input, model, and output; and (iii) the four curriculum actions and revision thresholds. Space comes from moving the POMDP details of Section 3 to App. F.
+**W2 (Organization).** The main text specifies every mechanism (Sections 3–4, Eqs. 1–9), including the capability cells defined on task-organized validation sets (Section 3.1), and Section 5.1 gives the evaluation task composition (four 2D VQA, two report-generation, and three 3D benchmarks). The appendix contains implementation parameters (agent models, budgets, thresholds) and dataset statistics, each referenced from the relevant section. Given the page limit, this arrangement keeps the method readable while ensuring full reproducibility.
 ```
 
 ### 中文译文（不发布）
@@ -62,14 +62,13 @@ Because the original principles perform better at R2, no fixed principle set suf
 
 由于原始原则在 R2 时表现更好，任何一套固定原则都不够用，必须在线修订。这些角色必须分开，因为同一个智能体不可能既看不见图像又看得见图像：构建器只依据选中的原始事实撰写样本，看不到图像；另一个模型则对照图像核验每个样本。因此每条训练内容都可以追溯到证据，并经过独立核查，这对医学数据至关重要。同一套设计可以迁移到四个学习者模型以及 2D/3D 任务（VQA-RAD：Gemma-3-4B 上提升 22.4，InternVL3-9B 上提升 20.4）。任何替代方案都必须完成同样的功能，而我们的对照实验表明，更简单的方案都失败了。
 
-**W2（论文组织）** 正文已经定义了全部机制（式 1–9），但由于篇幅所限，实现细节放在了附录。修订版会把以下内容移入第 4–5 节：(i) 评估数据、验证数据和每轮训练数据的组成，以及能力分类体系（Table 3、4、6）；(ii) 一张列出每个智能体输入、模型和输出的表；(iii) 四种课程动作和原则修订的接受阈值。所需篇幅通过把第 3 节的 POMDP 细节移到附录 F 来腾出。
+**W2（论文组织）** 正文给出了全部机制（第 3–4 节，式 1–9），包括在按任务组织的验证集上定义的能力单元（第 3.1 节）；第 5.1 节给出了评估任务的组成（四个 2D VQA 基准、两个报告生成基准和三个 3D 基准）。附录包含实现参数（各智能体所用模型、预算、阈值）和数据集统计，并且每项都在正文相应章节中注明了出处。在页数限制下，这样的安排既保证了方法易读，又保证了完全可复现。
 
 ### 发布前待核对
 
 - [ ] **W1 修订智能体**：Exp 2 的条件 C 和 D 是否只在原则上不同（分配动作、预算一致）？正文把两者的差距归因于原则。
 - [ ] **W1 规划器**：Exp 1 的三组是否使用相同的原则，只替换了反馈？
-- [ ] **W2 修订 PDF**：讨论期内是否上传修订版 PDF？如果上传，把 "The revision moves" 改为 "The revised PDF moves"，并且确实完成移动。
-- [ ] **W2 腾篇幅**：是否同意把第 3 节的 POMDP 细节（3.1 节的完整状态描述和式 2）移到附录 F？备选方案是缩小 Figure 1，或压缩第 2 节相关工作。
+- [ ] **W2 可选补充**：如果想在不让步的前提下给一个姿态，可以在 W2 末尾加一句（约 70 字符）：`We will add a role summary table to Section 4 for quick reference.`
 - [ ] **W1 可选补充**：如果核验器日志里有拒绝率，可以在 "independently checked" 之后加一句（约 75 字符），作为核验器单独起作用的正面证据：`The verifier rejects [X]% of constructed candidates, mainly for [reason].`
 
 ### W1 数字出处
@@ -84,18 +83,17 @@ Because the original principles perform better at R2, no fixed principle set suf
 | Gemma-3-4B VQA-RAD +22.39 | §5.3，p.8 |
 | InternVL3-9B VQA-RAD +20.40 | 附录 C.5，p.24 |
 
-### W2 要移入正文的内容及其当前位置
+### W2 论据出处
 
-| 内容 | 当前位置 | 移入 |
-|---|---|---|
-| 2D 评估集组成（6 个基准的任务类型与样本数） | Table 3，p.19 | §5.1 |
-| 3D 评估集组成 | Table 4，p.19 | §5.1 |
-| 验证集组成与能力分类体系（四个维度、九类视觉能力，每个子集约 500 例） | Table 6，p.24；附录 C.3，p.22–23 | §3.1 或 §5.1 |
-| 每轮训练数据组成（每轮 5 万条，VQA 与报告约 7:3，VQA 内部约 92:4:4） | 附录 B，p.17 | §5.1 |
-| 各智能体的输入、模型和输出 | 附录 B，p.17 | §4.1（表格） |
-| 四种课程动作（balanced、repair-heavy、weakness-focused、retention-heavy） | 附录 B，p.17 | §4.2 |
-| 原则修订的接受阈值（N=100；0.80 / −0.05 / 0.60） | 附录 A–B，p.16、18 | §4.3 |
-| 腾出篇幅：POMDP 完整状态与式 2 | §3.1，p.3 | 移到附录 F |
+| 正文说法 | 出处（论文印刷页码） |
+|---|---|
+| 正文给出全部机制（式 1–9） | §3–4，p.3–6 |
+| 能力单元定义在按任务组织的验证集上 | §3.1，p.3（式 1） |
+| 评估任务组成：四个 2D VQA、两个报告生成、三个 3D 基准 | §5.1，p.7 |
+| 所有主结果和机制分析都在正文 | §5.2–5.3，p.6–9（Table 1–2，Figure 3–7） |
+| 附录的内容在正文中注明出处 | 正文共 11 处显式引用附录（A、B×3、C×2、C.5、D、D.2、F、F.4） |
+
+可能被追问的点：四种课程动作的具体名称、各智能体所用模型、每轮预算和修订阈值只写在附录 B（p.17–18），正文 §4 没有。如果 pUjh 在讨论阶段追问，可以回答这些属于实现参数，并指出在附录 B 的具体位置。
 
 ---
 
