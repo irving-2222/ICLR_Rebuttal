@@ -27,10 +27,10 @@
 | W2 | 论文组织 | ~550 | 546 | 草稿完成 |
 | W3 | 遗忘与 R7 的选择 | ~1,290 | 1,288 | 草稿完成 |
 | Q1 | MedVLSynther 复现 | ~920 | 921 | 草稿完成（复现结果待填） |
-| Q2 | 数据公开 | ~150 | — | 待写 |
+| Q2 | 数据公开 | ~290 | 288 | 草稿完成 |
 | Q3 | 能力分类体系 | ~950 | — | 待写 |
 | 结尾 | | ~80 | — | 待写 |
-| **合计** | | **≤ 5,000**（Q3 写完后需压缩约 400） | **4,212** | |
+| **合计** | | **≤ 5,000**（Q3 写完后需压缩约 500） | **4,502** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -64,6 +64,8 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 |---|---|---|---|---|
 | MedVLSynther recipe | [x.xx] | [x.xx] | [x.xx] | [x.xx] |
 | CoEvoMed-8B | **67.95** | **82.48** | **91.60** | **69.40** |
+
+**Q2 (Data release).** Yes. Upon acceptance, we will release the synthesized data and all principle versions under each source's license: images are referenced by identifiers, and sources that prohibit redistribution (e.g., CheXpert, ReXGradient-160K) are covered by regeneration scripts.
 ```
 
 ### 中文译文（不发布）
@@ -96,6 +98,8 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 | MedVLSynther 配方 | [x.xx] | [x.xx] | [x.xx] | [x.xx] |
 | CoEvoMed-8B | **67.95** | **82.48** | **91.60** | **69.40** |
 
+**Q2（数据公开）** 会公开。论文被接收后，我们将按各源数据的许可公开合成数据和全部版本的构建原则：图像只以源数据中的标识引用、不重新分发；对于协议禁止再分发的源数据（如 CheXpert、ReXGradient-160K），我们提供可重新生成这部分数据的脚本。
+
 ### 发布前待核对
 
 - [ ] **W1 修订智能体**：Exp 2 的条件 C 和 D 是否只在原则上不同（分配动作、预算一致）？正文把两者的差距归因于原则。
@@ -107,7 +111,9 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 - [ ] **Q1 占位符**：复现完成后，在第二张表里填入复现模型在四个基准上的得分 `[x.xx]`（与 CoEvoMed 同一评测流程）。如果任何一项高于 CoEvoMed，需要重新讨论写法。
 - [ ] **Q1 数字来源**：确认 Table 1 的 MedVLSynther 数字引自其论文（与其 GitHub README 的数字完全一致）。正文写的是 "as published"。
 - [ ] **Q1 与附录 C.1 的一致性**：C.1 写的是"本研究评估的基线与 CoEvoMed 使用相同的评估集和评分规则"，MedVLSynther 是引用数，与这句不符。Q1 已如实写明"按原文发表的结果和协议"；定稿时建议把 C.1 改为区分"我们评测的基线"和"引用原文的基线"。
-- [ ] **字符超预算**：加入 Q1 后剩余空间不够写 Q2、Q3。Q3 写完后统一压缩约 400 字符，候选做法：去掉开头和结尾、W1 和 W3 各压约 150。
+- [ ] **字符超预算**：加入 Q1、Q2 后剩余空间不够写 Q3。Q3 写完后统一压缩约 500 字符，候选做法：去掉开头和结尾、W1 和 W3 各压约 150、Q1 精简说明文字。
+- [ ] **Q2 承诺**：正文承诺为禁止再分发的源数据提供重新生成脚本。确认接收后能兑现；如果不打算做，把最后半句改为 "are excluded from the release"。
+- [ ] **Q2 待确认许可**：PMC-OA、MedTrinity BHX、RadGenome-ChestCT、Med-MAT 的许可没能直接核实，AbdomenAtlas1.0Mini 的附加条款也不确定，公开前需逐个确认（见下方"Q2 源数据许可核对"）。
 - [ ] **W1 可选补充**：如果核验器日志里有拒绝率，可以在 "independently checked" 之后加一句（约 75 字符），作为核验器单独起作用的正面证据：`The verifier rejects [X]% of constructed candidates, mainly for [reason].`
 
 ### W1 数字出处
@@ -172,6 +178,36 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 | 开跑前检查 | 奖励要求整段回复完整匹配 `<think>…</think><answer>…</answer>`，否则得 0 分。正式训练前先在几十条样本上检查格式奖励的通过率 |
 | 评测 | 用与其他基线相同的评测流程测 PMC-VQA、VQA-RAD、SLAKE、PathVQA；模型输出带 `<think>`，需要解析 `<answer>` 中的答案 |
 | 预计时间 | 搭环境 0.5–1 天；训练约 10–20 小时（先跑 10 步实测每步耗时）；评测约 0.5 天 |
+
+### Q2 源数据许可核对
+
+范围：附录 C.3 和 Table 5（p.21–23）列出的支持数据池，即合成数据的来源。外部评测基准（含 MIMIC-CXR、IU-Xray 测试集）不进入合成数据，不在此列。Hugging Face 和 arXiv 在本会话中无法访问，以下结论来自各数据集的 GitHub 仓库和网页检索，标"待确认"的需要你在公开前到官方页面核实。
+
+| 源数据 | 许可或使用条款 | 派生数据能否公开 | 依据 |
+|---|---|---|---|
+| TotalSegmentator | CC BY 4.0 | 可以，注明出处 | Zenodo 记录与镜像元数据 |
+| TCGA-CRC | GDC 开放获取层 | 可以，注明出处 | GDC 数据政策 |
+| PubMedVision（非 IU 部分） | Apache-2.0（数据卡） | 可以 | Hugging Face 数据卡（经检索） |
+| LLaVA-Med | CC BY-NC 4.0，仅限研究 | 可以，限非商业研究；图像只给链接 | LLaVA-Med GitHub README |
+| CT-RATE | CC BY-NC-SA 4.0 | 可以，须用相同许可（NC-SA） | CT-CLIP GitHub README |
+| RadGenome-ChestCT | 基于 CT-RATE，推测同为 NC-SA | 待确认 | 未找到明确声明 |
+| M3D-Cap | 图像与报告来自 Radiopaedia，已获其授权，支持非商业机器学习使用 | 可以，限非商业 | M3D GitHub README |
+| ROCO | 图像来自 CC BY 或 CC BY-NC 的 PMC 开放获取论文 | 可以，限非商业；图像按原论文许可 | ROCOv2 数据卡与论文（经检索） |
+| PMC-OA | PMC 开放获取子集，逐篇许可 | 待确认 | 主数据集许可字段未找到 |
+| OmniMedVQA | 按各子数据集：开放获取部分直接提供，受限部分只给图像相对路径 | 可以，按子数据集许可，图像不分发 | 其 HF 数据卡与 CVPR 补充材料（经检索） |
+| Med-MAT | 按各子数据集，部分子集"因许可不能分享" | 部分可以 | Med-MAT GitHub README |
+| AbdomenAtlas1.0Mini | HF 标注 CC BY-NC-SA 4.0，另有访问条款；GitHub 仓库 LICENSE 写 CC BY-NC-ND 4.0；1.1 版条款禁止再分发 | 待确认，可能受限 | AbdomenAtlas GitHub 仓库；HF 页面（经检索） |
+| MedTrinity BHX | BHX 在 PhysioNet 为开放获取，具体许可未查到 | 待确认 | PhysioNet 页面（经检索） |
+| PubMedVision-IU 子集 | 图像来自 IU-Xray（Open-i），CC BY-NC-ND 4.0 | 不可以（禁止演绎作品） | 镜像与 Open-i 说明（经检索） |
+| Quilt-1M | 需同意条款才能获取，条款禁止进一步分发、限定研究用途 | 不可以直接分发 | Quilt-1M GitHub README |
+| CheXpert | Stanford 研究使用协议，非商业，禁止分发或复制数据集 | 不可以 | Stanford AIMI 页面（经检索） |
+| ReXGradient-160K | 数据使用协议：仅限非商业研究，只能与本项目授权人员共享，禁止公开数据汇编 | 不可以 | 协议文本镜像（经检索） |
+
+结论与建议：
+1. 不是所有源数据都能公开派生数据。CheXpert、ReXGradient-160K、Quilt-1M、IU-Xray（PubMedVision-IU）明确受限，AbdomenAtlas 可能受限。
+2. 可公开部分的通行做法（OmniMedVQA、Med-MAT、LLaVA-Med 都这样做）：只发布合成的文本（问答与报告）和源数据中的图像标识，不重新分发图像，使用者自行按原许可获取图像。
+3. 因为含 CT-RATE（NC-SA）派生内容，整体发布许可建议用 CC BY-NC-SA 4.0。
+4. 构建原则（各版本）和代码是我们自己的产出，不受源数据许可约束，可以完整公开。
 
 ---
 
