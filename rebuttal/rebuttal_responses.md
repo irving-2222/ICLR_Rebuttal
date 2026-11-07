@@ -259,8 +259,8 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
 | W1 | 在预算匹配下分离各组件 | 1,173 | 草稿完成 |
-| Q1 | 原始数据退化原因；固定原则重构是否也有效 | — | 初稿已有，待讨论（暂不放入发布正文） |
-| **合计** | | **1,253** | ≤ 5,000 |
+| Q1 | 原始数据退化原因；固定原则重构是否也有效 | 1,148 | 草稿完成 |
+| **合计** | | **2,403** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
@@ -276,6 +276,8 @@ We thank the reviewer for the positive assessment and the precise suggestions.
 | CoEvoMed | evolved | current | **+1.50** | **6/6** |
 
 Each component alone degrades the learner; only their combination improves all six benchmarks. High-quality synthetic data is therefore not sufficient. The same verified pipeline with fixed principles helps at R2 (+3.09, 6/6) but harms at R5, so data quality drives early progress while co-evolution sustains it. At matched budget, evolved principles add +6.77 on average over fixed ones (+3.33 to +10.12), and current feedback adds +4.15 and +4.28 over stale feedback.
+
+**Q1 (Raw-data degradation; fixed-principle reconstruction).** *Cause.* The raw sources are not VQA supervision: 58.3% of the 2D support records are free-text figure descriptions (PMC-OA, Quilt-1M, ROCO; Figure 10), and most others are label-derived items or reports (App. C.3). Training on them directly (i) shifts outputs toward description- and label-style text instead of answers to the question, consistent with the largest drop occurring on SLAKE (−26.69), whose answers are short; and (ii) teaches image–text associations never checked for visual dependence or factual consistency, the checks our verifier enforces (Section 4.1). More raw data cannot remove this mismatch, which is why ~700K raw examples fall below the base model. *Fixed-principle reconstruction.* It does yield gains early, which is why CoEvoMed starts from the original principles (Algorithm 1): at R2 they improve all six benchmarks (+1.78 to +3.90). The gains do not last. At R5 the same principles lower all six, whereas evolved principles under the same budget add +6.77 on average (W1). Adaptive evolution is what keeps reconstruction useful as the learner develops.
 ```
 
 ### 中文译文（不发布）
@@ -292,11 +294,15 @@ Each component alone degrades the learner; only their combination improves all s
 
 任何一个组件单独使用都会让学习者变差；只有两者结合，六个基准才全部提升。因此，高质量合成数据本身并不足够：同一条经过核验的流程，用固定原则在 R2 时有帮助（+3.09，6/6），到 R5 时却有害；数据质量推动了早期的进步，而共同演化让进步得以持续。在预算匹配下，演化后的原则比固定原则平均高 6.77（+3.33 至 +10.12），当前反馈比过时反馈分别高 4.15 和 4.28。
 
+**Q1（原始数据退化的原因；固定原则重构的效果）** *原因。* 原始数据并不是 VQA 监督：2D 支持数据中 58.3% 是自由文本的图像描述（PMC-OA、Quilt-1M、ROCO；Figure 10），其余大多是由标签转换来的条目或报告（附录 C.3）。直接在这些数据上训练会带来两个问题：(i) 模型的输出偏向描述式、标签式的文本，而不是针对问题作答，这与降幅最大的是答案简短的 SLAKE（−26.69）相吻合；(ii) 模型学到的图文关联从未经过视觉依赖性和事实一致性的检查，而这正是我们的核验器所做的检查（第 4.1 节）。增加原始数据的数量无法消除这种错配，所以约 70 万条原始数据训练后仍低于基础模型。*固定原则重构。* 它在早期确实能带来提升，这也是 CoEvoMed 从原始原则起步的原因（Algorithm 1）：在 R2，原始原则让六个基准全部提升（+1.78 至 +3.90）。但这种提升不能持续。到 R5，同样的原则让六个基准全部下降，而在相同预算下，演化后的原则平均高出 6.77（见 W1）。正是自适应的原则演化，让重构在学习者不断发展的过程中始终有效。
+
 ### 发布前待核对
 
 - [ ] **W1 对照条件只差一个因素**：正文写的是"同一 R5 检查点、同一流程、同一预算，区别只在原则和驱动课程的反馈"。需要确认 Exp 2 的 C、D 两组分配动作和预算一致，Exp 1 三组的原则相同、预算一致（与 pUjh W1 的核对项相同）。
 - [ ] **W1 缺少"原则和课程都固定"这一格**：jcb6 要求的第一组（原则固定 + 课程固定）论文里没有直接对应。正文用"固定原则在 R2 有帮助、R5 有害"来回答"高质量合成数据是否足够"。如果他追问，可以补一句承诺在修订版补充；算力允许的话也可以直接补跑一轮。
 - [ ] **W1 "过时反馈"不等于"固定课程"**：表中"只有原则演化"一行用的是过时反馈驱动的课程，即课程没有对准当前学习者，而不是完全不调整的课程。正文写的是 "stale (R2 / R3)"，如实标明了这一点。
+- [ ] **Q1 原始数据的组成**：Q1 用支持数据池的组成（Figure 10）解释退化。需要确认 D.3 中约 70 万条原始数据和支持数据池来自同一批数据源。支持数据池 2D 和 3D 合计约 47.5 万条记录，70 万这个数是怎么来的（例如一张图对应多条问答）？
+- [ ] **Q1 SLAKE 的证据（可选）**：正文只写了"与降幅最大的是答案简短的 SLAKE 相吻合"，属于观察加推断。如果能看一下 Qwen3+Raw 在 SLAKE 上的输出，例如平均输出长度，或描述式回答的比例，可以补一个硬数字。
 
 ### 论据出处
 
@@ -308,24 +314,12 @@ Each component alone degrades the learner; only their combination improves all s
 | R2 固定原则 +3.09，6/6 | Table 8 条件 A |
 | 演化原则比固定原则平均高 6.77（+3.33 至 +10.12） | Table 8 条件 D 减 C |
 | 当前反馈比过时反馈高 4.15 / 4.28 | Table 7 |
-
-### Q1 初稿（待讨论，暂不发布）
-
-英文：
-
-```markdown
-**Q1 (Raw-data degradation and fixed-principle reconstruction).** The raw sources are not VQA supervision: 58.3% of the 2D support records are free-text figure descriptions (PMC-OA, Quilt-1M, ROCO; Figure 10), and most others are label-derived items or reports (App. C.3). Training on them directly teaches description- and label-style outputs instead of answers to the question, which especially hurts short-answer benchmarks such as SLAKE. Reconstruction removes this mismatch. With fixed principles it already yields gains early (R2: +1.78 to +3.90 on all six), but these gains reverse by R5, where only evolved principles keep improving the learner (+8.26 on VQA-RAD and +10.12 on PMC-VQA over fixed). This stage-dependent margin is the additional benefit of adaptive principle evolution at matched budget.
-```
-
-中文：
-
-**Q1（原始数据训练为何退化，以及固定原则重构的效果）** 原始数据并不是 VQA 监督：2D 支持数据中 58.3% 是自由文本的图像描述（PMC-OA、Quilt-1M、ROCO；Figure 10），其余大多是由标签转换来的条目或报告（附录 C.3）。直接在这些数据上训练，模型学到的是输出描述式、标签式的文本，而不是针对问题作答，这对 SLAKE 这类答案简短的基准伤害尤其大。重构消除了这种错配。用固定原则重构，早期已经能带来提升（R2：六个基准 +1.78 至 +3.90），但到 R5 这些收益会反转，只有演化后的原则还能继续提升学习者（相对固定原则，VQA-RAD +8.26，PMC-VQA +10.12）。这个随训练阶段变化的差距，就是在预算匹配下自适应原则演化带来的额外收益。
-
-Q1 待核对：
-
-- [ ] **原始数据的组成**：Q1 用支持数据池的组成（Figure 10）解释退化。需要确认 D.3 中约 70 万条原始数据和支持数据池来自同一批数据源。支持数据池 2D 和 3D 合计约 47.5 万条记录，70 万这个数是怎么来的（例如一张图对应多条问答）？
-- [ ] **SLAKE 退化最严重的证据（可选）**：如果能看一下 Qwen3+Raw 在 SLAKE 上的输出，例如平均输出长度，或描述式回答所占比例，可以补一个数字。
-- [ ] Q1 依据：2D 支持数据 58.3% 是图像描述（PMC-OA 79,858 + Quilt-1M 49,022 + ROCO 22,463，共 259,767 条；Figure 10，p.22）；原始数据训练四个 VQA 基准全部低于基础模型（Table 9，p.26）；R2 固定原则 +1.78 至 +3.90（Table 8 条件 A）。
+| Q1：2D 支持数据 58.3% 是图像描述（PMC-OA 79,858 + Quilt-1M 49,022 + ROCO 22,463，共 259,767 条） | Figure 10（p.22） |
+| Q1：原始数据包括图像说明、分类标签、报告，需转换为事实 | 附录 C.3（p.22） |
+| Q1：原始数据训练后四个 VQA 基准的降幅：PMC-VQA −8.62、VQA-RAD −13.75、SLAKE −26.69、PathVQA −6.83 | Table 9（p.26） |
+| Q1：核验器检查事实一致性、视觉依赖性、有效性和重复 | §4.1（p.5） |
+| Q1：CoEvoMed 从原始原则 Σ0 起步 | Algorithm 1 输入（p.16） |
+| Q1：R2 原始原则六个基准 +1.78 至 +3.90；R5 六个基准全部下降 | Table 8 条件 A、C |
 
 ---
 
