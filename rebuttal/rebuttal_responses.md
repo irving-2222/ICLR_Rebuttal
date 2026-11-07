@@ -354,19 +354,22 @@ Hence ~700K raw examples fall below the base model, most sharply on SLAKE (−26
 
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
-| W1 | 共同演化的贡献未确立 | ~300（大部分引用 Q1） | — | 待写 |
-| W2 | 评估覆盖与统计可靠性 | ~600 | — | 待写 |
+| 开头 | 说明 Q1–Q4 同时回应 W1–W2 | ~50 | 46 | 草稿完成（可删） |
 | Q1 | 分别确立贡献、PPO、原始数据、选择标准 | ~1,550 | 1,545 | 草稿完成（PPO 证据待定） |
-| Q2 | 数据泄漏；R7 的选择 | ~800 | — | 待写 |
-| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | ~800 | — | 待写 |
-| Q4 | 复杂推理基准 | ~600 | — | 待写 |
-| **合计** | | **≤ 5,000** | **1,545** | |
+| Q2 | 数据泄漏；R7 的选择 | ~900 | — | 待写 |
+| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | ~900 | — | 待写 |
+| Q4 | 复杂推理基准 | ~700 | — | 待写 |
+| **合计** | | **≤ 5,000** | **1,593** | |
 
-发布时 W1、W2 放在 Q1 之前，后面写好后按顺序插入代码块。
+W1、W2 不单独回答（与 Q1–Q4 高度重合）。对应关系：W1 → Q1；W2 的复杂推理 → Q4；W2 的重复运行、置信区间、IU-Xray 提升幅度、32B 不如 8B → Q3。
+
+W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
 ### 英文正文（发布用）
 
 ```markdown
+Our answers to Q1–Q4 below also address W1–W2.
+
 **Q1 (Separate contributions, PPO, raw data, selection criteria).** We address the four parts in turn.
 
 *Principle evolution vs. adaptive curriculum.* The App. D controls share the same teachers, support pool, and per-round budget, and start from the same R5 checkpoint (mean change over six benchmarks; Tables 7–8):
@@ -385,6 +388,8 @@ Hence ~700K raw examples fall below the base model, most sharply on SLAKE (−26
 ```
 
 ### 中文译文（不发布）
+
+下面对 Q1–Q4 的回答同时回应了 W1–W2。
 
 **Q1（分别确立贡献、PPO、原始数据、选择标准）** 我们依次回答这四个部分。
 
