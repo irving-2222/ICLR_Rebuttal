@@ -26,11 +26,11 @@
 | W1 | 多智能体是否必要 | ~1,450 | 1,451 | 草稿完成 |
 | W2 | 论文组织 | ~550 | 546 | 草稿完成 |
 | W3 | 遗忘与 R7 的选择 | ~1,290 | 1,288 | 草稿完成 |
-| Q1 | MedVLSynther 复现 | ~300 | — | 待写 |
+| Q1 | MedVLSynther 复现 | ~800 | 797 | 草稿完成（复现结果待填） |
 | Q2 | 数据公开 | ~150 | — | 待写 |
 | Q3 | 能力分类体系 | ~950 | — | 待写 |
 | 结尾 | | ~80 | — | 待写 |
-| **合计** | | **≤ 5,000**（计划 ~4,880） | **3,289** | |
+| **合计** | | **≤ 5,000**（加入 Q1 后预计超出约 300，需压缩） | **4,088** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -50,6 +50,16 @@ Because the original principles perform better at R2, no fixed principle set suf
 **W2 (Organization).** The main text specifies every mechanism (Sections 3–4, Eqs. 1–9), including the capability cells defined on task-organized validation sets (Section 3.1), and Section 5.1 gives the evaluation task composition (four 2D VQA, two report-generation, and three 3D benchmarks). The appendix contains implementation parameters (agent models, budgets, thresholds) and dataset statistics, each referenced from the relevant section. Given the page limit, this arrangement keeps the method readable while ensuring full reproducibility.
 
 **W3 (Forgetting and R7).** CoEvoMed is curriculum learning, not continual learning. Every round trains all tasks jointly under fixed quotas (Eq. 7), mixes in replay data (Section 3.3), and validates every task. With no task sequence, catastrophic forgetting and the continual-learning metrics defined over task sequences do not apply, and the paper makes no forgetting claim. "Retention" denotes the allocation lane that maintains coverage of acquired capabilities (Section 4.2), evaluated with the planner in W1. Regressions are still measured more finely, per case and per capability cell each round (Section 4.1, Eq. 6), and enter the signed reward (Eq. 8). Reacting to them is the intended closed-loop behavior, and the outcome is balanced: from R1 to R6, all five reported categories end above their R1 level, including localization after its dip (Figure 6). Later-round declines are small: at R10, SLAKE, PathVQA, and IU-Xray stay within 3 points of their peaks and retain +21.5, +26.9, and +12.8 over R1 (Figure 7). The results do not depend on R7, which was chosen once for overall cross-task balance (Section 5.2, App. C.4): one checkpoint serves all six benchmarks, and even the final R10 checkpoint exceeds Hulu-Med-7B on SLAKE (88.67 vs. 86.80) and PathVQA (67.25 vs. 65.60).
+
+**Q1 (MedVLSynther base model).** Table 1 reports MedVLSynther-7B as published, on its own base (Qwen2.5-VL-7B) and protocol; this avoids re-tuning a baseline's recipe on a backbone it was not designed for. The informative comparison is the gain over each method's own base:
+
+| Gain over own base | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
+|---|---|---|---|---|
+| MedVLSynther-7B (Qwen2.5-VL-7B, published) | +6.13 | +8.82 | +6.65 | +0.17 |
+| MedVLSynther recipe (Qwen3-VL-8B, our run) | [+x.xx] | [+x.xx] | [+x.xx] | [+x.xx] |
+| CoEvoMed-8B (Qwen3-VL-8B) | **+13.82** | **+25.72** | **+26.76** | **+26.63** |
+
+For the same-base row, we trained Qwen3-VL-8B with the released MedSynVQA-13K data and GRPO script (reward function from the authors' MedVLThinker code) and evaluated it under our protocol.
 ```
 
 ### 中文译文（不发布）
@@ -68,6 +78,16 @@ Because the original principles perform better at R2, no fixed principle set suf
 
 **W3（遗忘与 R7）** CoEvoMed 是课程学习，不是持续学习。每一轮都在固定配额下对所有任务联合训练（式 7），混入回放数据（第 3.3 节），并在每一轮验证所有任务。由于不存在任务序列，灾难性遗忘以及基于任务序列定义的持续学习指标并不适用，论文也没有提出任何关于遗忘的主张。"保留"（retention）指的是分配中维持已习得能力覆盖的那一部分（第 4.2 节），它的作用已在 W1 中与规划器一并检验。尽管如此，退化仍然以更细的粒度被测量：每一轮按样本、按能力单元统计（第 4.1 节，式 6），并计入带符号的奖励（式 8）。对测得的退化做出反应正是闭环设计的预期行为，而且结果是均衡的：从 R1 到 R6，图中报告的五个能力类别最终都高于各自的 R1 水平，定位能力在一度下滑后也回升了（Figure 6）。后期轮次的下降幅度很小：在 R10，SLAKE、PathVQA 和 IU-Xray 都保持在各自峰值的 3 分以内，并且相对 R1 仍分别高出 21.5、26.9 和 12.8（Figure 7）。结果并不依赖 R7。R7 是按跨任务的整体均衡性一次性选定的（第 5.2 节，附录 C.4）：六个基准用的是同一个检查点，而且即使是最后的 R10 检查点，在 SLAKE（88.67 对 86.80）和 PathVQA（67.25 对 65.60）上也超过了 Hulu-Med-7B。
 
+**Q1（MedVLSynther 的基础模型）** Table 1 中的 MedVLSynther-7B 按其原文发表的结果报告，使用的是它自己的基础模型（Qwen2.5-VL-7B）和评测协议；这样可以避免在一个并非为其设计的骨干模型上重新调整基线的训练配方。因此，更有意义的比较是各方法相对其自身基础模型的提升：
+
+| 相对自身基础模型的提升 | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
+|---|---|---|---|---|
+| MedVLSynther-7B（Qwen2.5-VL-7B，原文发表） | +6.13 | +8.82 | +6.65 | +0.17 |
+| MedVLSynther 配方（Qwen3-VL-8B，我们复现） | [+x.xx] | [+x.xx] | [+x.xx] | [+x.xx] |
+| CoEvoMed-8B（Qwen3-VL-8B） | **+13.82** | **+25.72** | **+26.76** | **+26.63** |
+
+对于基础模型相同的那一行，我们用公开的 MedSynVQA-13K 数据和 GRPO 训练脚本训练 Qwen3-VL-8B（奖励函数取自作者的 MedVLThinker 代码），并在我们的评测协议下评估。
+
 ### 发布前待核对
 
 - [ ] **W1 修订智能体**：Exp 2 的条件 C 和 D 是否只在原则上不同（分配动作、预算一致）？正文把两者的差距归因于原则。
@@ -76,6 +96,10 @@ Because the original principles perform better at R2, no fixed principle set suf
 - [x] **W3 回放数据**：已确认主实验每轮混入回放数据，W3 已写入 "mixes in replay data (Section 3.3)"。
 - [ ] **R7 的选择依据（留给 2Nuw Q2）**：W3 只引用了论文的说法（按跨任务整体均衡性选定），没有说这个"整体均衡"是在内部验证集上还是外部基准上衡量的；论文也没写明。2Nuw 的 Q2 会直接问"R7 是否完全依据预先定义的内部验证标准选出"，需要你提供实际做法。
 - [x] **W3 PathVQA 峰值**：已确认 PathVQA 的 R8 略高于 R7；R10 的 67.25 仍在峰值 3 分以内，正文说法成立。
+- [ ] **Q1 占位符**：复现完成后填入四个 `[+x.xx]`，即复现模型得分减去 Qwen3-VL-8B 基础分（PMC-VQA 54.13、VQA-RAD 56.76、SLAKE 64.84、PathVQA 42.77）。如果某项提升超过 CoEvoMed，需要重新讨论写法。
+- [ ] **Q1 数字来源**：确认 Table 1 的 MedVLSynther 数字引自其论文（与其 GitHub README 的数字完全一致）。正文写的是 "as published"。
+- [ ] **Q1 与附录 C.1 的一致性**：C.1 写的是"本研究评估的基线与 CoEvoMed 使用相同的评估集和评分规则"，MedVLSynther 是引用数，与这句不符。Q1 已如实写明"按原文发表的结果和协议"；定稿时建议把 C.1 改为区分"我们评测的基线"和"引用原文的基线"。
+- [ ] **字符超预算**：加入 Q1 后剩余空间不够写 Q2、Q3。Q3 写完后统一压缩约 300 字符，候选做法：去掉开头和结尾、W1 和 W3 各压约 100。
 - [ ] **W1 可选补充**：如果核验器日志里有拒绝率，可以在 "independently checked" 之后加一句（约 75 字符），作为核验器单独起作用的正面证据：`The verifier rejects [X]% of constructed candidates, mainly for [reason].`
 
 ### W1 数字出处
@@ -120,6 +144,26 @@ Because the original principles perform better at R2, no fixed principle set suf
 | 每轮混入回放数据 | §3.3，p.4；附录 B，p.17 |
 | 六个基准使用同一检查点 | §5.2，p.7；附录 C.4，p.24 |
 | R7 按跨任务整体均衡性一次性选定 | §5.2，p.7（"selected for the best overall cross-task balance"）；附录 C.4，p.24（"Checkpoint selection" 一段） |
+
+### Q1 论据出处
+
+| 正文说法 | 出处 |
+|---|---|
+| MedVLSynther-7B：PMC-VQA 55.43、VQA-RAD 77.57、SLAKE 72.36、PathVQA 65.56 | 本文 Table 1，p.6；MedVLSynther GitHub README 结果表 |
+| Qwen2.5-VL-7B（其协议）：PMC-VQA 49.30、VQA-RAD 68.75、SLAKE 65.71、PathVQA 65.39 | MedVLSynther GitHub README 结果表 |
+| Qwen3-VL-8B（我们的协议）：54.13、56.76、64.84、42.77；CoEvoMed-8B：67.95、82.48、91.60、69.40 | 本文 Table 1，p.6 |
+
+### Q1 复现配置备忘
+
+| 项目 | 设置 |
+|---|---|
+| 数据 | Hugging Face `MedVLSynther/MedSynVQA-13K`（README 中也写作 MedVLSynther-13K），用其仓库的 `data_process/convert_verl_format.py` 转成 verl 格式 |
+| 训练脚本 | `train/7b_biomedica_webdataset_glm_generated_qwen_verified_VQA_parquet_25k_filtered_13k_grpo_8a100.sh`，只把基础模型路径换成 Qwen3-VL-8B-Instruct |
+| 官方 7B 超参 | verl GRPO；train batch 64；PPO mini batch 32；每卡 micro batch 8；每条 prompt 8 个 rollout；最长回复 4096；学习率 1e-6；1 个 epoch（约 205 步）；KL loss 系数 0.01（low_var_kl）；vLLM，TP=2，显存占用 0.6；单机 8×A100 |
+| 奖励函数 | MedVLSynther 仓库缺少 `train/my_reward.py`，使用 MedVLThinker 仓库的 `train/my_reward.py`。它读取的字段（answer、answer_label、ground_truth）与 MedVLSynther 的数据格式一致 |
+| 开跑前检查 | 奖励要求整段回复完整匹配 `<think>…</think><answer>…</answer>`，否则得 0 分。正式训练前先在几十条样本上检查格式奖励的通过率 |
+| 评测 | 用与其他基线相同的评测流程测 PMC-VQA、VQA-RAD、SLAKE、PathVQA；模型输出带 `<think>`，需要解析 `<answer>` 中的答案 |
+| 预计时间 | 搭环境 0.5–1 天；训练约 10–20 小时（先跑 10 步实测每步耗时）；评测约 0.5 天 |
 
 ---
 
