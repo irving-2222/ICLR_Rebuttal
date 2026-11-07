@@ -348,4 +348,74 @@ Hence ~700K raw examples fall below the base model, most sharply on SLAKE (−26
 
 ## Reviewer 2Nuw
 
-评分 2（弱拒绝）· 信心 4 — 待写
+评分 2（弱拒绝）· 信心 4 · 表述 3 · 信息价值 2 · 可靠性 2
+
+### 进度与字符预算
+
+| 条目 | 内容 | 预算 | 当前 | 状态 |
+|---|---|---:|---:|---|
+| W1 | 共同演化的贡献未确立 | ~300（大部分引用 Q1） | — | 待写 |
+| W2 | 评估覆盖与统计可靠性 | ~600 | — | 待写 |
+| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | ~1,550 | 1,545 | 草稿完成（PPO 证据待定） |
+| Q2 | 数据泄漏；R7 的选择 | ~800 | — | 待写 |
+| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | ~800 | — | 待写 |
+| Q4 | 复杂推理基准 | ~600 | — | 待写 |
+| **合计** | | **≤ 5,000** | **1,545** | |
+
+发布时 W1、W2 放在 Q1 之前，后面写好后按顺序插入代码块。
+
+### 英文正文（发布用）
+
+```markdown
+**Q1 (Separate contributions, PPO, raw data, selection criteria).** We address the four parts in turn.
+
+*Principle evolution vs. adaptive curriculum.* The App. D controls share the same teachers, support pool, and per-round budget, and start from the same R5 checkpoint (mean change over six benchmarks; Tables 7–8):
+
+| Condition | Principles | Curriculum feedback | Mean Δ | Improved |
+|---|---|---|---|---|
+| Curriculum adaptation alone | fixed (original) | current | −5.27 | 0/6 |
+| Principle evolution alone | evolved | stale (R2 / R3) | −2.65 / −2.78 | 1/6 / 0/6 |
+| CoEvoMed | evolved | current | **+1.50** | **6/6** |
+
+*PPO.* Allocation is a sequential decision with delayed effects: retention spent now protects gains in later rounds. The planner therefore optimizes cumulative signed validation gain (Eq. 5, App. F.4) rather than a greedy rule. [PPO evidence: see note.]
+
+*Raw-data degradation.* Raw training lacks task-aligned reconstruction, verification, targeted allocation, and adaptation (App. D.3); our response to Reviewer jcb6 (Q1) details each.
+
+*Selection criteria vs. learning gains.* Usable yield, paired coverage, and semantic review screen supervision quality before deployment; learning gains are then assessed by the loop itself, since "learner responses [are] assessed in subsequent training rounds" (App. B) and any principle whose cells show non-positive net repair is revised again (Section 4.3). The selected principles raise all six benchmarks at R5, where the originals lower all six (+6.77 on average; Table 8).
+```
+
+### 中文译文（不发布）
+
+**Q1（分别确立贡献、PPO、原始数据、选择标准）** 我们依次回答这四个部分。
+
+*原则演化与自适应课程。* 附录 D 的对照实验使用相同的教师模型、支持数据池和每轮预算，并从同一个 R5 检查点出发（六个基准上的平均变化；Table 7–8）：
+
+| 条件 | 原则 | 课程所用反馈 | 平均变化 | 提升的基准数 |
+|---|---|---|---|---|
+| 只有课程自适应 | 固定（原始） | 当前 | −5.27 | 0/6 |
+| 只有原则演化 | 演化后 | 过时（R2 / R3） | −2.65 / −2.78 | 1/6 / 0/6 |
+| CoEvoMed | 演化后 | 当前 | **+1.50** | **6/6** |
+
+*PPO。* 课程分配是一个效果有延迟的序贯决策：现在花在"保留"上的预算，保护的是后续轮次的收益。因此，规划器优化的是累计的带符号验证收益（式 5，附录 F.4），而不是一条贪心规则。[PPO 证据：见核对清单。]
+
+*原始数据退化。* 原始数据训练缺少面向任务的重构、核验、有针对性的分配和自适应（附录 D.3）；我们在对审稿人 jcb6 的回复（Q1）中逐项做了说明。
+
+*选择标准与学习收益的关系。* 可用产出率、配对覆盖率和语义审查在部署之前筛查监督数据的质量；之后的学习收益由闭环本身检验：论文写明"学习者的反应在后续训练轮次中评估"（附录 B），任何能力单元净修复不为正的原则都会被再次修订（第 4.3 节）。被选中的原则在 R5 让六个基准全部提升，而原始原则让六个基准全部下降（平均高出 6.77；Table 8）。
+
+### 发布前待核对
+
+- [ ] **Q1 PPO 的证据（必须决定）**：论文里没有 PPO 与更简单分配策略（均匀分配、固定动作、只做行为克隆初始化）的对比，正文目前只有设计上的理由，证据处是占位符。可选做法：(a) 从日志整理 PPO 在 R1–R7 每轮选择的动作，展示它随学习者状态而变化，例如出现退化后转向 retention-heavy，不需要算力；(b) 从 R5 检查点补跑一轮启发式分配（均匀分配，或固定 balanced 动作）作对比，约一轮训练的算力。注意：如果 PPO 在 R5 实际选的就是 balanced，那么固定 balanced 和 PPO 完全相同，应改用均匀分配作对比；(c) 只保留设计理由，不补证据。2Nuw 信心为 4，建议至少做 (a)。
+- [ ] **Q1 对照条件**：正文写的是"相同教师、支持数据池、每轮预算，同一 R5 检查点"，与 pUjh W1、jcb6 W1 是同一个待确认项。
+- [ ] **Q1 引用 jcb6 的回复**：原始数据部分引用了对 jcb6 的回复。这要求 jcb6 那条先发，并且 Readers 勾选了 Reviewers，2Nuw 才看得到。
+
+### 论据出处
+
+| 正文说法 | 出处（论文印刷页码） |
+|---|---|
+| 分解表三行 | Table 7（p.25）、Table 8（p.26），同 jcb6 W1 |
+| 规划器优化累计带符号验证收益 | 式 5、式 8（p.4–5）；附录 F.4（p.29） |
+| 原始数据训练"without supervision reconstruction or adaptive curriculum allocation" | 附录 D.3（p.26） |
+| 选择标准：可用产出率、配对覆盖率、语义审查 | §4.3（p.6）；附录 B（p.18） |
+| "Selection uses paired supervision comparison, with learner responses assessed in subsequent training rounds." | 附录 B（p.18）原文 |
+| 净修复不为正的原则会被纳入修订 | §4.3（p.6）；附录 A（p.16） |
+| 演化原则比原始原则在 R5 平均高 6.77 | Table 8 条件 D 减 C |
