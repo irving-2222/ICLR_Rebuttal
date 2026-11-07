@@ -357,13 +357,13 @@ Hence ~700K raw examples fall below the base model, most sharply on SLAKE (−26
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | ~50 | 46 | 草稿完成（可删） |
 | Q1 | 分别确立贡献、PPO、原始数据、选择标准 | ~2,250 | 2,441 | 草稿完成（PPO 日志数据待填） |
 | Q2 | 数据泄漏；R7 的选择 | ~1,600 | 1,602 | 草稿完成（F_e、移除数量、患者层面待填） |
-| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | ~1,170 | 1,174 | 草稿完成（CURE-4B 原因待填） |
+| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | ~1,450 | 1,488 | 草稿完成（CURE-4B 的 IU-Xray 分数可选） |
 | Q4 | 复杂推理基准 | ~700 | — | 待写 |
-| **合计** | | **≤ 5,000** | **5,269** | |
+| **合计** | | **≤ 5,000** | **5,583** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合）。
 
-字符空间：加入 Q3 后合计 5,269，已超出 5,000。Q4 写完后统一压缩，主要压缩 Q1（约 2,440 字符）和 Q2（约 1,600 字符）。对应关系：W1 → Q1；W2 的复杂推理 → Q4；W2 的重复运行、置信区间、IU-Xray 提升幅度、32B 不如 8B → Q3。
+字符空间：加入 Q3 后合计 5,583，已超出 5,000。Q4 写完后统一压缩，主要压缩 Q1（约 2,440 字符）和 Q2（约 1,600 字符）。对应关系：W1 → Q1；W2 的复杂推理 → Q4；W2 的重复运行、置信区间、IU-Xray 提升幅度、32B 不如 8B → Q3。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
@@ -394,7 +394,7 @@ Our answers to Q1–Q4 below also address W1–W2.
 
 **Q3 (Runs and intervals; CURE-4B; 32B on IU-Xray).** *Reliability.* Training the full pipeline is costly (24 A100 GPUs per round over ten rounds; App. B), so we replicated it across learners rather than seeds. It was run end to end on four learners spanning three architecture families and three scales (Qwen3-VL-8B and 32B, Gemma-3-4B, InternVL3-9B), and every run improves over its own base on every benchmark evaluated: 16 of 16 comparisons, by +6.52 to +26.76 (Table 1, Figures 3 and 5, App. C.5). These gains far exceed the sampling uncertainty of the test sets (95% CI half-width about ±0.5 on PMC-VQA and ±1.7 on SLAKE).
 
-*CURE-4B.* [reason].
+*CURE-4B.* CURE targets anatomy-grounded chest X-ray reporting. The mode compared in Figure 3 (AGRG-29 + GRG) relies on the 29 Chest ImaGenome regions defined on MIMIC-CXR, and its authors evaluate report generation on MIMIC-CXR but not on IU-Xray, so we compared it on the benchmark it targets.[ On IU-Xray, it scores [x] RaTEScore.]
 
 *32B on IU-Xray.* The strongest baseline family shows the same pattern: Hulu-Med-32B (62.40) trails Hulu-Med-7B (67.30) on IU-Xray, so the reversal reflects this 590-case benchmark rather than our method. At matched scale, CoEvoMed-32B exceeds Hulu-Med-32B by +2.68, and it exceeds CoEvoMed-8B on the other five benchmarks (+0.20 to +2.25; Table 1, Figure 3). Beyond the 0.92 RaTEScore margin, CoEvoMed-8B also leads Hulu-Med-7B on IU-Xray in six of eight lexical metrics, by up to +7.5 ROUGE-2 and +3.7 BLEU-4 (Figure 8).
 ```
@@ -425,7 +425,7 @@ Our answers to Q1–Q4 below also address W1–W2.
 
 **Q3（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）** *可靠性。* 完整流程的训练成本很高（每轮 24 张 A100、共 10 轮；附录 B），因此我们选择在不同的学习者模型上重复整个流程，而不是在不同的随机种子上重复。整个流程在四个学习者模型上端到端地运行过，覆盖三个架构系列和三种规模（Qwen3-VL-8B 和 32B、Gemma-3-4B、InternVL3-9B），而且每一次运行在所有评测基准上都超过了各自的基础模型：16 组比较全部提升，提升幅度为 +6.52 至 +26.76（Table 1，Figure 3 和 5，附录 C.5）。这些提升远大于测试集本身的抽样不确定性（95% 置信区间的半宽：PMC-VQA 约 ±0.5，SLAKE 约 ±1.7）。
 
-*CURE-4B。* [原因]。
+*CURE-4B。* CURE 针对的是带解剖定位的胸片报告生成。Figure 3 中比较的模式（AGRG-29 + GRG）依赖 Chest ImaGenome 在 MIMIC-CXR 上定义的 29 个解剖区域，而且其作者只在 MIMIC-CXR 上评估了报告生成，没有评估 IU-Xray，因此我们在它所针对的基准上与它比较。[在 IU-Xray 上，它的 RaTEScore 为 [x]。]
 
 *32B 在 IU-Xray 上的表现。* 最强的基线模型系列也呈现同样的规律：在 IU-Xray 上，Hulu-Med-32B（62.40）低于 Hulu-Med-7B（67.30），因此这种反转反映的是这个只有 590 个样本的基准本身的特点，而不是我们方法的问题。在相同规模下，CoEvoMed-32B 比 Hulu-Med-32B 高 2.68；在另外五个基准上，CoEvoMed-32B 都高于 CoEvoMed-8B（+0.20 至 +2.25；Table 1，Figure 3）。除了 RaTEScore 上 0.92 的领先，CoEvoMed-8B 在 IU-Xray 的八个词汇层面指标中有六个领先 Hulu-Med-7B，最多在 ROUGE-2 上领先 7.5、在 BLEU-4 上领先 3.7（Figure 8）。
 
@@ -444,7 +444,7 @@ Our answers to Q1–Q4 below also address W1–W2.
 - [ ] **Q2 定稿时补进论文**：附录 C.3 目前只写了与验证集的重叠检查。定稿时补上与外部测试集的筛查、文本泄漏查询，以及 R7 依据外部基准选出这一点。
 - [ ] **Q3 "rather than seeds"**：这半句没有写具体训练次数，而是把"在不同学习者上重复"说成一种有意的选择。它如实暗示了没有做多种子重复。如果你不想留这个暗示，可以删掉 "rather than seeds"，句子仍然通顺。不论删不删，正文都不能出现暗示做过多次运行的说法（如 "averaged over runs"、"mean ± std"）；如果审稿人追问具体次数，要如实回答。
 - [ ] **Q3 置信区间（可选加强）**：正文用的 ±0.5（PMC-VQA）和 ±1.7（SLAKE）是根据 Table 1 准确率和 Table 3 样本数算出的 Wilson 95% 置信区间（PMC-VQA [67.45, 68.45]，SLAKE [89.78, 93.12]），不需要额外数据。如果之后跑了 Hulu-Med-7B 的推理，可以再补配对 bootstrap 置信区间，重点放在差距最小的 IU-Xray（+0.92）和 PMC-VQA（+1.15）上。
-- [ ] **Q3 CURE-4B 的原因 `[reason]`**：IU-Xray 的比较中为什么没有 CURE-4B？例如原文没有报告 IU-Xray、没有公开权重，或训练数据包含 IU-Xray。图 3 标题写的是 "CURE-4B uses AGRG-29 + GRG"，请说明它的 MIMIC-CXR 分数是自己评测的还是引用的。
+- [ ] **Q3 CURE-4B**：已核实 CURE（Messina et al., CVPR 2026）的公开信息：基础模型为 MedGemma-4B-IT，以 LoRA 适配器形式公开权重（`pamessina/medgemma-4b-it-cure`）；解剖定位报告生成（AGRG）基于 Chest ImaGenome（建立在 MIMIC-CXR 上）；报告生成的评估包括 MIMIC-CXR、PadChest-GR 和 VinDr-CXR（零样本），没有 IU-Xray。它并不是只用 MIMIC 训练，所以正文写的是"其作者没有在 IU-Xray 上评估"，而不是"它只针对 MIMIC"。方括号里那句可选：因为权重公开，审稿人可能追问"为什么不自己测"。IU-Xray 只有 590 个样本，4B 模型推理很快，建议补测后填入 `[x]`；不测就删掉方括号整句。
 - [ ] **Q3 32B 的说法**：正文把 32B 在 IU-Xray 上低于 8B 归因于基准本身（Hulu-Med 同样如此）。如果你知道其他原因，例如 32B 的训练轮数或预算不同，请告诉我，必要时补充。
 
 ### Q2 泄漏分析清单
