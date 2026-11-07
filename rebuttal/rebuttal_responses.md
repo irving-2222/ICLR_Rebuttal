@@ -431,6 +431,47 @@ Our answers to Q1–Q4 below also address W1–W2.
 - [ ] **Q2 代码描述核对**：正文对代码行为的描述（共享记录 ID、图像路径、RGB 哈希或 study ID 即拒绝启动；必须有原始划分来源；训练任务再次比对）来自提交的 `coevomed/data.py`（`validate_partitions`、`validate_evidence_identity`、`validate_exclusions`）。请确认正式实验用的是同一套检查逻辑。
 - [ ] **Q2 定稿时补进论文**：附录 C.3 目前只写了与验证集的重叠检查。定稿时补上与外部测试集的筛查、文本泄漏查询，以及 R7 依据外部基准选出这一点。
 
+### Q2 泄漏分析清单
+
+来源：论文 Figure 10（p.22）、Table 5（p.23）、Table 3–4（p.19）。"重点比对"一栏是我根据各数据集的公开构建方式判断的同源风险，标"需确认"的请以原数据集说明为准。
+
+**支持数据（合成数据的来源）**
+
+| 支持数据 | 记录数 | 内容 | 重点比对的评测集 | 同源风险 |
+|---|---:|---|---|---|
+| PMC-OA | 79,858 | PubMed Central 论文配图与说明 | PMC-VQA | **高**：PMC-VQA 由 PMC-OA 的图文对构建 |
+| Quilt-1M | 49,022 | 病理图像与文本（YouTube 教学视频） | PathVQA | 低 |
+| OmniMedVQA | 44,911 | 由 73 个公开数据集构建的选择题 | SLAKE、VQA-RAD | 中：子数据集可能与 SLAKE 的图像来源重合（需确认） |
+| Med-MAT | 28,154 | 由 106 个公开数据集转换的选择题 | SLAKE、VQA-RAD | 中：同上（需确认） |
+| ROCO | 22,463 | PubMed Central 放射图像与说明 | PMC-VQA | **高**：同为 PubMed Central 配图 |
+| CheXpert | 12,000 | 胸片与分类标签（Stanford） | MIMIC-CXR、IU-Xray | 低：不同机构 |
+| LLaVA-Med | 9,173 | PubMed Central 图像的指令对话 | PMC-VQA | **高**：同为 PubMed Central 配图 |
+| TCGA-CRC | 5,000 | 结直肠癌病理切片 | PathVQA | 低 |
+| ReXGradient-160K | 4,122 | 胸片与报告（多机构） | MIMIC-CXR、IU-Xray | 低：不同机构（需确认其来源机构） |
+| PubMedVision-IU 子集 | 3,129 | 来自 IU-Xray（Open-i）的胸片 | **IU-Xray** | **高**：同一数据集，审稿人点名 |
+| MedTrinity BHX | 1,935 | 头部 CT 出血框标注（基于 CQ500） | SLAKE（头部影像） | 低 |
+| AbdomenAtlas1.0Mini | 36,064 | 腹部 CT 分割（汇集多个公开数据集） | **AMOS-MM** | **高**：汇集的公开数据集可能包含 AMOS（需确认） |
+| CT-RATE | 69,891 问答 + 958 报告 | 胸部 CT 与报告 | **3D-RAD** | **高**：3D-RAD 基于 CT-RATE 构建 |
+| RadGenome-ChestCT | 52,318 | 基于 CT-RATE 的区域标注 | **3D-RAD** | **高**：同样源自 CT-RATE |
+| TotalSegmentator | 51,056 | 全身 CT 分割（Basel 医院） | AMOS-MM、M3D-VQA | 低 |
+| M3D-Cap | 5,370 报告 | Radiopaedia 3D 影像与报告 | **M3D-VQA** | **高**：M3D-VQA 基于 M3D 数据构建 |
+
+合计：2D 259,767 条记录，3D 215,657 条记录。
+
+**需要比对的评测集**
+
+| 类别 | 数据集 | 规模 |
+|---|---|---|
+| 2D 外部测试集 | VQA-RAD、SLAKE、PMC-VQA、PathVQA、MIMIC-CXR、IU-Xray | 451、1,061、33,430、6,761、2,343、590 条 |
+| 3D 外部测试集 | M3D-VQA（测试划分）、3D-RAD（测试划分）、AMOS-MM（验证划分） | 13,791 条 / 2,000 序列；4,692 条 / 2,354 序列；400 条 |
+| 内部验证集 | 按任务分层抽取，每个子集约 500 条（附录 C.3） | — |
+
+另外两处也要一并筛查：
+1. **回放数据 Re**：每轮训练都会混入，同样不能与验证集和外部测试集重叠。
+2. **内部验证集与外部测试集之间**：验证集若取自这些基准的训练或验证划分，也要确认和测试划分不重叠。代码中的 `validate_partitions` 包含这一项检查。
+
+建议的统计口径：对每一对"支持数据 × 评测集"，分别报告样本 ID、图像路径、RGB 哈希、study ID 和文本这几个层面的命中数与移除数。高风险的几对（PubMedVision-IU × IU-Xray，PMC-OA、ROCO、LLaVA-Med × PMC-VQA，CT-RATE、RadGenome-ChestCT × 3D-RAD，M3D-Cap × M3D-VQA，AbdomenAtlas × AMOS-MM）可以在回复里单独列出数字。
+
 ### 论据出处
 
 | 正文说法 | 出处（论文印刷页码） |
