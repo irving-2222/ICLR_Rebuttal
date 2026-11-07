@@ -26,11 +26,11 @@
 | W1 | 多智能体是否必要 | ~1,450 | 1,451 | 草稿完成 |
 | W2 | 论文组织 | ~550 | 546 | 草稿完成 |
 | W3 | 遗忘与 R7 的选择 | ~1,290 | 1,288 | 草稿完成 |
-| Q1 | MedVLSynther 复现 | ~800 | 797 | 草稿完成（复现结果待填） |
+| Q1 | MedVLSynther 复现 | ~920 | 921 | 草稿完成（复现结果待填） |
 | Q2 | 数据公开 | ~150 | — | 待写 |
 | Q3 | 能力分类体系 | ~950 | — | 待写 |
 | 结尾 | | ~80 | — | 待写 |
-| **合计** | | **≤ 5,000**（加入 Q1 后预计超出约 300，需压缩） | **4,088** | |
+| **合计** | | **≤ 5,000**（Q3 写完后需压缩约 400） | **4,212** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -51,15 +51,19 @@ Because the original principles perform better at R2, no fixed principle set suf
 
 **W3 (Forgetting and R7).** CoEvoMed is curriculum learning, not continual learning. Every round trains all tasks jointly under fixed quotas (Eq. 7), mixes in replay data (Section 3.3), and validates every task. With no task sequence, catastrophic forgetting and the continual-learning metrics defined over task sequences do not apply, and the paper makes no forgetting claim. "Retention" denotes the allocation lane that maintains coverage of acquired capabilities (Section 4.2), evaluated with the planner in W1. Regressions are still measured more finely, per case and per capability cell each round (Section 4.1, Eq. 6), and enter the signed reward (Eq. 8). Reacting to them is the intended closed-loop behavior, and the outcome is balanced: from R1 to R6, all five reported categories end above their R1 level, including localization after its dip (Figure 6). Later-round declines are small: at R10, SLAKE, PathVQA, and IU-Xray stay within 3 points of their peaks and retain +21.5, +26.9, and +12.8 over R1 (Figure 7). The results do not depend on R7, which was chosen once for overall cross-task balance (Section 5.2, App. C.4): one checkpoint serves all six benchmarks, and even the final R10 checkpoint exceeds Hulu-Med-7B on SLAKE (88.67 vs. 86.80) and PathVQA (67.25 vs. 65.60).
 
-**Q1 (MedVLSynther base model).** Table 1 reports MedVLSynther-7B as published, on its own base (Qwen2.5-VL-7B) and protocol; this avoids re-tuning a baseline's recipe on a backbone it was not designed for. The informative comparison is the gain over each method's own base:
+**Q1 (MedVLSynther base model).** We were aware of the base difference. Absolute scores across different bases conflate a method with its backbone, so the meaningful comparison is each method's gain over its own base (MedVLSynther as published, under its protocol):
 
 | Gain over own base | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
-| MedVLSynther-7B (Qwen2.5-VL-7B, published) | +6.13 | +8.82 | +6.65 | +0.17 |
-| MedVLSynther recipe (Qwen3-VL-8B, our run) | [+x.xx] | [+x.xx] | [+x.xx] | [+x.xx] |
+| MedVLSynther-7B (Qwen2.5-VL-7B) | +6.13 | +8.82 | +6.65 | +0.17 |
 | CoEvoMed-8B (Qwen3-VL-8B) | **+13.82** | **+25.72** | **+26.76** | **+26.63** |
 
-For the same-base row, we trained Qwen3-VL-8B with the released MedSynVQA-13K data and GRPO script (reward function from the authors' MedVLThinker code) and evaluated it under our protocol.
+To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSynther's released data and GRPO script (reward function from the authors' MedVLThinker code) and evaluated it under our protocol:
+
+| Same base: Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
+|---|---|---|---|---|
+| MedVLSynther recipe | [x.xx] | [x.xx] | [x.xx] | [x.xx] |
+| CoEvoMed-8B | **67.95** | **82.48** | **91.60** | **69.40** |
 ```
 
 ### 中文译文（不发布）
@@ -78,15 +82,19 @@ For the same-base row, we trained Qwen3-VL-8B with the released MedSynVQA-13K da
 
 **W3（遗忘与 R7）** CoEvoMed 是课程学习，不是持续学习。每一轮都在固定配额下对所有任务联合训练（式 7），混入回放数据（第 3.3 节），并在每一轮验证所有任务。由于不存在任务序列，灾难性遗忘以及基于任务序列定义的持续学习指标并不适用，论文也没有提出任何关于遗忘的主张。"保留"（retention）指的是分配中维持已习得能力覆盖的那一部分（第 4.2 节），它的作用已在 W1 中与规划器一并检验。尽管如此，退化仍然以更细的粒度被测量：每一轮按样本、按能力单元统计（第 4.1 节，式 6），并计入带符号的奖励（式 8）。对测得的退化做出反应正是闭环设计的预期行为，而且结果是均衡的：从 R1 到 R6，图中报告的五个能力类别最终都高于各自的 R1 水平，定位能力在一度下滑后也回升了（Figure 6）。后期轮次的下降幅度很小：在 R10，SLAKE、PathVQA 和 IU-Xray 都保持在各自峰值的 3 分以内，并且相对 R1 仍分别高出 21.5、26.9 和 12.8（Figure 7）。结果并不依赖 R7。R7 是按跨任务的整体均衡性一次性选定的（第 5.2 节，附录 C.4）：六个基准用的是同一个检查点，而且即使是最后的 R10 检查点，在 SLAKE（88.67 对 86.80）和 PathVQA（67.25 对 65.60）上也超过了 Hulu-Med-7B。
 
-**Q1（MedVLSynther 的基础模型）** Table 1 中的 MedVLSynther-7B 按其原文发表的结果报告，使用的是它自己的基础模型（Qwen2.5-VL-7B）和评测协议；这样可以避免在一个并非为其设计的骨干模型上重新调整基线的训练配方。因此，更有意义的比较是各方法相对其自身基础模型的提升：
+**Q1（MedVLSynther 的基础模型）** 我们注意到了基础模型的差异。不同基础模型之间的绝对分数会把方法本身的效果和骨干模型的效果混在一起，因此有意义的比较是各方法相对其自身基础模型的提升（MedVLSynther 采用其原文发表的结果和评测协议）：
 
 | 相对自身基础模型的提升 | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
-| MedVLSynther-7B（Qwen2.5-VL-7B，原文发表） | +6.13 | +8.82 | +6.65 | +0.17 |
-| MedVLSynther 配方（Qwen3-VL-8B，我们复现） | [+x.xx] | [+x.xx] | [+x.xx] | [+x.xx] |
+| MedVLSynther-7B（Qwen2.5-VL-7B） | +6.13 | +8.82 | +6.65 | +0.17 |
 | CoEvoMed-8B（Qwen3-VL-8B） | **+13.82** | **+25.72** | **+26.76** | **+26.63** |
 
-对于基础模型相同的那一行，我们用公开的 MedSynVQA-13K 数据和 GRPO 训练脚本训练 Qwen3-VL-8B（奖励函数取自作者的 MedVLThinker 代码），并在我们的评测协议下评估。
+为了彻底消除基础模型的差异，我们还用 MedVLSynther 公开的数据和 GRPO 训练脚本训练了 Qwen3-VL-8B（奖励函数取自作者的 MedVLThinker 代码），并在我们的评测协议下进行评估：
+
+| 相同基础模型：Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
+|---|---|---|---|---|
+| MedVLSynther 配方 | [x.xx] | [x.xx] | [x.xx] | [x.xx] |
+| CoEvoMed-8B | **67.95** | **82.48** | **91.60** | **69.40** |
 
 ### 发布前待核对
 
@@ -96,10 +104,10 @@ For the same-base row, we trained Qwen3-VL-8B with the released MedSynVQA-13K da
 - [x] **W3 回放数据**：已确认主实验每轮混入回放数据，W3 已写入 "mixes in replay data (Section 3.3)"。
 - [ ] **R7 的选择依据（留给 2Nuw Q2）**：W3 只引用了论文的说法（按跨任务整体均衡性选定），没有说这个"整体均衡"是在内部验证集上还是外部基准上衡量的；论文也没写明。2Nuw 的 Q2 会直接问"R7 是否完全依据预先定义的内部验证标准选出"，需要你提供实际做法。
 - [x] **W3 PathVQA 峰值**：已确认 PathVQA 的 R8 略高于 R7；R10 的 67.25 仍在峰值 3 分以内，正文说法成立。
-- [ ] **Q1 占位符**：复现完成后填入四个 `[+x.xx]`，即复现模型得分减去 Qwen3-VL-8B 基础分（PMC-VQA 54.13、VQA-RAD 56.76、SLAKE 64.84、PathVQA 42.77）。如果某项提升超过 CoEvoMed，需要重新讨论写法。
+- [ ] **Q1 占位符**：复现完成后，在第二张表里填入复现模型在四个基准上的得分 `[x.xx]`（与 CoEvoMed 同一评测流程）。如果任何一项高于 CoEvoMed，需要重新讨论写法。
 - [ ] **Q1 数字来源**：确认 Table 1 的 MedVLSynther 数字引自其论文（与其 GitHub README 的数字完全一致）。正文写的是 "as published"。
 - [ ] **Q1 与附录 C.1 的一致性**：C.1 写的是"本研究评估的基线与 CoEvoMed 使用相同的评估集和评分规则"，MedVLSynther 是引用数，与这句不符。Q1 已如实写明"按原文发表的结果和协议"；定稿时建议把 C.1 改为区分"我们评测的基线"和"引用原文的基线"。
-- [ ] **字符超预算**：加入 Q1 后剩余空间不够写 Q2、Q3。Q3 写完后统一压缩约 300 字符，候选做法：去掉开头和结尾、W1 和 W3 各压约 100。
+- [ ] **字符超预算**：加入 Q1 后剩余空间不够写 Q2、Q3。Q3 写完后统一压缩约 400 字符，候选做法：去掉开头和结尾、W1 和 W3 各压约 150。
 - [ ] **W1 可选补充**：如果核验器日志里有拒绝率，可以在 "independently checked" 之后加一句（约 75 字符），作为核验器单独起作用的正面证据：`The verifier rejects [X]% of constructed candidates, mainly for [reason].`
 
 ### W1 数字出处
