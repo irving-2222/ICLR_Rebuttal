@@ -28,9 +28,9 @@
 | W3 | 遗忘与 R7 的选择 | ~1,290 | 1,288 | 草稿完成 |
 | Q1 | MedVLSynther 复现 | ~920 | 921 | 草稿完成（复现结果待填） |
 | Q2 | 数据公开 | ~290 | 288 | 草稿完成 |
-| Q3 | 能力分类体系 | ~950 | — | 待写 |
+| Q3 | 能力分类体系 | ~1,020 | 1,029 | 草稿完成（一致率待填） |
 | 结尾 | | ~80 | — | 待写 |
-| **合计** | | **≤ 5,000**（Q3 写完后需压缩约 500） | **4,502** | |
+| **合计** | | **≤ 5,000**（需压缩约 583） | **5,533** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -66,6 +66,8 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 | CoEvoMed-8B | **67.95** | **82.48** | **91.60** | **69.40** |
 
 **Q2 (Data release).** Yes. Upon acceptance, we will release the synthesized data and all principle versions under each source's license: images are referenced by identifiers, and sources that prohibit redistribution (e.g., CheXpert, ReXGradient-160K) are covered by regeneration scripts.
+
+**Q3 (Capability taxonomy).** The overlap with SLAKE is by design. Rather than inventing categories, our taxonomy adopts the clinically grounded question types of SLAKE and VQA-RAD, whose questions were curated or authored by physicians (Liu et al., 2021; Lau et al., 2018), and extends them in two ways that native labels cannot. (i) Coverage: native capability types exist only for SLAKE and VQA-RAD, in incompatible schemes, while PMC-VQA, PathVQA, report generation, and the support pool have none. A unified taxonomy is required to diagnose all tasks, allocate one budget across them, and retrieve matching evidence (App. C.3). (ii) Granularity: cells cross capability with modality, anatomy, and task form (e.g., localization in abdominal CT). The diagnosis is consequential: replacing it with stale diagnoses lowers 11 of 12 scores (Table 7). Where native labels exist, our annotations agree with them at [xx.x]% (Cohen's κ = [0.xx], "[almost perfect]" agreement; Landis & Koch, 1977). We will add this mapping to Table 6.
 ```
 
 ### 中文译文（不发布）
@@ -100,6 +102,8 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 
 **Q2（数据公开）** 会公开。论文被接收后，我们将按各源数据的许可公开合成数据和全部版本的构建原则：图像只以源数据中的标识引用、不重新分发；对于协议禁止再分发的源数据（如 CheXpert、ReXGradient-160K），我们提供可重新生成这部分数据的脚本。
 
+**Q3（能力分类体系）** 与 SLAKE 的重合是有意设计的。我们没有另起炉灶发明新类别，而是采用了 SLAKE 和 VQA-RAD 在临床上有依据的问题类型，这两个数据集的问题由医生审定或撰写（Liu et al., 2021；Lau et al., 2018）。在此基础上，我们从两个方面做了原生标签无法做到的扩展。(i) 覆盖范围：只有 SLAKE 和 VQA-RAD 带有原生的能力类型标签，而且两套体系互不兼容；PMC-VQA、PathVQA、报告生成任务和支持数据池都没有这类标签。要诊断所有任务、在它们之间分配同一份预算并检索匹配的证据（附录 C.3），就必须有一套统一的分类体系。(ii) 粒度：能力单元是能力与模态、解剖部位、任务形式的组合（例如腹部 CT 中的定位）。这种诊断有实际作用：用过时的诊断替代它，会使 12 个分数中的 11 个下降（Table 7）。在有原生标签的数据上，我们的标注与原生标签的一致率为 [xx.x]%（Cohen's κ = [0.xx]，属于"[几乎完全一致]"；Landis & Koch, 1977）。我们会把这一对应关系补充到 Table 6 中。
+
 ### 发布前待核对
 
 - [ ] **W1 修订智能体**：Exp 2 的条件 C 和 D 是否只在原则上不同（分配动作、预算一致）？正文把两者的差距归因于原则。
@@ -111,9 +115,12 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 - [ ] **Q1 占位符**：复现完成后，在第二张表里填入复现模型在四个基准上的得分 `[x.xx]`（与 CoEvoMed 同一评测流程）。如果任何一项高于 CoEvoMed，需要重新讨论写法。
 - [ ] **Q1 数字来源**：确认 Table 1 的 MedVLSynther 数字引自其论文（与其 GitHub README 的数字完全一致）。正文写的是 "as published"。
 - [ ] **Q1 与附录 C.1 的一致性**：C.1 写的是"本研究评估的基线与 CoEvoMed 使用相同的评估集和评分规则"，MedVLSynther 是引用数，与这句不符。Q1 已如实写明"按原文发表的结果和协议"；定稿时建议把 C.1 改为区分"我们评测的基线"和"引用原文的基线"。
-- [ ] **字符超预算**：加入 Q1、Q2 后剩余空间不够写 Q3。Q3 写完后统一压缩约 500 字符，候选做法：去掉开头和结尾、W1 和 W3 各压约 150、Q1 精简说明文字。
+- [ ] **字符超预算**：全部条目写完后合计 5,533 字符，需压缩到 5,000 以内（留约 50 余量）。候选做法：不写开头结尾，W1、W3、Q3 各压约 150，Q1 精简说明文字。
 - [ ] **Q2 承诺**：正文承诺为禁止再分发的源数据提供重新生成脚本。确认接收后能兑现；如果不打算做，把最后半句改为 "are excluded from the release"。
 - [ ] **Q2 待确认许可**：PMC-OA、MedTrinity BHX、RadGenome-ChestCT、Med-MAT 的许可没能直接核实，AbdomenAtlas1.0Mini 的附加条款也不确定，公开前需逐个确认（见下方"Q2 源数据许可核对"）。
+- [ ] **Q3 一致率**：拿到标注记录后计算与 SLAKE、VQA-RAD 原生标签的一致率和 Cohen's κ，填入 `[xx.x]%` 和 `[0.xx]`，并按下方"Q3 一致率解读标准"选择措辞：κ ≥ 0.81 写 "almost perfect"，0.61–0.80 写 "substantial"。低于 0.61 时需要重新讨论写法。
+- [ ] **Q3 类别来源**：正文写的是分类体系采用了 SLAKE **和 VQA-RAD** 的问题类型。你说的是参照 SLAKE；如果没有参照 VQA-RAD，删掉 "and VQA-RAD" 和 "Lau et al., 2018"，但"两套体系互不兼容"那半句也要相应改写。
+- [ ] **Q3 对应关系**：下方"Q3 原生标签与我们类别的对应关系"中，Plane 和 Quantity / COUNT 两行的归属需要你确认。
 - [ ] **W1 可选补充**：如果核验器日志里有拒绝率，可以在 "independently checked" 之后加一句（约 75 字符），作为核验器单独起作用的正面证据：`The verifier rejects [X]% of constructed candidates, mainly for [reason].`
 
 ### W1 数字出处
@@ -208,6 +215,36 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 2. 可公开部分的通行做法（OmniMedVQA、Med-MAT、LLaVA-Med 都这样做）：只发布合成的文本（问答与报告）和源数据中的图像标识，不重新分发图像，使用者自行按原许可获取图像。
 3. 因为含 CT-RATE（NC-SA）派生内容，整体发布许可建议用 CC BY-NC-SA 4.0。
 4. 构建原则（各版本）和代码是我们自己的产出，不受源数据许可约束，可以完整公开。
+
+### Q3 原生标签与我们类别的对应关系（初稿，需你确认）
+
+| SLAKE 原生 content type | VQA-RAD 原生 question type | 我们的视觉能力类别（Table 6） |
+|---|---|---|
+| Modality | MODALITY | 模态识别 |
+| Plane | PLANE | **待确认**（模态识别，或属性判断） |
+| Organ | ORGAN | 器官识别 |
+| Abnormality | ABN、PRES | 异常检测 |
+| Position | POS | 定位（部分可能属于空间关系） |
+| Color、Shape、Size | COLOR、SIZE、ATTRIB | 属性判断 |
+| Quantity | COUNT | **待确认**（属性判断？） |
+| KG | — | 医学知识 |
+| — | OTHER | 不纳入一致率统计 |
+| — | — | 空间关系、比较、整体描述：无原生对应，属于我们的扩展 |
+
+计算方法：只在有明确对应的类别上统计。报告总体一致率、Cohen's κ 和混淆矩阵，SLAKE 和 VQA-RAD 分别报告。
+
+### Q3 一致率解读标准与可引用文献
+
+| 文献 | 可引用的内容 | 核实情况 |
+|---|---|---|
+| Landis & Koch (1977). The measurement of observer agreement for categorical data. *Biometrics* 33(1):159–174 | κ 分级：0.41–0.60 moderate，0.61–0.80 substantial，0.81–1.00 almost perfect | 经典标准，正文已引用 |
+| McHugh (2012). Interrater reliability: the kappa statistic. *Biochemia Medica* 22(3):276–282 | 认为上述标准对医疗研究偏宽松，提出更严格的分级 | 论点经检索确认；具体分级（印象中 ≥0.80 为 strong、>0.90 为 almost perfect）需对照原文 |
+| Gilardi, Alizadeh & Kubli (2023). ChatGPT outperforms crowd workers for text-annotation tasks. *PNAS* 120(30):e2305016120 | LLM 标注准确率平均比众包高约 25 个百分点；受训标注员之间的一致率约 79% | 经检索确认 |
+| Mukherjee et al. (2023). Feasibility of using the privacy-preserving large language model Vicuna for labeling radiology reports. *Radiology* 309(1):e231147 | 放射报告的 LLM 标注与成熟标注器的一致性为中等到较高（Fleiss κ 中位数约 0.52–0.64） | 经检索确认，可作为同领域对照 |
+| Liu et al. (2021). SLAKE. *ISBI 2021* | 语义标注由经验丰富的医生完成；候选问题交给医生保留或修改 | 经检索确认（摘要与原文片段） |
+| Lau et al. (2018). A dataset of clinically generated visual questions and answers about radiology images. *Scientific Data* 5:180251 | 问题由临床医生撰写，问答对人工归入 11 种问题类型 | 经检索确认 |
+
+用法建议：κ 达到 0.81 以上，正文只引 Landis & Koch 即可。κ 在 0.61–0.80 之间时，写 "substantial"，并补一句与 Mukherjee et al. (2023) 的对比（高于其 0.52–0.64），说明在同类放射学 LLM 标注中处于较高水平。
 
 ---
 
