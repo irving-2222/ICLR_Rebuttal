@@ -355,11 +355,11 @@ Hence ~700K raw examples fall below the base model, most sharply on SLAKE (−26
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | ~50 | 46 | 草稿完成（可删） |
-| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | ~1,750 | 1,780 | 草稿完成（PPO 日志数据待填） |
+| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | ~2,250 | 2,441 | 草稿完成（PPO 日志数据待填） |
 | Q2 | 数据泄漏；R7 的选择 | ~900 | — | 待写 |
 | Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | ~900 | — | 待写 |
 | Q4 | 复杂推理基准 | ~700 | — | 待写 |
-| **合计** | | **≤ 5,000** | **1,828** | |
+| **合计** | | **≤ 5,000** | **2,489** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合）。对应关系：W1 → Q1；W2 的复杂推理 → Q4；W2 的重复运行、置信区间、IU-Xray 提升幅度、32B 不如 8B → Q3。
 
@@ -382,7 +382,7 @@ Our answers to Q1–Q4 below also address W1–W2.
 
 *PPO.* Allocation is a sequential decision with delayed effects: retention spent now protects gains in later rounds. The planner therefore optimizes cumulative signed validation gain (Eq. 5, App. F.4) rather than a greedy rule. The logged policy responds to the learner's state instead of repeating one rule: across R1–R7 it selected [action sequence]. For example, after localization regressed at R4 (Figure 6), it switched to [action] at R[x], and localization recovered to 62.10 by R6.
 
-*Raw-data degradation.* Raw training lacks task-aligned reconstruction, verification, targeted allocation, and adaptation (App. D.3); our response to Reviewer jcb6 (Q1) details each.
+*Raw-data degradation.* App. D.3 trains on the raw sources "without supervision reconstruction or adaptive curriculum allocation", and four properties of these sources explain the drop. They are not task-aligned: 58.3% of 2D records are figure descriptions and most others are label-derived items or reports (Figure 10, App. C.3), so the model learns to describe or label rather than answer, most visibly on short-answer SLAKE (−26.69). They are also not verified for factual consistency or visual dependence, not targeted to the learner's weak capabilities, and not adapted as the learner changes. CoEvoMed handles these four properties through the principles and constructor, the verifier, the planner, and the revision agent, respectively (Sections 4.1–4.3), and the same kinds of sources reach 91.60 on SLAKE with fewer examples (Table 9).
 
 *Selection criteria vs. learning gains.* Usable yield, paired coverage, and semantic review screen supervision quality before deployment; learning gains are then assessed by the loop itself, since "learner responses [are] assessed in subsequent training rounds" (App. B) and any principle whose cells show non-positive net repair is revised again (Section 4.3). The selected principles raise all six benchmarks at R5, where the originals lower all six (+6.77 on average; Table 8).
 ```
@@ -403,7 +403,7 @@ Our answers to Q1–Q4 below also address W1–W2.
 
 *PPO。* 课程分配是一个效果有延迟的序贯决策：现在花在"保留"上的预算，保护的是后续轮次的收益。因此，规划器优化的是累计的带符号验证收益（式 5，附录 F.4），而不是一条贪心规则。日志显示，这个策略会根据学习者的状态做出不同选择，而不是重复同一条规则：R1–R7 中它依次选择了 [动作序列]。例如，定位能力在 R4 出现退化后（Figure 6），它在 R[x] 转向了 [动作]，定位能力到 R6 回升至 62.10。
 
-*原始数据退化。* 原始数据训练缺少面向任务的重构、核验、有针对性的分配和自适应（附录 D.3）；我们在对审稿人 jcb6 的回复（Q1）中逐项做了说明。
+*原始数据退化。* 附录 D.3 是在"没有监督重构，也没有自适应课程分配"的条件下用原始数据训练的，退化可以由这些数据的四个特点来解释。第一，与任务不对齐：2D 记录中 58.3% 是图像描述，其余大多是由标签转换的条目或报告（Figure 10，附录 C.3），模型学会的是描述或贴标签，而不是回答问题，这在答案简短的 SLAKE 上最明显（−26.69）。此外，这些数据没有经过事实一致性和视觉依赖性的核查，没有针对学习者的薄弱能力，也不会随学习者的变化而调整。CoEvoMed 分别通过构建原则与构建器、核验器、规划器和修订智能体处理这四个特点（第 4.1–4.3 节），同类数据源经过 CoEvoMed 处理后，用更少的样本就让 SLAKE 达到 91.60（Table 9）。
 
 *选择标准与学习收益的关系。* 可用产出率、配对覆盖率和语义审查在部署之前筛查监督数据的质量；之后的学习收益由闭环本身检验：论文写明"学习者的反应在后续训练轮次中评估"（附录 B），任何能力单元净修复不为正的原则都会被再次修订（第 4.3 节）。被选中的原则在 R5 让六个基准全部提升，而原始原则让六个基准全部下降（平均高出 6.77；Table 8）。
 
@@ -411,7 +411,7 @@ Our answers to Q1–Q4 below also address W1–W2.
 
 - [ ] **Q1 PPO 占位符**：已决定用日志中 PPO 每一轮选择的动作来证明（不补跑实验）。需要从日志填入：`[action sequence]`，即 R1–R7 每轮的动作；`[action]` 和 `R[x]`，即定位能力在 R4 退化后，PPO 在哪一轮换成了什么动作。按设计，修复（repair）部分负责薄弱能力和近期退化，所以预期是 repair-heavy 或 weakness-focused。如果日志里看不到这样的对应，就换一个能体现"随状态变化"的例子，或者只保留动作序列那一句。
 - [ ] **Q1 对照条件**：正文写的是"相同教师、支持数据池、每轮预算，同一 R5 检查点"，与 pUjh W1、jcb6 W1 是同一个待确认项。
-- [ ] **Q1 引用 jcb6 的回复**：原始数据部分引用了对 jcb6 的回复。这要求 jcb6 那条先发，并且 Readers 勾选了 Reviewers，2Nuw 才看得到。
+- [ ] **Q1 原始数据的组成**：与 jcb6 Q1 相同，需要确认 D.3 中约 70 万条原始数据和支持数据池来自同一批数据源。
 
 ### 论据出处
 
@@ -420,6 +420,9 @@ Our answers to Q1–Q4 below also address W1–W2.
 | 分解表三行 | Table 7（p.25）、Table 8（p.26），同 jcb6 W1 |
 | 规划器优化累计带符号验证收益 | 式 5、式 8（p.4–5）；附录 F.4（p.29） |
 | 原始数据训练"without supervision reconstruction or adaptive curriculum allocation" | 附录 D.3（p.26） |
+| 2D 支持数据 58.3% 是图像描述 | Figure 10（p.22） |
+| SLAKE 降幅 −26.69；CoEvoMed 用更少样本达到 91.60 | Table 9（p.26） |
+| 构建原则与构建器、核验器、规划器、修订智能体的职责 | §4.1–4.3（p.5–6） |
 | 选择标准：可用产出率、配对覆盖率、语义审查 | §4.3（p.6）；附录 B（p.18） |
 | "Selection uses paired supervision comparison, with learner responses assessed in subsequent training rounds." | 附录 B（p.18）原文 |
 | 净修复不为正的原则会被纳入修订 | §4.3（p.6）；附录 A（p.16） |
