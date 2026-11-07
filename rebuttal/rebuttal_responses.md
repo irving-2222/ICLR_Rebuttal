@@ -251,7 +251,81 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 
 ## Reviewer jcb6
 
-评分 3（弱接收）· 信心 3 — 待写
+评分 3（弱接收）· 信心 3 · 表述 3 · 信息价值 2 · 可靠性 3
+
+### 进度与字符预算
+
+| 条目 | 内容 | 当前 | 状态 |
+|---|---|---:|---|
+| 开头 | 致谢 | — | 草稿完成 |
+| W1 | 在预算匹配下分离各组件 | — | 草稿完成 |
+| Q1 | 原始数据退化原因；固定原则重构是否也有效 | — | 草稿完成 |
+| **合计** | | **2,044** | ≤ 5,000，空间充足 |
+
+### 英文正文（发布用）
+
+```markdown
+We thank the reviewer for the positive assessment and the precise suggestions.
+
+**W1 (Isolating components at matched budget).** The component controls in App. D were designed for this decomposition. Each starts from the same checkpoint and trains one round through the same selector–constructor–verifier pipeline under the same budget, changing only the principles or the feedback that drives allocation (mean change over six benchmarks; Tables 7–8):
+
+| Start | Principles | Allocation feedback | Mean Δ | Improved |
+|---|---|---|---|---|
+| R2 | fixed (original) | current | +3.09 | 6/6 |
+| R2 | evolved | current | +0.76 | 3/6 |
+| R5 | fixed (original) | current | −5.27 | 0/6 |
+| R5 | evolved | stale (R2) | −2.65 | 1/6 |
+| R5 | evolved | stale (R3) | −2.78 | 0/6 |
+| R5 | evolved | current (CoEvoMed) | **+1.50** | **6/6** |
+
+- *High-quality synthetic data alone* (fixed principles) helps early but harms later (R5: 0/6 improved), so data quality does not explain the gains.
+- *Principle evolution* (R5, same allocation): evolved over fixed by +6.77 on average (+3.33 to +10.12).
+- *Curriculum adaptation* (R5, same principles): current over stale feedback by +4.15 and +4.28.
+- Only the combination improves all six benchmarks.
+
+**Q1 (Raw-data degradation and fixed-principle reconstruction).** The raw sources are not VQA supervision: 58.3% of the 2D support records are free-text figure descriptions (PMC-OA, Quilt-1M, ROCO; Figure 10), and most others are label-derived items or reports (App. C.3). Training on them directly teaches description- and label-style outputs instead of answers to the question, which especially hurts short-answer benchmarks such as SLAKE. Reconstruction removes this mismatch. With fixed principles it already yields gains early (R2: +1.78 to +3.90 on all six), but these gains reverse by R5, where only evolved principles keep improving the learner (+8.26 on VQA-RAD and +10.12 on PMC-VQA over fixed). This stage-dependent margin is the additional benefit of adaptive principle evolution at matched budget.
+```
+
+### 中文译文（不发布）
+
+我们感谢审稿人的积极评价和具体建议。
+
+**W1（在预算匹配下分离各组件）** 附录 D 的组件对照实验正是为这种分解而设计的。每组实验都从同一个检查点出发，经过相同的"选择器—构建器—核验器"流程，在相同预算下训练一轮，只改变构建原则或驱动分配的反馈（六个基准上的平均变化；Table 7–8）：
+
+| 起点 | 原则 | 分配所用反馈 | 平均变化 | 提升的基准数 |
+|---|---|---|---|---|
+| R2 | 固定（原始） | 当前 | +3.09 | 6/6 |
+| R2 | 演化后 | 当前 | +0.76 | 3/6 |
+| R5 | 固定（原始） | 当前 | −5.27 | 0/6 |
+| R5 | 演化后 | 过时（R2） | −2.65 | 1/6 |
+| R5 | 演化后 | 过时（R3） | −2.78 | 0/6 |
+| R5 | 演化后 | 当前（CoEvoMed） | **+1.50** | **6/6** |
+
+- *仅有高质量合成数据*（固定原则）：早期有帮助，后期反而有害（R5 时 0/6 提升），因此数据质量本身不能解释收益。
+- *原则演化*（R5，分配相同）：演化后的原则比固定原则平均高 6.77（+3.33 至 +10.12）。
+- *课程自适应*（R5，原则相同）：当前反馈比过时反馈分别高 4.15 和 4.28。
+- 只有两者结合，六个基准才全部提升。
+
+**Q1（原始数据训练为何退化，以及固定原则重构的效果）** 原始数据并不是 VQA 监督：2D 支持数据中 58.3% 是自由文本的图像描述（PMC-OA、Quilt-1M、ROCO；Figure 10），其余大多是由标签转换来的条目或报告（附录 C.3）。直接在这些数据上训练，模型学到的是输出描述式、标签式的文本，而不是针对问题作答，这对 SLAKE 这类答案简短的基准伤害尤其大。重构消除了这种错配。用固定原则重构，早期已经能带来提升（R2：六个基准 +1.78 至 +3.90），但到 R5 这些收益会反转，只有演化后的原则还能继续提升学习者（相对固定原则，VQA-RAD +8.26，PMC-VQA +10.12）。这个随训练阶段变化的差距，就是在预算匹配下自适应原则演化带来的额外收益。
+
+### 发布前待核对
+
+- [ ] **对照条件只差一个因素**：W1 写的是"同一检查点、同一流程、同一预算，只改变原则或反馈"。需要确认 Exp 2 中 A/B、C/D 两组的分配动作和预算一致，Exp 1 中三组的原则相同、预算一致（与 pUjh W1 的核对项相同）。
+- [ ] **原始数据的组成**：Q1 用支持数据池的组成（Figure 10）解释退化。需要确认 D.3 中约 70 万条原始数据和支持数据池来自同一批数据源。支持数据池 2D 和 3D 合计约 47.5 万条记录，70 万这个数是怎么来的（例如一张图对应多条问答）？
+- [ ] **SLAKE 退化最严重的证据（可选）**：Q1 说"对答案简短的基准伤害尤其大"。如果能看一下 Qwen3+Raw 在 SLAKE 上的输出，例如平均输出长度，或描述式回答所占比例，可以补一个数字，说服力更强。
+- [ ] **是否承诺补完整训练过程的实验**：jcb6 要的是预算匹配的比较，W1 用附录 D 的单轮对照回答。如果算力允许，可以加一句承诺在修订版补充完整训练过程的 2×2 实验；不加也可以。
+
+### 论据出处
+
+| 正文说法 | 出处（论文印刷页码） |
+|---|---|
+| 表中六行的平均变化与提升数 | Table 7（p.25）、Table 8（p.26），六个基准逐项取平均 |
+| 演化原则比固定原则平均高 6.77（+3.33 至 +10.12） | Table 8 条件 D 减 C |
+| 当前反馈比过时反馈高 4.15 / 4.28 | Table 7，R5 反馈行减 R2、R3 反馈行的平均值 |
+| 2D 支持数据 58.3% 是图像描述：PMC-OA 79,858 + Quilt-1M 49,022 + ROCO 22,463，共 259,767 条 | Figure 10（p.22） |
+| 原始数据包括图像说明、分类标签、报告，需转换为事实 | 附录 C.3（p.22） |
+| 原始数据训练四个 VQA 基准全部低于基础模型 | Table 9（p.26） |
+| R2 固定原则 +1.78 至 +3.90 | Table 8 条件 A |
 
 ---
 
