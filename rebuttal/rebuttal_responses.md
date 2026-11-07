@@ -22,15 +22,15 @@
 
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
-| 开头 | 致谢 | ~150 | — | 待写 |
+| 开头 | 致谢 | ~100 | — | 待写 |
 | W1 | 多智能体是否必要 | ~1,450 | 1,451 | 草稿完成 |
 | W2 | 论文组织 | ~550 | 546 | 草稿完成 |
-| W3 | 遗忘与 R7 的选择 | ~1,050 | — | 待写 |
+| W3 | 遗忘与 R7 的选择 | ~1,170 | 1,173 | 草稿完成 |
 | Q1 | MedVLSynther 复现 | ~300 | — | 待写 |
-| Q2 | 数据公开 | ~200 | — | 待写 |
+| Q2 | 数据公开 | ~150 | — | 待写 |
 | Q3 | 能力分类体系 | ~950 | — | 待写 |
-| 结尾 | | ~100 | — | 待写 |
-| **合计** | | **≤ 5,000**（计划 ~4,750） | **1,999** | |
+| 结尾 | | ~80 | — | 待写 |
+| **合计** | | **≤ 5,000**（计划 ~4,760） | **3,174** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -48,6 +48,8 @@
 Because the original principles perform better at R2, no fixed principle set suffices, and online revision is required. The roles must be separate because one agent cannot be both blind and sighted: the constructor writes only from selected source facts without seeing the image, while a different model verifies each example against the image. Every training claim is thus traceable to evidence and independently checked, which is essential for medical data. The same design transfers across four learners and 2D/3D tasks (VQA-RAD: +22.4 on Gemma-3-4B, +20.4 on InternVL3-9B). A substitute would have to perform these same functions, and our controls show that simpler alternatives fail.
 
 **W2 (Organization).** The main text specifies every mechanism (Sections 3–4, Eqs. 1–9), including the capability cells defined on task-organized validation sets (Section 3.1), and Section 5.1 gives the evaluation task composition (four 2D VQA, two report-generation, and three 3D benchmarks). The appendix contains implementation parameters (agent models, budgets, thresholds) and dataset statistics, each referenced from the relevant section. Given the page limit, this arrangement keeps the method readable while ensuring full reproducibility.
+
+**W3 (Forgetting and R7).** CoEvoMed is curriculum learning, not continual learning. Every round trains all tasks jointly under fixed quotas (Eq. 7) and validates every task. With no task sequence, catastrophic forgetting and the continual-learning metrics defined over task sequences do not apply, and the paper makes no forgetting claim. "Retention" denotes the allocation lane that maintains coverage of acquired capabilities (Section 4.2), evaluated with the planner in W1. Regressions are still measured more finely, per case and per capability cell each round (Section 4.1, Eq. 6), and enter the signed reward (Eq. 8). Reacting to them is the intended closed-loop behavior, and the outcome is balanced: from R1 to R6, all five reported categories end above their R1 level, including localization after its dip (Figure 6). Later-round declines are small: at R10, SLAKE, PathVQA, and IU-Xray stay within 3 points of their peaks and retain +21.5, +26.9, and +12.8 over R1 (Figure 7). The results do not depend on R7: one checkpoint serves all six benchmarks, and even the final R10 checkpoint exceeds Hulu-Med-7B on SLAKE (88.67 vs. 86.80) and PathVQA (67.25 vs. 65.60).
 ```
 
 ### 中文译文（不发布）
@@ -64,11 +66,16 @@ Because the original principles perform better at R2, no fixed principle set suf
 
 **W2（论文组织）** 正文给出了全部机制（第 3–4 节，式 1–9），包括在按任务组织的验证集上定义的能力单元（第 3.1 节）；第 5.1 节给出了评估任务的组成（四个 2D VQA 基准、两个报告生成基准和三个 3D 基准）。附录包含实现参数（各智能体所用模型、预算、阈值）和数据集统计，并且每项都在正文相应章节中注明了出处。在页数限制下，这样的安排既保证了方法易读，又保证了完全可复现。
 
+**W3（遗忘与 R7）** CoEvoMed 是课程学习，不是持续学习。每一轮都在固定配额下对所有任务联合训练（式 7），并在每一轮验证所有任务。由于不存在任务序列，灾难性遗忘以及基于任务序列定义的持续学习指标并不适用，论文也没有提出任何关于遗忘的主张。"保留"（retention）指的是分配中维持已习得能力覆盖的那一部分（第 4.2 节），它的作用已在 W1 中与规划器一并检验。尽管如此，退化仍然以更细的粒度被测量：每一轮按样本、按能力单元统计（第 4.1 节，式 6），并计入带符号的奖励（式 8）。对测得的退化做出反应正是闭环设计的预期行为，而且结果是均衡的：从 R1 到 R6，图中报告的五个能力类别最终都高于各自的 R1 水平，定位能力在一度下滑后也回升了（Figure 6）。后期轮次的下降幅度很小：在 R10，SLAKE、PathVQA 和 IU-Xray 都保持在各自峰值的 3 分以内，并且相对 R1 仍分别高出 21.5、26.9 和 12.8（Figure 7）。结果并不依赖 R7：六个基准用的是同一个检查点，而且即使是最后的 R10 检查点，在 SLAKE（88.67 对 86.80）和 PathVQA（67.25 对 65.60）上也超过了 Hulu-Med-7B。
+
 ### 发布前待核对
 
 - [ ] **W1 修订智能体**：Exp 2 的条件 C 和 D 是否只在原则上不同（分配动作、预算一致）？正文把两者的差距归因于原则。
 - [ ] **W1 规划器**：Exp 1 的三组是否使用相同的原则，只替换了反馈？
 - [ ] **W2 可选补充**：如果想在不让步的前提下给一个姿态，可以在 W2 末尾加一句（约 70 字符）：`We will add a role summary table to Section 4 for quick reference.`
+- [ ] **W3 回放数据**：主实验每轮是否混入了原始或回放数据 Re（demo 配置里 `original_count` 为 0）？如果有，可以在 "fixed quotas (Eq. 7)" 后加 "with replay data (Section 3.3)"，进一步说明这不是持续学习的设定。没有就保持现状。
+- [ ] **W3 R7 的选择依据**：R7 是按内部验证集选出的，还是参考了外部基准？W3 没有正面回答，而是论证结果不依赖 R7；但 2Nuw 的 Q2 会直接问这个问题，需要你提供实际做法。
+- [ ] **W3 PathVQA 峰值**：Figure 7 中 PathVQA 的 R8 看起来略高于 R7 的 69.40。按图读数，R10 的 67.25 仍在峰值 3 分以内；如果有原始数值，请再核对一次。
 - [ ] **W1 可选补充**：如果核验器日志里有拒绝率，可以在 "independently checked" 之后加一句（约 75 字符），作为核验器单独起作用的正面证据：`The verifier rejects [X]% of constructed candidates, mainly for [reason].`
 
 ### W1 数字出处
@@ -93,7 +100,24 @@ Because the original principles perform better at R2, no fixed principle set suf
 | 所有主结果和机制分析都在正文 | §5.2–5.3，p.6–9（Table 1–2，Figure 3–7） |
 | 附录的内容在正文中注明出处 | 正文共 11 处显式引用附录（A、B×3、C×2、C.5、D、D.2、F、F.4） |
 
-可能被追问的点：四种课程动作的具体名称、各智能体所用模型、每轮预算和修订阈值只写在附录 B（p.17–18），正文 §4 没有。如果 pUjh 在讨论阶段追问，可以回答这些属于实现参数，并指出在附录 B 的具体位置。
+### W2 可能被追问的点
+
+四种课程动作的具体名称、各智能体所用模型、每轮预算和修订阈值只写在附录 B（p.17–18），正文 §4 没有。如果 pUjh 在讨论阶段追问，可以回答这些属于实现参数，并指出在附录 B 的具体位置。
+
+### W3 论据出处
+
+| 正文说法 | 出处（论文印刷页码） |
+|---|---|
+| 每轮在固定任务配额下联合训练所有任务 | §3，p.3；式 7，§4.2，p.5 |
+| 每轮验证所有任务 | 算法 1 第 9 行，p.16 |
+| 论文没有关于遗忘的主张 | 全文检索：forgetting、catastrophic、continual 均未出现 |
+| retention 是分配中维持已习得能力覆盖的部分 | §4.2，p.5；附录 B 的四种动作，p.17 |
+| 按样本、按能力单元统计退化 | §4.1，p.5（式 6）；附录 C.4，p.24 |
+| 带符号的奖励保留退化 | §4.2，p.5（式 8 之后） |
+| R1→R6 五类全部高于 R1：异常检测 +4.33、器官识别 +0.88、定位 +1.83（R4 曾降到 56.16）、模态识别 +2.09、属性 +10.27 | Figure 6，p.9 |
+| R10 距峰值：SLAKE −2.93、PathVQA 约 −2.2 至 −2.6（按图读数）、IU-Xray −2.39；R10 相对 R1：+21.47、+26.85、+12.77 | Figure 7，p.9 |
+| Hulu-Med-7B：SLAKE 86.80、PathVQA 65.60 | Table 1，p.6 |
+| 六个基准使用同一检查点 | §5.2，p.7；附录 C.4，p.24 |
 
 ---
 
