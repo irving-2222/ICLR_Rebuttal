@@ -357,13 +357,13 @@ Hence ~700K raw examples fall below the base model, most sharply on SLAKE (−26
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | ~50 | 46 | 草稿完成（可删） |
 | Q1 | 分别确立贡献、PPO、原始数据、选择标准 | ~2,250 | 2,441 | 草稿完成（PPO 日志数据待填） |
 | Q2 | 数据泄漏；R7 的选择 | ~1,600 | 1,602 | 草稿完成（F_e、移除数量、患者层面待填） |
-| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | ~900 | — | 待写 |
+| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | ~1,180 | 1,183 | 草稿完成（运行次数、置信区间、CURE-4B 原因待填） |
 | Q4 | 复杂推理基准 | ~700 | — | 待写 |
-| **合计** | | **≤ 5,000** | **4,093** | |
+| **合计** | | **≤ 5,000** | **5,278** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合）。
 
-Q3、Q4 的字符空间：加入 Q2 后剩余约 900 字符。Q3、Q4 写完后需要统一压缩，Q1（约 2,440 字符）是主要的压缩对象。对应关系：W1 → Q1；W2 的复杂推理 → Q4；W2 的重复运行、置信区间、IU-Xray 提升幅度、32B 不如 8B → Q3。
+字符空间：加入 Q3 后合计 5,278，已超出 5,000。Q4 写完后统一压缩，主要压缩 Q1（约 2,440 字符）和 Q2（约 1,600 字符）。对应关系：W1 → Q1；W2 的复杂推理 → Q4；W2 的重复运行、置信区间、IU-Xray 提升幅度、32B 不如 8B → Q3。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
@@ -391,6 +391,12 @@ Our answers to Q1–Q4 below also address W1–W2.
 **Q2 (Overlap; R7 selection).** *Overlap.* We treated leakage as a design constraint from the outset. The paper separates support evidence, internal validation, and external tests (Section 1; App. C.6, "Feedback provenance and independence"), and the submitted code enforces this: a run refuses to start if any support, validation, or external record shares a record ID, image path, decoded-RGB SHA-256 hash, or study ID with another partition, each record must carry its original split provenance, and every training job is re-checked against the held-out identity inventories (coevomed/data.py). In addition, every support record's question, answer, or report text was queried for leakage against all validation and external test sets. PubMedVision-IU was screened against IU-Xray in the same way ([n] items removed). [Patient level: see note.]
 
 *R7.* We likewise built two safeguards against checkpoint-selection bias into the paper: one checkpoint for all six benchmarks, which "preserves the joint capability profile of a single learner", and reporting of all ten rounds, "including later performance declines" (App. C.4, Figure 7). R7 was chosen once, for overall cross-task balance on the external benchmarks (Section 5.2); training, curriculum, and principle revision never use them (App. A, C.6). The predefined internal criterion, the validation objective F_e that the planner optimizes (App. F.4), selects [R7, the same checkpoint / R[x], with scores …]. The results also hold without any selection: the final R10 exceeds Hulu-Med-7B on SLAKE (88.67 vs. 86.80) and PathVQA (67.25 vs. 65.60).
+
+**Q3 (Runs and intervals; CURE-4B; 32B on IU-Xray).** *Runs and intervals.* Our protocol fixes metrics, matching rules, and decoding before any comparison and reports case-level counts (App. C.4). The main results come from [k] training run(s) per scale; paired bootstrap 95% CIs over test cases for CoEvoMed-8B minus Hulu-Med-7B are [PMC-VQA …, VQA-RAD …, SLAKE …, PathVQA …, MIMIC-CXR …, IU-Xray …]. Stability is further supported by independent runs of the full pipeline on two other learners, each improving substantially over its base (Gemma-3-4B: +22.39 VQA-RAD, +16.23 MIMIC-CXR; InternVL3-9B: +20.40, +13.28; Figure 5, App. C.5).
+
+*CURE-4B.* [reason].
+
+*32B on IU-Xray.* The strongest baseline family shows the same pattern: Hulu-Med-32B (62.40) trails Hulu-Med-7B (67.30) on IU-Xray, so the reversal reflects this 590-case benchmark rather than our method. At matched scale, CoEvoMed-32B exceeds Hulu-Med-32B by +2.68, and it exceeds CoEvoMed-8B on the other five benchmarks (+0.20 to +2.25; Table 1, Figure 3). Beyond the 0.92 RaTEScore margin, CoEvoMed-8B also leads Hulu-Med-7B on IU-Xray in six of eight lexical metrics, by up to +7.5 ROUGE-2 and +3.7 BLEU-4 (Figure 8).
 ```
 
 ### 中文译文（不发布）
@@ -417,6 +423,12 @@ Our answers to Q1–Q4 below also address W1–W2.
 
 *R7。* 我们同样在论文中设置了两道防止检查点选择偏差的保障：六个基准共用同一个检查点，以"保持单个学习者的整体能力画像"；并报告全部十轮，"包括后期的性能下降"（附录 C.4，Figure 7）。R7 是按外部基准上跨任务的整体均衡性一次性选定的（第 5.2 节）；训练、课程分配和原则修订从不使用外部基准（附录 A、C.6）。按照预先定义的内部标准，即规划器优化的验证目标 F_e（附录 F.4），选出的是 [R7，同一个检查点 / R[x]，其分数为……]。即使不做任何选择，结果依然成立：最后一轮 R10 在 SLAKE（88.67 对 86.80）和 PathVQA（67.25 对 65.60）上仍超过 Hulu-Med-7B。
 
+**Q3（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）** *独立运行与置信区间。* 我们的评测协议在任何比较之前就固定了评测指标、匹配规则和解码设置，并报告样本层面的计数（附录 C.4）。主要结果来自每个规模 [k] 次训练运行；CoEvoMed-8B 相对 Hulu-Med-7B 的差值，在测试样本上做配对 bootstrap 得到的 95% 置信区间为 [PMC-VQA …，VQA-RAD …，SLAKE …，PathVQA …，MIMIC-CXR …，IU-Xray …]。此外，完整流程在另外两个学习者模型上的独立运行也支持结果的稳定性，两者相对各自的基础模型都有大幅提升（Gemma-3-4B：VQA-RAD +22.39，MIMIC-CXR +16.23；InternVL3-9B：+20.40、+13.28；Figure 5，附录 C.5）。
+
+*CURE-4B。* [原因]。
+
+*32B 在 IU-Xray 上的表现。* 最强的基线模型系列也呈现同样的规律：在 IU-Xray 上，Hulu-Med-32B（62.40）低于 Hulu-Med-7B（67.30），因此这种反转反映的是这个只有 590 个样本的基准本身的特点，而不是我们方法的问题。在相同规模下，CoEvoMed-32B 比 Hulu-Med-32B 高 2.68；在另外五个基准上，CoEvoMed-32B 都高于 CoEvoMed-8B（+0.20 至 +2.25；Table 1，Figure 3）。除了 RaTEScore 上 0.92 的领先，CoEvoMed-8B 在 IU-Xray 的八个词汇层面指标中有六个领先 Hulu-Med-7B，最多在 ROUGE-2 上领先 7.5、在 BLEU-4 上领先 3.7（Figure 8）。
+
 ### 发布前待核对
 
 - [ ] **Q1 PPO 占位符**：已决定用日志中 PPO 每一轮选择的动作来证明（不补跑实验）。需要从日志填入：`[action sequence]`，即 R1–R7 每轮的动作；`[action]` 和 `R[x]`，即定位能力在 R4 退化后，PPO 在哪一轮换成了什么动作。按设计，修复（repair）部分负责薄弱能力和近期退化，所以预期是 repair-heavy 或 weakness-focused。如果日志里看不到这样的对应，就换一个能体现"随状态变化"的例子，或者只保留动作序列那一句。
@@ -430,6 +442,10 @@ Our answers to Q1–Q4 below also address W1–W2.
 - [ ] **Q2 患者层面**：2Nuw 也问了患者层面。提交的代码在有 study ID 时会按 study ID 比对（`identity_tokens` 中的 `study` 字段），像素哈希和路径覆盖图像层面，文本查询覆盖检查层面；代码里没有患者 ID 的比对。据我所知 IU-Xray（Open-i）没有公开患者 ID，无法在患者层面匹配。如果确实如此，占位符改为 "IU-Xray releases no patient identifiers, so matching there is at study and image level"。请确认你们是否做过患者层面的匹配。
 - [ ] **Q2 代码描述核对**：正文对代码行为的描述（共享记录 ID、图像路径、RGB 哈希或 study ID 即拒绝启动；必须有原始划分来源；训练任务再次比对）来自提交的 `coevomed/data.py`（`validate_partitions`、`validate_evidence_identity`、`validate_exclusions`）。请确认正式实验用的是同一套检查逻辑。
 - [ ] **Q2 定稿时补进论文**：附录 C.3 目前只写了与验证集的重叠检查。定稿时补上与外部测试集的筛查、文本泄漏查询，以及 R7 依据外部基准选出这一点。
+- [ ] **Q3 运行次数 `[k]`**：主实验每个规模跑了几次？如果只有一次，如实写 "a single training run per scale"，并依靠配对 bootstrap 置信区间和跨骨干模型的独立运行来说明稳定性。
+- [ ] **Q3 置信区间**：配对 bootstrap 需要 CoEvoMed-8B 和 Hulu-Med-7B 在六个测试集上逐条样本的预测结果（Hulu-Med-7B 需要是你们自己评测的）。提供后我写脚本计算（10,000 次重采样，报告差值的 95% 置信区间）。如果 Hulu-Med-7B 的分数是引用的，就改为报告 CoEvoMed-8B 自身得分的置信区间。
+- [ ] **Q3 CURE-4B 的原因 `[reason]`**：IU-Xray 的比较中为什么没有 CURE-4B？例如原文没有报告 IU-Xray、没有公开权重，或训练数据包含 IU-Xray。图 3 标题写的是 "CURE-4B uses AGRG-29 + GRG"，请说明它的 MIMIC-CXR 分数是自己评测的还是引用的。
+- [ ] **Q3 32B 的说法**：正文把 32B 在 IU-Xray 上低于 8B 归因于基准本身（Hulu-Med 同样如此）。如果你知道其他原因，例如 32B 的训练轮数或预算不同，请告诉我，必要时补充。
 
 ### Q2 泄漏分析清单
 
@@ -492,6 +508,12 @@ Our answers to Q1–Q4 below also address W1–W2.
 | Q2：R7 按跨任务整体均衡性选定 | §5.2（p.7）；附录 C.4（p.24） |
 | Q2：外部基准不参与训练、课程和原则更新 | 附录 A（p.16）；附录 C.6（p.25） |
 | Q2：F_e 定义 | 附录 F.4（p.29） |
+| Q3：评测协议事先固定指标、匹配规则和解码设置，报告样本计数 | 附录 C.4（p.24） |
+| Q3：Gemma-3-4B +22.39 / +16.23；InternVL3-9B +20.40 / +13.28 | Figure 5（p.9）；附录 C.5（p.24） |
+| Q3：IU-Xray RaTEScore：CoEvoMed-8B 68.22、Hulu-Med-7B 67.30、CoEvoMed-32B 65.08、Hulu-Med-32B 62.40 | Figure 3（p.7） |
+| Q3：32B 相对 8B：PMC-VQA +2.25、VQA-RAD +0.23、SLAKE +1.00、PathVQA +0.20、MIMIC-CXR +0.71 | Table 1（p.6）；Figure 3（p.7） |
+| Q3：IU-Xray 词汇指标，CoEvoMed-8B 对 Hulu-Med-7B：METEOR +2.8、BLEU-1 −1.0、BLEU-2 +1.1、BLEU-3 +2.8、BLEU-4 +3.7、ROUGE-1 +5.2、ROUGE-2 +7.5、ROUGE-L −0.8 | Figure 8（p.20） |
+| Q3：IU-Xray 测试集 590 个样本 | Table 3（p.19） |
 | Q2：支持数据、验证集、外部基准三者分离 | §1（p.2）；附录 C.6（p.25）"Feedback provenance and independence" |
 | Q2：代码在划分间重叠时拒绝启动；必须有 RGB 哈希和原始划分来源；训练任务再次比对 | 补充材料代码 `coevomed/data.py`：`validate_partitions`、`validate_evidence_identity`、`validate_exclusions`、`identity_tokens` |
 | Q2："preserves the joint capability profile of a single learner"；"including later performance declines" | 附录 C.4（p.24） |
