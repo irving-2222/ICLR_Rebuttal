@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "coevomed-demo"
+version = "0.1.0"
+description = "Anonymous, paper-aligned reference demo for CoEvoMed"
+requires-python = ">=3.10"
+dependencies = ["torch>=2.2", "numpy>=1.24", "Pillow>=10"]
+
+[project.optional-dependencies]
+agents = ["openai>=1.30"]
+metrics = ["nltk==3.9.1"]
+student = ["transformers==4.57.1", "accelerate>=1.2,<2", "torchvision>=0.17", "qwen-vl-utils>=0.0.14", "deepspeed>=0.16,<0.20"]
+test = ["pytest>=8"]
+
+[project.scripts]
+coevomed = "coevomed.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["coevomed*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,40 @@
+{
+  "active_tasks": ["vqa_rad", "mimic_cxr"],
+  "seed": 42,
+  "review_required": true,
+  "recipe_confirmed": false,
+  "horizon": 6,
+  "revision_every": 3,
+  "min_cell_count": 3,
+  "min_principle_usage": 100,
+  "max_principle_candidates": 2,
+  "workers": 8,
+  "fixture_mode": false,
+  "task_quotas": {"vqa_rad": 140, "mimic_cxr": 60},
+  "original_count": 0,
+  "learner": {
+    "backend": "qwen3_vl", "world_size": 24, "epochs": 1, "max_steps": -1,
+    "learning_rate": 0.00001, "optim": "adamw_torch",
+    "adam_beta1": 0.9, "adam_beta2": 0.999, "adam_epsilon": 1e-8,
+    "weight_decay": 0.1, "warmup_ratio": 0.03, "lr_scheduler_type": "cosine", "max_grad_norm": 1.0,
+    "per_device_batch_size": 1, "gradient_accumulation_steps": 1,
+    "bf16": true, "tf32": true, "gradient_checkpointing": false, "seed": 42,
+    "attention_implementation": "sdpa",
+    "max_length": 4096, "freeze_vision": true, "max_new_tokens": 512,
+    "deepspeed": {
+      "bf16": {"enabled": "auto"},
+      "train_batch_size": "auto", "train_micro_batch_size_per_gpu": "auto",
+      "gradient_accumulation_steps": "auto", "gradient_clipping": "auto",
+      "zero_optimization": {"stage": 3, "overlap_comm": true, "contiguous_gradients": true,
+        "stage3_gather_16bit_weights_on_model_save": true}
+    }
+  },
+  "metrics": {"semantic_open": true, "report_scope": "full"},
+  "agents": {
+    "selector": "deepseek-v4-flash", "planner": "deepseek-v4-flash",
+    "constructor": "deepseek-v4-flash", "verifier": "qwen3.6-27b",
+    "revision": "deepseek-v4-flash", "teacher": "deepseek-v4-flash", "judge": "qwen3.6-27b",
+    "timeout": 300, "max_tokens": 3000
+  },
+  "configuration_status": "VQA-RAD and MIMIC-CXR integration configuration. Quotas specify candidate requests; accepted and mixed training counts are recorded separately."
+}

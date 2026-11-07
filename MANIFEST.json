@@ -1,0 +1,239 @@
+{
+  "retrieved_on": "2026-11-07",
+  "submission_number": 37342,
+  "forum_url": "https://openreview.net/forum?id=GeL7NntZTU",
+  "pdf_source_url": "https://openreview.net/pdf?id=GeL7NntZTU",
+  "supplementary_source_url": "https://openreview.net/attachment?id=GeL7NntZTU&name=supplementary_material",
+  "pdf_source": "Downloaded from OpenReview through the authenticated browser; complete original bytes retained.",
+  "page_ranges": {
+    "papers/CoEvoMed_ICLR2027_submission.pdf": [
+      1,
+      34
+    ],
+    "papers/CoEvoMed_ICLR2027_main.pdf": [
+      1,
+      15
+    ],
+    "papers/CoEvoMed_ICLR2027_appendix.pdf": [
+      16,
+      34
+    ]
+  },
+  "main_content_pages": [
+    1,
+    9
+  ],
+  "statements_and_references_pages": [
+    10,
+    15
+  ],
+  "split_validation": "All 34 extracted pages have identical extracted text, page dimensions, and rendered RGB pixels at 72 dpi to their corresponding source pages.",
+  "demo_source": "Downloaded OpenReview supplementary ZIP; all 32 regular source files match the local CoEvoMed_ICLR2027 directory byte-for-byte. macOS resource-fork files excluded from expanded directory only.",
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 132,
+      "sha256": "b84b87cfbde3f7ee0cda42f64f8e091846ce344fc4333f80933fd7ed46f91c05"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3355,
+      "sha256": "4c566a03f6424c0d3f5eef532cde6c5a2df8efc1561b09083bc28610b80377a3"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/NOTICE.md",
+      "bytes": 549,
+      "sha256": "c9cd6cf82d09283f643317bb58911c5fbb132854abdee225209ee9abebd51088"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/README.md",
+      "bytes": 4260,
+      "sha256": "b22071f4e3c6a96c9872174f7e817382cd553b05b6bebc86f1325fc5e8dde286"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/coevomed/__init__.py",
+      "bytes": 24,
+      "sha256": "d857f91626856839ab1ab7096a0c8aec92aeada4df2340a745a8409d72d2e77c"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/coevomed/agents.py",
+      "bytes": 11365,
+      "sha256": "168c7bbd08b3991c59dd5b4581340c571290a720857a05e4cbaf9ec034d45eb3"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/coevomed/cli.py",
+      "bytes": 5271,
+      "sha256": "f689dcaae34510b765caf609fded24bdc5e5207e507e967c458cd9f591439642"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/coevomed/curriculum.py",
+      "bytes": 6550,
+      "sha256": "1e37c2baaa1bd2addc491ae1595b33728bce6b6614670216c4308ed735e6962a"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/coevomed/data.py",
+      "bytes": 12177,
+      "sha256": "85b8c7ec0fbe9400493a359340e60d333b3caa6419ed6946bc359a42857aeea9"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/coevomed/demo.py",
+      "bytes": 6848,
+      "sha256": "fe0fe69b3016da09a750242a91b9338382b7aec9d161abd7f63a216e2544ae7c"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/coevomed/feedback.py",
+      "bytes": 5068,
+      "sha256": "81f593ed54a4fef405050a2b67f3a5d15adeacecd1b98dded4b6ff012f7d9f2a"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/coevomed/policy.py",
+      "bytes": 6013,
+      "sha256": "b06783b514d86e9600a31fdc7d34ed9c59cbea5c464e1c6cb2c0010a9bc65d93"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/coevomed/preprocessing.py",
+      "bytes": 6419,
+      "sha256": "d92b8fbbcbf7c0a6a95f95d0da38a432123d66b9ad19b1323ea5d7372af7798a"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/coevomed/pretrain.py",
+      "bytes": 6242,
+      "sha256": "6bcb94264fc484b61b0e4dbd7f7e0dda5bdcc1e40b848ac4c2086cb296562358"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/coevomed/principles.py",
+      "bytes": 6866,
+      "sha256": "031379bfc414eddceefed3dff1382ee40b979432f24f49d8e0625b75570fa3f8"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/coevomed/runner.py",
+      "bytes": 17611,
+      "sha256": "c6e32841679be32b6140d4d4faf7eed22af4c0e7801fbe7e33f760f744c1030a"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/coevomed/scoring.py",
+      "bytes": 5058,
+      "sha256": "1038edcd70bf68fea9d1470ff68355458be0a9d36b91a375e3499d5f8c2fe1cf"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/coevomed/student_worker.py",
+      "bytes": 16910,
+      "sha256": "effadac208d67eb6971fae68e7875376eb6b4ec5fa2843ab58e90e37ff2cd1da"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/configs/demo_vqarad_mimic.json",
+      "bytes": 1809,
+      "sha256": "58e5871946cda8f299fbc9d39f455655b4a4ab82ce63be15023273fc0f148da0"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/configs/zero3.json",
+      "bytes": 325,
+      "sha256": "268b0a42dc5327650724e09d47c3b7db0530138b352a821260b590a342294705"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/pyproject.toml",
+      "bytes": 682,
+      "sha256": "2c8ee3eb32572f7677913639267517c9b6d7efc9176999229ed5bbcb983a68ab"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/requirements-demo.txt",
+      "bytes": 56,
+      "sha256": "da05be45501c65923d23bb6ffe210954c4894c5af62460c602287c8be90caa84"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/tests/test_contracts.py",
+      "bytes": 4746,
+      "sha256": "742201e5ec7f27eeaaa9ea6d8622fa9a5c5e832c33ddc92344da63620085abf3"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/tests/test_core.py",
+      "bytes": 8301,
+      "sha256": "dcfd7236c266133f3a341f9117da08ee0aeed928680dde7e308d4fbc1c092c6a"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/tests/test_evidence_selector.py",
+      "bytes": 5833,
+      "sha256": "71b852b262f4487b7f4afeb6b7f011f58a55c65952cc659fd935840d50645a56"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/tests/test_paper_audit.py",
+      "bytes": 12024,
+      "sha256": "51defe194e22a8a075bcc2dce4a0c3c4395e44677307a083e197b6e3b19ff094"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/tests/test_runtime_audit.py",
+      "bytes": 10385,
+      "sha256": "2df6aaa3515bd8b5fc9e5d804075587df9b376973cdfbbebf91fb26547fdb6f4"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/tests/test_student_24gpu.py",
+      "bytes": 11303,
+      "sha256": "32669fb3264b6693c85b99be75782ffddb62f72bc2bc058e659ef8706b21c806"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/tests/test_student_transformers.py",
+      "bytes": 4330,
+      "sha256": "8005c55a93e4bc964bc73adba500e77a54872930406ffb79a04769c8627b4846"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/tests/test_two_task_profile.py",
+      "bytes": 3065,
+      "sha256": "17a8c3316b554b00fdc2e75c6316c65d78d303233e6e1a41c919bd614bbd4d7b"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/tests/test_workflow.py",
+      "bytes": 2447,
+      "sha256": "85c7700bedce8d2d549f107c278fa82b26969ed8fb675bcfc896a8885f2fdea1"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/tools/build_submission.py",
+      "bytes": 2842,
+      "sha256": "6017e2d87ff3c7602b7f8ba2cebe496494040f47604b137165d78818157cac1d"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/tools/infer_panel.py",
+      "bytes": 93,
+      "sha256": "47b40d22fb22d416e7f23d31d26167479021916f30e4c10e6d8cc826eccb4f3e"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027/tools/run_student_24gpu.py",
+      "bytes": 2760,
+      "sha256": "9b27052ff088a73599d22defe951f7e4e851a550ad44c73f7a25fef75695a8d9"
+    },
+    {
+      "path": "code/CoEvoMed_ICLR2027_submitted.zip",
+      "bytes": 93152,
+      "sha256": "429d08e9a822a4abfe9979f681bfdd803bfa2514f7d9f6ea1890655a674272b6"
+    },
+    {
+      "path": "papers/CoEvoMed_ICLR2027_appendix.pdf",
+      "bytes": 1965033,
+      "sha256": "0e6ff70ab67b66d3a1475e664564fd9bb5569b90ad195eede327ddd33d5a73a5"
+    },
+    {
+      "path": "papers/CoEvoMed_ICLR2027_main.pdf",
+      "bytes": 1349042,
+      "sha256": "2a1154d53215a7d52a4a54e4ac65dd667a70003044a3a7ec5496f1ddefcefbb2"
+    },
+    {
+      "path": "papers/CoEvoMed_ICLR2027_submission.pdf",
+      "bytes": 3167250,
+      "sha256": "90832a7086e451ac3ad0b590dc8271ff1de6870baf8322aa316575a4abc3ff7d"
+    },
+    {
+      "path": "reviews/human_reviews_source.json",
+      "bytes": 13421,
+      "sha256": "4d5f085221569d24eeb78e49ca5d8288157969eca84d902cac9dd89a17c33ecf"
+    },
+    {
+      "path": "reviews/official_reviews_en.md",
+      "bytes": 10982,
+      "sha256": "518e1f01cc2d690871d8fcbddab9d8aab1ef5c2f8ab960aadc30c0b09ac8f6bd"
+    },
+    {
+      "path": "reviews/official_reviews_zh.md",
+      "bytes": 10478,
+      "sha256": "e1d212150d5165465469177332012fed031e9999266acab866a6acb78012f950"
+    }
+  ]
+}
