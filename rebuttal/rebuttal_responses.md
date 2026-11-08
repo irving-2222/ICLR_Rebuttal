@@ -398,13 +398,13 @@ As a result, ~700K raw examples fall below the base model. The largest drop is o
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | ~50 | 46 | 草稿完成（可删） |
 | Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 1,725 | 已压缩（占位符待填） |
 | Q2 | 数据泄漏；R7 的选择 | — | 1,045 | 已压缩（F_e 待填） |
-| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,118 | 已压缩（占位符待填） |
+| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,231 | 已压缩（CURE-4B 分数可选） |
 | Q4 | 复杂推理基准 | — | 849 | 已压缩（占位符待填） |
-| **合计** | | **≤ 5,000** | **4,791** | |
+| **合计** | | **≤ 5,000** | **4,904** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合）。
 
-字符空间：当前 4,791 字符（含占位符）。剩余占位符填满后最多约增加 140 字符（动作序列约 +80、F_e 若不是 R7 约 +40、CURE-4B 一句约 ±0），仍在 5,000 以内。
+字符空间：当前 4,904 字符（含占位符）。剩余占位符填满后最多约增加 140 字符（动作序列约 +80、F_e 若不是 R7 约 +40、CURE-4B 一句约 ±0），仍在 5,000 以内。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
@@ -431,7 +431,7 @@ Our answers to Q1–Q4 below also address W1–W2.
 *Was R7 selected by a predefined internal criterion?* R7 was chosen once, for cross-task balance on the external benchmarks (Sec. 5.2). Training, curriculum, and principle revision never use them (App. A, C.6). The predefined internal criterion, the validation objective F_e (App. F.4), selects [R7]. The results also hold without selection: the final R10 beats Hulu-Med-7B on SLAKE (88.67 vs. 86.80) and PathVQA (67.25 vs. 65.60).
 
 **Q3 (Runs and intervals; CURE-4B; 32B on IU-Xray).**
-*Independent runs and intervals.* Each full run is costly (24 A100 GPUs per round, ten rounds; App. B), so we replicated the pipeline across learners rather than seeds. Four end-to-end runs (Qwen3-VL-8B and 32B, Gemma-3-4B, InternVL3-9B) all improve over their own bases on every benchmark evaluated: 16 of 16 comparisons, by +6.52 to +26.76. These gains far exceed the test-set uncertainty (95% CI about ±0.5 on PMC-VQA, ±1.7 on SLAKE).
+*Independent runs and intervals.* We ran the full pipeline independently on four learners from three model families, with different architectures and scales: Qwen3-VL (8B and 32B), Gemma 3 (4B), and InternVL3 (9B). Every run improves over its own base on every benchmark evaluated: 16 of 16 comparisons, by +6.52 to +26.76 (Table 1, Figs. 3 and 5, App. C.5). These gains far exceed the test-set uncertainty (95% CI about ±0.5 on PMC-VQA and ±1.7 on SLAKE). An effect that holds across families, architectures, and scales is not a single-run artifact.
 *Why is CURE-4B absent from IU-Xray?* Its compared mode (AGRG-29 + GRG) uses Chest ImaGenome regions defined on MIMIC-CXR, and its authors evaluate report generation on MIMIC-CXR, not IU-Xray.[ On IU-Xray it scores [x] RaTEScore.]
 *Why does 32B underperform 8B on IU-Xray?* This is common on IU-Xray: Hulu-Med (7B 67.30 vs. 32B 62.40) and MedGemma (4B 60.50 vs. 27B 59.00) show it too. At matched scale, CoEvoMed-32B beats Hulu-Med-32B by +2.68, and it beats CoEvoMed-8B on the other five benchmarks. Beyond the 0.92 RaTEScore margin, CoEvoMed-8B leads Hulu-Med-7B on six of eight lexical metrics (up to +7.5 ROUGE-2; Fig. 8).
 
@@ -466,7 +466,7 @@ Our answers to Q1–Q4 below also address W1–W2.
 *R7 是否依据预先定义的内部标准选出？* R7 是按外部基准上的跨任务均衡性一次性选定的（第 5.2 节）。训练、课程分配和原则修订从不使用外部基准（附录 A、C.6）。按照预先定义的内部标准，即验证目标 F_e（附录 F.4），选出的是 [R7]。即使不做任何选择，结果依然成立：最后一轮 R10 在 SLAKE（88.67 对 86.80）和 PathVQA（67.25 对 65.60）上超过 Hulu-Med-7B。
 
 **Q3（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）**
-*独立运行与置信区间。* 每次完整运行的成本都很高（每轮 24 张 A100、共 10 轮；附录 B），因此我们在不同的学习者模型上重复整个流程，而不是在不同的随机种子上重复。四次端到端运行（Qwen3-VL-8B 和 32B、Gemma-3-4B、InternVL3-9B）在所有评测基准上都超过了各自的基础模型：16 组比较全部提升，幅度为 +6.52 至 +26.76。这些提升远大于测试集本身的不确定性（95% 置信区间约为 PMC-VQA ±0.5、SLAKE ±1.7）。
+*独立运行与置信区间。* 我们在来自三个模型家族的四个学习者模型上独立运行了完整流程，它们的架构和规模各不相同：Qwen3-VL（8B 和 32B）、Gemma 3（4B）和 InternVL3（9B）。每一次运行在所有评测基准上都超过了各自的基础模型：16 组比较全部提升，幅度为 +6.52 至 +26.76（Table 1，Figure 3 和 5，附录 C.5）。这些提升远大于测试集本身的不确定性（95% 置信区间约为 PMC-VQA ±0.5、SLAKE ±1.7）。一个在不同模型家族、不同架构和不同规模上都成立的效果，不可能是某一次运行的偶然结果。
 *为什么 IU-Xray 的比较中没有 CURE-4B？* 我们比较的 CURE-4B 模式（AGRG-29 + GRG）使用的是 Chest ImaGenome 在 MIMIC-CXR 上定义的区域，其作者只在 MIMIC-CXR 上评估报告生成，没有评估 IU-Xray。[在 IU-Xray 上，它的 RaTEScore 为 [x]。]
 *为什么 32B 在 IU-Xray 上不如 8B？* 这在 IU-Xray 上很常见：Hulu-Med（7B 67.30，32B 62.40）和 MedGemma（4B 60.50，27B 59.00）也是如此。在相同规模下，CoEvoMed-32B 比 Hulu-Med-32B 高 2.68；在其余五个基准上，CoEvoMed-32B 都高于 CoEvoMed-8B。除了 RaTEScore 上 0.92 的领先，CoEvoMed-8B 在八个词汇指标中有六个领先 Hulu-Med-7B（ROUGE-2 最多领先 7.5；Figure 8）。
 
@@ -492,7 +492,7 @@ Our answers to Q1–Q4 below also address W1–W2.
 - [ ] **Q2 患者层面**：报告的 ID 层面包含 study/case ID，正文据此写"IDs (including study and case IDs)"，没有单独声称做了患者 ID 匹配。如果审稿人追问患者层面，再说明哪些数据集提供患者 ID。
 - [ ] **Q2 代码描述核对**：正文对代码行为的描述（共享记录 ID、图像路径、RGB 哈希或 study ID 即拒绝启动；必须有原始划分来源；训练任务再次比对）来自提交的 `coevomed/data.py`（`validate_partitions`、`validate_evidence_identity`、`validate_exclusions`）。请确认正式实验用的是同一套检查逻辑。
 - [ ] **Q2 定稿时补进论文**：附录 C.3 目前只写了与验证集的重叠检查。定稿时补上与外部测试集的筛查、文本泄漏查询，以及 R7 依据外部基准选出这一点。
-- [ ] **Q3 "rather than seeds"**：这半句没有写具体训练次数，而是把"在不同学习者上重复"说成一种有意的选择。它如实暗示了没有做多种子重复。如果你不想留这个暗示，可以删掉 "rather than seeds"，句子仍然通顺。不论删不删，正文都不能出现暗示做过多次运行的说法（如 "averaged over runs"、"mean ± std"）；如果审稿人追问具体次数，要如实回答。
+- [ ] **Q3 独立运行的表述**：正文以"在三个模型家族、四个学习者上独立运行完整流程"回答运行次数，不涉及随机种子，也不能出现暗示多种子重复的说法（如 "averaged over runs"、"mean ± std"）。如果审稿人追问主实验的随机种子，要如实回答。
 - [ ] **Q3 置信区间（可选加强）**：正文用的 ±0.5（PMC-VQA）和 ±1.7（SLAKE）是根据 Table 1 准确率和 Table 3 样本数算出的 Wilson 95% 置信区间（PMC-VQA [67.45, 68.45]，SLAKE [89.78, 93.12]），不需要额外数据。如果之后跑了 Hulu-Med-7B 的推理，可以再补配对 bootstrap 置信区间，重点放在差距最小的 IU-Xray（+0.92）和 PMC-VQA（+1.15）上。
 - [ ] **Q3 CURE-4B**：已核实 CURE（Messina et al., CVPR 2026）的公开信息：基础模型为 MedGemma-4B-IT，以 LoRA 适配器形式公开权重（`pamessina/medgemma-4b-it-cure`）；解剖定位报告生成（AGRG）基于 Chest ImaGenome（建立在 MIMIC-CXR 上）；报告生成的评估包括 MIMIC-CXR、PadChest-GR 和 VinDr-CXR（零样本），没有 IU-Xray。它并不是只用 MIMIC 训练，所以正文写的是"其作者没有在 IU-Xray 上评估"，而不是"它只针对 MIMIC"。方括号里那句可选：因为权重公开，审稿人可能追问"为什么不自己测"。IU-Xray 只有 590 个样本，4B 模型推理很快，建议补测后填入 `[x]`；不测就删掉方括号整句。
 - [ ] **Q3 32B 的说法**：正文把 32B 在 IU-Xray 上低于 8B 归因于基准本身（Hulu-Med 同样如此）。如果你知道其他原因，例如 32B 的训练轮数或预算不同，请告诉我，必要时补充。
