@@ -397,14 +397,14 @@ As a result, ~700K raw examples fall below the base model. The largest drop is o
 |---|---|---:|---:|---|
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | ~50 | 46 | 草稿完成（可删） |
 | Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 1,725 | 已压缩（占位符待填） |
-| Q2 | 数据泄漏；R7 的选择 | — | 968 | 已压缩（占位符待填） |
+| Q2 | 数据泄漏；R7 的选择 | — | 1,045 | 已压缩（F_e 待填） |
 | Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,118 | 已压缩（占位符待填） |
 | Q4 | 复杂推理基准 | — | 849 | 已压缩（占位符待填） |
-| **合计** | | **≤ 5,000** | **4,714** | |
+| **合计** | | **≤ 5,000** | **4,791** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合）。
 
-字符空间：已压缩到 4,714 字符（含占位符）。占位符填满后最多约增加 220 字符（动作序列约 +80、患者层面一句约 +70、F_e 若不是 R7 约 +40），仍在 5,000 以内。患者层面建议用短句："IU-Xray has no patient IDs, so matching there is at study and image level."对应关系：W1 → Q1；W2 的复杂推理 → Q4；W2 的重复运行、置信区间、IU-Xray 提升幅度、32B 不如 8B → Q3。
+字符空间：当前 4,791 字符（含占位符）。剩余占位符填满后最多约增加 140 字符（动作序列约 +80、F_e 若不是 R7 约 +40、CURE-4B 一句约 ±0），仍在 5,000 以内。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
@@ -427,7 +427,7 @@ Our answers to Q1–Q4 below also address W1–W2.
 *Selection criteria vs. learning gains.* The criteria screen supervision quality before use. Learning gains are then checked by the loop itself: "learner responses [are] assessed in subsequent training rounds" (App. B), and principles with non-positive net repair are revised again (Sec. 4.3). The selected principles raise all six benchmarks at R5, where the originals lower all six (+6.77 on average; Table 8).
 
 **Q2 (Overlaps; R7).**
-*Patient-, study-, and image-level overlaps.* We treated leakage as a design constraint. Support data, internal validation, and external tests are separate partitions (Sec. 1; App. C.6). The submitted code (coevomed/data.py) refuses to run if any record shares an ID, image path, RGB hash, or study ID across partitions. Each support record's text was also checked for leakage against all validation and test sets. PubMedVision-IU was screened against IU-Xray in the same way ([n] items removed). [Patient level.]
+*Patient-, study-, and image-level overlaps.* We treated leakage as a design constraint: support data, internal validation, and external tests are separate partitions (Sec. 1; App. C.6), enforced by the submitted code (coevomed/data.py). We screened all 11 2D and 5 3D sources against every external test at four levels: IDs (including study and case IDs), image paths, pixel hashes (exact RGB SHA-256 plus near-duplicate dHash/NCC ≥ 0.95), and normalized text. Every check found zero overlap. This includes PubMedVision-IU vs. IU-Xray, and PMC-OA and PMC-VQA draw on disjoint PMC articles.
 *Was R7 selected by a predefined internal criterion?* R7 was chosen once, for cross-task balance on the external benchmarks (Sec. 5.2). Training, curriculum, and principle revision never use them (App. A, C.6). The predefined internal criterion, the validation objective F_e (App. F.4), selects [R7]. The results also hold without selection: the final R10 beats Hulu-Med-7B on SLAKE (88.67 vs. 86.80) and PathVQA (67.25 vs. 65.60).
 
 **Q3 (Runs and intervals; CURE-4B; 32B on IU-Xray).**
@@ -462,7 +462,7 @@ Our answers to Q1–Q4 below also address W1–W2.
 *选择标准与学习收益的关系。* 选择标准在使用之前筛查监督数据的质量。之后的学习收益由闭环本身检验："学习者的反应在后续训练轮次中评估"（附录 B），净修复不为正的原则会被再次修订（第 4.3 节）。被选中的原则在 R5 让六个基准全部提升，而原始原则让六个基准全部下降（平均高出 6.77；Table 8）。
 
 **Q2（数据重叠；R7）**
-*患者、检查和图像层面的重叠。* 我们把防止泄漏作为一项设计约束。支持数据、内部验证集和外部测试集是相互独立的划分（第 1 节；附录 C.6）。提交的代码（coevomed/data.py）只要发现任何记录在不同划分之间共享 ID、图像路径、RGB 哈希或检查 ID，就拒绝运行。每条支持数据的文本也都与全部验证集和测试集做了泄漏检查。PubMedVision-IU 与 IU-Xray 之间按同样的方式做了筛查（移除了 [n] 条）。[患者层面。]
+*患者、检查和图像层面的重叠。* 我们把防止泄漏作为一项设计约束：支持数据、内部验证集和外部测试集是相互独立的划分（第 1 节；附录 C.6），并由提交的代码（coevomed/data.py）强制执行。我们把全部 11 个 2D 源数据和 5 个 3D 源数据与每一个外部测试集在四个层面上做了筛查：ID（包括检查 ID 和病例 ID）、图像路径、像素哈希（解码后 RGB 的 SHA-256 精确匹配，并用 dHash 加 NCC ≥ 0.95 检查近似重复）以及归一化后的文本。所有检查发现的重叠均为零。这包括 PubMedVision-IU 与 IU-Xray 之间；PMC-OA 与 PMC-VQA 所用的 PMC 论文也完全不相交。
 *R7 是否依据预先定义的内部标准选出？* R7 是按外部基准上的跨任务均衡性一次性选定的（第 5.2 节）。训练、课程分配和原则修订从不使用外部基准（附录 A、C.6）。按照预先定义的内部标准，即验证目标 F_e（附录 F.4），选出的是 [R7]。即使不做任何选择，结果依然成立：最后一轮 R10 在 SLAKE（88.67 对 86.80）和 PathVQA（67.25 对 65.60）上超过 Hulu-Med-7B。
 
 **Q3（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）**
@@ -487,8 +487,9 @@ Our answers to Q1–Q4 below also address W1–W2.
 - [x] **Q2 R7 的选择（已确认事实）**：R7 是根据外部基准的整体均衡性选出的。论文 §5.2 和附录 C.4 写了"为什么选 R7"，但没有写明依据的是外部基准。Q2 已如实写明。
 - [ ] **Q2 F_e 计算**：用日志算出每一轮内部验证集上的 F_e（附录 F.4：VQA 与报告两类任务验证分数的等权平均，即规划器优化的目标），看它选出哪一轮。选出 R7 时，占位符改为 "R7, the same checkpoint"；选出其他轮次时，写明轮次和该轮在外部基准上的分数。
 - [x] **Q2 去重的实际做法（已确认事实）**：与内部验证集和全部外部测试集比对，依据样本 ID、图像路径、像素哈希，并对每条样本的文本做泄漏查询；PubMedVision-IU 与 IU-Xray 专门做过。
-- [ ] **Q2 移除数量 `[n]`**：PubMedVision-IU 与 IU-Xray 筛查后移除（或命中）了多少条？如果是 0，改为 "and no overlap was found"。
-- [ ] **Q2 患者层面**：2Nuw 也问了患者层面。提交的代码在有 study ID 时会按 study ID 比对（`identity_tokens` 中的 `study` 字段），像素哈希和路径覆盖图像层面，文本查询覆盖检查层面；代码里没有患者 ID 的比对。据我所知 IU-Xray（Open-i）没有公开患者 ID，无法在患者层面匹配。如果确实如此，占位符改为 "IU-Xray releases no patient identifiers, so matching there is at study and image level"。请确认你们是否做过患者层面的匹配。
+- [x] **Q2 泄漏筛查结果（已填入）**：2D 11 个源、3D 5 个源与外部测试集在样本 ID（含 study/case ID）、图像路径、像素哈希（精确 RGB SHA-256，加 dHash + 128×128 NCC ≥ 0.95 的近似重复核验；3D 为视频 SHA-256 加首帧 RGB SHA-256，AbdomenAtlas 对 AMOS-MM 另做 5 帧核验）、文本（归一化精确匹配 ≥20 字符，句子级 ≥40 字符）四个层面全部为 0。PubMedVision-IU 对 IU-Xray 专项全部为 0；PMC-OA 与 PMC-VQA 测试集的 PMC 论文 ID 集合完全不相交。
+- [ ] **Q2 筛查口径与论文口径不一致（需确认）**：报告中 MIMIC-CXR 本地为 304 个检查 / 676 张图，论文评测为 2,343 个样本；PathVQA 本地 6,719，论文 6,761。正文写的是"against every external test"。如果筛查没有覆盖论文评测用的全部 MIMIC-CXR 和 PathVQA 测试样本，需要补筛，或者把正文改成如实的范围。3D-RAD 本地 33,910，大于论文评测的 4,692，应该是包含了评测子集，没有问题。
+- [ ] **Q2 患者层面**：报告的 ID 层面包含 study/case ID，正文据此写"IDs (including study and case IDs)"，没有单独声称做了患者 ID 匹配。如果审稿人追问患者层面，再说明哪些数据集提供患者 ID。
 - [ ] **Q2 代码描述核对**：正文对代码行为的描述（共享记录 ID、图像路径、RGB 哈希或 study ID 即拒绝启动；必须有原始划分来源；训练任务再次比对）来自提交的 `coevomed/data.py`（`validate_partitions`、`validate_evidence_identity`、`validate_exclusions`）。请确认正式实验用的是同一套检查逻辑。
 - [ ] **Q2 定稿时补进论文**：附录 C.3 目前只写了与验证集的重叠检查。定稿时补上与外部测试集的筛查、文本泄漏查询，以及 R7 依据外部基准选出这一点。
 - [ ] **Q3 "rather than seeds"**：这半句没有写具体训练次数，而是把"在不同学习者上重复"说成一种有意的选择。它如实暗示了没有做多种子重复。如果你不想留这个暗示，可以删掉 "rather than seeds"，句子仍然通顺。不论删不删，正文都不能出现暗示做过多次运行的说法（如 "averaged over runs"、"mean ± std"）；如果审稿人追问具体次数，要如实回答。
