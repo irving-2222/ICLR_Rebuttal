@@ -28,9 +28,9 @@
 | W3 | 遗忘与 R7 的选择 | ~1,260 | 1,261 | 草稿完成 |
 | Q1 | MedVLSynther 复现 | ~920 | 921 | 草稿完成（复现结果待填） |
 | Q2 | 数据公开 | ~290 | 288 | 草稿完成 |
-| Q3 | 能力分类体系 | ~1,120 | 1,117 | 草稿完成（标注数据待填） |
+| Q3 | 能力分类体系 | ~1,290 | 1,291 | 草稿完成（一致率待填） |
 | 结尾 | | ~80 | — | 待写 |
-| **合计** | | **≤ 5,000**（需压缩） | **6,421** | |
+| **合计** | | **≤ 5,000**（需压缩） | **6,595** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -78,7 +78,11 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 
 **Q2 (Data release).** Yes. Upon acceptance, we will release the synthesized data and all principle versions under each source's license: images are referenced by identifiers, and sources that prohibit redistribution (e.g., CheXpert, ReXGradient-160K) are covered by regeneration scripts.
 
-**Q3 (Capability taxonomy).** The overlap with SLAKE is by design. Our categories follow SLAKE's physician-annotated question categories (Liu et al., 2021), grouping its fine-grained attribute types and adding spatial relations, comparison, and holistic description for multi-object, multi-image, and report tasks (Table 6). The categories describe what a question asks of an image (acquisition, anatomy, location, abnormality, attributes, knowledge), not a particular dataset, so they apply equally to PathVQA, PMC-VQA, reports, and the support pool, none of which has native labels. Independent benchmarks converge on the same scheme, e.g., VQA-RAD's 11 question types and M3D-VQA's plane, phase, organ, abnormality, and location (Figure 9a). Our annotations agree with SLAKE's native labels at [xx.x]% (Cohen's κ = [0.xx], "[almost perfect]"; Landis & Koch, 1977), and a manual audit of [N] PathVQA, PMC-VQA, and support items confirms [xx.x]%. This unified taxonomy enables diagnosis, allocation, and evidence retrieval across all tasks, and the diagnosis matters: stale diagnoses lower 11 of 12 scores (Table 7).
+**Q3 (Capability taxonomy).** The overlap with SLAKE is by design, not an arbitrary relabeling.
+- *Why these categories.* The taxonomy is not designed from scratch. It follows SLAKE's physician-annotated question categories (Liu et al., 2021). We group SLAKE's fine-grained attribute types into one category, and add spatial relations, comparison, and holistic description for multi-object, multi-image, and report tasks (Table 6). Other benchmarks use similar categories, e.g., VQA-RAD's 11 question types and M3D-VQA's plane, phase, organ, abnormality, and location (Figure 9a).
+- *Why they are necessary.* The categories describe what a question asks of an image, not a dataset. They therefore also cover PathVQA, PMC-VQA, reports, and the support pool, which have no native labels. One shared taxonomy lets us diagnose all tasks, split one budget across them, and retrieve matching evidence (App. C.3).
+- *Mapping and validation against native labels.* On SLAKE, our generated annotations agree with the native labels at [xx.x]% (Cohen's κ = [0.xx]). This is "[almost perfect]" agreement by the standard of Landis & Koch (1977). We will add this mapping to Table 6.
+- *Meaningful diagnosis.* The diagnosis drives the gains: replacing it with a stale one lowers 11 of 12 scores (Table 7).
 ```
 
 ### 中文译文（不发布）
@@ -124,7 +128,11 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 
 **Q2（数据公开）** 会公开。论文被接收后，我们将按各源数据的许可公开合成数据和全部版本的构建原则：图像只以源数据中的标识引用、不重新分发；对于协议禁止再分发的源数据（如 CheXpert、ReXGradient-160K），我们提供可重新生成这部分数据的脚本。
 
-**Q3（能力分类体系）** 与 SLAKE 的重合是有意设计的。我们的类别沿用了 SLAKE 由医生标注的问题类别（Liu et al., 2021），把其中细分的属性类型合并为一类，并为多目标、多图像和报告任务增加了空间关系、比较和整体描述三类（Table 6）。这些类别描述的是一个问题针对图像在问什么（成像方式、解剖结构、位置、异常、属性、医学知识），而不是某个特定数据集，因此同样适用于 PathVQA、PMC-VQA、报告生成任务和支持数据池，而这些数据都没有原生标签。其他独立构建的基准也收敛到了同一套体系，例如 VQA-RAD 的 11 种问题类型，以及 M3D-VQA 的扫描平面、期相、器官、异常和位置五类（Figure 9a）。我们的标注与 SLAKE 原生标签的一致率为 [xx.x]%（Cohen's κ = [0.xx]，属于"[几乎完全一致]"；Landis & Koch, 1977）；对 [N] 条 PathVQA、PMC-VQA 和支持数据样本的人工抽查确认准确率为 [xx.x]%。这套统一的分类体系让我们能在所有任务上进行诊断、分配预算和检索证据，而且这种诊断确实起作用：使用过时的诊断会使 12 个分数中的 11 个下降（Table 7）。
+**Q3（能力分类体系）** 与 SLAKE 的重合是有意设计的，而不是随意的重新贴标签。
+- *为什么是这些类别。* 这套分类体系不是从零设计的，而是沿用了 SLAKE 由医生标注的问题类别（Liu et al., 2021）。我们把 SLAKE 中细分的属性类型合并为一类，并为多目标、多图像和报告任务增加了空间关系、比较和整体描述三类（Table 6）。其他基准也采用了类似的类别，例如 VQA-RAD 的 11 种问题类型，以及 M3D-VQA 的扫描平面、期相、器官、异常和位置（Figure 9a）。
+- *为什么这些类别是必要的。* 这些类别描述的是一个问题针对图像在问什么，而不是某个数据集。因此它们同样覆盖 PathVQA、PMC-VQA、报告任务和支持数据池，而这些数据都没有原生标签。一套共享的分类体系，让我们能够诊断所有任务、在它们之间分配同一份预算，并检索匹配的证据（附录 C.3）。
+- *与原生标签的对应和验证。* 在 SLAKE 上，我们生成的标注与原生标签的一致率为 [xx.x]%（Cohen's κ = [0.xx]）。按 Landis & Koch (1977) 的标准，这属于"[几乎完全一致]"。我们会把这一对应关系补充到 Table 6 中。
+- *诊断是有意义的。* 收益正是来自这种诊断：用过时的诊断替代它，会使 12 个分数中的 11 个下降（Table 7）。
 
 ### 发布前待核对
 
@@ -141,7 +149,6 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 - [ ] **Q2 承诺**：正文承诺为禁止再分发的源数据提供重新生成脚本。确认接收后能兑现；如果不打算做，把最后半句改为 "are excluded from the release"。
 - [ ] **Q2 待确认许可**：PMC-OA、MedTrinity BHX、RadGenome-ChestCT、Med-MAT 的许可没能直接核实，AbdomenAtlas1.0Mini 的附加条款也不确定，公开前需逐个确认（见下方"Q2 源数据许可核对"）。
 - [ ] **Q3 一致率**：拿到标注记录后计算与 SLAKE 原生标签的一致率和 Cohen's κ，填入 `[xx.x]%` 和 `[0.xx]`，并按下方"Q3 一致率解读标准"选择措辞：κ ≥ 0.81 写 "almost perfect"，0.61–0.80 写 "substantial"。低于 0.61 时需要重新讨论写法。VQA-RAD 有原生标签，也可以一并计算，作为补充。
-- [ ] **Q3 人工抽查**：正文写了"对 [N] 条 PathVQA、PMC-VQA 和支持数据样本的人工抽查"，用来证明没有原生标签的数据也标得准。如果标注记录里没有人工抽查，有两种处理：(a) 现在抽 100–200 条做一次人工核对；(b) 删掉这半句，改为报告各数据集的类别分布，说明九类都被用到、没有大量无法归类的样本。
 - [ ] **Q3 SLAKE 措辞**：SLAKE 原文能确认的是"语义标注由经验丰富的医生完成"，并且"每个问题都标有语义标签，用于区分问题类型"；没有找到"类别体系由专家设计"的明确表述。所以正文写的是 "physician-annotated question categories"（医生标注的问题类别），而不是 "expert-designed"。如果你手上的 SLAKE 原文有"类别由医生设计"的原句，告诉我页码，可以改成 "designed and annotated by physicians"。
 - [ ] **Q3 对应关系**：正文写了"把 SLAKE 细分的属性类型合并为一类，并新增空间关系、比较和整体描述三类"。请对照下方对应表确认，尤其是 SLAKE 的 Plane 和 Quantity 分别归到哪一类。
 - [ ] **W1 可选补充**：如果核验器日志里有拒绝率，可以在 "independently checked" 之后加一句（约 75 字符），作为核验器单独起作用的正面证据：`The verifier rejects [X]% of constructed candidates, mainly for [reason].`
