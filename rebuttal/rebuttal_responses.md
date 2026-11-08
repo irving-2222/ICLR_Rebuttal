@@ -283,24 +283,26 @@ On the same base, we also trained Qwen3-VL-8B with MedVLSynther's released data 
 | 条目 | 内容 | 当前 | 状态 |
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
-| W1 | 在预算匹配下分离各组件 | 1,173 | 草稿完成 |
+| W1 | 在预算匹配下分离各组件 | 1,392 | 草稿完成 |
 | Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,100 | 草稿完成 |
-| **合计** | | **3,355** | ≤ 5,000 |
+| **合计** | | **3,574** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
 ```markdown
 We thank the reviewer for the positive assessment and the precise suggestions.
 
-**W1 (Isolating components at matched budget).** The component controls in App. D were designed for this decomposition. All conditions start from the same R5 checkpoint and train one round through the same selector–constructor–verifier pipeline under the same budget, differing only in the principles and in the feedback that drives the curriculum (Tables 7–8; mean change over six benchmarks):
+**W1 (Isolating the contributions of individual components).** The component controls in App. D give the budget-matched comparisons the reviewer suggests. All conditions start from the same R5 checkpoint and train one round with the same pipeline and budget. Only the principles and the curriculum feedback differ (Tables 7–8; mean change over six benchmarks):
 
-| Condition | Principles | Curriculum feedback | Mean Δ | Improved |
+| Requested comparison | Principles | Curriculum | Mean Δ | Improved |
 |---|---|---|---|---|
-| Curriculum adaptation alone | fixed (original) | current | −5.27 | 0/6 |
-| Principle evolution alone | evolved | stale (R2 / R3) | −2.65 / −2.78 | 1/6 / 0/6 |
-| CoEvoMed | evolved | current | **+1.50** | **6/6** |
+| Principle evolution alone | evolved | stale (R2 / R3) feedback | −2.65 / −2.78 | 1/6 / 0/6 |
+| Curriculum adaptation alone | fixed (original) | current feedback | −5.27 | 0/6 |
+| Co-evolution (CoEvoMed) | evolved | current feedback | **+1.50** | **6/6** |
 
-Each component alone degrades the learner; only their combination improves all six benchmarks. High-quality synthetic data is therefore not sufficient. The same verified pipeline with fixed principles helps at R2 (+3.09, 6/6) but harms at R5, so data quality drives early progress while co-evolution sustains it. At matched budget, evolved principles add +6.77 on average over fixed ones (+3.33 to +10.12), and current feedback adds +4.15 and +4.28 over stale feedback.
+*Fixed principles and a fixed curriculum.* Fixed principles already fail at R5 while the curriculum still adapts (−5.27, 0/6). Fixing the curriculum as well removes the only remaining adaptation, so it cannot be expected to do better.
+
+*High-quality synthetic data or co-evolution?* Each component alone degrades the learner; only co-evolution improves all six benchmarks. The same verified pipeline with fixed principles helps at R2 (+3.09, 6/6) but harms at R5. High-quality synthetic data thus drives early progress, while co-evolution sustains it. At matched budget, evolved principles add +6.77 over fixed ones, and current feedback adds +4.15 to +4.28 over stale feedback.
 
 **Q1 (Raw-data degradation; fixed-principle reconstruction).**
 
@@ -324,15 +326,17 @@ As a result, ~700K raw examples fall below the base model. The largest drop is o
 
 我们感谢审稿人的积极评价和具体建议。
 
-**W1（在预算匹配下分离各组件）** 附录 D 的组件对照实验正是为这种分解而设计的。所有条件都从同一个 R5 检查点出发，经过相同的"选择器—构建器—核验器"流程，在相同预算下训练一轮，区别只在于构建原则和驱动课程的反馈（Table 7–8；六个基准上的平均变化）：
+**W1（分离各个组件的贡献）** 附录 D 的组件对照实验提供了审稿人所建议的预算匹配比较。所有条件都从同一个 R5 检查点出发，用相同的流程和预算训练一轮。区别只在于构建原则和课程所用的反馈（Table 7–8；六个基准上的平均变化）：
 
-| 条件 | 原则 | 课程所用反馈 | 平均变化 | 提升的基准数 |
+| 所要求的比较 | 原则 | 课程 | 平均变化 | 提升的基准数 |
 |---|---|---|---|---|
-| 只有课程自适应 | 固定（原始） | 当前 | −5.27 | 0/6 |
-| 只有原则演化 | 演化后 | 过时（R2 / R3） | −2.65 / −2.78 | 1/6 / 0/6 |
-| CoEvoMed | 演化后 | 当前 | **+1.50** | **6/6** |
+| 只有原则演化 | 演化后 | 过时（R2 / R3）反馈 | −2.65 / −2.78 | 1/6 / 0/6 |
+| 只有课程自适应 | 固定（原始） | 当前反馈 | −5.27 | 0/6 |
+| 共同演化（CoEvoMed） | 演化后 | 当前反馈 | **+1.50** | **6/6** |
 
-任何一个组件单独使用都会让学习者变差；只有两者结合，六个基准才全部提升。因此，高质量合成数据本身并不足够：同一条经过核验的流程，用固定原则在 R2 时有帮助（+3.09，6/6），到 R5 时却有害；数据质量推动了早期的进步，而共同演化让进步得以持续。在预算匹配下，演化后的原则比固定原则平均高 6.77（+3.33 至 +10.12），当前反馈比过时反馈分别高 4.15 和 4.28。
+*原则固定且课程固定。* 在 R5，即使课程仍在自适应，固定原则也已经失效（−5.27，0/6）。再把课程也固定下来，只会去掉仅剩的自适应部分，因此不能指望它做得更好。
+
+*收益来自高质量合成数据，还是共同演化？* 单独使用任何一个组件都会让学习者变差；只有共同演化才让六个基准全部提升。同一条经过核验的流程，用固定原则在 R2 时有帮助（+3.09，6/6），到 R5 时却有害。因此，高质量合成数据推动了早期的进步，而共同演化让进步得以持续。在预算匹配下，演化后的原则比固定原则高 6.77，当前反馈比过时反馈高 4.15 至 4.28。
 
 **Q1（原始数据退化的原因；固定原则重构的效果）**
 
@@ -354,7 +358,7 @@ As a result, ~700K raw examples fall below the base model. The largest drop is o
 ### 发布前待核对
 
 - [ ] **W1 对照条件只差一个因素**：正文写的是"同一 R5 检查点、同一流程、同一预算，区别只在原则和驱动课程的反馈"。需要确认 Exp 2 的 C、D 两组分配动作和预算一致，Exp 1 三组的原则相同、预算一致（与 pUjh W1 的核对项相同）。
-- [ ] **W1 缺少"原则和课程都固定"这一格**：jcb6 要求的第一组（原则固定 + 课程固定）论文里没有直接对应。正文用"固定原则在 R2 有帮助、R5 有害"来回答"高质量合成数据是否足够"。如果他追问，可以补一句承诺在修订版补充；算力允许的话也可以直接补跑一轮。
+- [ ] **W1 "原则和课程都固定"这一组**：论文里没有直接对应的实验。正文用推理回答：R5 时即使课程仍在自适应，固定原则也已失效（−5.27，0/6），再固定课程只会去掉仅剩的自适应部分。如果 jcb6 在讨论阶段坚持要这组实验，再考虑补跑一轮。
 - [ ] **W1 "过时反馈"不等于"固定课程"**：表中"只有原则演化"一行用的是过时反馈驱动的课程，即课程没有对准当前学习者，而不是完全不调整的课程。正文写的是 "stale (R2 / R3)"，如实标明了这一点。
 - [ ] **Q1 原始数据的组成**：Q1 用支持数据池的组成（Figure 10）解释退化。需要确认 D.3 中约 70 万条原始数据和支持数据池来自同一批数据源。支持数据池 2D 和 3D 合计约 47.5 万条记录，70 万这个数是怎么来的（例如一张图对应多条问答）？
 - [ ] **Q1 SLAKE 的证据（可选）**：正文只写了"与降幅最大的是答案简短的 SLAKE 相吻合"，属于观察加推断。如果能看一下 Qwen3+Raw 在 SLAKE 上的输出，例如平均输出长度，或描述式回答的比例，可以补一个硬数字。

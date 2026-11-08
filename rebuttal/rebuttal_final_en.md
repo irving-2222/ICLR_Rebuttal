@@ -51,15 +51,17 @@ On the same base, we also trained Qwen3-VL-8B with MedVLSynther's released data 
 
 We thank the reviewer for the positive assessment and the precise suggestions.
 
-**W1 (Isolating components at matched budget).** The component controls in App. D were designed for this decomposition. All conditions start from the same R5 checkpoint and train one round through the same selector–constructor–verifier pipeline under the same budget, differing only in the principles and in the feedback that drives the curriculum (Tables 7–8; mean change over six benchmarks):
+**W1 (Isolating the contributions of individual components).** The component controls in App. D give the budget-matched comparisons the reviewer suggests. All conditions start from the same R5 checkpoint and train one round with the same pipeline and budget. Only the principles and the curriculum feedback differ (Tables 7–8; mean change over six benchmarks):
 
-| Condition | Principles | Curriculum feedback | Mean Δ | Improved |
+| Requested comparison | Principles | Curriculum | Mean Δ | Improved |
 |---|---|---|---|---|
-| Curriculum adaptation alone | fixed (original) | current | −5.27 | 0/6 |
-| Principle evolution alone | evolved | stale (R2 / R3) | −2.65 / −2.78 | 1/6 / 0/6 |
-| CoEvoMed | evolved | current | **+1.50** | **6/6** |
+| Principle evolution alone | evolved | stale (R2 / R3) feedback | −2.65 / −2.78 | 1/6 / 0/6 |
+| Curriculum adaptation alone | fixed (original) | current feedback | −5.27 | 0/6 |
+| Co-evolution (CoEvoMed) | evolved | current feedback | **+1.50** | **6/6** |
 
-Each component alone degrades the learner; only their combination improves all six benchmarks. High-quality synthetic data is therefore not sufficient. The same verified pipeline with fixed principles helps at R2 (+3.09, 6/6) but harms at R5, so data quality drives early progress while co-evolution sustains it. At matched budget, evolved principles add +6.77 on average over fixed ones (+3.33 to +10.12), and current feedback adds +4.15 and +4.28 over stale feedback.
+*Fixed principles and a fixed curriculum.* Fixed principles already fail at R5 while the curriculum still adapts (−5.27, 0/6). Fixing the curriculum as well removes the only remaining adaptation, so it cannot be expected to do better.
+
+*High-quality synthetic data or co-evolution?* Each component alone degrades the learner; only co-evolution improves all six benchmarks. The same verified pipeline with fixed principles helps at R2 (+3.09, 6/6) but harms at R5. High-quality synthetic data thus drives early progress, while co-evolution sustains it. At matched budget, evolved principles add +6.77 over fixed ones, and current feedback adds +4.15 to +4.28 over stale feedback.
 
 **Q1 (Raw-data degradation; fixed-principle reconstruction).**
 
