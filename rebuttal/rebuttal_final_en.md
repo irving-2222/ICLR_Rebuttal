@@ -14,7 +14,12 @@
 
 The original principles work better at R2 (5 of 6 benchmarks) but worse at R5 (6 of 6; Table 8). No fixed set of principles works at every stage, so an online revision agent is needed.
 
-Can another plausible agent process substitute them? Any substitute must still perform these functions, and the simpler alternatives above (raw data, fixed principles, stale feedback) all fail. The roles also cannot be merged into one agent. The constructor never sees the image and writes only from selected facts. A different model then checks each example against the image. One agent cannot both avoid the image and check against it.
+Can another plausible agent process substitute them? Any substitute must still perform these functions, and the simpler alternatives in the table (raw data, fixed principles, stale feedback) all fail.
+
+Why not merge the roles into one agent? We separate them for three reasons (App. A–B):
+1. **Independent checking.** The verifier (Qwen3.6-27B) is a different model from the constructor (deepseek-v4-flash), so no model checks its own output. LLMs struggle to correct their own outputs without external feedback (Huang et al., ICLR 2024).
+2. **Evidence grounding.** The constructor never sees the image and writes only from selected source facts, so every claim comes from the evidence. The verifier then checks it against the image. A merged agent would see the image while writing and could add findings that no source supports.
+3. **Different decisions.** The planner is not a language model. It is a small policy network trained with PPO every round. The revision agent acts only at the end of each window.
 
 **W2 (Organization).** The main text specifies every mechanism (Sections 3–4, Eqs. 1–9), including the capability cells defined on task-organized validation sets (Section 3.1), and Section 5.1 gives the evaluation task composition (four 2D VQA, two report-generation, and three 3D benchmarks). The appendix contains implementation parameters (agent models, budgets, thresholds) and dataset statistics, each referenced from the relevant section. Given the page limit, this arrangement keeps the method readable while ensuring full reproducibility.
 

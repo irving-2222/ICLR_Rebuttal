@@ -23,14 +23,14 @@
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 致谢 | ~100 | — | 待写 |
-| W1 | 多智能体是否必要 | ~1,500 | 1,525 | 草稿完成 |
+| W1 | 多智能体是否必要 | ~1,850 | 2,098 | 草稿完成 |
 | W2 | 论文组织 | ~550 | 546 | 草稿完成 |
 | W3 | 遗忘与 R7 的选择 | ~1,290 | 1,288 | 草稿完成 |
 | Q1 | MedVLSynther 复现 | ~920 | 921 | 草稿完成（复现结果待填） |
 | Q2 | 数据公开 | ~290 | 288 | 草稿完成 |
 | Q3 | 能力分类体系 | ~1,120 | 1,117 | 草稿完成（标注数据待填） |
 | 结尾 | | ~80 | — | 待写 |
-| **合计** | | **≤ 5,000**（需压缩） | **5,695** | |
+| **合计** | | **≤ 5,000**（需压缩） | **6,268** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -47,7 +47,12 @@
 
 The original principles work better at R2 (5 of 6 benchmarks) but worse at R5 (6 of 6; Table 8). No fixed set of principles works at every stage, so an online revision agent is needed.
 
-Can another plausible agent process substitute them? Any substitute must still perform these functions, and the simpler alternatives above (raw data, fixed principles, stale feedback) all fail. The roles also cannot be merged into one agent. The constructor never sees the image and writes only from selected facts. A different model then checks each example against the image. One agent cannot both avoid the image and check against it.
+Can another plausible agent process substitute them? Any substitute must still perform these functions, and the simpler alternatives in the table (raw data, fixed principles, stale feedback) all fail.
+
+Why not merge the roles into one agent? We separate them for three reasons (App. A–B):
+1. **Independent checking.** The verifier (Qwen3.6-27B) is a different model from the constructor (deepseek-v4-flash), so no model checks its own output. LLMs struggle to correct their own outputs without external feedback (Huang et al., ICLR 2024).
+2. **Evidence grounding.** The constructor never sees the image and writes only from selected source facts, so every claim comes from the evidence. The verifier then checks it against the image. A merged agent would see the image while writing and could add findings that no source supports.
+3. **Different decisions.** The planner is not a language model. It is a small policy network trained with PPO every round. The revision agent acts only at the end of each window.
 
 **W2 (Organization).** The main text specifies every mechanism (Sections 3–4, Eqs. 1–9), including the capability cells defined on task-organized validation sets (Section 3.1), and Section 5.1 gives the evaluation task composition (four 2D VQA, two report-generation, and three 3D benchmarks). The appendix contains implementation parameters (agent models, budgets, thresholds) and dataset statistics, each referenced from the relevant section. Given the page limit, this arrangement keeps the method readable while ensuring full reproducibility.
 
@@ -84,7 +89,12 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 
 原始原则在 R2 表现更好（6 个基准中的 5 个），在 R5 却更差（6 个全部；Table 8）。没有哪一套固定原则能在每个阶段都有效，所以需要在线修订的智能体。
 
-能否用另一种合理的智能体流程替代它们？任何替代方案都必须完成这些功能，而上面那些更简单的做法（原始数据、固定原则、过时反馈）都失败了。这些角色也不能合并成一个智能体。构建器从不看图像，只根据选中的事实撰写样本；再由另一个模型对照图像核验每个样本。一个智能体不可能既不看图像，又对照图像做核验。
+能否用另一种合理的智能体流程替代它们？任何替代方案都必须完成这些功能，而表中那些更简单的做法（原始数据、固定原则、过时反馈）都失败了。
+
+为什么不把这些角色合并成一个智能体？我们把它们分开有三个原因（附录 A–B）：
+1. **独立核查。** 核验器（Qwen3.6-27B）和构建器（deepseek-v4-flash）是不同的模型，因此没有任何模型在检查自己的输出。大语言模型在没有外部反馈时，很难纠正自己的输出（Huang et al., ICLR 2024）。
+2. **以证据为依据。** 构建器从不看图像，只根据选中的原始事实撰写样本，所以每一条内容都来自证据；核验器再对照图像进行检查。如果合并成一个智能体，它在撰写时就会看到图像，可能写出没有任何来源支持的发现。
+3. **决策类型不同。** 规划器根本不是语言模型，而是一个每轮用 PPO 训练的小型策略网络；修订智能体只在每个演化窗口结束时才运行。
 
 **W2（论文组织）** 正文给出了全部机制（第 3–4 节，式 1–9），包括在按任务组织的验证集上定义的能力单元（第 3.1 节）；第 5.1 节给出了评估任务的组成（四个 2D VQA 基准、两个报告生成基准和三个 3D 基准）。附录包含实现参数（各智能体所用模型、预算、阈值）和数据集统计，并且每项都在正文相应章节中注明了出处。在页数限制下，这样的安排既保证了方法易读，又保证了完全可复现。
 
@@ -137,6 +147,10 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 | R2 时原始原则在 6 个基准中的 5 个上更好（MIMIC-CXR 除外，相差 0.12） | Table 8，p.26 |
 | R2/R3 反馈 12 个分数中 11 个下降；R5 反馈六个全部提升 | Table 7，p.25 |
 | 构建器不访问图像，核验器对照图像核验 | 附录 A，p.16；附录 B，p.17 |
+| 构建器用 deepseek-v4-flash，核验器用 Qwen3.6-27B | 附录 B，p.17 |
+| 规划器是两层 MLP 的 Actor–Critic，每轮用 PPO 更新 | 附录 B，p.17–18 |
+| 修订智能体只在演化窗口结束时运行 | §4.1，p.5；算法 1，p.16 |
+| 大语言模型没有外部反馈时难以自我纠正 | Huang et al., "Large Language Models Cannot Self-Correct Reasoning Yet", ICLR 2024（外部文献，正文已引用） |
 | Gemma-3-4B VQA-RAD +22.39 | §5.3，p.8 |
 | InternVL3-9B VQA-RAD +20.40 | 附录 C.5，p.24 |
 
