@@ -4,15 +4,17 @@
 
 ## Response to Reviewer pUjh
 
-**W1 (Are the agents necessary?)** Yes. Each agent performs a function the learner measurably depends on. In controlled comparisons from the same starting checkpoint, removing or decoupling an agent degrades performance, whereas the full pipeline improves it:
+**W1 (Is the multi-agent framework necessary?)** Yes. The experiments in App. D validate the critical function of each agent role. Each comparison starts from the same checkpoint, with and without that function:
 
-| Agent | Agent removed or decoupled | CoEvoMed |
-|---|---|---|
-| Construction agents (Table 9) | Raw data (~700K): all 4 VQA benchmarks fall below base; SLAKE 64.84 → 38.15 (−26.69) | Fewer examples: all 4 improve; SLAKE 64.84 → **91.60 (+26.76)** |
-| Revision agent (Table 8, R5) | Original principles: 6/6 benchmarks decline (−2.2 to −9.6) | Revised principles: 6/6 improve (**+0.5 to +2.8**) |
-| Planner (Table 7, R5) | Stale R2/R3 feedback: 11/12 scores decline | Current feedback: 6/6 improve |
+| Agent role | Critical function | Without it | With it |
+|---|---|---|---|
+| Selector, constructor, verifier | Turn medical evidence into verified, task-aligned supervision | Raw data (~700K): all 4 VQA benchmarks fall below the base model; SLAKE 64.84 → 38.15 | Fewer examples: all 4 improve; SLAKE → **91.60** (Table 9) |
+| Revision agent | Update the principles as the learner changes | Original principles at R5: 6/6 benchmarks decline (−2.2 to −9.6) | Revised principles: **6/6 improve** (+0.5 to +2.8) (Table 8) |
+| Curriculum planner | Allocate the budget to the learner's current needs | Stale R2/R3 feedback: 11/12 scores decline | Current feedback: **6/6 improve** (Table 7) |
 
-Because the original principles perform better at R2, no fixed principle set suffices, and online revision is required. The roles must be separate because one agent cannot be both blind and sighted: the constructor writes only from selected source facts without seeing the image, while a different model verifies each example against the image. Every training claim is thus traceable to evidence and independently checked, which is essential for medical data. The same design transfers across four learners and 2D/3D tasks (VQA-RAD: +22.4 on Gemma-3-4B, +20.4 on InternVL3-9B). A substitute would have to perform these same functions, and our controls show that simpler alternatives fail.
+The original principles work better at R2 (5 of 6 benchmarks) but worse at R5 (6 of 6; Table 8). No fixed set of principles works at every stage, so an online revision agent is needed.
+
+Can another plausible agent process substitute them? Any substitute must still perform these functions, and the simpler alternatives above (raw data, fixed principles, stale feedback) all fail. The roles also cannot be merged into one agent. The constructor never sees the image and writes only from selected facts. A different model then checks each example against the image. One agent cannot both avoid the image and check against it.
 
 **W2 (Organization).** The main text specifies every mechanism (Sections 3–4, Eqs. 1–9), including the capability cells defined on task-organized validation sets (Section 3.1), and Section 5.1 gives the evaluation task composition (four 2D VQA, two report-generation, and three 3D benchmarks). The appendix contains implementation parameters (agent models, budgets, thresholds) and dataset statistics, each referenced from the relevant section. Given the page limit, this arrangement keeps the method readable while ensuring full reproducibility.
 

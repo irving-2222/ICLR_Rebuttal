@@ -23,29 +23,31 @@
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 致谢 | ~100 | — | 待写 |
-| W1 | 多智能体是否必要 | ~1,450 | 1,451 | 草稿完成 |
+| W1 | 多智能体是否必要 | ~1,500 | 1,525 | 草稿完成 |
 | W2 | 论文组织 | ~550 | 546 | 草稿完成 |
 | W3 | 遗忘与 R7 的选择 | ~1,290 | 1,288 | 草稿完成 |
 | Q1 | MedVLSynther 复现 | ~920 | 921 | 草稿完成（复现结果待填） |
 | Q2 | 数据公开 | ~290 | 288 | 草稿完成 |
 | Q3 | 能力分类体系 | ~1,120 | 1,117 | 草稿完成（标注数据待填） |
 | 结尾 | | ~80 | — | 待写 |
-| **合计** | | **≤ 5,000**（需压缩约 671） | **5,621** | |
+| **合计** | | **≤ 5,000**（需压缩） | **5,695** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
 ### 英文正文（发布用）
 
 ```markdown
-**W1 (Are the agents necessary?)** Yes. Each agent performs a function the learner measurably depends on. In controlled comparisons from the same starting checkpoint, removing or decoupling an agent degrades performance, whereas the full pipeline improves it:
+**W1 (Is the multi-agent framework necessary?)** Yes. The experiments in App. D validate the critical function of each agent role. Each comparison starts from the same checkpoint, with and without that function:
 
-| Agent | Agent removed or decoupled | CoEvoMed |
-|---|---|---|
-| Construction agents (Table 9) | Raw data (~700K): all 4 VQA benchmarks fall below base; SLAKE 64.84 → 38.15 (−26.69) | Fewer examples: all 4 improve; SLAKE 64.84 → **91.60 (+26.76)** |
-| Revision agent (Table 8, R5) | Original principles: 6/6 benchmarks decline (−2.2 to −9.6) | Revised principles: 6/6 improve (**+0.5 to +2.8**) |
-| Planner (Table 7, R5) | Stale R2/R3 feedback: 11/12 scores decline | Current feedback: 6/6 improve |
+| Agent role | Critical function | Without it | With it |
+|---|---|---|---|
+| Selector, constructor, verifier | Turn medical evidence into verified, task-aligned supervision | Raw data (~700K): all 4 VQA benchmarks fall below the base model; SLAKE 64.84 → 38.15 | Fewer examples: all 4 improve; SLAKE → **91.60** (Table 9) |
+| Revision agent | Update the principles as the learner changes | Original principles at R5: 6/6 benchmarks decline (−2.2 to −9.6) | Revised principles: **6/6 improve** (+0.5 to +2.8) (Table 8) |
+| Curriculum planner | Allocate the budget to the learner's current needs | Stale R2/R3 feedback: 11/12 scores decline | Current feedback: **6/6 improve** (Table 7) |
 
-Because the original principles perform better at R2, no fixed principle set suffices, and online revision is required. The roles must be separate because one agent cannot be both blind and sighted: the constructor writes only from selected source facts without seeing the image, while a different model verifies each example against the image. Every training claim is thus traceable to evidence and independently checked, which is essential for medical data. The same design transfers across four learners and 2D/3D tasks (VQA-RAD: +22.4 on Gemma-3-4B, +20.4 on InternVL3-9B). A substitute would have to perform these same functions, and our controls show that simpler alternatives fail.
+The original principles work better at R2 (5 of 6 benchmarks) but worse at R5 (6 of 6; Table 8). No fixed set of principles works at every stage, so an online revision agent is needed.
+
+Can another plausible agent process substitute them? Any substitute must still perform these functions, and the simpler alternatives above (raw data, fixed principles, stale feedback) all fail. The roles also cannot be merged into one agent. The constructor never sees the image and writes only from selected facts. A different model then checks each example against the image. One agent cannot both avoid the image and check against it.
 
 **W2 (Organization).** The main text specifies every mechanism (Sections 3–4, Eqs. 1–9), including the capability cells defined on task-organized validation sets (Section 3.1), and Section 5.1 gives the evaluation task composition (four 2D VQA, two report-generation, and three 3D benchmarks). The appendix contains implementation parameters (agent models, budgets, thresholds) and dataset statistics, each referenced from the relevant section. Given the page limit, this arrangement keeps the method readable while ensuring full reproducibility.
 
@@ -72,15 +74,17 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 
 ### 中文译文（不发布）
 
-**W1（这些智能体是否必要？）** 是的。每个智能体都承担着学习者可测量地依赖的功能。在从同一起始检查点出发的受控比较中，去掉或断开某个智能体会使性能下降，而完整流程会使性能提升：
+**W1（多智能体框架是否必要？）** 是的。附录 D 的实验验证了每个智能体角色的关键功能。每组比较都从同一个检查点出发，对比有无该功能的结果：
 
-| 智能体 | 去掉或断开该智能体 | CoEvoMed |
-|---|---|---|
-| 构建智能体（Table 9） | 原始数据（约 70 万条）：四个 VQA 基准全部低于基础模型；SLAKE 64.84 → 38.15（−26.69） | 样本更少：四个基准全部提升；SLAKE 64.84 → **91.60（+26.76）** |
-| 修订智能体（Table 8，R5） | 原始原则：6/6 个基准下降（−2.2 至 −9.6） | 修订后的原则：6/6 个基准提升（**+0.5 至 +2.8**） |
-| 规划器（Table 7，R5） | 过时的 R2/R3 反馈：12 个分数中 11 个下降 | 当前反馈：6/6 个基准提升 |
+| 智能体角色 | 关键功能 | 没有该功能 | 有该功能 |
+|---|---|---|---|
+| 选择器、构建器、核验器 | 把医学证据转化为经过核验、与任务对齐的监督数据 | 原始数据（约 70 万条）：四个 VQA 基准全部低于基础模型；SLAKE 64.84 → 38.15 | 样本更少：四个基准全部提升；SLAKE → **91.60**（Table 9） |
+| 修订智能体 | 随学习者的变化更新构建原则 | R5 时使用原始原则：6/6 个基准下降（−2.2 至 −9.6） | 修订后的原则：**6/6 个基准提升**（+0.5 至 +2.8）（Table 8） |
+| 课程规划器 | 按学习者当前的需要分配预算 | 使用过时的 R2/R3 反馈：12 个分数中 11 个下降 | 使用当前反馈：**6/6 个基准提升**（Table 7） |
 
-由于原始原则在 R2 时表现更好，任何一套固定原则都不够用，必须在线修订。这些角色必须分开，因为同一个智能体不可能既看不见图像又看得见图像：构建器只依据选中的原始事实撰写样本，看不到图像；另一个模型则对照图像核验每个样本。因此每条训练内容都可以追溯到证据，并经过独立核查，这对医学数据至关重要。同一套设计可以迁移到四个学习者模型以及 2D/3D 任务（VQA-RAD：Gemma-3-4B 上提升 22.4，InternVL3-9B 上提升 20.4）。任何替代方案都必须完成同样的功能，而我们的对照实验表明，更简单的方案都失败了。
+原始原则在 R2 表现更好（6 个基准中的 5 个），在 R5 却更差（6 个全部；Table 8）。没有哪一套固定原则能在每个阶段都有效，所以需要在线修订的智能体。
+
+能否用另一种合理的智能体流程替代它们？任何替代方案都必须完成这些功能，而上面那些更简单的做法（原始数据、固定原则、过时反馈）都失败了。这些角色也不能合并成一个智能体。构建器从不看图像，只根据选中的事实撰写样本；再由另一个模型对照图像核验每个样本。一个智能体不可能既不看图像，又对照图像做核验。
 
 **W2（论文组织）** 正文给出了全部机制（第 3–4 节，式 1–9），包括在按任务组织的验证集上定义的能力单元（第 3.1 节）；第 5.1 节给出了评估任务的组成（四个 2D VQA 基准、两个报告生成基准和三个 3D 基准）。附录包含实现参数（各智能体所用模型、预算、阈值）和数据集统计，并且每项都在正文相应章节中注明了出处。在页数限制下，这样的安排既保证了方法易读，又保证了完全可复现。
 
@@ -130,7 +134,7 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 |---|---|
 | SLAKE 64.84→38.15 / 91.60；四个 VQA 基准全部低于基础模型 | Table 9，p.26 |
 | R5 原始原则 −2.20 至 −9.60；修订后原则 +0.52 至 +2.77 | Table 8，p.26 |
-| R2 时原始原则在四个 VQA 基准上更好 | Table 8，p.26 |
+| R2 时原始原则在 6 个基准中的 5 个上更好（MIMIC-CXR 除外，相差 0.12） | Table 8，p.26 |
 | R2/R3 反馈 12 个分数中 11 个下降；R5 反馈六个全部提升 | Table 7，p.25 |
 | 构建器不访问图像，核验器对照图像核验 | 附录 A，p.16；附录 B，p.17 |
 | Gemma-3-4B VQA-RAD +22.39 | §5.3，p.8 |
