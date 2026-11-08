@@ -18,8 +18,8 @@ Can another plausible agent process substitute them? Any substitute must still p
 
 Why not merge the roles into one agent? We separate them for three reasons (App. A–B):
 1. **Independent checking.** The verifier (Qwen3.6-27B) is a different model from the constructor (deepseek-v4-flash), so no model checks its own output. LLMs struggle to correct their own outputs without external feedback (Huang et al., ICLR 2024).
-2. **Evidence grounding.** The constructor never sees the image and writes only from selected source facts, so every claim comes from the evidence. The verifier then checks it against the image. A merged agent would see the image while writing and could add findings that no source supports.
-3. **Different decisions.** The planner is not a language model. It is a small policy network trained with PPO every round. The revision agent acts only at the end of each window.
+2. **Grounded construction.** The constructor writes only from source facts chosen by the selector and does not read the image. Its examples therefore come from evidence, not from its own reading of the image. A merged agent would write from the image, and vision–language models often describe objects that are not in the image (Li et al., EMNLP 2023).
+3. **Learned allocation.** The planner is not a language model but a small policy network. It learns from validation rewards with PPO after every round, while the LLM agents stay frozen (App. B). Merging it into an LLM agent would lose this learning, or require updating a large model every round.
 
 **W2 (Organization).** The main text specifies every mechanism (Sections 3–4, Eqs. 1–9), including the capability cells defined on task-organized validation sets (Section 3.1), and Section 5.1 gives the evaluation task composition (four 2D VQA, two report-generation, and three 3D benchmarks). The appendix contains implementation parameters (agent models, budgets, thresholds) and dataset statistics, each referenced from the relevant section. Given the page limit, this arrangement keeps the method readable while ensuring full reproducibility.
 
