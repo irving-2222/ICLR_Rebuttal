@@ -61,7 +61,9 @@ We thank the reviewer for the positive assessment and the precise suggestions.
 
 Each component alone degrades the learner; only their combination improves all six benchmarks. High-quality synthetic data is therefore not sufficient. The same verified pipeline with fixed principles helps at R2 (+3.09, 6/6) but harms at R5, so data quality drives early progress while co-evolution sustains it. At matched budget, evolved principles add +6.77 on average over fixed ones (+3.33 to +10.12), and current feedback adds +4.15 and +4.28 over stale feedback.
 
-**Q1 (Raw-data degradation; fixed-principle reconstruction).** We attribute the degradation to four properties of the raw sources, on which App. D.3 trains "without supervision reconstruction or adaptive curriculum allocation". The right column notes where each property is handled in CoEvoMed:
+**Q1 (Raw-data degradation; fixed-principle reconstruction).**
+
+*What causes this substantial degradation?* App. D.3 trains on the raw sources "without supervision reconstruction or adaptive curriculum allocation". Four properties of these sources explain the drop. The right column shows where CoEvoMed handles each:
 
 | Property of the raw sources | Where CoEvoMed handles it |
 |---|---|
@@ -70,7 +72,11 @@ Each component alone degrades the learner; only their combination improves all s
 | Not targeted: the mix follows source availability, not the learner's needs | The planner allocates a fixed budget to weak and regressing capabilities (Section 4.2) |
 | Not adaptive: supervision stays fixed while the learner changes | The revision agent updates principles from residual errors (Section 4.3) |
 
-Hence ~700K raw examples fall below the base model, most sharply on SLAKE (−26.69), whose answers are short, while the same kinds of sources routed through CoEvoMed reach 91.60 with fewer examples. Fixed-principle reconstruction covers the first three rows but not the fourth. It therefore helps at R2 (+1.78 to +3.90, all six) yet harms at R5, whereas evolved principles add +6.77 under the same budget (W1). Principle evolution is what sustains the gains.
+As a result, ~700K raw examples fall below the base model. The largest drop is on SLAKE (−26.69), whose answers are short. The same kinds of sources, routed through CoEvoMed, reach 91.60 with fewer examples.
+
+*Would cleaning and reconstructing the data with fixed construction principles also yield substantial gains?* Yes at first, but not later. Fixed principles handle the first three rows of the table, but not the fourth. At R2, reconstruction with the original principles improves all six benchmarks (+1.78 to +3.90; Table 8). This is why CoEvoMed starts from these principles (Algorithm 1). At R5, the same fixed principles lower all six benchmarks (−2.2 to −9.6).
+
+*Additional benefit of adaptive principle evolution (budget-matched).* At R5 and under the same budget, evolved principles outperform fixed ones on all six benchmarks, by +6.77 on average (+3.33 to +10.12; Table 8). This margin is the benefit of principle evolution.
 
 ---
 

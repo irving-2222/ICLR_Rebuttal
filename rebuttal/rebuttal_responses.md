@@ -284,8 +284,8 @@ On the same base, we also trained Qwen3-VL-8B with MedVLSynther's released data 
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
 | W1 | 在预算匹配下分离各组件 | 1,173 | 草稿完成 |
-| Q1 | 原始数据退化原因；固定原则重构是否也有效 | 1,595 | 草稿完成 |
-| **合计** | | **2,850** | ≤ 5,000 |
+| Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,100 | 草稿完成 |
+| **合计** | | **3,355** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
@@ -302,7 +302,9 @@ We thank the reviewer for the positive assessment and the precise suggestions.
 
 Each component alone degrades the learner; only their combination improves all six benchmarks. High-quality synthetic data is therefore not sufficient. The same verified pipeline with fixed principles helps at R2 (+3.09, 6/6) but harms at R5, so data quality drives early progress while co-evolution sustains it. At matched budget, evolved principles add +6.77 on average over fixed ones (+3.33 to +10.12), and current feedback adds +4.15 and +4.28 over stale feedback.
 
-**Q1 (Raw-data degradation; fixed-principle reconstruction).** We attribute the degradation to four properties of the raw sources, on which App. D.3 trains "without supervision reconstruction or adaptive curriculum allocation". The right column notes where each property is handled in CoEvoMed:
+**Q1 (Raw-data degradation; fixed-principle reconstruction).**
+
+*What causes this substantial degradation?* App. D.3 trains on the raw sources "without supervision reconstruction or adaptive curriculum allocation". Four properties of these sources explain the drop. The right column shows where CoEvoMed handles each:
 
 | Property of the raw sources | Where CoEvoMed handles it |
 |---|---|
@@ -311,7 +313,11 @@ Each component alone degrades the learner; only their combination improves all s
 | Not targeted: the mix follows source availability, not the learner's needs | The planner allocates a fixed budget to weak and regressing capabilities (Section 4.2) |
 | Not adaptive: supervision stays fixed while the learner changes | The revision agent updates principles from residual errors (Section 4.3) |
 
-Hence ~700K raw examples fall below the base model, most sharply on SLAKE (−26.69), whose answers are short, while the same kinds of sources routed through CoEvoMed reach 91.60 with fewer examples. Fixed-principle reconstruction covers the first three rows but not the fourth. It therefore helps at R2 (+1.78 to +3.90, all six) yet harms at R5, whereas evolved principles add +6.77 under the same budget (W1). Principle evolution is what sustains the gains.
+As a result, ~700K raw examples fall below the base model. The largest drop is on SLAKE (−26.69), whose answers are short. The same kinds of sources, routed through CoEvoMed, reach 91.60 with fewer examples.
+
+*Would cleaning and reconstructing the data with fixed construction principles also yield substantial gains?* Yes at first, but not later. Fixed principles handle the first three rows of the table, but not the fourth. At R2, reconstruction with the original principles improves all six benchmarks (+1.78 to +3.90; Table 8). This is why CoEvoMed starts from these principles (Algorithm 1). At R5, the same fixed principles lower all six benchmarks (−2.2 to −9.6).
+
+*Additional benefit of adaptive principle evolution (budget-matched).* At R5 and under the same budget, evolved principles outperform fixed ones on all six benchmarks, by +6.77 on average (+3.33 to +10.12; Table 8). This margin is the benefit of principle evolution.
 ```
 
 ### 中文译文（不发布）
@@ -328,7 +334,9 @@ Hence ~700K raw examples fall below the base model, most sharply on SLAKE (−26
 
 任何一个组件单独使用都会让学习者变差；只有两者结合，六个基准才全部提升。因此，高质量合成数据本身并不足够：同一条经过核验的流程，用固定原则在 R2 时有帮助（+3.09，6/6），到 R5 时却有害；数据质量推动了早期的进步，而共同演化让进步得以持续。在预算匹配下，演化后的原则比固定原则平均高 6.77（+3.33 至 +10.12），当前反馈比过时反馈分别高 4.15 和 4.28。
 
-**Q1（原始数据退化的原因；固定原则重构的效果）** 我们把这种退化归因于原始数据的四个特点；附录 D.3 正是在"没有监督重构，也没有自适应课程分配"的条件下用这些数据训练的。右栏注明了 CoEvoMed 在哪个环节处理每一个特点：
+**Q1（原始数据退化的原因；固定原则重构的效果）**
+
+*是什么导致了如此明显的退化？* 附录 D.3 是在"没有监督重构，也没有自适应课程分配"的条件下用原始数据训练的。这些数据的四个特点解释了性能下降。右栏注明了 CoEvoMed 在哪个环节处理每个特点：
 
 | 原始数据的特点 | CoEvoMed 在哪里处理它 |
 |---|---|
@@ -337,7 +345,11 @@ Hence ~700K raw examples fall below the base model, most sharply on SLAKE (−26
 | 没有针对性：数据构成取决于数据源里有什么，而不是学习者需要什么 | 规划器把固定预算分配给薄弱和退化的能力（第 4.2 节） |
 | 不会自适应：学习者在变化，监督却一成不变 | 修订智能体根据残余错误更新构建原则（第 4.3 节） |
 
-因此，约 70 万条原始数据训练后低于基础模型，其中答案简短的 SLAKE 降幅最大（−26.69）；而同类数据源经过 CoEvoMed 处理后，用更少的样本就达到 91.60。固定原则重构覆盖了前三行，但缺少第四行。所以它在 R2 有帮助（六个基准全部提升，+1.78 至 +3.90），到 R5 却有害；而在相同预算下，演化后的原则平均高出 6.77（见 W1）。正是原则演化让收益得以持续。
+因此，约 70 万条原始数据训练后低于基础模型。降幅最大的是 SLAKE（−26.69），它的答案都很简短。同类数据源经过 CoEvoMed 处理后，用更少的样本就达到了 91.60。
+
+*使用固定构建原则清洗并重构数据，是否也能带来显著收益？* 早期能，后期不能。固定原则能处理表中的前三行，但处理不了第四行。在 R2，用原始原则重构数据让六个基准全部提升（+1.78 至 +3.90；Table 8），这也是 CoEvoMed 以这些原则作为起点的原因（Algorithm 1）。到 R5，同样的固定原则让六个基准全部下降（−2.2 至 −9.6）。
+
+*自适应原则演化的额外收益（预算匹配）。* 在 R5、相同预算下，演化后的原则在六个基准上全部优于固定原则，平均高出 6.77（+3.33 至 +10.12；Table 8）。这个差距就是原则演化带来的收益。
 
 ### 发布前待核对
 
