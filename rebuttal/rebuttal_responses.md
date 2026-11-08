@@ -22,117 +22,105 @@
 
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
-| 开头 | 致谢 | ~100 | — | 待写 |
-| W1 | 多智能体是否必要 | ~2,150 | 2,278 | 草稿完成 |
-| W2 | 论文组织 | ~550 | 546 | 草稿完成 |
-| W3 | 遗忘与 R7 的选择 | ~1,260 | 1,261 | 草稿完成 |
-| Q1 | MedVLSynther 复现 | ~920 | 921 | 草稿完成（复现结果待填） |
-| Q2 | 数据公开 | ~290 | 288 | 草稿完成 |
-| Q3 | 能力分类体系 | ~1,450 | 1,455 | 草稿完成 |
-| 结尾 | | ~80 | — | 待写 |
-| **合计** | | **≤ 5,000**（需压缩） | **6,759** | |
+| 开头 | 致谢 | — | — | 不写（为字符限制） |
+| W1 | 多智能体是否必要 | — | 1,560 | 已压缩 |
+| W2 | 论文组织 | — | 333 | 已压缩 |
+| W3 | 遗忘与 R7 的选择 | — | 1,010 | 已压缩 |
+| Q1 | MedVLSynther 复现 | — | 717 | 已压缩 |
+| Q2 | 数据公开 | — | 257 | 已压缩 |
+| Q3 | 能力分类体系 | — | 1,045 | 已压缩 |
+| 结尾 | | — | — | 不写（为字符限制） |
+| **合计** | | **≤ 5,000** | **4,932** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
 ### 英文正文（发布用）
 
 ```markdown
-**W1 (Is the multi-agent framework necessary?)** Yes. The experiments in App. D validate the critical function of each agent role. Each comparison starts from the same checkpoint, with and without that function:
+**W1 (Is the multi-agent framework necessary?)** Yes. App. D validates the critical function of each agent role, from the same checkpoint with and without it:
 
 | Agent role | Critical function | Without it | With it |
 |---|---|---|---|
-| Selector, constructor, verifier | Turn medical evidence into verified, task-aligned supervision | Raw data (~700K): all 4 VQA benchmarks fall below the base model; SLAKE 64.84 → 38.15 | Fewer examples: all 4 improve; SLAKE → **91.60** (Table 9) |
-| Revision agent | Update the principles as the learner changes | Original principles at R5: 6/6 benchmarks decline (−2.2 to −9.6) | Revised principles: **6/6 improve** (+0.5 to +2.8) (Table 8) |
-| Curriculum planner | Allocate the budget to the learner's current needs | Stale R2/R3 feedback: 11/12 scores decline | Current feedback: **6/6 improve** (Table 7) |
+| Selector, constructor, verifier | Verified, task-aligned supervision | Raw data (~700K): 4/4 VQA below base; SLAKE 38.15 | Fewer examples: 4/4 improve; SLAKE **91.60** (Tab. 9) |
+| Revision agent | Adapt principles to the learner | Original principles at R5: 6/6 decline (−2.2 to −9.6) | Revised: **6/6 improve** (+0.5 to +2.8) (Tab. 8) |
+| Curriculum planner | Allocate budget to current needs | Stale R2/R3 feedback: 11/12 decline | Current: **6/6 improve** (Tab. 7) |
 
-The original principles work better at R2 (5 of 6 benchmarks) but worse at R5 (6 of 6; Table 8). No fixed set of principles works at every stage, so an online revision agent is needed.
-
-Can another plausible agent process substitute them? Any substitute must still perform these functions, and the simpler alternatives in the table (raw data, fixed principles, stale feedback) all fail.
-
-Why not merge the roles into one agent? We separate them for three reasons (App. A–B):
+Can another plausible agent process substitute them? It must still perform these functions; the simpler alternatives above all fail. Why not merge the roles into one agent?
 1. **Independent checking.** The verifier (Qwen3.6-27B) is a different model from the constructor (deepseek-v4-flash), so no model checks its own output. LLMs struggle to correct their own outputs without external feedback (Huang et al., ICLR 2024).
-2. **Grounded construction.** The constructor writes only from source facts chosen by the selector and does not read the image. Its examples therefore come from evidence, not from its own reading of the image. A merged agent would write from the image, and vision–language models often describe objects that are not in the image (Li et al., EMNLP 2023).
-3. **Learned allocation.** The planner is not a language model but a small policy network. It learns from validation rewards with PPO after every round, while the LLM agents stay frozen (App. B). Merging it into an LLM agent would lose this learning, or require updating a large model every round.
+2. **Grounded construction.** The constructor writes only from selected source facts and does not read the image. A merged agent would write from the image, where vision–language models often describe absent objects (Li et al., EMNLP 2023).
+3. **Learned allocation.** The planner is a small policy network trained with PPO every round, while the LLM agents stay frozen (App. B). Merging it into an LLM would lose this learning.
 
-**W2 (Organization).** The main text specifies every mechanism (Sections 3–4, Eqs. 1–9), including the capability cells defined on task-organized validation sets (Section 3.1), and Section 5.1 gives the evaluation task composition (four 2D VQA, two report-generation, and three 3D benchmarks). The appendix contains implementation parameters (agent models, budgets, thresholds) and dataset statistics, each referenced from the relevant section. Given the page limit, this arrangement keeps the method readable while ensuring full reproducibility.
+**W2 (Organization).** The main text specifies every mechanism (Secs. 3–4, Eqs. 1–9), including the capability cells (Sec. 3.1), and Sec. 5.1 gives the evaluation task composition (four 2D VQA, two report, three 3D benchmarks). Implementation parameters and dataset statistics are in the appendix, each referenced from the main text.
 
-**W3 (Catastrophic forgetting and the retention claim).** CoEvoMed is curriculum learning, not continual learning. Every round trains all tasks together (Eq. 7), mixes in replay data (Section 3.3), and evaluates every task. There is no task sequence, so catastrophic forgetting and standard continual-learning metrics do not apply. The paper makes no forgetting claim. "Retention" is one part of the budget allocation: it keeps training the capabilities the learner has already acquired (Section 4.2).
-- *Reactive recovery and balance.* Reacting to regressions is the intended closed loop. Regressions are measured per case and per capability every round (Eq. 6) and lower the reward (Eq. 8). From R1 to R6, all five capabilities in Figure 6 end above their R1 level.
-- *Later-round declines.* They are small. At R10, SLAKE, PathVQA, and IU-Xray are within 3 points of their peaks and still +21.5, +26.9, and +12.8 above R1 (Figure 7).
-- *Reliance on R7.* R7 was chosen once, for overall cross-task balance, and serves all six benchmarks (Section 5.2). Even the final R10 beats Hulu-Med-7B on SLAKE (88.67 vs. 86.80) and PathVQA (67.25 vs. 65.60).
-- *Retention ablations.* Retention is part of the planner, which W1 tests: stale feedback lowers 11 of 12 scores.
+**W3 (Catastrophic forgetting and the retention claim).** CoEvoMed is curriculum learning, not continual learning. Every round trains all tasks together (Eq. 7) with replay data (Sec. 3.3) and evaluates every task. With no task sequence, catastrophic forgetting and continual-learning metrics do not apply, and the paper makes no forgetting claim. "Retention" is the part of the budget that keeps training acquired capabilities (Sec. 4.2); W1 tests it as part of the planner.
+- *Reactive recovery and balance.* This is the intended closed loop, which measures and penalizes regressions every round (Eqs. 6, 8). From R1 to R6, all five capabilities in Fig. 6 end above R1.
+- *Later-round declines.* At R10, SLAKE, PathVQA, and IU-Xray stay within 3 points of their peaks and +21.5, +26.9, and +12.8 above R1 (Fig. 7).
+- *Reliance on R7.* R7 was chosen once, for cross-task balance, for all six benchmarks (Sec. 5.2). Even the final R10 beats Hulu-Med-7B on SLAKE (88.67 vs. 86.80) and PathVQA (67.25 vs. 65.60).
 
-**Q1 (MedVLSynther base model).** We were aware of the base difference. Absolute scores across different bases conflate a method with its backbone, so the meaningful comparison is each method's gain over its own base (MedVLSynther as published, under its protocol):
+**Q1 (MedVLSynther base model).** We were aware of the base difference. Absolute scores mix method and backbone, so we compare gains over each method's own base (MedVLSynther as published):
 
 | Gain over own base | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
 | MedVLSynther-7B (Qwen2.5-VL-7B) | +6.13 | +8.82 | +6.65 | +0.17 |
 | CoEvoMed-8B (Qwen3-VL-8B) | **+13.82** | **+25.72** | **+26.76** | **+26.63** |
 
-To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSynther's released data and GRPO script (reward function from the authors' MedVLThinker code) and evaluated it under our protocol:
+On the same base, we also trained Qwen3-VL-8B with MedVLSynther's released data and GRPO script:
 
 | Same base: Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
 | MedVLSynther recipe | [x.xx] | [x.xx] | [x.xx] | [x.xx] |
-| CoEvoMed-8B | **67.95** | **82.48** | **91.60** | **69.40** |
+| CoEvoMed-8B | 67.95 | 82.48 | 91.60 | 69.40 |
 
-**Q2 (Data release).** Yes. Upon acceptance, we will release the synthesized data and all principle versions under each source's license: images are referenced by identifiers, and sources that prohibit redistribution (e.g., CheXpert, ReXGradient-160K) are covered by regeneration scripts.
+**Q2 (Data release).** Yes. Upon acceptance, we will release the synthesized data and all principle versions under each source's license: images are referenced by identifiers, and sources that forbid redistribution (e.g., CheXpert) get regeneration scripts.
 
 **Q3 (Capability taxonomy).** The overlap with SLAKE is by design, not an arbitrary relabeling.
-- *Why these categories.* The taxonomy is not designed from scratch. It follows SLAKE's physician-annotated question categories (Liu et al., 2021). We group SLAKE's fine-grained attribute types into one category, and add spatial relations, comparison, and holistic description for multi-object, multi-image, and report tasks (Table 6). Other benchmarks use similar categories, e.g., VQA-RAD's 11 question types and M3D-VQA's plane, phase, organ, abnormality, and location (Figure 9a).
-- *Why they are necessary.* The categories describe what a question asks of an image, not a dataset. They therefore also cover PathVQA, PMC-VQA, reports, and the support pool, which have no native labels. One shared taxonomy lets us diagnose all tasks, split one budget across them, and retrieve matching evidence (App. C.3).
-- *Mapping and validation against native labels.* We compared our generated annotations with SLAKE's native labels on 200 SLAKE questions. Capability labels agree at 97.5% (195/200; macro-F1 0.977; Cohen's κ = 0.958), modality labels at 100%, and body-region labels at 96.5% (193/200; macro-F1 0.948). By the standard of Landis & Koch (1977), κ above 0.81 means "almost perfect" agreement. We will add this mapping to Table 6.
-- *Meaningful diagnosis.* The diagnosis drives the gains: replacing it with a stale one lowers 11 of 12 scores (Table 7).
+- *Why these categories.* The taxonomy follows SLAKE's physician-annotated question categories (Liu et al., 2021). We merge its attribute types and add spatial relations, comparison, and holistic description for multi-image and report tasks (Table 6). VQA-RAD and M3D-VQA (Fig. 9a) use similar categories.
+- *Why they are necessary.* The categories describe what a question asks, not a dataset, so they also cover PathVQA, PMC-VQA, reports, and the support pool, which lack native labels. One taxonomy lets us diagnose all tasks, share one budget, and retrieve matching evidence (App. C.3), and the diagnosis matters: stale diagnoses lower 11 of 12 scores (Table 7).
+- *Mapping and validation.* On 200 SLAKE questions, our annotations match the native labels for capability at 97.5% (Cohen's κ = 0.958), modality at 100%, and body region at 96.5%. κ above 0.81 is "almost perfect" agreement (Landis & Koch, 1977). We will add the mapping to Table 6.
 ```
 
 ### 中文译文（不发布）
 
-**W1（多智能体框架是否必要？）** 是的。附录 D 的实验验证了每个智能体角色的关键功能。每组比较都从同一个检查点出发，对比有无该功能的结果：
+**W1（多智能体框架是否必要？）** 是的。附录 D 验证了每个智能体角色的关键功能，每组比较都从同一个检查点出发，对比有无该功能的结果：
 
 | 智能体角色 | 关键功能 | 没有该功能 | 有该功能 |
 |---|---|---|---|
-| 选择器、构建器、核验器 | 把医学证据转化为经过核验、与任务对齐的监督数据 | 原始数据（约 70 万条）：四个 VQA 基准全部低于基础模型；SLAKE 64.84 → 38.15 | 样本更少：四个基准全部提升；SLAKE → **91.60**（Table 9） |
-| 修订智能体 | 随学习者的变化更新构建原则 | R5 时使用原始原则：6/6 个基准下降（−2.2 至 −9.6） | 修订后的原则：**6/6 个基准提升**（+0.5 至 +2.8）（Table 8） |
-| 课程规划器 | 按学习者当前的需要分配预算 | 使用过时的 R2/R3 反馈：12 个分数中 11 个下降 | 使用当前反馈：**6/6 个基准提升**（Table 7） |
+| 选择器、构建器、核验器 | 经过核验、与任务对齐的监督数据 | 原始数据（约 70 万条）：4/4 个 VQA 基准低于基础模型；SLAKE 38.15 | 样本更少：4/4 提升；SLAKE **91.60**（Table 9） |
+| 修订智能体 | 让构建原则适应学习者 | R5 时使用原始原则：6/6 下降（−2.2 至 −9.6） | 修订后：**6/6 提升**（+0.5 至 +2.8）（Table 8） |
+| 课程规划器 | 按当前需要分配预算 | 使用过时的 R2/R3 反馈：12 个中 11 个下降 | 使用当前反馈：**6/6 提升**（Table 7） |
 
-原始原则在 R2 表现更好（6 个基准中的 5 个），在 R5 却更差（6 个全部；Table 8）。没有哪一套固定原则能在每个阶段都有效，所以需要在线修订的智能体。
-
-能否用另一种合理的智能体流程替代它们？任何替代方案都必须完成这些功能，而表中那些更简单的做法（原始数据、固定原则、过时反馈）都失败了。
-
-为什么不把这些角色合并成一个智能体？我们把它们分开有三个原因（附录 A–B）：
+能否用另一种合理的智能体流程替代它们？替代方案仍然必须完成这些功能，而上面那些更简单的做法都失败了。为什么不把这些角色合并成一个智能体？
 1. **独立核查。** 核验器（Qwen3.6-27B）和构建器（deepseek-v4-flash）是不同的模型，因此没有任何模型在检查自己的输出。大语言模型在没有外部反馈时，很难纠正自己的输出（Huang et al., ICLR 2024）。
-2. **基于证据的构建。** 构建器只根据选择器选出的原始事实撰写样本，不读取图像。因此样本内容来自证据，而不是来自它自己对图像的解读。如果合并成一个智能体，它就要直接看图撰写，而视觉语言模型经常描述图像中并不存在的物体（Li et al., EMNLP 2023）。
-3. **可学习的分配。** 规划器不是语言模型，而是一个小型策略网络。它在每轮之后用 PPO 根据验证奖励进行学习，而各个大语言模型智能体的参数保持不变（附录 B）。如果把它并入某个大语言模型智能体，要么失去这种学习能力，要么每轮都得更新一个大模型。
+2. **基于证据的构建。** 构建器只根据选出的原始事实撰写样本，不读取图像。如果合并成一个智能体，它就要直接看图撰写，而视觉语言模型经常描述图像中并不存在的物体（Li et al., EMNLP 2023）。
+3. **可学习的分配。** 规划器是每轮用 PPO 训练的小型策略网络，而各个大语言模型智能体的参数保持不变（附录 B）。把它并入大语言模型会失去这种学习能力。
 
-**W2（论文组织）** 正文给出了全部机制（第 3–4 节，式 1–9），包括在按任务组织的验证集上定义的能力单元（第 3.1 节）；第 5.1 节给出了评估任务的组成（四个 2D VQA 基准、两个报告生成基准和三个 3D 基准）。附录包含实现参数（各智能体所用模型、预算、阈值）和数据集统计，并且每项都在正文相应章节中注明了出处。在页数限制下，这样的安排既保证了方法易读，又保证了完全可复现。
+**W2（论文组织）** 正文给出了全部机制（第 3–4 节，式 1–9），包括能力单元（第 3.1 节）；第 5.1 节给出了评估任务的组成（四个 2D VQA 基准、两个报告基准、三个 3D 基准）。实现参数和数据集统计放在附录，每项都在正文中注明了出处。
 
-**W3（灾难性遗忘与"保留"的主张）** CoEvoMed 是课程学习，不是持续学习。每一轮都同时训练所有任务（式 7），混入回放数据（第 3.3 节），并评估每一个任务。这里不存在任务序列，因此灾难性遗忘和标准的持续学习指标并不适用。论文也没有提出任何关于遗忘的主张。"保留"（retention）是预算分配的一部分：它持续训练学习者已经掌握的能力（第 4.2 节）。
-- *被动恢复与均衡。* 对退化做出反应，正是闭环设计的本意。每一轮都按样本、按能力测量退化（式 6），退化会降低奖励（式 8）。从 R1 到 R6，Figure 6 中的五项能力最终都高于各自的 R1 水平。
-- *后期轮次的下降。* 下降幅度很小。在 R10，SLAKE、PathVQA 和 IU-Xray 距各自峰值都在 3 分以内，并且仍比 R1 分别高 21.5、26.9 和 12.8（Figure 7）。
-- *对 R7 的依赖。* R7 是按跨任务的整体均衡性一次性选定的，六个基准共用这一个检查点（第 5.2 节）。即使是最后的 R10，在 SLAKE（88.67 对 86.80）和 PathVQA（67.25 对 65.60）上也超过 Hulu-Med-7B。
-- *保留的消融。* 保留是规划器的一部分，而 W1 已经检验了规划器：使用过时反馈会使 12 个分数中的 11 个下降。
+**W3（灾难性遗忘与"保留"的主张）** CoEvoMed 是课程学习，不是持续学习。每一轮都同时训练所有任务（式 7），混入回放数据（第 3.3 节），并评估每一个任务。由于不存在任务序列，灾难性遗忘和持续学习指标并不适用，论文也没有提出任何关于遗忘的主张。"保留"是预算中持续训练已习得能力的那一部分（第 4.2 节）；它作为规划器的一部分，已在 W1 中检验。
+- *被动恢复与均衡。* 这正是闭环设计的本意：每一轮都会测量退化，并在奖励中体现为扣分（式 6、8）。从 R1 到 R6，Figure 6 中的五项能力最终都高于 R1。
+- *后期轮次的下降。* 在 R10，SLAKE、PathVQA 和 IU-Xray 距各自峰值都在 3 分以内，并且比 R1 分别高 21.5、26.9 和 12.8（Figure 7）。
+- *对 R7 的依赖。* R7 是按跨任务均衡性一次性选定的，六个基准共用这一个检查点（第 5.2 节）。即使是最后的 R10，在 SLAKE（88.67 对 86.80）和 PathVQA（67.25 对 65.60）上也超过 Hulu-Med-7B。
 
-**Q1（MedVLSynther 的基础模型）** 我们注意到了基础模型的差异。不同基础模型之间的绝对分数会把方法本身的效果和骨干模型的效果混在一起，因此有意义的比较是各方法相对其自身基础模型的提升（MedVLSynther 采用其原文发表的结果和评测协议）：
+**Q1（MedVLSynther 的基础模型）** 我们注意到了基础模型的差异。绝对分数把方法和骨干模型的效果混在一起，因此我们比较各方法相对其自身基础模型的提升（MedVLSynther 采用原文发表的结果）：
 
 | 相对自身基础模型的提升 | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
 | MedVLSynther-7B（Qwen2.5-VL-7B） | +6.13 | +8.82 | +6.65 | +0.17 |
 | CoEvoMed-8B（Qwen3-VL-8B） | **+13.82** | **+25.72** | **+26.76** | **+26.63** |
 
-为了彻底消除基础模型的差异，我们还用 MedVLSynther 公开的数据和 GRPO 训练脚本训练了 Qwen3-VL-8B（奖励函数取自作者的 MedVLThinker 代码），并在我们的评测协议下进行评估：
+在相同的基础模型上，我们还用 MedVLSynther 公开的数据和 GRPO 训练脚本训练了 Qwen3-VL-8B：
 
 | 相同基础模型：Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
 | MedVLSynther 配方 | [x.xx] | [x.xx] | [x.xx] | [x.xx] |
-| CoEvoMed-8B | **67.95** | **82.48** | **91.60** | **69.40** |
+| CoEvoMed-8B | 67.95 | 82.48 | 91.60 | 69.40 |
 
-**Q2（数据公开）** 会公开。论文被接收后，我们将按各源数据的许可公开合成数据和全部版本的构建原则：图像只以源数据中的标识引用、不重新分发；对于协议禁止再分发的源数据（如 CheXpert、ReXGradient-160K），我们提供可重新生成这部分数据的脚本。
+**Q2（数据公开）** 会公开。论文被接收后，我们将按各源数据的许可公开合成数据和全部版本的构建原则：图像只以标识引用；对于禁止再分发的源数据（如 CheXpert），我们提供重新生成的脚本。
 
 **Q3（能力分类体系）** 与 SLAKE 的重合是有意设计的，而不是随意的重新贴标签。
-- *为什么是这些类别。* 这套分类体系不是从零设计的，而是沿用了 SLAKE 由医生标注的问题类别（Liu et al., 2021）。我们把 SLAKE 中细分的属性类型合并为一类，并为多目标、多图像和报告任务增加了空间关系、比较和整体描述三类（Table 6）。其他基准也采用了类似的类别，例如 VQA-RAD 的 11 种问题类型，以及 M3D-VQA 的扫描平面、期相、器官、异常和位置（Figure 9a）。
-- *为什么这些类别是必要的。* 这些类别描述的是一个问题针对图像在问什么，而不是某个数据集。因此它们同样覆盖 PathVQA、PMC-VQA、报告任务和支持数据池，而这些数据都没有原生标签。一套共享的分类体系，让我们能够诊断所有任务、在它们之间分配同一份预算，并检索匹配的证据（附录 C.3）。
-- *与原生标签的对应和验证。* 我们在 200 道 SLAKE 题目上，把生成的标注与 SLAKE 的原生标签做了比对。能力类别的一致率为 97.5%（195/200；macro-F1 0.977；Cohen's κ = 0.958），模态的一致率为 100%，解剖部位的一致率为 96.5%（193/200；macro-F1 0.948）。按 Landis & Koch (1977) 的标准，κ 高于 0.81 即属于"几乎完全一致"。我们会把这一对应关系补充到 Table 6 中。
-- *诊断是有意义的。* 收益正是来自这种诊断：用过时的诊断替代它，会使 12 个分数中的 11 个下降（Table 7）。
+- *为什么是这些类别。* 这套分类体系沿用了 SLAKE 由医生标注的问题类别（Liu et al., 2021）。我们合并了其中的属性类型，并为多图像和报告任务增加了空间关系、比较和整体描述三类（Table 6）。VQA-RAD 和 M3D-VQA（Figure 9a）也采用了类似的类别。
+- *为什么这些类别是必要的。* 这些类别描述的是问题在问什么，而不是某个数据集，因此同样覆盖 PathVQA、PMC-VQA、报告任务和支持数据池，而这些数据都没有原生标签。一套分类体系让我们能够诊断所有任务、共享同一份预算并检索匹配的证据（附录 C.3）；而且这种诊断确实起作用：使用过时的诊断会使 12 个分数中的 11 个下降（Table 7）。
+- *对应关系与验证。* 在 200 道 SLAKE 题目上，我们的标注与原生标签的一致率为：能力类别 97.5%（Cohen's κ = 0.958），模态 100%，解剖部位 96.5%。κ 高于 0.81 即属于"几乎完全一致"（Landis & Koch, 1977）。我们会把这一对应关系补充到 Table 6 中。
 
 ### 发布前待核对
 
@@ -145,7 +133,7 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 - [ ] **Q1 占位符**：复现完成后，在第二张表里填入复现模型在四个基准上的得分 `[x.xx]`（与 CoEvoMed 同一评测流程）。如果任何一项高于 CoEvoMed，需要重新讨论写法。
 - [ ] **Q1 数字来源**：确认 Table 1 的 MedVLSynther 数字引自其论文（与其 GitHub README 的数字完全一致）。正文写的是 "as published"。
 - [ ] **Q1 与附录 C.1 的一致性**：C.1 写的是"本研究评估的基线与 CoEvoMed 使用相同的评估集和评分规则"，MedVLSynther 是引用数，与这句不符。Q1 已如实写明"按原文发表的结果和协议"；定稿时建议把 C.1 改为区分"我们评测的基线"和"引用原文的基线"。
-- [ ] **字符超预算**：全部条目写完后合计 5,621 字符，需压缩到 5,000 以内（留约 50 余量）。候选做法：不写开头结尾，W1、W3、Q3 各压约 150，Q1 精简说明文字。
+- [x] **字符限制**：已压缩到 4,932 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
 - [ ] **Q2 承诺**：正文承诺为禁止再分发的源数据提供重新生成脚本。确认接收后能兑现；如果不打算做，把最后半句改为 "are excluded from the release"。
 - [ ] **Q2 待确认许可**：PMC-OA、MedTrinity BHX、RadGenome-ChestCT、Med-MAT 的许可没能直接核实，AbdomenAtlas1.0Mini 的附加条款也不确定，公开前需逐个确认（见下方"Q2 源数据许可核对"）。
 - [x] **Q3 一致率（已填入）**：轴 B（视觉能力）准确率 97.50%（195/200），macro-F1 0.9767，Cohen's κ 0.9575（正文写作 0.958）；轴 C（模态）准确率 100%，为模型在不看原标签的情况下独立判断；轴 D（解剖部位）准确率 96.50%（193/200），macro-F1 0.9476。轴的对应关系来自代码 `AXES = ("task_form", "visual_ability", "modality", "anatomy")`。
@@ -153,6 +141,7 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 - [ ] **Q3 样本说明（可选）**：如果这 200 条是随机抽取的，可以在 "on 200 SLAKE questions" 前加 "randomly sampled"。
 - [ ] **Q3 SLAKE 措辞**：SLAKE 原文能确认的是"语义标注由经验丰富的医生完成"，并且"每个问题都标有语义标签，用于区分问题类型"；没有找到"类别体系由专家设计"的明确表述。所以正文写的是 "physician-annotated question categories"（医生标注的问题类别），而不是 "expert-designed"。如果你手上的 SLAKE 原文有"类别由医生设计"的原句，告诉我页码，可以改成 "designed and annotated by physicians"。
 - [ ] **Q3 对应关系**：正文写了"把 SLAKE 细分的属性类型合并为一类，并新增空间关系、比较和整体描述三类"。请对照下方对应表确认，尤其是 SLAKE 的 Plane 和 Quantity 分别归到哪一类。
+- [ ] **Q1 奖励函数的说明（已为字符限制删去）**：正文不再提"奖励函数取自 MedVLThinker 代码"。如果审稿人追问复现细节，再补充这一点（详见下方"Q1 复现配置备忘"）。
 - [ ] **W1 可选补充**：如果核验器日志里有拒绝率，可以在 "independently checked" 之后加一句（约 75 字符），作为核验器单独起作用的正面证据：`The verifier rejects [X]% of constructed candidates, mainly for [reason].`
 
 ### W1 数字出处

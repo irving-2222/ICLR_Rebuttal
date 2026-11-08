@@ -4,52 +4,46 @@
 
 ## Response to Reviewer pUjh
 
-**W1 (Is the multi-agent framework necessary?)** Yes. The experiments in App. D validate the critical function of each agent role. Each comparison starts from the same checkpoint, with and without that function:
+**W1 (Is the multi-agent framework necessary?)** Yes. App. D validates the critical function of each agent role, from the same checkpoint with and without it:
 
 | Agent role | Critical function | Without it | With it |
 |---|---|---|---|
-| Selector, constructor, verifier | Turn medical evidence into verified, task-aligned supervision | Raw data (~700K): all 4 VQA benchmarks fall below the base model; SLAKE 64.84 → 38.15 | Fewer examples: all 4 improve; SLAKE → **91.60** (Table 9) |
-| Revision agent | Update the principles as the learner changes | Original principles at R5: 6/6 benchmarks decline (−2.2 to −9.6) | Revised principles: **6/6 improve** (+0.5 to +2.8) (Table 8) |
-| Curriculum planner | Allocate the budget to the learner's current needs | Stale R2/R3 feedback: 11/12 scores decline | Current feedback: **6/6 improve** (Table 7) |
+| Selector, constructor, verifier | Verified, task-aligned supervision | Raw data (~700K): 4/4 VQA below base; SLAKE 38.15 | Fewer examples: 4/4 improve; SLAKE **91.60** (Tab. 9) |
+| Revision agent | Adapt principles to the learner | Original principles at R5: 6/6 decline (−2.2 to −9.6) | Revised: **6/6 improve** (+0.5 to +2.8) (Tab. 8) |
+| Curriculum planner | Allocate budget to current needs | Stale R2/R3 feedback: 11/12 decline | Current: **6/6 improve** (Tab. 7) |
 
-The original principles work better at R2 (5 of 6 benchmarks) but worse at R5 (6 of 6; Table 8). No fixed set of principles works at every stage, so an online revision agent is needed.
-
-Can another plausible agent process substitute them? Any substitute must still perform these functions, and the simpler alternatives in the table (raw data, fixed principles, stale feedback) all fail.
-
-Why not merge the roles into one agent? We separate them for three reasons (App. A–B):
+Can another plausible agent process substitute them? It must still perform these functions; the simpler alternatives above all fail. Why not merge the roles into one agent?
 1. **Independent checking.** The verifier (Qwen3.6-27B) is a different model from the constructor (deepseek-v4-flash), so no model checks its own output. LLMs struggle to correct their own outputs without external feedback (Huang et al., ICLR 2024).
-2. **Grounded construction.** The constructor writes only from source facts chosen by the selector and does not read the image. Its examples therefore come from evidence, not from its own reading of the image. A merged agent would write from the image, and vision–language models often describe objects that are not in the image (Li et al., EMNLP 2023).
-3. **Learned allocation.** The planner is not a language model but a small policy network. It learns from validation rewards with PPO after every round, while the LLM agents stay frozen (App. B). Merging it into an LLM agent would lose this learning, or require updating a large model every round.
+2. **Grounded construction.** The constructor writes only from selected source facts and does not read the image. A merged agent would write from the image, where vision–language models often describe absent objects (Li et al., EMNLP 2023).
+3. **Learned allocation.** The planner is a small policy network trained with PPO every round, while the LLM agents stay frozen (App. B). Merging it into an LLM would lose this learning.
 
-**W2 (Organization).** The main text specifies every mechanism (Sections 3–4, Eqs. 1–9), including the capability cells defined on task-organized validation sets (Section 3.1), and Section 5.1 gives the evaluation task composition (four 2D VQA, two report-generation, and three 3D benchmarks). The appendix contains implementation parameters (agent models, budgets, thresholds) and dataset statistics, each referenced from the relevant section. Given the page limit, this arrangement keeps the method readable while ensuring full reproducibility.
+**W2 (Organization).** The main text specifies every mechanism (Secs. 3–4, Eqs. 1–9), including the capability cells (Sec. 3.1), and Sec. 5.1 gives the evaluation task composition (four 2D VQA, two report, three 3D benchmarks). Implementation parameters and dataset statistics are in the appendix, each referenced from the main text.
 
-**W3 (Catastrophic forgetting and the retention claim).** CoEvoMed is curriculum learning, not continual learning. Every round trains all tasks together (Eq. 7), mixes in replay data (Section 3.3), and evaluates every task. There is no task sequence, so catastrophic forgetting and standard continual-learning metrics do not apply. The paper makes no forgetting claim. "Retention" is one part of the budget allocation: it keeps training the capabilities the learner has already acquired (Section 4.2).
-- *Reactive recovery and balance.* Reacting to regressions is the intended closed loop. Regressions are measured per case and per capability every round (Eq. 6) and lower the reward (Eq. 8). From R1 to R6, all five capabilities in Figure 6 end above their R1 level.
-- *Later-round declines.* They are small. At R10, SLAKE, PathVQA, and IU-Xray are within 3 points of their peaks and still +21.5, +26.9, and +12.8 above R1 (Figure 7).
-- *Reliance on R7.* R7 was chosen once, for overall cross-task balance, and serves all six benchmarks (Section 5.2). Even the final R10 beats Hulu-Med-7B on SLAKE (88.67 vs. 86.80) and PathVQA (67.25 vs. 65.60).
-- *Retention ablations.* Retention is part of the planner, which W1 tests: stale feedback lowers 11 of 12 scores.
+**W3 (Catastrophic forgetting and the retention claim).** CoEvoMed is curriculum learning, not continual learning. Every round trains all tasks together (Eq. 7) with replay data (Sec. 3.3) and evaluates every task. With no task sequence, catastrophic forgetting and continual-learning metrics do not apply, and the paper makes no forgetting claim. "Retention" is the part of the budget that keeps training acquired capabilities (Sec. 4.2); W1 tests it as part of the planner.
+- *Reactive recovery and balance.* This is the intended closed loop, which measures and penalizes regressions every round (Eqs. 6, 8). From R1 to R6, all five capabilities in Fig. 6 end above R1.
+- *Later-round declines.* At R10, SLAKE, PathVQA, and IU-Xray stay within 3 points of their peaks and +21.5, +26.9, and +12.8 above R1 (Fig. 7).
+- *Reliance on R7.* R7 was chosen once, for cross-task balance, for all six benchmarks (Sec. 5.2). Even the final R10 beats Hulu-Med-7B on SLAKE (88.67 vs. 86.80) and PathVQA (67.25 vs. 65.60).
 
-**Q1 (MedVLSynther base model).** We were aware of the base difference. Absolute scores across different bases conflate a method with its backbone, so the meaningful comparison is each method's gain over its own base (MedVLSynther as published, under its protocol):
+**Q1 (MedVLSynther base model).** We were aware of the base difference. Absolute scores mix method and backbone, so we compare gains over each method's own base (MedVLSynther as published):
 
 | Gain over own base | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
 | MedVLSynther-7B (Qwen2.5-VL-7B) | +6.13 | +8.82 | +6.65 | +0.17 |
 | CoEvoMed-8B (Qwen3-VL-8B) | **+13.82** | **+25.72** | **+26.76** | **+26.63** |
 
-To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSynther's released data and GRPO script (reward function from the authors' MedVLThinker code) and evaluated it under our protocol:
+On the same base, we also trained Qwen3-VL-8B with MedVLSynther's released data and GRPO script:
 
 | Same base: Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
 | MedVLSynther recipe | [x.xx] | [x.xx] | [x.xx] | [x.xx] |
-| CoEvoMed-8B | **67.95** | **82.48** | **91.60** | **69.40** |
+| CoEvoMed-8B | 67.95 | 82.48 | 91.60 | 69.40 |
 
-**Q2 (Data release).** Yes. Upon acceptance, we will release the synthesized data and all principle versions under each source's license: images are referenced by identifiers, and sources that prohibit redistribution (e.g., CheXpert, ReXGradient-160K) are covered by regeneration scripts.
+**Q2 (Data release).** Yes. Upon acceptance, we will release the synthesized data and all principle versions under each source's license: images are referenced by identifiers, and sources that forbid redistribution (e.g., CheXpert) get regeneration scripts.
 
 **Q3 (Capability taxonomy).** The overlap with SLAKE is by design, not an arbitrary relabeling.
-- *Why these categories.* The taxonomy is not designed from scratch. It follows SLAKE's physician-annotated question categories (Liu et al., 2021). We group SLAKE's fine-grained attribute types into one category, and add spatial relations, comparison, and holistic description for multi-object, multi-image, and report tasks (Table 6). Other benchmarks use similar categories, e.g., VQA-RAD's 11 question types and M3D-VQA's plane, phase, organ, abnormality, and location (Figure 9a).
-- *Why they are necessary.* The categories describe what a question asks of an image, not a dataset. They therefore also cover PathVQA, PMC-VQA, reports, and the support pool, which have no native labels. One shared taxonomy lets us diagnose all tasks, split one budget across them, and retrieve matching evidence (App. C.3).
-- *Mapping and validation against native labels.* We compared our generated annotations with SLAKE's native labels on 200 SLAKE questions. Capability labels agree at 97.5% (195/200; macro-F1 0.977; Cohen's κ = 0.958), modality labels at 100%, and body-region labels at 96.5% (193/200; macro-F1 0.948). By the standard of Landis & Koch (1977), κ above 0.81 means "almost perfect" agreement. We will add this mapping to Table 6.
-- *Meaningful diagnosis.* The diagnosis drives the gains: replacing it with a stale one lowers 11 of 12 scores (Table 7).
+- *Why these categories.* The taxonomy follows SLAKE's physician-annotated question categories (Liu et al., 2021). We merge its attribute types and add spatial relations, comparison, and holistic description for multi-image and report tasks (Table 6). VQA-RAD and M3D-VQA (Fig. 9a) use similar categories.
+- *Why they are necessary.* The categories describe what a question asks, not a dataset, so they also cover PathVQA, PMC-VQA, reports, and the support pool, which lack native labels. One taxonomy lets us diagnose all tasks, share one budget, and retrieve matching evidence (App. C.3), and the diagnosis matters: stale diagnoses lower 11 of 12 scores (Table 7).
+- *Mapping and validation.* On 200 SLAKE questions, our annotations match the native labels for capability at 97.5% (Cohen's κ = 0.958), modality at 100%, and body region at 96.5%. κ above 0.81 is "almost perfect" agreement (Landis & Koch, 1977). We will add the mapping to Table 6.
 
 ---
 
