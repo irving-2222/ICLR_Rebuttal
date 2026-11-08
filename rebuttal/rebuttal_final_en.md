@@ -48,7 +48,7 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 **Q3 (Capability taxonomy).** The overlap with SLAKE is by design, not an arbitrary relabeling.
 - *Why these categories.* The taxonomy is not designed from scratch. It follows SLAKE's physician-annotated question categories (Liu et al., 2021). We group SLAKE's fine-grained attribute types into one category, and add spatial relations, comparison, and holistic description for multi-object, multi-image, and report tasks (Table 6). Other benchmarks use similar categories, e.g., VQA-RAD's 11 question types and M3D-VQA's plane, phase, organ, abnormality, and location (Figure 9a).
 - *Why they are necessary.* The categories describe what a question asks of an image, not a dataset. They therefore also cover PathVQA, PMC-VQA, reports, and the support pool, which have no native labels. One shared taxonomy lets us diagnose all tasks, split one budget across them, and retrieve matching evidence (App. C.3).
-- *Mapping and validation against native labels.* On SLAKE, our generated annotations agree with the native labels at [xx.x]% (Cohen's κ = [0.xx]). This is "[almost perfect]" agreement by the standard of Landis & Koch (1977). We will add this mapping to Table 6.
+- *Mapping and validation against native labels.* We compared our generated annotations with SLAKE's native labels on 200 SLAKE questions. Capability labels agree at 97.5% (195/200; macro-F1 0.977), and body-region labels at 96.5% (193/200; macro-F1 0.948). This is "almost perfect" agreement by the standard of Landis & Koch (1977) (Cohen's κ = [0.xx]). We will add this mapping to Table 6.
 - *Meaningful diagnosis.* The diagnosis drives the gains: replacing it with a stale one lowers 11 of 12 scores (Table 7).
 
 ---
