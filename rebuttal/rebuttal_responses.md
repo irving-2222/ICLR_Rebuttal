@@ -25,12 +25,12 @@
 | 开头 | 致谢 | ~100 | — | 待写 |
 | W1 | 多智能体是否必要 | ~2,150 | 2,278 | 草稿完成 |
 | W2 | 论文组织 | ~550 | 546 | 草稿完成 |
-| W3 | 遗忘与 R7 的选择 | ~1,290 | 1,288 | 草稿完成 |
+| W3 | 遗忘与 R7 的选择 | ~1,260 | 1,261 | 草稿完成 |
 | Q1 | MedVLSynther 复现 | ~920 | 921 | 草稿完成（复现结果待填） |
 | Q2 | 数据公开 | ~290 | 288 | 草稿完成 |
 | Q3 | 能力分类体系 | ~1,120 | 1,117 | 草稿完成（标注数据待填） |
 | 结尾 | | ~80 | — | 待写 |
-| **合计** | | **≤ 5,000**（需压缩） | **6,448** | |
+| **合计** | | **≤ 5,000**（需压缩） | **6,421** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -56,7 +56,11 @@ Why not merge the roles into one agent? We separate them for three reasons (App.
 
 **W2 (Organization).** The main text specifies every mechanism (Sections 3–4, Eqs. 1–9), including the capability cells defined on task-organized validation sets (Section 3.1), and Section 5.1 gives the evaluation task composition (four 2D VQA, two report-generation, and three 3D benchmarks). The appendix contains implementation parameters (agent models, budgets, thresholds) and dataset statistics, each referenced from the relevant section. Given the page limit, this arrangement keeps the method readable while ensuring full reproducibility.
 
-**W3 (Forgetting and R7).** CoEvoMed is curriculum learning, not continual learning. Every round trains all tasks jointly under fixed quotas (Eq. 7), mixes in replay data (Section 3.3), and validates every task. With no task sequence, catastrophic forgetting and the continual-learning metrics defined over task sequences do not apply, and the paper makes no forgetting claim. "Retention" denotes the allocation lane that maintains coverage of acquired capabilities (Section 4.2), evaluated with the planner in W1. Regressions are still measured more finely, per case and per capability cell each round (Section 4.1, Eq. 6), and enter the signed reward (Eq. 8). Reacting to them is the intended closed-loop behavior, and the outcome is balanced: from R1 to R6, all five reported categories end above their R1 level, including localization after its dip (Figure 6). Later-round declines are small: at R10, SLAKE, PathVQA, and IU-Xray stay within 3 points of their peaks and retain +21.5, +26.9, and +12.8 over R1 (Figure 7). The results do not depend on R7, which was chosen once for overall cross-task balance (Section 5.2, App. C.4): one checkpoint serves all six benchmarks, and even the final R10 checkpoint exceeds Hulu-Med-7B on SLAKE (88.67 vs. 86.80) and PathVQA (67.25 vs. 65.60).
+**W3 (Catastrophic forgetting and the retention claim).** CoEvoMed is curriculum learning, not continual learning. Every round trains all tasks together (Eq. 7), mixes in replay data (Section 3.3), and evaluates every task. There is no task sequence, so catastrophic forgetting and standard continual-learning metrics do not apply. The paper makes no forgetting claim. "Retention" is one part of the budget allocation: it keeps training the capabilities the learner has already acquired (Section 4.2).
+- *Reactive recovery and balance.* Reacting to regressions is the intended closed loop. Regressions are measured per case and per capability every round (Eq. 6) and lower the reward (Eq. 8). From R1 to R6, all five capabilities in Figure 6 end above their R1 level.
+- *Later-round declines.* They are small. At R10, SLAKE, PathVQA, and IU-Xray are within 3 points of their peaks and still +21.5, +26.9, and +12.8 above R1 (Figure 7).
+- *Reliance on R7.* R7 was chosen once, for overall cross-task balance, and serves all six benchmarks (Section 5.2). Even the final R10 beats Hulu-Med-7B on SLAKE (88.67 vs. 86.80) and PathVQA (67.25 vs. 65.60).
+- *Retention ablations.* Retention is part of the planner, which W1 tests: stale feedback lowers 11 of 12 scores.
 
 **Q1 (MedVLSynther base model).** We were aware of the base difference. Absolute scores across different bases conflate a method with its backbone, so the meaningful comparison is each method's gain over its own base (MedVLSynther as published, under its protocol):
 
@@ -98,7 +102,11 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 
 **W2（论文组织）** 正文给出了全部机制（第 3–4 节，式 1–9），包括在按任务组织的验证集上定义的能力单元（第 3.1 节）；第 5.1 节给出了评估任务的组成（四个 2D VQA 基准、两个报告生成基准和三个 3D 基准）。附录包含实现参数（各智能体所用模型、预算、阈值）和数据集统计，并且每项都在正文相应章节中注明了出处。在页数限制下，这样的安排既保证了方法易读，又保证了完全可复现。
 
-**W3（遗忘与 R7）** CoEvoMed 是课程学习，不是持续学习。每一轮都在固定配额下对所有任务联合训练（式 7），混入回放数据（第 3.3 节），并在每一轮验证所有任务。由于不存在任务序列，灾难性遗忘以及基于任务序列定义的持续学习指标并不适用，论文也没有提出任何关于遗忘的主张。"保留"（retention）指的是分配中维持已习得能力覆盖的那一部分（第 4.2 节），它的作用已在 W1 中与规划器一并检验。尽管如此，退化仍然以更细的粒度被测量：每一轮按样本、按能力单元统计（第 4.1 节，式 6），并计入带符号的奖励（式 8）。对测得的退化做出反应正是闭环设计的预期行为，而且结果是均衡的：从 R1 到 R6，图中报告的五个能力类别最终都高于各自的 R1 水平，定位能力在一度下滑后也回升了（Figure 6）。后期轮次的下降幅度很小：在 R10，SLAKE、PathVQA 和 IU-Xray 都保持在各自峰值的 3 分以内，并且相对 R1 仍分别高出 21.5、26.9 和 12.8（Figure 7）。结果并不依赖 R7。R7 是按跨任务的整体均衡性一次性选定的（第 5.2 节，附录 C.4）：六个基准用的是同一个检查点，而且即使是最后的 R10 检查点，在 SLAKE（88.67 对 86.80）和 PathVQA（67.25 对 65.60）上也超过了 Hulu-Med-7B。
+**W3（灾难性遗忘与"保留"的主张）** CoEvoMed 是课程学习，不是持续学习。每一轮都同时训练所有任务（式 7），混入回放数据（第 3.3 节），并评估每一个任务。这里不存在任务序列，因此灾难性遗忘和标准的持续学习指标并不适用。论文也没有提出任何关于遗忘的主张。"保留"（retention）是预算分配的一部分：它持续训练学习者已经掌握的能力（第 4.2 节）。
+- *被动恢复与均衡。* 对退化做出反应，正是闭环设计的本意。每一轮都按样本、按能力测量退化（式 6），退化会降低奖励（式 8）。从 R1 到 R6，Figure 6 中的五项能力最终都高于各自的 R1 水平。
+- *后期轮次的下降。* 下降幅度很小。在 R10，SLAKE、PathVQA 和 IU-Xray 距各自峰值都在 3 分以内，并且仍比 R1 分别高 21.5、26.9 和 12.8（Figure 7）。
+- *对 R7 的依赖。* R7 是按跨任务的整体均衡性一次性选定的，六个基准共用这一个检查点（第 5.2 节）。即使是最后的 R10，在 SLAKE（88.67 对 86.80）和 PathVQA（67.25 对 65.60）上也超过 Hulu-Med-7B。
+- *保留的消融。* 保留是规划器的一部分，而 W1 已经检验了规划器：使用过时反馈会使 12 个分数中的 11 个下降。
 
 **Q1（MedVLSynther 的基础模型）** 我们注意到了基础模型的差异。不同基础模型之间的绝对分数会把方法本身的效果和骨干模型的效果混在一起，因此有意义的比较是各方法相对其自身基础模型的提升（MedVLSynther 采用其原文发表的结果和评测协议）：
 
