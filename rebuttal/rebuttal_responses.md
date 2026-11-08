@@ -358,12 +358,12 @@ Hence ~700K raw examples fall below the base model, most sharply on SLAKE (−26
 | Q1 | 分别确立贡献、PPO、原始数据、选择标准 | ~2,250 | 2,441 | 草稿完成（PPO 日志数据待填） |
 | Q2 | 数据泄漏；R7 的选择 | ~1,600 | 1,602 | 草稿完成（F_e、移除数量、患者层面待填） |
 | Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | ~1,500 | 1,516 | 草稿完成（CURE-4B 的 IU-Xray 分数可选） |
-| Q4 | 复杂推理基准 | ~880 | 878 | 草稿完成（补测结果可选） |
-| **合计** | | **≤ 5,000** | **6,491** | |
+| Q4 | 复杂推理基准 | ~1,220 | 1,222 | 草稿完成 |
+| **合计** | | **≤ 5,000** | **6,835** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合）。
 
-字符空间：Q1–Q4 全部写完后合计 6,491，需压缩约 1,541 字符到 5,000 以内。对应关系：W1 → Q1；W2 的复杂推理 → Q4；W2 的重复运行、置信区间、IU-Xray 提升幅度、32B 不如 8B → Q3。
+字符空间：Q1–Q4 全部写完后合计 6,835，需压缩约 1,885 字符到 5,000 以内。对应关系：W1 → Q1；W2 的复杂推理 → Q4；W2 的重复运行、置信区间、IU-Xray 提升幅度、32B 不如 8B → Q3。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
@@ -398,7 +398,13 @@ Our answers to Q1–Q4 below also address W1–W2.
 
 *32B on IU-Xray.* This scale reversal is common on IU-Xray: the strongest baseline, Hulu-Med (7B 67.30 vs. 32B 62.40), and MedGemma (4B 60.50 vs. 27B 59.00) show it too, so it reflects this 590-case benchmark rather than our method. At matched scale, CoEvoMed-32B exceeds Hulu-Med-32B by +2.68, and it exceeds CoEvoMed-8B on the other five benchmarks (+0.20 to +2.25; Table 1, Figure 3). Beyond the 0.92 RaTEScore margin, CoEvoMed-8B also leads Hulu-Med-7B on IU-Xray in six of eight lexical metrics, by up to +7.5 ROUGE-2 and +3.7 BLEU-4 (Figure 8).
 
-**Q4 (Complex reasoning benchmarks).** Our claims are deliberately scoped to the evaluated tasks (App. E), while the framework itself is task-agnostic: extending it to a new benchmark requires only a validation set organized by the same taxonomy, which already includes medical-knowledge, comparison, and spatial-relation capabilities (Table 6). The existing results already probe reasoning beyond recognition. On 3D-RAD Medical Computation (1,002 quantitative questions on diameter, size, and thickness), CoEvoMed leads the next-best model by +8.6 BLEU-1 and +8.2 ROUGE-1, whereas both 27B general models score below 14 (Figure 9b). On all four 2D VQA benchmarks, CoEvoMed-8B also exceeds every proprietary model, including Qwen3.8-Max and GPT-5.6-sol (Table 1).[ On MedXpertQA-MM and MMMU Health & Medicine, CoEvoMed-8B scores [x] and [y], versus [a] and [b] for Qwen3-VL-8B.]
+**Q4 (Complex medical reasoning).** We evaluate complex reasoning in open-ended, image-grounded form rather than through multiple-choice exam benchmarks such as MedXpertQA-MM and MMMU, where answer options constrain the output. Our suite already contains such tasks, and CoEvoMed leads each:
+- *Multi-finding synthesis:* report generation on MIMIC-CXR, IU-Xray, and AMOS-MM requires detecting, localizing, and characterizing findings and composing them into a report; CoEvoMed ranks first on all three (Figures 3–4), including multi-organ 3D reports on AMOS-MM.
+- *Volumetric reasoning:* M3D-VQA and 3D-RAD require integrating evidence across 64-slice volumes; CoEvoMed ranks first on both (Figure 4).
+- *Quantitative computation:* on 3D-RAD Medical Computation (1,002 questions on diameter, size, and thickness), CoEvoMed leads the next-best model by +8.6 BLEU-1 and +8.2 ROUGE-1, while both 27B general models score below 14 (Figure 9b).
+- *Knowledge-based questions:* SLAKE draws on a medical knowledge base (Table 3); on all four 2D VQA benchmarks, CoEvoMed-8B exceeds every proprietary model, including Qwen3.8-Max and GPT-5.6-sol (Table 1).
+
+App. G further shows multi-turn clinical reasoning on all nine benchmarks.
 ```
 
 ### 中文译文（不发布）
@@ -431,7 +437,13 @@ Our answers to Q1–Q4 below also address W1–W2.
 
 *32B 在 IU-Xray 上的表现。* 在 IU-Xray 上，大模型反而不如小模型的情况很常见：最强的基线 Hulu-Med（7B 67.30，32B 62.40）和 MedGemma（4B 60.50，27B 59.00）也是如此，因此这种反转反映的是这个只有 590 个样本的基准本身的特点，而不是我们方法的问题。在相同规模下，CoEvoMed-32B 比 Hulu-Med-32B 高 2.68；在另外五个基准上，CoEvoMed-32B 都高于 CoEvoMed-8B（+0.20 至 +2.25；Table 1，Figure 3）。除了 RaTEScore 上 0.92 的领先，CoEvoMed-8B 在 IU-Xray 的八个词汇层面指标中有六个领先 Hulu-Med-7B，最多在 ROUGE-2 上领先 7.5、在 BLEU-4 上领先 3.7（Figure 8）。
 
-**Q4（复杂推理基准）** 我们的结论有意限定在已评估的任务范围内（附录 E），而框架本身与具体任务无关：要扩展到一个新的基准，只需要一个按同一分类体系组织的验证集，而这套分类体系本来就包含医学知识、比较和空间关系等能力（Table 6）。现有结果已经检验了超出识别层面的推理能力。在 3D-RAD 的医学计算任务上（1,002 道关于直径、大小和厚度的定量问题），CoEvoMed 比第二名高出 BLEU-1 8.6、ROUGE-1 8.2，而两个 27B 通用模型的得分都低于 14（Figure 9b）。在全部四个 2D VQA 基准上，CoEvoMed-8B 还超过了所有闭源模型，包括 Qwen3.8-Max 和 GPT-5.6-sol（Table 1）。[在 MedXpertQA-MM 和 MMMU Health & Medicine 上，CoEvoMed-8B 的得分为 [x] 和 [y]，而 Qwen3-VL-8B 为 [a] 和 [b]。]
+**Q4（复杂医学推理）** 我们以开放式、基于图像的形式评估复杂推理，而不是采用 MedXpertQA-MM 和 MMMU 这类选择题形式的考试型基准，因为在那类基准中，答案选项会限定模型的输出。我们的评测本来就包含这类任务，而且 CoEvoMed 在每一项上都领先：
+- *多发现综合：* MIMIC-CXR、IU-Xray 和 AMOS-MM 上的报告生成，要求模型检测、定位并描述各项发现，再把它们组织成一份报告；CoEvoMed 在这三个基准上都排名第一（Figure 3–4），其中包括 AMOS-MM 上的多器官 3D 报告。
+- *体数据推理：* M3D-VQA 和 3D-RAD 要求模型整合 64 张切片的体数据中的证据；CoEvoMed 在两者上都排名第一（Figure 4）。
+- *定量计算：* 在 3D-RAD 的医学计算任务上（1,002 道关于直径、大小和厚度的问题），CoEvoMed 比第二名高出 BLEU-1 8.6、ROUGE-1 8.2，而两个 27B 通用模型的得分都低于 14（Figure 9b）。
+- *基于知识的问题：* SLAKE 依托一个医学知识库（Table 3）；在全部四个 2D VQA 基准上，CoEvoMed-8B 超过了所有闭源模型，包括 Qwen3.8-Max 和 GPT-5.6-sol（Table 1）。
+
+附录 G 还展示了在全部九个基准上的多轮临床推理示例。
 
 ### 发布前待核对
 
@@ -450,8 +462,7 @@ Our answers to Q1–Q4 below also address W1–W2.
 - [ ] **Q3 置信区间（可选加强）**：正文用的 ±0.5（PMC-VQA）和 ±1.7（SLAKE）是根据 Table 1 准确率和 Table 3 样本数算出的 Wilson 95% 置信区间（PMC-VQA [67.45, 68.45]，SLAKE [89.78, 93.12]），不需要额外数据。如果之后跑了 Hulu-Med-7B 的推理，可以再补配对 bootstrap 置信区间，重点放在差距最小的 IU-Xray（+0.92）和 PMC-VQA（+1.15）上。
 - [ ] **Q3 CURE-4B**：已核实 CURE（Messina et al., CVPR 2026）的公开信息：基础模型为 MedGemma-4B-IT，以 LoRA 适配器形式公开权重（`pamessina/medgemma-4b-it-cure`）；解剖定位报告生成（AGRG）基于 Chest ImaGenome（建立在 MIMIC-CXR 上）；报告生成的评估包括 MIMIC-CXR、PadChest-GR 和 VinDr-CXR（零样本），没有 IU-Xray。它并不是只用 MIMIC 训练，所以正文写的是"其作者没有在 IU-Xray 上评估"，而不是"它只针对 MIMIC"。方括号里那句可选：因为权重公开，审稿人可能追问"为什么不自己测"。IU-Xray 只有 590 个样本，4B 模型推理很快，建议补测后填入 `[x]`；不测就删掉方括号整句。
 - [ ] **Q3 32B 的说法**：正文把 32B 在 IU-Xray 上低于 8B 归因于基准本身（Hulu-Med 同样如此）。如果你知道其他原因，例如 32B 的训练轮数或预算不同，请告诉我，必要时补充。
-- [ ] **Q4 补测复杂推理基准（强烈建议）**：在 MedXpertQA-MM 和 MMMU Health & Medicine 上测 CoEvoMed-8B 和基础模型 Qwen3-VL-8B，只需推理，不需训练。结果填入方括号那句。如果 CoEvoMed 相对基础模型没有提升，先不要放进正文，我们再讨论写法；如果不测，删掉方括号整句。
-- [ ] **Q4 "deliberately scoped"**：正文说结论有意限定在已评估的任务范围内，依据是附录 E "Applicability claims are restricted to the evaluated data and backbone-specific settings"。
+- [ ] **Q4 备用弹药**：正文不承诺补测 MedXpertQA-MM 和 MMMU。如果 2Nuw 在讨论阶段坚持要这两个基准的结果，再考虑补测（只需推理）。
 
 ### Q2 泄漏分析清单
 
@@ -520,8 +531,12 @@ Our answers to Q1–Q4 below also address W1–W2.
 | Q3：32B 相对 8B：PMC-VQA +2.25、VQA-RAD +0.23、SLAKE +1.00、PathVQA +0.20、MIMIC-CXR +0.71 | Table 1（p.6）；Figure 3（p.7） |
 | Q3：IU-Xray 词汇指标，CoEvoMed-8B 对 Hulu-Med-7B：METEOR +2.8、BLEU-1 −1.0、BLEU-2 +1.1、BLEU-3 +2.8、BLEU-4 +3.7、ROUGE-1 +5.2、ROUGE-2 +7.5、ROUGE-L −0.8 | Figure 8（p.20） |
 | Q3：IU-Xray 测试集 590 个样本 | Table 3（p.19） |
-| Q4：结论限定在已评估的数据与骨干模型设置内 | 附录 E（p.27） |
-| Q4：分类体系包含医学知识、比较、空间关系 | Table 6（p.24） |
+| Q4：报告任务评估"synthesis of image-grounded findings into reports"；AMOS-MM 为胸、腹、盆腔的较长 findings 报告 | 附录 C.1（p.19–20） |
+| Q4：MIMIC-CXR 第一为 CoEvoMed-32B（64.33）；IU-Xray 第一为 CoEvoMed-8B（68.22）；AMOS-MM 第一为 CoEvoMed（66.97） | Figure 3（p.7）；Figure 4（p.8） |
+| Q4：M3D-VQA（83.06）和 3D-RAD（47.07）均排名第一 | Figure 4（p.8） |
+| Q4：体数据以 64 张切片输入 | 附录 C（p.18）；附录 C.1（p.20） |
+| Q4：SLAKE 含医学知识库 | Table 3（p.19） |
+| Q4：多轮对话示例覆盖六个 2D 和三个 3D 基准 | 附录 G（p.30–34） |
 | Q4：3D-RAD 医学计算 1,002 题，涉及直径、大小、厚度；CoEvoMed BLEU-1 37.8 / ROUGE-1 39.3，Photon-3B-S2 29.2 / 31.1，Hulu-Med-7B 23.5 / 26.0，Qwen3.8-27B 13.1 / 13.8，Qwen3.6-27B 2.9 / 8.0 | Figure 9b（p.21）；附录 C.1（p.19–20） |
 | Q4：闭源模型最高分 PMC-VQA 64.58、VQA-RAD 76.81、SLAKE 85.05、PathVQA 64.11（均为 Qwen3.8-Max）；CoEvoMed-8B 67.95、82.48、91.60、69.40 | Table 1（p.6） |
 | Q3：IU-Xray 上同系列大小模型对比：Hulu-Med 7B 67.30 > 32B 62.40；MedGemma 4B 60.50 > 27B 59.00；Qwen3.8-27B 62.37 > Qwen3.8-Max 56.50（未写入正文，Max 的参数量未公开）；反例：Qwen3-VL 8B 50.28 < 32B 58.56，HuatuoGPT-V 7B 52.90 < 34B 58.20；Lingshu-32B 没有 IU-Xray 结果 | Figure 3（p.7） |
