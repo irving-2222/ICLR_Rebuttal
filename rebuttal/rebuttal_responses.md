@@ -28,9 +28,9 @@
 | W3 | 遗忘与 R7 的选择 | ~1,260 | 1,261 | 草稿完成 |
 | Q1 | MedVLSynther 复现 | ~920 | 921 | 草稿完成（复现结果待填） |
 | Q2 | 数据公开 | ~290 | 288 | 草稿完成 |
-| Q3 | 能力分类体系 | ~1,380 | 1,420 | 草稿完成（κ 待算） |
+| Q3 | 能力分类体系 | ~1,450 | 1,455 | 草稿完成 |
 | 结尾 | | ~80 | — | 待写 |
-| **合计** | | **≤ 5,000**（需压缩） | **6,724** | |
+| **合计** | | **≤ 5,000**（需压缩） | **6,759** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -81,7 +81,7 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 **Q3 (Capability taxonomy).** The overlap with SLAKE is by design, not an arbitrary relabeling.
 - *Why these categories.* The taxonomy is not designed from scratch. It follows SLAKE's physician-annotated question categories (Liu et al., 2021). We group SLAKE's fine-grained attribute types into one category, and add spatial relations, comparison, and holistic description for multi-object, multi-image, and report tasks (Table 6). Other benchmarks use similar categories, e.g., VQA-RAD's 11 question types and M3D-VQA's plane, phase, organ, abnormality, and location (Figure 9a).
 - *Why they are necessary.* The categories describe what a question asks of an image, not a dataset. They therefore also cover PathVQA, PMC-VQA, reports, and the support pool, which have no native labels. One shared taxonomy lets us diagnose all tasks, split one budget across them, and retrieve matching evidence (App. C.3).
-- *Mapping and validation against native labels.* We compared our generated annotations with SLAKE's native labels on 200 SLAKE questions. Capability labels agree at 97.5% (195/200; macro-F1 0.977), and body-region labels at 96.5% (193/200; macro-F1 0.948). This is "almost perfect" agreement by the standard of Landis & Koch (1977) (Cohen's κ = [0.xx]). We will add this mapping to Table 6.
+- *Mapping and validation against native labels.* We compared our generated annotations with SLAKE's native labels on 200 SLAKE questions. Capability labels agree at 97.5% (195/200; macro-F1 0.977; Cohen's κ = 0.958), modality labels at 100%, and body-region labels at 96.5% (193/200; macro-F1 0.948). By the standard of Landis & Koch (1977), κ above 0.81 means "almost perfect" agreement. We will add this mapping to Table 6.
 - *Meaningful diagnosis.* The diagnosis drives the gains: replacing it with a stale one lowers 11 of 12 scores (Table 7).
 ```
 
@@ -131,7 +131,7 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 **Q3（能力分类体系）** 与 SLAKE 的重合是有意设计的，而不是随意的重新贴标签。
 - *为什么是这些类别。* 这套分类体系不是从零设计的，而是沿用了 SLAKE 由医生标注的问题类别（Liu et al., 2021）。我们把 SLAKE 中细分的属性类型合并为一类，并为多目标、多图像和报告任务增加了空间关系、比较和整体描述三类（Table 6）。其他基准也采用了类似的类别，例如 VQA-RAD 的 11 种问题类型，以及 M3D-VQA 的扫描平面、期相、器官、异常和位置（Figure 9a）。
 - *为什么这些类别是必要的。* 这些类别描述的是一个问题针对图像在问什么，而不是某个数据集。因此它们同样覆盖 PathVQA、PMC-VQA、报告任务和支持数据池，而这些数据都没有原生标签。一套共享的分类体系，让我们能够诊断所有任务、在它们之间分配同一份预算，并检索匹配的证据（附录 C.3）。
-- *与原生标签的对应和验证。* 我们在 200 道 SLAKE 题目上，把生成的标注与 SLAKE 的原生标签做了比对。能力类别的一致率为 97.5%（195/200；macro-F1 0.977），解剖部位的一致率为 96.5%（193/200；macro-F1 0.948）。按 Landis & Koch (1977) 的标准，这属于"几乎完全一致"（Cohen's κ = [0.xx]）。我们会把这一对应关系补充到 Table 6 中。
+- *与原生标签的对应和验证。* 我们在 200 道 SLAKE 题目上，把生成的标注与 SLAKE 的原生标签做了比对。能力类别的一致率为 97.5%（195/200；macro-F1 0.977；Cohen's κ = 0.958），模态的一致率为 100%，解剖部位的一致率为 96.5%（193/200；macro-F1 0.948）。按 Landis & Koch (1977) 的标准，κ 高于 0.81 即属于"几乎完全一致"。我们会把这一对应关系补充到 Table 6 中。
 - *诊断是有意义的。* 收益正是来自这种诊断：用过时的诊断替代它，会使 12 个分数中的 11 个下降（Table 7）。
 
 ### 发布前待核对
@@ -148,8 +148,9 @@ To remove the base difference entirely, we also trained Qwen3-VL-8B with MedVLSy
 - [ ] **字符超预算**：全部条目写完后合计 5,621 字符，需压缩到 5,000 以内（留约 50 余量）。候选做法：不写开头结尾，W1、W3、Q3 各压约 150，Q1 精简说明文字。
 - [ ] **Q2 承诺**：正文承诺为禁止再分发的源数据提供重新生成脚本。确认接收后能兑现；如果不打算做，把最后半句改为 "are excluded from the release"。
 - [ ] **Q2 待确认许可**：PMC-OA、MedTrinity BHX、RadGenome-ChestCT、Med-MAT 的许可没能直接核实，AbdomenAtlas1.0Mini 的附加条款也不确定，公开前需逐个确认（见下方"Q2 源数据许可核对"）。
-- [ ] **Q3 一致率（已填入）**：日志结果：轴 B（视觉能力）准确率 97.50%（195/200），macro-F1 0.9767；轴 C（模态）准确率 100%，macro-F1 1.0000；轴 D（解剖部位）准确率 96.50%（193/200），macro-F1 0.9476。轴的对应关系来自代码 `AXES = ("task_form", "visual_ability", "modality", "anatomy")`。还需确认：(1) 这 200 条是不是 SLAKE 的题目，参照的是不是 SLAKE 原生的 content type 和 location 标签，是随机抽取还是分层抽取；(2) Cohen's κ：需要 200 条的"原生标签 / 我们的标签"对照或混淆矩阵才能精确计算，算出后填入 `[0.xx]`。按准确率推算，只要原生标签中没有哪一类占到约 87%（轴 B）或 82%（轴 D）以上，κ 就一定高于 0.81，SLAKE 的类别分布远没有这么集中，所以"almost perfect"的结论基本可以确定。
-- [ ] **Q3 轴 C 未写入正文**：论文附录 C.3 写明给 VQA 补标注时"preserving existing modality annotations"，代码里也会把已有的模态标签原样保留。SLAKE 本身带模态标签，所以 100% 很可能只是保留了原标签，不能作为验证证据。如果当时的验证是让模型在看不到原标签的情况下独立判断模态，告诉我，可以补进正文。
+- [x] **Q3 一致率（已填入）**：轴 B（视觉能力）准确率 97.50%（195/200），macro-F1 0.9767，Cohen's κ 0.9575（正文写作 0.958）；轴 C（模态）准确率 100%，为模型在不看原标签的情况下独立判断；轴 D（解剖部位）准确率 96.50%（193/200），macro-F1 0.9476。轴的对应关系来自代码 `AXES = ("task_form", "visual_ability", "modality", "anatomy")`。
+- [ ] **Q3 κ 对应的轴**：正文把 κ = 0.958 放在能力类别（轴 B）后面。如果这个 κ 是别的轴或整体的值，告诉我调整位置。
+- [ ] **Q3 样本说明（可选）**：如果这 200 条是随机抽取的，可以在 "on 200 SLAKE questions" 前加 "randomly sampled"。
 - [ ] **Q3 SLAKE 措辞**：SLAKE 原文能确认的是"语义标注由经验丰富的医生完成"，并且"每个问题都标有语义标签，用于区分问题类型"；没有找到"类别体系由专家设计"的明确表述。所以正文写的是 "physician-annotated question categories"（医生标注的问题类别），而不是 "expert-designed"。如果你手上的 SLAKE 原文有"类别由医生设计"的原句，告诉我页码，可以改成 "designed and annotated by physicians"。
 - [ ] **Q3 对应关系**：正文写了"把 SLAKE 细分的属性类型合并为一类，并新增空间关系、比较和整体描述三类"。请对照下方对应表确认，尤其是 SLAKE 的 Plane 和 Quantity 分别归到哪一类。
 - [ ] **W1 可选补充**：如果核验器日志里有拒绝率，可以在 "independently checked" 之后加一句（约 75 字符），作为核验器单独起作用的正面证据：`The verifier rejects [X]% of constructed candidates, mainly for [reason].`
