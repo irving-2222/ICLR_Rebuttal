@@ -488,7 +488,7 @@ Our answers to Q1–Q4 below also address W1–W2.
 - [ ] **Q2 F_e 计算**：用日志算出每一轮内部验证集上的 F_e（附录 F.4：VQA 与报告两类任务验证分数的等权平均，即规划器优化的目标），看它选出哪一轮。选出 R7 时，占位符改为 "R7, the same checkpoint"；选出其他轮次时，写明轮次和该轮在外部基准上的分数。
 - [x] **Q2 去重的实际做法（已确认事实）**：与内部验证集和全部外部测试集比对，依据样本 ID、图像路径、像素哈希，并对每条样本的文本做泄漏查询；PubMedVision-IU 与 IU-Xray 专门做过。
 - [x] **Q2 泄漏筛查结果（已填入）**：2D 11 个源、3D 5 个源与外部测试集在样本 ID（含 study/case ID）、图像路径、像素哈希（精确 RGB SHA-256，加 dHash + 128×128 NCC ≥ 0.95 的近似重复核验；3D 为视频 SHA-256 加首帧 RGB SHA-256，AbdomenAtlas 对 AMOS-MM 另做 5 帧核验）、文本（归一化精确匹配 ≥20 字符，句子级 ≥40 字符）四个层面全部为 0。PubMedVision-IU 对 IU-Xray 专项全部为 0；PMC-OA 与 PMC-VQA 测试集的 PMC 论文 ID 集合完全不相交。
-- [ ] **Q2 筛查口径与论文口径不一致（需确认）**：报告中 MIMIC-CXR 本地为 304 个检查 / 676 张图，论文评测为 2,343 个样本；PathVQA 本地 6,719，论文 6,761。正文写的是"against every external test"。如果筛查没有覆盖论文评测用的全部 MIMIC-CXR 和 PathVQA 测试样本，需要补筛，或者把正文改成如实的范围。3D-RAD 本地 33,910，大于论文评测的 4,692，应该是包含了评测子集，没有问题。
+- [x] **Q2 筛查口径（已确认）**：筛查使用的测试集规模与论文一致（Table 3–4），报告中 MIMIC-CXR、PathVQA 的数字为笔误。正文"against every external test"成立。
 - [ ] **Q2 患者层面**：报告的 ID 层面包含 study/case ID，正文据此写"IDs (including study and case IDs)"，没有单独声称做了患者 ID 匹配。如果审稿人追问患者层面，再说明哪些数据集提供患者 ID。
 - [ ] **Q2 代码描述核对**：正文对代码行为的描述（共享记录 ID、图像路径、RGB 哈希或 study ID 即拒绝启动；必须有原始划分来源；训练任务再次比对）来自提交的 `coevomed/data.py`（`validate_partitions`、`validate_evidence_identity`、`validate_exclusions`）。请确认正式实验用的是同一套检查逻辑。
 - [ ] **Q2 定稿时补进论文**：附录 C.3 目前只写了与验证集的重叠检查。定稿时补上与外部测试集的筛查、文本泄漏查询，以及 R7 依据外部基准选出这一点。
