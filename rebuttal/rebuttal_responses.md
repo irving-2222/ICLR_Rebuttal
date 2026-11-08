@@ -398,13 +398,13 @@ As a result, ~700K raw examples fall below the base model. The largest drop is o
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | ~50 | 46 | 草稿完成（可删） |
 | Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 1,725 | 已压缩（占位符待填） |
 | Q2 | 数据泄漏；R7 的选择 | — | 1,045 | 已压缩（F_e 待填） |
-| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,231 | 已压缩（CURE-4B 分数可选） |
-| Q4 | 复杂推理基准 | — | 849 | 已压缩（占位符待填） |
-| **合计** | | **≤ 5,000** | **4,904** | |
+| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,217 |已压缩（CURE-4B 分数可选） |
+| Q4 | 复杂推理基准 | — | 821 |已压缩（占位符待填） |
+| **合计** | | **≤ 5,000** | **4,862** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合）。
 
-字符空间：当前 4,904 字符（含占位符）。剩余占位符填满后最多约增加 140 字符（动作序列约 +80、F_e 若不是 R7 约 +40、CURE-4B 一句约 ±0），仍在 5,000 以内。
+字符空间：当前 4,862 字符（含占位符）。PPO 动作序列填入后约 +90，F_e 若不是 R7 约 +40，最坏约 4,992，仍在 5,000 以内，但余量很小；动作序列请尽量写紧凑。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
@@ -431,17 +431,17 @@ Our answers to Q1–Q4 below also address W1–W2.
 *Was R7 selected by a predefined internal criterion?* R7 was chosen once, for cross-task balance on the external benchmarks (Sec. 5.2). Training, curriculum, and principle revision never use them (App. A, C.6). The predefined internal criterion, the validation objective F_e (App. F.4), selects [R7]. The results also hold without selection: the final R10 beats Hulu-Med-7B on SLAKE (88.67 vs. 86.80) and PathVQA (67.25 vs. 65.60).
 
 **Q3 (Runs and intervals; CURE-4B; 32B on IU-Xray).**
-*Independent runs and intervals.* We ran the full pipeline independently on four learners from three model families, with different architectures and scales: Qwen3-VL (8B and 32B), Gemma 3 (4B), and InternVL3 (9B). Every run improves over its own base on every benchmark evaluated: 16 of 16 comparisons, by +6.52 to +26.76 (Table 1, Figs. 3 and 5, App. C.5). These gains far exceed the test-set uncertainty (95% CI about ±0.5 on PMC-VQA and ±1.7 on SLAKE). An effect that holds across families, architectures, and scales is not a single-run artifact.
+*Independent runs and intervals.* We ran the full pipeline independently on four learners from three model families, with different architectures and scales: Qwen3-VL (8B and 32B), Gemma 3 (4B), and InternVL3 (9B). Every run improves over its own base on every benchmark evaluated: 16 of 16 comparisons, by +6.52 to +26.76 (Tab. 1; Figs. 3, 5). These gains far exceed the test-set uncertainty (95% CI about ±0.5 on PMC-VQA and ±1.7 on SLAKE). An effect that holds across families, architectures, and scales is not a single-run artifact.
 *Why is CURE-4B absent from IU-Xray?* Its compared mode (AGRG-29 + GRG) uses Chest ImaGenome regions defined on MIMIC-CXR, and its authors evaluate report generation on MIMIC-CXR, not IU-Xray.[ On IU-Xray it scores [x] RaTEScore.]
 *Why does 32B underperform 8B on IU-Xray?* This is common on IU-Xray: Hulu-Med (7B 67.30 vs. 32B 62.40) and MedGemma (4B 60.50 vs. 27B 59.00) show it too. At matched scale, CoEvoMed-32B beats Hulu-Med-32B by +2.68, and it beats CoEvoMed-8B on the other five benchmarks. Beyond the 0.92 RaTEScore margin, CoEvoMed-8B leads Hulu-Med-7B on six of eight lexical metrics (up to +7.5 ROUGE-2; Fig. 8).
 
 **Q4 (Complex reasoning).**
 *Why not MedXpertQA-MM or MMMU?* We test complex reasoning in open-ended, image-grounded form, where no answer options constrain the output.
-*How do the results support generalization?* CoEvoMed leads every such task in our suite:
+*How do the results support generalization?* CoEvoMed leads each such task:
 - *Multi-finding synthesis:* first on MIMIC-CXR, IU-Xray, and multi-organ 3D AMOS-MM report generation (Figs. 3–4).
 - *Volumetric reasoning:* first on M3D-VQA and 3D-RAD, across 64-slice volumes (Fig. 4).
 - *Quantitative computation:* on 3D-RAD Medical Computation (1,002 questions on size, diameter, and thickness), +8.6 BLEU-1 over the next-best model, while 27B general models score below 14 (Fig. 9b).
-- *Knowledge-based questions:* on all four 2D VQA benchmarks, including knowledge-based SLAKE, CoEvoMed-8B beats every proprietary model, such as Qwen3.8-Max and GPT-5.6-sol (Table 1).
+- *Knowledge-based questions:* on all four 2D VQA benchmarks, including knowledge-based SLAKE, CoEvoMed-8B beats every proprietary model, including Qwen3.8-Max (Table 1).
 ```
 
 ### 中文译文（不发布）
@@ -466,17 +466,17 @@ Our answers to Q1–Q4 below also address W1–W2.
 *R7 是否依据预先定义的内部标准选出？* R7 是按外部基准上的跨任务均衡性一次性选定的（第 5.2 节）。训练、课程分配和原则修订从不使用外部基准（附录 A、C.6）。按照预先定义的内部标准，即验证目标 F_e（附录 F.4），选出的是 [R7]。即使不做任何选择，结果依然成立：最后一轮 R10 在 SLAKE（88.67 对 86.80）和 PathVQA（67.25 对 65.60）上超过 Hulu-Med-7B。
 
 **Q3（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）**
-*独立运行与置信区间。* 我们在来自三个模型家族的四个学习者模型上独立运行了完整流程，它们的架构和规模各不相同：Qwen3-VL（8B 和 32B）、Gemma 3（4B）和 InternVL3（9B）。每一次运行在所有评测基准上都超过了各自的基础模型：16 组比较全部提升，幅度为 +6.52 至 +26.76（Table 1，Figure 3 和 5，附录 C.5）。这些提升远大于测试集本身的不确定性（95% 置信区间约为 PMC-VQA ±0.5、SLAKE ±1.7）。一个在不同模型家族、不同架构和不同规模上都成立的效果，不可能是某一次运行的偶然结果。
+*独立运行与置信区间。* 我们在来自三个模型家族的四个学习者模型上独立运行了完整流程，它们的架构和规模各不相同：Qwen3-VL（8B 和 32B）、Gemma 3（4B）和 InternVL3（9B）。每一次运行在所有评测基准上都超过了各自的基础模型：16 组比较全部提升，幅度为 +6.52 至 +26.76（Table 1；Figure 3、5）。这些提升远大于测试集本身的不确定性（95% 置信区间约为 PMC-VQA ±0.5、SLAKE ±1.7）。一个在不同模型家族、不同架构和不同规模上都成立的效果，不可能是某一次运行的偶然结果。
 *为什么 IU-Xray 的比较中没有 CURE-4B？* 我们比较的 CURE-4B 模式（AGRG-29 + GRG）使用的是 Chest ImaGenome 在 MIMIC-CXR 上定义的区域，其作者只在 MIMIC-CXR 上评估报告生成，没有评估 IU-Xray。[在 IU-Xray 上，它的 RaTEScore 为 [x]。]
 *为什么 32B 在 IU-Xray 上不如 8B？* 这在 IU-Xray 上很常见：Hulu-Med（7B 67.30，32B 62.40）和 MedGemma（4B 60.50，27B 59.00）也是如此。在相同规模下，CoEvoMed-32B 比 Hulu-Med-32B 高 2.68；在其余五个基准上，CoEvoMed-32B 都高于 CoEvoMed-8B。除了 RaTEScore 上 0.92 的领先，CoEvoMed-8B 在八个词汇指标中有六个领先 Hulu-Med-7B（ROUGE-2 最多领先 7.5；Figure 8）。
 
 **Q4（复杂推理）**
 *为什么没有使用 MedXpertQA-MM 或 MMMU？* 我们以开放式、基于图像的形式检验复杂推理，在这种形式下，没有答案选项来限定模型的输出。
-*现有结果如何支持泛化到复杂推理？* CoEvoMed 在我们评测中的每一项此类任务上都领先：
+*现有结果如何支持泛化到复杂推理？* CoEvoMed 在每一项此类任务上都领先：
 - *多发现综合：* 在 MIMIC-CXR、IU-Xray 以及多器官 3D 的 AMOS-MM 报告生成上都排名第一（Figure 3–4）。
 - *体数据推理：* 在 M3D-VQA 和 3D-RAD 上都排名第一，需要整合 64 张切片的信息（Figure 4）。
 - *定量计算：* 在 3D-RAD 的医学计算任务上（1,002 道关于大小、直径和厚度的问题），比第二名高出 BLEU-1 8.6，而 27B 通用模型的得分都低于 14（Figure 9b）。
-- *基于知识的问题：* 在全部四个 2D VQA 基准上（包括依托知识库的 SLAKE），CoEvoMed-8B 都超过了所有闭源模型，例如 Qwen3.8-Max 和 GPT-5.6-sol（Table 1）。
+- *基于知识的问题：* 在全部四个 2D VQA 基准上（包括依托知识库的 SLAKE），CoEvoMed-8B 都超过了所有闭源模型，包括 Qwen3.8-Max（Table 1）。
 
 ### 发布前待核对
 
