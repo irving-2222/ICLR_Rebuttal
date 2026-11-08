@@ -357,13 +357,13 @@ Hence ~700K raw examples fall below the base model, most sharply on SLAKE (−26
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | ~50 | 46 | 草稿完成（可删） |
 | Q1 | 分别确立贡献、PPO、原始数据、选择标准 | ~2,250 | 2,441 | 草稿完成（PPO 日志数据待填） |
 | Q2 | 数据泄漏；R7 的选择 | ~1,600 | 1,602 | 草稿完成（F_e、移除数量、患者层面待填） |
-| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | ~1,450 | 1,488 | 草稿完成（CURE-4B 的 IU-Xray 分数可选） |
+| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | ~1,500 | 1,516 | 草稿完成（CURE-4B 的 IU-Xray 分数可选） |
 | Q4 | 复杂推理基准 | ~700 | — | 待写 |
-| **合计** | | **≤ 5,000** | **5,583** | |
+| **合计** | | **≤ 5,000** | **5,611** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合）。
 
-字符空间：加入 Q3 后合计 5,583，已超出 5,000。Q4 写完后统一压缩，主要压缩 Q1（约 2,440 字符）和 Q2（约 1,600 字符）。对应关系：W1 → Q1；W2 的复杂推理 → Q4；W2 的重复运行、置信区间、IU-Xray 提升幅度、32B 不如 8B → Q3。
+字符空间：加入 Q3 后合计 5,611，已超出 5,000。Q4 写完后统一压缩，主要压缩 Q1（约 2,440 字符）和 Q2（约 1,600 字符）。对应关系：W1 → Q1；W2 的复杂推理 → Q4；W2 的重复运行、置信区间、IU-Xray 提升幅度、32B 不如 8B → Q3。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
@@ -396,7 +396,7 @@ Our answers to Q1–Q4 below also address W1–W2.
 
 *CURE-4B.* CURE targets anatomy-grounded chest X-ray reporting. The mode compared in Figure 3 (AGRG-29 + GRG) relies on the 29 Chest ImaGenome regions defined on MIMIC-CXR, and its authors evaluate report generation on MIMIC-CXR but not on IU-Xray, so we compared it on the benchmark it targets.[ On IU-Xray, it scores [x] RaTEScore.]
 
-*32B on IU-Xray.* The strongest baseline family shows the same pattern: Hulu-Med-32B (62.40) trails Hulu-Med-7B (67.30) on IU-Xray, so the reversal reflects this 590-case benchmark rather than our method. At matched scale, CoEvoMed-32B exceeds Hulu-Med-32B by +2.68, and it exceeds CoEvoMed-8B on the other five benchmarks (+0.20 to +2.25; Table 1, Figure 3). Beyond the 0.92 RaTEScore margin, CoEvoMed-8B also leads Hulu-Med-7B on IU-Xray in six of eight lexical metrics, by up to +7.5 ROUGE-2 and +3.7 BLEU-4 (Figure 8).
+*32B on IU-Xray.* This scale reversal is common on IU-Xray: the strongest baseline, Hulu-Med (7B 67.30 vs. 32B 62.40), and MedGemma (4B 60.50 vs. 27B 59.00) show it too, so it reflects this 590-case benchmark rather than our method. At matched scale, CoEvoMed-32B exceeds Hulu-Med-32B by +2.68, and it exceeds CoEvoMed-8B on the other five benchmarks (+0.20 to +2.25; Table 1, Figure 3). Beyond the 0.92 RaTEScore margin, CoEvoMed-8B also leads Hulu-Med-7B on IU-Xray in six of eight lexical metrics, by up to +7.5 ROUGE-2 and +3.7 BLEU-4 (Figure 8).
 ```
 
 ### 中文译文（不发布）
@@ -427,7 +427,7 @@ Our answers to Q1–Q4 below also address W1–W2.
 
 *CURE-4B。* CURE 针对的是带解剖定位的胸片报告生成。Figure 3 中比较的模式（AGRG-29 + GRG）依赖 Chest ImaGenome 在 MIMIC-CXR 上定义的 29 个解剖区域，而且其作者只在 MIMIC-CXR 上评估了报告生成，没有评估 IU-Xray，因此我们在它所针对的基准上与它比较。[在 IU-Xray 上，它的 RaTEScore 为 [x]。]
 
-*32B 在 IU-Xray 上的表现。* 最强的基线模型系列也呈现同样的规律：在 IU-Xray 上，Hulu-Med-32B（62.40）低于 Hulu-Med-7B（67.30），因此这种反转反映的是这个只有 590 个样本的基准本身的特点，而不是我们方法的问题。在相同规模下，CoEvoMed-32B 比 Hulu-Med-32B 高 2.68；在另外五个基准上，CoEvoMed-32B 都高于 CoEvoMed-8B（+0.20 至 +2.25；Table 1，Figure 3）。除了 RaTEScore 上 0.92 的领先，CoEvoMed-8B 在 IU-Xray 的八个词汇层面指标中有六个领先 Hulu-Med-7B，最多在 ROUGE-2 上领先 7.5、在 BLEU-4 上领先 3.7（Figure 8）。
+*32B 在 IU-Xray 上的表现。* 在 IU-Xray 上，大模型反而不如小模型的情况很常见：最强的基线 Hulu-Med（7B 67.30，32B 62.40）和 MedGemma（4B 60.50，27B 59.00）也是如此，因此这种反转反映的是这个只有 590 个样本的基准本身的特点，而不是我们方法的问题。在相同规模下，CoEvoMed-32B 比 Hulu-Med-32B 高 2.68；在另外五个基准上，CoEvoMed-32B 都高于 CoEvoMed-8B（+0.20 至 +2.25；Table 1，Figure 3）。除了 RaTEScore 上 0.92 的领先，CoEvoMed-8B 在 IU-Xray 的八个词汇层面指标中有六个领先 Hulu-Med-7B，最多在 ROUGE-2 上领先 7.5、在 BLEU-4 上领先 3.7（Figure 8）。
 
 ### 发布前待核对
 
@@ -514,6 +514,7 @@ Our answers to Q1–Q4 below also address W1–W2.
 | Q3：32B 相对 8B：PMC-VQA +2.25、VQA-RAD +0.23、SLAKE +1.00、PathVQA +0.20、MIMIC-CXR +0.71 | Table 1（p.6）；Figure 3（p.7） |
 | Q3：IU-Xray 词汇指标，CoEvoMed-8B 对 Hulu-Med-7B：METEOR +2.8、BLEU-1 −1.0、BLEU-2 +1.1、BLEU-3 +2.8、BLEU-4 +3.7、ROUGE-1 +5.2、ROUGE-2 +7.5、ROUGE-L −0.8 | Figure 8（p.20） |
 | Q3：IU-Xray 测试集 590 个样本 | Table 3（p.19） |
+| Q3：IU-Xray 上同系列大小模型对比：Hulu-Med 7B 67.30 > 32B 62.40；MedGemma 4B 60.50 > 27B 59.00；Qwen3.8-27B 62.37 > Qwen3.8-Max 56.50（未写入正文，Max 的参数量未公开）；反例：Qwen3-VL 8B 50.28 < 32B 58.56，HuatuoGPT-V 7B 52.90 < 34B 58.20；Lingshu-32B 没有 IU-Xray 结果 | Figure 3（p.7） |
 | Q3：每轮 24 张 A100 | 附录 B（p.17） |
 | Q3：16 组相对基础模型的提升全部为正（+6.52 至 +26.76）。8B：+13.82、+25.72、+26.76、+26.63、MIMIC +12.86、IU +17.94；32B：+12.96、+16.86、+20.73、+25.32、MIMIC +7.14、IU +6.52；Gemma：+22.39、+16.23；InternVL：+20.40、+13.28 | Table 1（p.6）；Figure 3（p.7，Qwen3-VL-8B MIMIC 50.76、IU 50.28；Qwen3-VL-32B MIMIC 57.19、IU 58.56）；Figure 5（p.9）；附录 C.5（p.24） |
 | Q3：置信区间半宽 ±0.5、±1.7 | 由 Table 1 准确率和 Table 3 样本数计算的 Wilson 区间 |
