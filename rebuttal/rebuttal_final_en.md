@@ -84,8 +84,8 @@ As a result, ~700K raw examples fall below the base model. The largest drop is o
 
 ## Response to Reviewer 2Nuw
 
-**Q1 & W1 (Contributions, PPO, raw data, selection criteria).**
-*Principle evolution vs. adaptive curricula.* Same teachers, data sources, budget, and R5 checkpoint (Tables 7–8; mean change over six benchmarks):
+**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** Each part is tested in App. D.
+- *Principle evolution vs. adaptive curricula.* Same teachers, data sources, budget, and R5 checkpoint (Tables 7–8; mean change, six benchmarks):
 
 | Condition | Principles | Curriculum | Mean Δ | Improved |
 |---|---|---|---|---|
@@ -93,13 +93,13 @@ As a result, ~700K raw examples fall below the base model. The largest drop is o
 | Adaptive curriculum alone | fixed | current feedback | −5.27 | 0/6 |
 | Both (CoEvoMed) | evolved | current feedback | **+1.50** | **6/6** |
 
-*PPO vs. simpler allocation.* The planner optimizes cumulative gain (Eq. 5), not a greedy rule. Its choices follow the learner's state: across R1–R7 it chose balanced, weakness-focused, retention-heavy, balanced, repair-heavy, repair-heavy, balanced. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (Fig. 6). With localization above R1, it returned to balanced at R7.
-*Raw-data degradation.* The raw sources (App. D.3) are not task-aligned (58.3% of 2D records are figure descriptions; Fig. 10), not verified, not targeted, and not adapted. CoEvoMed handles these with the constructor, verifier, planner, and revision agent. With CoEvoMed, SLAKE reaches 91.60 instead of 38.15 (Table 9).
-*Selection criteria vs. learning gains.* The criteria screen supervision quality before use. The loop then checks learning gains: principles whose net repair stays non-positive are revised again (Sec. 4.3). The selected principles raise all six benchmarks at R5, where the originals lower all six (+6.77 on average; Table 8).
+- *PPO vs. simpler allocation.* The planner optimizes cumulative gain (Eq. 5), not a greedy rule. Its choices follow the learner's state. Across R1–R7: balanced, weakness-focused, retention-heavy, balanced, repair-heavy, repair-heavy, balanced. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (Fig. 6). With localization above R1, it returned to balanced at R7.
+- *Raw-data degradation.* The raw sources (App. D.3) are not task-aligned (58.3% of 2D records are figure descriptions; Fig. 10), not verified, not targeted, and not adapted. CoEvoMed handles these with the constructor, verifier, planner, and revision agent. With CoEvoMed, SLAKE reaches 91.60 instead of 38.15 (Table 9).
+- *Selection criteria vs. learning gains.* The criteria screen supervision quality before use. The loop then checks learning gains: principles whose net repair stays non-positive are revised again (Sec. 4.3). The selected principles raise all six benchmarks at R5, where the originals lower all six (+6.77 mean; Table 8).
 
 **Q2 (Overlaps; R7).**
-*Patient-, study-, and image-level overlaps.* We treated leakage as a design constraint: support, validation, and test data are separate partitions (Sec. 1; App. C.6), enforced by our code (coevomed/data.py). We screened all 11 2D and 5 3D sources against every external test at four levels: IDs (including study and case IDs), image paths, pixel hashes (exact and near-duplicate), and normalized text. All checks found zero overlap, including PubMedVision-IU vs. IU-Xray; PMC-OA and PMC-VQA also draw on disjoint PMC articles.
-*Was R7 selected by a predefined internal criterion?* Yes. R7 has the most balanced capability profile on the internal validation sets (App. C.4), as defined in Sec. 3.1 (Eq. 1), and one checkpoint serves all six benchmarks. We test every round on external benchmarks only to show how evolution improves the learner, and report all ten rounds, including declines (Fig. 7). These scores never feed back into training or checkpoint selection (App. A, C.6).
+*Patient-, study-, and image-level overlaps.* We treated leakage as a design constraint: support, validation, and test data are separate partitions (Sec. 1; App. C.6) and enforced in our code. We screened all 11 2D and 5 3D sources against every external test at four levels: IDs (including study and case IDs), image paths, pixel hashes (exact and near-duplicate), and normalized text. All checks found zero overlap, including PubMedVision-IU vs. IU-Xray; PMC-OA and PMC-VQA also draw on disjoint PMC articles.
+*Was R7 selected by a predefined internal criterion?* Yes. R7 has the most balanced capability profile on the internal validation sets (Sec. 3.1, Eq. 1; App. C.4), and one checkpoint serves all six benchmarks. We test every round on external benchmarks only to show how evolution improves the learner, and report all ten rounds, including declines (Fig. 7). These scores never feed back into training or checkpoint selection (App. A, C.6).
 
 **Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).**
 *Independent runs and intervals.* We ran the full pipeline independently on four learners from three model families, with different architectures and scales: Qwen3-VL (8B and 32B), Gemma 3 (4B), and InternVL3 (9B). Every run improves over its own base on every benchmark evaluated: 16 of 16 comparisons, by +6.52 to +26.76. These gains far exceed the test-set uncertainty (95% CI ±0.5 on PMC-VQA, ±1.7 on SLAKE). An effect that holds across families, architectures, and scales is not a single-run artifact.

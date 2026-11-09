@@ -408,23 +408,23 @@ As a result, ~700K raw examples fall below the base model. The largest drop is o
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | — | — | 已改为在标题中注明 |
-| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 1,629 | 已填入 PPO 动作序列 |
-| Q2 | 数据泄漏；R7 的选择 | — | 1,005 | 已定稿 |
+| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 1,650 | 已改为分点格式 |
+| Q2 | 数据泄漏；R7 的选择 | — | 974 | 已定稿 |
 | Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,329 | 已定稿 |
 | Q4 | 复杂推理基准 | — | 1,025 | 已定稿 |
-| **合计** | | **≤ 5,000** | **4,994** | |
+| **合计** | | **≤ 5,000** | **4,984** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
-字符空间：当前 4,994 字符，占位符已全部填完，只剩 6 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
+字符空间：当前 4,984 字符，占位符已全部填完，只剩 16 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
 ### 英文正文（发布用）
 
 ```markdown
-**Q1 & W1 (Contributions, PPO, raw data, selection criteria).**
-*Principle evolution vs. adaptive curricula.* Same teachers, data sources, budget, and R5 checkpoint (Tables 7–8; mean change over six benchmarks):
+**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** Each part is tested in App. D.
+- *Principle evolution vs. adaptive curricula.* Same teachers, data sources, budget, and R5 checkpoint (Tables 7–8; mean change, six benchmarks):
 
 | Condition | Principles | Curriculum | Mean Δ | Improved |
 |---|---|---|---|---|
@@ -432,13 +432,13 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 | Adaptive curriculum alone | fixed | current feedback | −5.27 | 0/6 |
 | Both (CoEvoMed) | evolved | current feedback | **+1.50** | **6/6** |
 
-*PPO vs. simpler allocation.* The planner optimizes cumulative gain (Eq. 5), not a greedy rule. Its choices follow the learner's state: across R1–R7 it chose balanced, weakness-focused, retention-heavy, balanced, repair-heavy, repair-heavy, balanced. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (Fig. 6). With localization above R1, it returned to balanced at R7.
-*Raw-data degradation.* The raw sources (App. D.3) are not task-aligned (58.3% of 2D records are figure descriptions; Fig. 10), not verified, not targeted, and not adapted. CoEvoMed handles these with the constructor, verifier, planner, and revision agent. With CoEvoMed, SLAKE reaches 91.60 instead of 38.15 (Table 9).
-*Selection criteria vs. learning gains.* The criteria screen supervision quality before use. The loop then checks learning gains: principles whose net repair stays non-positive are revised again (Sec. 4.3). The selected principles raise all six benchmarks at R5, where the originals lower all six (+6.77 on average; Table 8).
+- *PPO vs. simpler allocation.* The planner optimizes cumulative gain (Eq. 5), not a greedy rule. Its choices follow the learner's state. Across R1–R7: balanced, weakness-focused, retention-heavy, balanced, repair-heavy, repair-heavy, balanced. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (Fig. 6). With localization above R1, it returned to balanced at R7.
+- *Raw-data degradation.* The raw sources (App. D.3) are not task-aligned (58.3% of 2D records are figure descriptions; Fig. 10), not verified, not targeted, and not adapted. CoEvoMed handles these with the constructor, verifier, planner, and revision agent. With CoEvoMed, SLAKE reaches 91.60 instead of 38.15 (Table 9).
+- *Selection criteria vs. learning gains.* The criteria screen supervision quality before use. The loop then checks learning gains: principles whose net repair stays non-positive are revised again (Sec. 4.3). The selected principles raise all six benchmarks at R5, where the originals lower all six (+6.77 mean; Table 8).
 
 **Q2 (Overlaps; R7).**
-*Patient-, study-, and image-level overlaps.* We treated leakage as a design constraint: support, validation, and test data are separate partitions (Sec. 1; App. C.6), enforced by our code (coevomed/data.py). We screened all 11 2D and 5 3D sources against every external test at four levels: IDs (including study and case IDs), image paths, pixel hashes (exact and near-duplicate), and normalized text. All checks found zero overlap, including PubMedVision-IU vs. IU-Xray; PMC-OA and PMC-VQA also draw on disjoint PMC articles.
-*Was R7 selected by a predefined internal criterion?* Yes. R7 has the most balanced capability profile on the internal validation sets (App. C.4), as defined in Sec. 3.1 (Eq. 1), and one checkpoint serves all six benchmarks. We test every round on external benchmarks only to show how evolution improves the learner, and report all ten rounds, including declines (Fig. 7). These scores never feed back into training or checkpoint selection (App. A, C.6).
+*Patient-, study-, and image-level overlaps.* We treated leakage as a design constraint: support, validation, and test data are separate partitions (Sec. 1; App. C.6) and enforced in our code. We screened all 11 2D and 5 3D sources against every external test at four levels: IDs (including study and case IDs), image paths, pixel hashes (exact and near-duplicate), and normalized text. All checks found zero overlap, including PubMedVision-IU vs. IU-Xray; PMC-OA and PMC-VQA also draw on disjoint PMC articles.
+*Was R7 selected by a predefined internal criterion?* Yes. R7 has the most balanced capability profile on the internal validation sets (Sec. 3.1, Eq. 1; App. C.4), and one checkpoint serves all six benchmarks. We test every round on external benchmarks only to show how evolution improves the learner, and report all ten rounds, including declines (Fig. 7). These scores never feed back into training or checkpoint selection (App. A, C.6).
 
 **Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).**
 *Independent runs and intervals.* We ran the full pipeline independently on four learners from three model families, with different architectures and scales: Qwen3-VL (8B and 32B), Gemma 3 (4B), and InternVL3 (9B). Every run improves over its own base on every benchmark evaluated: 16 of 16 comparisons, by +6.52 to +26.76. These gains far exceed the test-set uncertainty (95% CI ±0.5 on PMC-VQA, ±1.7 on SLAKE). An effect that holds across families, architectures, and scales is not a single-run artifact.
@@ -452,8 +452,8 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 
 ### 中文译文（不发布）
 
-**Q1 与 W1（各部分的贡献、PPO、原始数据、选择标准）**
-*原则演化与自适应课程。* 相同的教师模型、数据来源、预算和 R5 检查点（Table 7–8；六个基准上的平均变化）：
+**Q1 与 W1（各部分的贡献、PPO、原始数据、选择标准）** 每个部分都在附录 D 中做了检验。
+- *原则演化与自适应课程。* 相同的教师模型、数据来源、预算和 R5 检查点（Table 7–8；六个基准上的平均变化）：
 
 | 条件 | 原则 | 课程 | 平均变化 | 提升的基准数 |
 |---|---|---|---|---|
@@ -461,13 +461,13 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 | 只有自适应课程 | 固定 | 当前反馈 | −5.27 | 0/6 |
 | 两者结合（CoEvoMed） | 演化后 | 当前反馈 | **+1.50** | **6/6** |
 
-*PPO 与更简单的分配策略。* 规划器优化的是累计收益（式 5），而不是一条贪心规则。它的选择会随学习者的状态变化：R1–R7 中它依次选择了 balanced、weakness-focused、retention-heavy、balanced、repair-heavy、repair-heavy、balanced。定位能力在 R4 退化后（60.27 → 56.16），它在 R5 和 R6 换成了 repair-heavy，定位能力随之回升到 59.36 和 62.10（Figure 6）。定位能力超过 R1 之后，它在 R7 回到了 balanced。
-*原始数据退化。* 原始数据（附录 D.3）与任务不对齐（2D 记录中 58.3% 是图像描述；Figure 10），没有经过核查，没有针对性，也不会自适应。CoEvoMed 分别用构建器、核验器、规划器和修订智能体处理这几点。经过 CoEvoMed 处理后，SLAKE 达到 91.60，而不是 38.15（Table 9）。
-*选择标准与学习收益的关系。* 选择标准在使用之前筛查监督数据的质量。之后由闭环检验学习收益：净修复一直不为正的原则会被再次修订（第 4.3 节）。被选中的原则在 R5 让六个基准全部提升，而原始原则让六个基准全部下降（平均高出 6.77；Table 8）。
+- *PPO 与更简单的分配策略。* 规划器优化的是累计收益（式 5），而不是一条贪心规则。它的选择会随学习者的状态变化。R1–R7 依次为：balanced、weakness-focused、retention-heavy、balanced、repair-heavy、repair-heavy、balanced。定位能力在 R4 退化后（60.27 → 56.16），它在 R5 和 R6 换成了 repair-heavy，定位能力随之回升到 59.36 和 62.10（Figure 6）。定位能力超过 R1 之后，它在 R7 回到了 balanced。
+- *原始数据退化。* 原始数据（附录 D.3）与任务不对齐（2D 记录中 58.3% 是图像描述；Figure 10），没有经过核查，没有针对性，也不会自适应。CoEvoMed 分别用构建器、核验器、规划器和修订智能体处理这几点。经过 CoEvoMed 处理后，SLAKE 达到 91.60，而不是 38.15（Table 9）。
+- *选择标准与学习收益的关系。* 选择标准在使用之前筛查监督数据的质量。之后由闭环检验学习收益：净修复一直不为正的原则会被再次修订（第 4.3 节）。被选中的原则在 R5 让六个基准全部提升，而原始原则让六个基准全部下降（平均 +6.77；Table 8）。
 
 **Q2（数据重叠；R7）**
-*患者、检查和图像层面的重叠。* 我们把防止泄漏作为一项设计约束：支持数据、验证数据和测试数据是相互独立的划分（第 1 节；附录 C.6），并由我们的代码（coevomed/data.py）强制执行。我们把全部 11 个 2D 源数据和 5 个 3D 源数据与每一个外部测试集在四个层面上做了筛查：ID（包括检查 ID 和病例 ID）、图像路径、像素哈希（精确匹配和近似重复）以及归一化后的文本。所有检查发现的重叠均为零，包括 PubMedVision-IU 与 IU-Xray 之间；PMC-OA 与 PMC-VQA 所用的 PMC 论文也完全不相交。
-*R7 是否依据预先定义的内部标准选出？* 是的。R7 在内部验证集上的能力画像最均衡（附录 C.4），能力画像的定义见第 3.1 节（式 1）；六个基准共用这一个检查点。我们在每一轮之后都用外部基准测试一次，只是为了展示进化如何提升学习者，并且报告了全部十轮，包括下降的轮次（Figure 7）。这些分数从不反馈到训练或检查点选择中（附录 A、C.6）。
+*患者、检查和图像层面的重叠。* 我们把防止泄漏作为一项设计约束：支持数据、验证数据和测试数据是相互独立的划分（第 1 节；附录 C.6），并在我们的代码中强制执行。我们把全部 11 个 2D 源数据和 5 个 3D 源数据与每一个外部测试集在四个层面上做了筛查：ID（包括检查 ID 和病例 ID）、图像路径、像素哈希（精确匹配和近似重复）以及归一化后的文本。所有检查发现的重叠均为零，包括 PubMedVision-IU 与 IU-Xray 之间；PMC-OA 与 PMC-VQA 所用的 PMC 论文也完全不相交。
+*R7 是否依据预先定义的内部标准选出？* 是的。R7 在内部验证集上的能力画像最均衡（第 3.1 节，式 1；附录 C.4），六个基准共用这一个检查点。我们在每一轮之后都用外部基准测试一次，只是为了展示进化如何提升学习者，并且报告了全部十轮，包括下降的轮次（Figure 7）。这些分数从不反馈到训练或检查点选择中（附录 A、C.6）。
 
 **Q3 与 W2（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）**
 *独立运行与置信区间。* 我们在来自三个模型家族的四个学习者模型上独立运行了完整流程，它们的架构和规模各不相同：Qwen3-VL（8B 和 32B）、Gemma 3（4B）和 InternVL3（9B）。每一次运行在所有评测基准上都超过了各自的基础模型：16 组比较全部提升，幅度为 +6.52 至 +26.76。这些提升远大于测试集本身的不确定性（95% 置信区间：PMC-VQA ±0.5、SLAKE ±1.7）。一个在不同模型家族、不同架构和不同规模上都成立的效果，不可能是某一次运行的偶然结果。
