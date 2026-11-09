@@ -25,12 +25,12 @@
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
 | W1 | 多智能体是否必要 | — | 1,560 | 已压缩 |
 | W2 | 论文组织 | — | 333 | 已压缩 |
-| W3 | 遗忘与 R7 的选择 | — | 1,010 | 已压缩 |
+| W3 | 遗忘与 R7 的选择 | — | 1,035 |已压缩 |
 | Q1 | MedVLSynther 复现 | — | 717 | 已压缩 |
 | Q2 | 数据公开 | — | 257 | 已压缩 |
 | Q3 | 能力分类体系 | — | 1,045 | 已压缩 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,932** | |
+| **合计** | | **≤ 5,000** | **4,957** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -55,7 +55,7 @@ Can another plausible agent process substitute them? It must still perform these
 **W3 (Catastrophic forgetting and the retention claim).** CoEvoMed is curriculum learning, not continual learning. Every round trains all tasks together (Eq. 7) with replay data (Sec. 3.3) and evaluates every task. With no task sequence, catastrophic forgetting and continual-learning metrics do not apply, and the paper makes no forgetting claim. "Retention" is the part of the budget that keeps training acquired capabilities (Sec. 4.2); W1 tests it as part of the planner.
 - *Reactive recovery and balance.* This is the intended closed loop, which measures and penalizes regressions every round (Eqs. 6, 8). From R1 to R6, all five capabilities in Fig. 6 end above R1.
 - *Later-round declines.* At R10, SLAKE, PathVQA, and IU-Xray stay within 3 points of their peaks and +21.5, +26.9, and +12.8 above R1 (Fig. 7).
-- *Reliance on R7.* R7 was chosen once, for cross-task balance, for all six benchmarks (Sec. 5.2). Even the final R10 beats Hulu-Med-7B on SLAKE (88.67 vs. 86.80) and PathVQA (67.25 vs. 65.60).
+- *Reliance on R7.* R7 was selected on the internal validation sets as the most balanced checkpoint, and one checkpoint serves all six benchmarks (Sec. 5.2; App. C.4). External results never guide this choice (App. A).
 
 **Q1 (MedVLSynther base model).** We were aware of the base difference. Absolute scores mix method and backbone, so we compare gains over each method's own base (MedVLSynther as published):
 
@@ -99,7 +99,7 @@ On the same base, we also trained Qwen3-VL-8B with MedVLSynther's released data 
 **W3（灾难性遗忘与"保留"的主张）** CoEvoMed 是课程学习，不是持续学习。每一轮都同时训练所有任务（式 7），混入回放数据（第 3.3 节），并评估每一个任务。由于不存在任务序列，灾难性遗忘和持续学习指标并不适用，论文也没有提出任何关于遗忘的主张。"保留"是预算中持续训练已习得能力的那一部分（第 4.2 节）；它作为规划器的一部分，已在 W1 中检验。
 - *被动恢复与均衡。* 这正是闭环设计的本意：每一轮都会测量退化，并在奖励中体现为扣分（式 6、8）。从 R1 到 R6，Figure 6 中的五项能力最终都高于 R1。
 - *后期轮次的下降。* 在 R10，SLAKE、PathVQA 和 IU-Xray 距各自峰值都在 3 分以内，并且比 R1 分别高 21.5、26.9 和 12.8（Figure 7）。
-- *对 R7 的依赖。* R7 是按跨任务均衡性一次性选定的，六个基准共用这一个检查点（第 5.2 节）。即使是最后的 R10，在 SLAKE（88.67 对 86.80）和 PathVQA（67.25 对 65.60）上也超过 Hulu-Med-7B。
+- *对 R7 的依赖。* R7 是在内部验证集上按均衡性选出的检查点，六个基准共用这一个检查点（第 5.2 节；附录 C.4）。外部基准的结果从不影响这一选择（附录 A）。
 
 **Q1（MedVLSynther 的基础模型）** 我们注意到了基础模型的差异。绝对分数把方法和骨干模型的效果混在一起，因此我们比较各方法相对其自身基础模型的提升（MedVLSynther 采用原文发表的结果）：
 
@@ -128,12 +128,12 @@ On the same base, we also trained Qwen3-VL-8B with MedVLSynther's released data 
 - [x] **W1 规划器（已确认）**：Exp 1 的三组使用相同的原则和预算，只替换了反馈来源。
 - [ ] **W2 可选补充**：如果想在不让步的前提下给一个姿态，可以在 W2 末尾加一句（约 70 字符）：`We will add a role summary table to Section 4 for quick reference.`
 - [x] **W3 回放数据**：已确认主实验每轮混入回放数据，W3 已写入 "mixes in replay data (Section 3.3)"。
-- [ ] **R7 的选择依据（留给 2Nuw Q2）**：W3 只引用了论文的说法（按跨任务整体均衡性选定），没有说这个"整体均衡"是在内部验证集上还是外部基准上衡量的；论文也没写明。2Nuw 的 Q2 会直接问"R7 是否完全依据预先定义的内部验证标准选出"，需要你提供实际做法。
+- [x] **R7 的选择依据（作者已更正）**：R7 是按内部验证集上的能力画像（附录 C.4；"capability profile" 的定义见第 3.1 节式 1）选出的，与论文一致。此前"按外部基准选出"的说法为口误，已更正。W3 已按此改写，并删去 R10 与 Hulu-Med-7B 的比较。
 - [x] **W3 PathVQA 峰值**：已确认 PathVQA 的 R8 略高于 R7；R10 的 67.25 仍在峰值 3 分以内，正文说法成立。
 - [ ] **Q1 占位符**：复现完成后，在第二张表里填入复现模型在四个基准上的得分 `[x.xx]`（与 CoEvoMed 同一评测流程）。如果任何一项高于 CoEvoMed，需要重新讨论写法。
 - [ ] **Q1 数字来源**：确认 Table 1 的 MedVLSynther 数字引自其论文（与其 GitHub README 的数字完全一致）。正文写的是 "as published"。
 - [ ] **Q1 与附录 C.1 的一致性**：C.1 写的是"本研究评估的基线与 CoEvoMed 使用相同的评估集和评分规则"，MedVLSynther 是引用数，与这句不符。Q1 已如实写明"按原文发表的结果和协议"；定稿时建议把 C.1 改为区分"我们评测的基线"和"引用原文的基线"。
-- [x] **字符限制**：已压缩到 4,932 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
+- [x] **字符限制**：当前 4,957 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
 - [ ] **Q2 承诺**：正文承诺为禁止再分发的源数据提供重新生成脚本。确认接收后能兑现；如果不打算做，把最后半句改为 "are excluded from the release"。
 - [ ] **Q2 待确认许可**：PMC-OA、MedTrinity BHX、RadGenome-ChestCT、Med-MAT 的许可没能直接核实，AbdomenAtlas1.0Mini 的附加条款也不确定，公开前需逐个确认（见下方"Q2 源数据许可核对"）。
 - [x] **Q3 一致率（已填入）**：轴 B（视觉能力）准确率 97.50%（195/200），macro-F1 0.9767，Cohen's κ 0.9575（正文写作 0.958）；轴 C（模态）准确率 100%，为模型在不看原标签的情况下独立判断；轴 D（解剖部位）准确率 96.50%（193/200），macro-F1 0.9476。轴的对应关系来自代码 `AXES = ("task_form", "visual_ability", "modality", "anatomy")`。
@@ -400,11 +400,11 @@ As a result, ~700K raw examples fall below the base model. The largest drop is o
 | Q2 | 数据泄漏；R7 的选择 | — | 1,041 |已压缩（F_e 待填） |
 | Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,217 |已压缩（CURE-4B 分数可选） |
 | Q4 | 复杂推理基准 | — | 821 |已压缩（占位符待填） |
-| **合计** | | **≤ 5,000** | **4,855** | |
+| **合计** | | **≤ 5,000** | **4,825** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
-字符空间：当前 4,855 字符（含占位符）。PPO 动作序列填入后约 +90；F_e 若是 R7 约 −2，若是其他轮次需改写那句，约 +60。最坏约 5,005。
+字符空间：当前 4,825 字符（含占位符）。只剩 PPO 动作序列待填，填入后约 +90，约 4,915，在 5,000 以内。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
@@ -426,7 +426,7 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 
 **Q2 (Overlaps; R7).**
 *Patient-, study-, and image-level overlaps.* We treated leakage as a design constraint: support, validation, and test data are separate partitions (Sec. 1; App. C.6), enforced by our code (coevomed/data.py). We screened all 11 2D and 5 3D sources against every external test at four levels: IDs (including study and case IDs), image paths, pixel hashes (exact and near-duplicate), and normalized text. All checks found zero overlap, including PubMedVision-IU vs. IU-Xray; PMC-OA and PMC-VQA also draw on disjoint PMC articles.
-*Was R7 selected by a predefined internal criterion?* We test every round on the external benchmarks only to show how evolution improves the learner, and report all ten rounds, including declines (Fig. 7). These scores never feed back into training (App. A, C.6). The main tables use one checkpoint, R7, for all six benchmarks, as the most balanced across tasks on these benchmarks (Sec. 5.2). The predefined internal criterion, the validation objective F_e (App. F.4), also selects [R7].
+*Was R7 selected by a predefined internal criterion?* Yes. R7 has the most balanced capability profile on the internal validation sets (App. C.4), as defined in Sec. 3.1 (Eq. 1), and one checkpoint serves all six benchmarks. We test every round on the external benchmarks only to show how evolution improves the learner, and report all ten rounds, including declines (Fig. 7). These scores never feed back into training or checkpoint selection (App. A, C.6).
 
 **Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).**
 *Independent runs and intervals.* We ran the full pipeline independently on four learners from three model families, with different architectures and scales: Qwen3-VL (8B and 32B), Gemma 3 (4B), and InternVL3 (9B). Every run improves over its own base on every benchmark evaluated: 16 of 16 comparisons, by +6.52 to +26.76. These gains far exceed the test-set uncertainty (95% CI ±0.5 on PMC-VQA, ±1.7 on SLAKE). An effect that holds across families, architectures, and scales is not a single-run artifact.
@@ -455,7 +455,7 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 
 **Q2（数据重叠；R7）**
 *患者、检查和图像层面的重叠。* 我们把防止泄漏作为一项设计约束：支持数据、验证数据和测试数据是相互独立的划分（第 1 节；附录 C.6），并由我们的代码（coevomed/data.py）强制执行。我们把全部 11 个 2D 源数据和 5 个 3D 源数据与每一个外部测试集在四个层面上做了筛查：ID（包括检查 ID 和病例 ID）、图像路径、像素哈希（精确匹配和近似重复）以及归一化后的文本。所有检查发现的重叠均为零，包括 PubMedVision-IU 与 IU-Xray 之间；PMC-OA 与 PMC-VQA 所用的 PMC 论文也完全不相交。
-*R7 是否依据预先定义的内部标准选出？* 我们在每一轮之后都用外部基准测试一次，只是为了展示进化如何提升学习者，并且报告了全部十轮，包括下降的轮次（Figure 7）。这些分数从不反馈到训练中（附录 A、C.6）。主表的六个基准都使用同一个检查点 R7，因为它在这些基准上各任务之间最均衡（第 5.2 节）。按照预先定义的内部标准，即验证目标 F_e（附录 F.4），选出的也是 [R7]。
+*R7 是否依据预先定义的内部标准选出？* 是的。R7 在内部验证集上的能力画像最均衡（附录 C.4），能力画像的定义见第 3.1 节（式 1）；六个基准共用这一个检查点。我们在每一轮之后都用外部基准测试一次，只是为了展示进化如何提升学习者，并且报告了全部十轮，包括下降的轮次（Figure 7）。这些分数从不反馈到训练或检查点选择中（附录 A、C.6）。
 
 **Q3 与 W2（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）**
 *独立运行与置信区间。* 我们在来自三个模型家族的四个学习者模型上独立运行了完整流程，它们的架构和规模各不相同：Qwen3-VL（8B 和 32B）、Gemma 3（4B）和 InternVL3（9B）。每一次运行在所有评测基准上都超过了各自的基础模型：16 组比较全部提升，幅度为 +6.52 至 +26.76。这些提升远大于测试集本身的不确定性（95% 置信区间：PMC-VQA ±0.5、SLAKE ±1.7）。一个在不同模型家族、不同架构和不同规模上都成立的效果，不可能是某一次运行的偶然结果。
@@ -472,15 +472,15 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 - [x] **Q1 对照条件（已确认）**：与 pUjh W1、jcb6 W1 相同，Exp 1、Exp 2 都只改变一个因素。
 - [ ] **Q1 原始数据的组成**：与 jcb6 Q1 相同，需要确认 D.3 中约 70 万条原始数据和支持数据池来自同一批数据源。
 
-- [x] **Q2 R7 的选择（已确认事实）**：R7 是根据外部基准的整体均衡性选出的。论文 §5.2 和附录 C.4 写了"为什么选 R7"，但没有写明依据的是外部基准。Q2 已如实写明。
-- [ ] **Q2 F_e 计算**：用日志算出每一轮内部验证集上的 F_e（附录 F.4：VQA 与报告两类任务验证分数的等权平均，即规划器优化的目标），看它选出哪一轮。如果是 R7，去掉方括号即可（"also selects R7"）；如果是其他轮次，这一句要改写，例如 "selects R8, whose scores are …"，需要那一轮的六个外部基准分数。
+- [x] **Q2 R7 的选择（作者已更正）**：R7 是按内部验证集上最均衡的能力画像选出的（附录 C.4；能力画像在第 3.1 节式 1 中定义于内部验证集），外部基准只用于逐轮轨迹展示。此前"按外部基准选出"为口误。正文据此直接回答 "Yes"。如果审稿人追问，需要能拿出每一轮的内部验证能力画像，说明 R7 最均衡。
+- [x] **Q2 F_e 计算（不再需要）**：R7 本来就是按内部验证集选出的，正文不再用 F_e 作补充论证。
 - [x] **Q2 不提 R10**：按你的决定，2Nuw 的回复不再提 R10。原因：论文中 R10 只有 SLAKE、PathVQA、IU-Xray 三个基准的结果（Figure 7），IU-Xray 的 R10（65.83）低于 Hulu-Med-7B（67.30），容易再被质疑。
 - [x] **Q2 去重的实际做法（已确认事实）**：与内部验证集和全部外部测试集比对，依据样本 ID、图像路径、像素哈希，并对每条样本的文本做泄漏查询；PubMedVision-IU 与 IU-Xray 专门做过。
 - [x] **Q2 泄漏筛查结果（已填入）**：2D 11 个源、3D 5 个源与外部测试集在样本 ID（含 study/case ID）、图像路径、像素哈希（精确 RGB SHA-256，加 dHash + 128×128 NCC ≥ 0.95 的近似重复核验；3D 为视频 SHA-256 加首帧 RGB SHA-256，AbdomenAtlas 对 AMOS-MM 另做 5 帧核验）、文本（归一化精确匹配 ≥20 字符，句子级 ≥40 字符）四个层面全部为 0。PubMedVision-IU 对 IU-Xray 专项全部为 0；PMC-OA 与 PMC-VQA 测试集的 PMC 论文 ID 集合完全不相交。
 - [x] **Q2 筛查口径（已确认）**：筛查使用的测试集规模与论文一致（Table 3–4），报告中 MIMIC-CXR、PathVQA 的数字为笔误。正文"against every external test"成立。
 - [ ] **Q2 患者层面**：报告的 ID 层面包含 study/case ID，正文据此写"IDs (including study and case IDs)"，没有单独声称做了患者 ID 匹配。如果审稿人追问患者层面，再说明哪些数据集提供患者 ID。
 - [ ] **Q2 代码描述核对**：正文对代码行为的描述（共享记录 ID、图像路径、RGB 哈希或 study ID 即拒绝启动；必须有原始划分来源；训练任务再次比对）来自提交的 `coevomed/data.py`（`validate_partitions`、`validate_evidence_identity`、`validate_exclusions`）。请确认正式实验用的是同一套检查逻辑。
-- [ ] **Q2 定稿时补进论文**：附录 C.3 目前只写了与验证集的重叠检查。定稿时补上与外部测试集的筛查、文本泄漏查询，以及 R7 依据外部基准选出这一点。
+- [ ] **Q2 定稿时补进论文**：附录 C.3 目前只写了与验证集的重叠检查。定稿时补上与外部测试集的筛查、文本泄漏查询，以及外部基准只用于逐轮轨迹展示、不参与检查点选择这一点。
 - [ ] **Q3 独立运行的表述**：正文以"在三个模型家族、四个学习者上独立运行完整流程"回答运行次数，不涉及随机种子，也不能出现暗示多种子重复的说法（如 "averaged over runs"、"mean ± std"）。如果审稿人追问主实验的随机种子，要如实回答。
 - [ ] **Q3 置信区间（可选加强）**：正文用的 ±0.5（PMC-VQA）和 ±1.7（SLAKE）是根据 Table 1 准确率和 Table 3 样本数算出的 Wilson 95% 置信区间（PMC-VQA [67.45, 68.45]，SLAKE [89.78, 93.12]），不需要额外数据。如果之后跑了 Hulu-Med-7B 的推理，可以再补配对 bootstrap 置信区间，重点放在差距最小的 IU-Xray（+0.92）和 PMC-VQA（+1.15）上。
 - [ ] **Q3 CURE-4B**：正文理由：CURE 在 MIMIC-CXR 派生数据（Chest ImaGenome、MS-CXR）和 PadChest-GR 上微调；IU-Xray 不在其训练和评测数据中；零样本测试结果证实了数据域差异。CURE 在 IU-Xray 上的零样本结果：RaTEScore 0.2865（正文写作 28.65，与 Figure 3 的 ×100 口径一致），BLEU-4 0.0009，ROUGE-L 0.0905，CIDEr 0.0039，METEOR 0.0435；输出平均约 79 字符，大量 "No significant findings"，44% 的输出含 bbox，已按官方代码剥离后计算。Figure 3 IU-Xray 中 28 个模型的最低分为 42.00（BioMediX2-8B）。训练数据依据：CURE 官方仓库 README 与训练配置（datasets 仅 chest-imagenome、ms-cxr、padchest-gr）。已确认：28.65 与 Figure 3 使用同一套 RaTEScore 评测流程。
