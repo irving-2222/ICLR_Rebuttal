@@ -400,11 +400,11 @@ As a result, ~700K raw examples fall below the base model. The largest drop is o
 | Q2 | 数据泄漏；R7 的选择 | — | 1,041 |已压缩（F_e 待填） |
 | Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,217 |已压缩（CURE-4B 分数可选） |
 | Q4 | 复杂推理基准 | — | 821 |已压缩（占位符待填） |
-| **合计** | | **≤ 5,000** | **4,786** | |
+| **合计** | | **≤ 5,000** | **4,896** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
-字符空间：当前 4,786 字符（含占位符）。PPO 动作序列填入后约 +90，F_e 若不是 R7 约 +40，最坏约 4,916，在 5,000 以内。
+字符空间：当前 4,896 字符（含占位符）。PPO 动作序列填入后约 +90，F_e 若不是 R7 约 +40，最坏约 5,026，在 5,000 以内。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
@@ -430,7 +430,7 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 
 **Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).**
 *Independent runs and intervals.* We ran the full pipeline independently on four learners from three model families, with different architectures and scales: Qwen3-VL (8B and 32B), Gemma 3 (4B), and InternVL3 (9B). Every run improves over its own base on every benchmark evaluated: 16 of 16 comparisons, by +6.52 to +26.76 (Tab. 1; Figs. 3, 5). These gains far exceed the test-set uncertainty (95% CI about ±0.5 on PMC-VQA and ±1.7 on SLAKE). An effect that holds across families, architectures, and scales is not a single-run artifact.
-*Why is CURE-4B absent from IU-Xray?* We considered it, but IU-Xray is not a fair test for CURE. IU-Xray is outside CURE's training and evaluation data, so it would be a zero-shot, cross-dataset test, and its reports are longer and differ in style. A score there would mainly reflect this domain shift, not CURE's report quality.
+*Why is CURE-4B absent from IU-Xray?* We considered it, but IU-Xray is not a fair test for CURE. CURE is fine-tuned on MIMIC-CXR-derived data (Chest ImaGenome, MS-CXR) and PadChest-GR (Messina et al., 2026), and IU-Xray is outside its training and evaluation data. On IU-Xray it would face a zero-shot, cross-dataset test with longer, differently styled reports, so its score would mainly reflect this domain shift, not its report quality.
 *Why does 32B underperform 8B on IU-Xray?* This is common on IU-Xray: Hulu-Med (7B 67.30 vs. 32B 62.40) and MedGemma (4B 60.50 vs. 27B 59.00) show it too. At matched scale, CoEvoMed-32B beats Hulu-Med-32B by +2.68, and it beats CoEvoMed-8B on the other five benchmarks. Beyond the 0.92 RaTEScore margin, CoEvoMed-8B leads Hulu-Med-7B on six of eight lexical metrics (up to +7.5 ROUGE-2; Fig. 8).
 
 **Q4 & W2 (Complex reasoning).**
@@ -463,7 +463,7 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 
 **Q3 与 W2（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）**
 *独立运行与置信区间。* 我们在来自三个模型家族的四个学习者模型上独立运行了完整流程，它们的架构和规模各不相同：Qwen3-VL（8B 和 32B）、Gemma 3（4B）和 InternVL3（9B）。每一次运行在所有评测基准上都超过了各自的基础模型：16 组比较全部提升，幅度为 +6.52 至 +26.76（Table 1；Figure 3、5）。这些提升远大于测试集本身的不确定性（95% 置信区间约为 PMC-VQA ±0.5、SLAKE ±1.7）。一个在不同模型家族、不同架构和不同规模上都成立的效果，不可能是某一次运行的偶然结果。
-*为什么 IU-Xray 的比较中没有 CURE-4B？* 我们考虑过，但 IU-Xray 对 CURE 来说不是公平的测试。IU-Xray 既不在 CURE 的训练数据中，也不在它的评测中，在它上面测试属于跨数据集的零样本测试，而且 IU-Xray 的报告更长、风格也不同。在这上面得到的分数主要反映的是这种数据域差异，而不是 CURE 的报告质量。
+*为什么 IU-Xray 的比较中没有 CURE-4B？* 我们考虑过，但 IU-Xray 对 CURE 来说不是公平的测试。CURE 是在 MIMIC-CXR 派生的数据（Chest ImaGenome、MS-CXR）以及 PadChest-GR 上微调的（Messina et al., 2026），而 IU-Xray 既不在它的训练数据中，也不在它的评测中。在 IU-Xray 上，它面对的是跨数据集的零样本测试，而且报告更长、风格不同，因此得到的分数主要反映的是这种数据域差异，而不是它的报告质量。
 *为什么 32B 在 IU-Xray 上不如 8B？* 这在 IU-Xray 上很常见：Hulu-Med（7B 67.30，32B 62.40）和 MedGemma（4B 60.50，27B 59.00）也是如此。在相同规模下，CoEvoMed-32B 比 Hulu-Med-32B 高 2.68；在其余五个基准上，CoEvoMed-32B 都高于 CoEvoMed-8B。除了 RaTEScore 上 0.92 的领先，CoEvoMed-8B 在八个词汇指标中有六个领先 Hulu-Med-7B（ROUGE-2 最多领先 7.5；Figure 8）。
 
 **Q4 与 W2（复杂推理）**
@@ -490,7 +490,7 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 - [ ] **Q2 定稿时补进论文**：附录 C.3 目前只写了与验证集的重叠检查。定稿时补上与外部测试集的筛查、文本泄漏查询，以及 R7 依据外部基准选出这一点。
 - [ ] **Q3 独立运行的表述**：正文以"在三个模型家族、四个学习者上独立运行完整流程"回答运行次数，不涉及随机种子，也不能出现暗示多种子重复的说法（如 "averaged over runs"、"mean ± std"）。如果审稿人追问主实验的随机种子，要如实回答。
 - [ ] **Q3 置信区间（可选加强）**：正文用的 ±0.5（PMC-VQA）和 ±1.7（SLAKE）是根据 Table 1 准确率和 Table 3 样本数算出的 Wilson 95% 置信区间（PMC-VQA [67.45, 68.45]，SLAKE [89.78, 93.12]），不需要额外数据。如果之后跑了 Hulu-Med-7B 的推理，可以再补配对 bootstrap 置信区间，重点放在差距最小的 IU-Xray（+0.92）和 PMC-VQA（+1.15）上。
-- [ ] **Q3 CURE-4B（只谈 IU-Xray）**：按你的意见，正文只讲 IU-Xray 相关的理由：IU-Xray 不在 CURE 的训练和评测数据中，属于跨数据集零样本测试；IU-Xray 的报告更长、风格不同。不提 MIMIC 和 AGRG-29 + GRG 流程。注意 CURE 的训练数据还包括 PadChest-GR，所以不能写"只在 MIMIC 上训练"。正文写的是"考虑过"，没有说"没测过"；如果审稿人追问，要如实说明在 IU-Xray 上跑过，以及为什么不放进比较（输出平均约 79 字符、大量 "No significant findings"）。
+- [ ] **Q3 CURE-4B**：正文理由：CURE 在 MIMIC-CXR 派生数据（Chest ImaGenome、MS-CXR）和 PadChest-GR 上微调；IU-Xray 不在其训练和评测数据中，属于跨数据集零样本测试，报告更长、风格不同。依据：CURE 官方仓库 README（"A LoRA adapter finetuned from google/medgemma-4b-it"；数据集表）和训练配置 `configs/training/multi_task_medgemma-4b-it_v20_custom_eval_500_steps_curriculum_3000_steps_with_aug_pretrained_cig_3000_steps.yaml`（datasets 仅 chest-imagenome、ms-cxr、padchest-gr，且从 Chest ImaGenome 预训练的 LoRA 适配器继续训练）；仓库中没有 IU-Xray。正文写的是"考虑过"，没有说"没测过"；如果审稿人追问，要如实说明在 IU-Xray 上跑过，以及为什么不放进比较（输出平均约 79 字符、大量 "No significant findings"）。
 - [ ] **Q3 32B 的说法**：正文把 32B 在 IU-Xray 上低于 8B 归因于基准本身（Hulu-Med 同样如此）。如果你知道其他原因，例如 32B 的训练轮数或预算不同，请告诉我，必要时补充。
 - [ ] **Q4 备用弹药**：正文不承诺补测 MedXpertQA-MM 和 MMMU。如果 2Nuw 在讨论阶段坚持要这两个基准的结果，再考虑补测（只需推理）。
 
@@ -561,6 +561,7 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 | Q3：32B 相对 8B：PMC-VQA +2.25、VQA-RAD +0.23、SLAKE +1.00、PathVQA +0.20、MIMIC-CXR +0.71 | Table 1（p.6）；Figure 3（p.7） |
 | Q3：IU-Xray 词汇指标，CoEvoMed-8B 对 Hulu-Med-7B：METEOR +2.8、BLEU-1 −1.0、BLEU-2 +1.1、BLEU-3 +2.8、BLEU-4 +3.7、ROUGE-1 +5.2、ROUGE-2 +7.5、ROUGE-L −0.8 | Figure 8（p.20） |
 | Q3：IU-Xray 测试集 590 个样本 | Table 3（p.19） |
+| Q3：CURE 在 MedGemma-4B-IT 上 LoRA 微调，训练数据为 Chest ImaGenome、MS-CXR、PadChest-GR | CURE 官方 GitHub 仓库 README 与训练配置（外部来源） |
 | Q4：报告任务评估"synthesis of image-grounded findings into reports"；AMOS-MM 为胸、腹、盆腔的较长 findings 报告 | 附录 C.1（p.19–20） |
 | Q4：MIMIC-CXR 第一为 CoEvoMed-32B（64.33）；IU-Xray 第一为 CoEvoMed-8B（68.22）；AMOS-MM 第一为 CoEvoMed（66.97） | Figure 3（p.7）；Figure 4（p.8） |
 | Q4：M3D-VQA（83.06）和 3D-RAD（47.07）均排名第一 | Figure 4（p.8） |
