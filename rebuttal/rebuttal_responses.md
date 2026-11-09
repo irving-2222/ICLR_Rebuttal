@@ -400,11 +400,11 @@ As a result, ~700K raw examples fall below the base model. The largest drop is o
 | Q2 | 数据泄漏；R7 的选择 | — | 1,041 |已压缩（F_e 待填） |
 | Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,217 |已压缩（CURE-4B 分数可选） |
 | Q4 | 复杂推理基准 | — | 821 |已压缩（占位符待填） |
-| **合计** | | **≤ 5,000** | **4,863** | |
+| **合计** | | **≤ 5,000** | **4,855** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
-字符空间：当前 4,863 字符（含占位符）。PPO 动作序列填入后约 +90，F_e 若不是 R7 约 +40，最坏约 4,993。
+字符空间：当前 4,855 字符（含占位符）。PPO 动作序列填入后约 +90；F_e 若是 R7 约 −2，若是其他轮次需改写那句，约 +60。最坏约 5,005。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
@@ -421,12 +421,12 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 | Both (CoEvoMed) | evolved | current feedback | **+1.50** | **6/6** |
 
 *PPO vs. simpler allocation.* The planner optimizes cumulative gain (Eq. 5), not a greedy rule. Its choices follow the learner's state: across R1–R7 it chose [action sequence]. After localization regressed at R4, it switched to [action] at R[x], and localization then recovered (Fig. 6).
-*Raw-data degradation.* The raw sources (App. D.3) are not task-aligned (58.3% of 2D records are figure descriptions; Fig. 10), not verified, not targeted, and not adapted. CoEvoMed handles these with the constructor, verifier, planner, and revision agent. The same kinds of sources then reach 91.60 on SLAKE instead of 38.15 (Table 9).
-*Selection criteria vs. learning gains.* The criteria screen supervision quality before use. Learning gains are then checked by the loop itself: each principle's net repair is tracked in later rounds, and non-positive ones are revised again (App. B; Sec. 4.3). The selected principles raise all six benchmarks at R5, where the originals lower all six (+6.77 on average; Table 8).
+*Raw-data degradation.* The raw sources (App. D.3) are not task-aligned (58.3% of 2D records are figure descriptions; Fig. 10), not verified, not targeted, and not adapted. CoEvoMed handles these with the constructor, verifier, planner, and revision agent. With CoEvoMed, SLAKE reaches 91.60 instead of 38.15 (Table 9).
+*Selection criteria vs. learning gains.* The criteria screen supervision quality before use. The loop then checks learning gains: principles whose net repair stays non-positive are revised again (Sec. 4.3). The selected principles raise all six benchmarks at R5, where the originals lower all six (+6.77 on average; Table 8).
 
 **Q2 (Overlaps; R7).**
-*Patient-, study-, and image-level overlaps.* We treated leakage as a design constraint: support data, internal validation, and external tests are separate partitions (Sec. 1; App. C.6), enforced by the submitted code (coevomed/data.py). We screened all 11 2D and 5 3D sources against every external test at four levels: IDs (including study and case IDs), image paths, pixel hashes (exact and near-duplicate), and normalized text. All checks found zero overlap, including PubMedVision-IU vs. IU-Xray; PMC-OA and PMC-VQA also draw on disjoint PMC articles.
-*Was R7 selected by a predefined internal criterion?* R7 was chosen once, for cross-task balance on the external benchmarks (Sec. 5.2). Training, curriculum, and principle revision never use them (App. A, C.6). The predefined internal criterion, the validation objective F_e (App. F.4), selects [R7]. Even without selection, the final R10 beats Hulu-Med-7B on SLAKE and PathVQA (Fig. 7, Table 1).
+*Patient-, study-, and image-level overlaps.* We treated leakage as a design constraint: support, validation, and test data are separate partitions (Sec. 1; App. C.6), enforced by our code (coevomed/data.py). We screened all 11 2D and 5 3D sources against every external test at four levels: IDs (including study and case IDs), image paths, pixel hashes (exact and near-duplicate), and normalized text. All checks found zero overlap, including PubMedVision-IU vs. IU-Xray; PMC-OA and PMC-VQA also draw on disjoint PMC articles.
+*Was R7 selected by a predefined internal criterion?* We test every round on the external benchmarks only to show how evolution improves the learner, and report all ten rounds, including declines (Fig. 7). These scores never feed back into training (App. A, C.6). The main tables use one checkpoint, R7, for all six benchmarks, as the most balanced across tasks on these benchmarks (Sec. 5.2). The predefined internal criterion, the validation objective F_e (App. F.4), also selects [R7].
 
 **Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).**
 *Independent runs and intervals.* We ran the full pipeline independently on four learners from three model families, with different architectures and scales: Qwen3-VL (8B and 32B), Gemma 3 (4B), and InternVL3 (9B). Every run improves over its own base on every benchmark evaluated: 16 of 16 comparisons, by +6.52 to +26.76. These gains far exceed the test-set uncertainty (95% CI ±0.5 on PMC-VQA, ±1.7 on SLAKE). An effect that holds across families, architectures, and scales is not a single-run artifact.
@@ -450,12 +450,12 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 | 两者结合（CoEvoMed） | 演化后 | 当前反馈 | **+1.50** | **6/6** |
 
 *PPO 与更简单的分配策略。* 规划器优化的是累计收益（式 5），而不是一条贪心规则。它的选择会随学习者的状态变化：R1–R7 中它依次选择了 [动作序列]。定位能力在 R4 退化后，它在 R[x] 换成了 [动作]，之后定位能力回升（Figure 6）。
-*原始数据退化。* 原始数据（附录 D.3）与任务不对齐（2D 记录中 58.3% 是图像描述；Figure 10），没有经过核查，没有针对性，也不会自适应。CoEvoMed 分别用构建器、核验器、规划器和修订智能体处理这几点。同类数据源经过 CoEvoMed 处理后，SLAKE 达到 91.60，而不是 38.15（Table 9）。
-*选择标准与学习收益的关系。* 选择标准在使用之前筛查监督数据的质量。之后的学习收益由闭环本身检验：每条原则的净修复会在后续轮次中持续跟踪，不为正的原则会被再次修订（附录 B；第 4.3 节）。被选中的原则在 R5 让六个基准全部提升，而原始原则让六个基准全部下降（平均高出 6.77；Table 8）。
+*原始数据退化。* 原始数据（附录 D.3）与任务不对齐（2D 记录中 58.3% 是图像描述；Figure 10），没有经过核查，没有针对性，也不会自适应。CoEvoMed 分别用构建器、核验器、规划器和修订智能体处理这几点。经过 CoEvoMed 处理后，SLAKE 达到 91.60，而不是 38.15（Table 9）。
+*选择标准与学习收益的关系。* 选择标准在使用之前筛查监督数据的质量。之后由闭环检验学习收益：净修复一直不为正的原则会被再次修订（第 4.3 节）。被选中的原则在 R5 让六个基准全部提升，而原始原则让六个基准全部下降（平均高出 6.77；Table 8）。
 
 **Q2（数据重叠；R7）**
-*患者、检查和图像层面的重叠。* 我们把防止泄漏作为一项设计约束：支持数据、内部验证集和外部测试集是相互独立的划分（第 1 节；附录 C.6），并由提交的代码（coevomed/data.py）强制执行。我们把全部 11 个 2D 源数据和 5 个 3D 源数据与每一个外部测试集在四个层面上做了筛查：ID（包括检查 ID 和病例 ID）、图像路径、像素哈希（精确匹配和近似重复）以及归一化后的文本。所有检查发现的重叠均为零，包括 PubMedVision-IU 与 IU-Xray 之间；PMC-OA 与 PMC-VQA 所用的 PMC 论文也完全不相交。
-*R7 是否依据预先定义的内部标准选出？* R7 是按外部基准上的跨任务均衡性一次性选定的（第 5.2 节）。训练、课程分配和原则修订从不使用外部基准（附录 A、C.6）。按照预先定义的内部标准，即验证目标 F_e（附录 F.4），选出的是 [R7]。即使不做选择，最后一轮 R10 在 SLAKE 和 PathVQA 上也超过 Hulu-Med-7B（Figure 7，Table 1）。
+*患者、检查和图像层面的重叠。* 我们把防止泄漏作为一项设计约束：支持数据、验证数据和测试数据是相互独立的划分（第 1 节；附录 C.6），并由我们的代码（coevomed/data.py）强制执行。我们把全部 11 个 2D 源数据和 5 个 3D 源数据与每一个外部测试集在四个层面上做了筛查：ID（包括检查 ID 和病例 ID）、图像路径、像素哈希（精确匹配和近似重复）以及归一化后的文本。所有检查发现的重叠均为零，包括 PubMedVision-IU 与 IU-Xray 之间；PMC-OA 与 PMC-VQA 所用的 PMC 论文也完全不相交。
+*R7 是否依据预先定义的内部标准选出？* 我们在每一轮之后都用外部基准测试一次，只是为了展示进化如何提升学习者，并且报告了全部十轮，包括下降的轮次（Figure 7）。这些分数从不反馈到训练中（附录 A、C.6）。主表的六个基准都使用同一个检查点 R7，因为它在这些基准上各任务之间最均衡（第 5.2 节）。按照预先定义的内部标准，即验证目标 F_e（附录 F.4），选出的也是 [R7]。
 
 **Q3 与 W2（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）**
 *独立运行与置信区间。* 我们在来自三个模型家族的四个学习者模型上独立运行了完整流程，它们的架构和规模各不相同：Qwen3-VL（8B 和 32B）、Gemma 3（4B）和 InternVL3（9B）。每一次运行在所有评测基准上都超过了各自的基础模型：16 组比较全部提升，幅度为 +6.52 至 +26.76。这些提升远大于测试集本身的不确定性（95% 置信区间：PMC-VQA ±0.5、SLAKE ±1.7）。一个在不同模型家族、不同架构和不同规模上都成立的效果，不可能是某一次运行的偶然结果。
@@ -473,7 +473,8 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 - [ ] **Q1 原始数据的组成**：与 jcb6 Q1 相同，需要确认 D.3 中约 70 万条原始数据和支持数据池来自同一批数据源。
 
 - [x] **Q2 R7 的选择（已确认事实）**：R7 是根据外部基准的整体均衡性选出的。论文 §5.2 和附录 C.4 写了"为什么选 R7"，但没有写明依据的是外部基准。Q2 已如实写明。
-- [ ] **Q2 F_e 计算**：用日志算出每一轮内部验证集上的 F_e（附录 F.4：VQA 与报告两类任务验证分数的等权平均，即规划器优化的目标），看它选出哪一轮。选出 R7 时，占位符改为 "R7, the same checkpoint"；选出其他轮次时，写明轮次和该轮在外部基准上的分数。
+- [ ] **Q2 F_e 计算**：用日志算出每一轮内部验证集上的 F_e（附录 F.4：VQA 与报告两类任务验证分数的等权平均，即规划器优化的目标），看它选出哪一轮。如果是 R7，去掉方括号即可（"also selects R7"）；如果是其他轮次，这一句要改写，例如 "selects R8, whose scores are …"，需要那一轮的六个外部基准分数。
+- [x] **Q2 不提 R10**：按你的决定，2Nuw 的回复不再提 R10。原因：论文中 R10 只有 SLAKE、PathVQA、IU-Xray 三个基准的结果（Figure 7），IU-Xray 的 R10（65.83）低于 Hulu-Med-7B（67.30），容易再被质疑。
 - [x] **Q2 去重的实际做法（已确认事实）**：与内部验证集和全部外部测试集比对，依据样本 ID、图像路径、像素哈希，并对每条样本的文本做泄漏查询；PubMedVision-IU 与 IU-Xray 专门做过。
 - [x] **Q2 泄漏筛查结果（已填入）**：2D 11 个源、3D 5 个源与外部测试集在样本 ID（含 study/case ID）、图像路径、像素哈希（精确 RGB SHA-256，加 dHash + 128×128 NCC ≥ 0.95 的近似重复核验；3D 为视频 SHA-256 加首帧 RGB SHA-256，AbdomenAtlas 对 AMOS-MM 另做 5 帧核验）、文本（归一化精确匹配 ≥20 字符，句子级 ≥40 字符）四个层面全部为 0。PubMedVision-IU 对 IU-Xray 专项全部为 0；PMC-OA 与 PMC-VQA 测试集的 PMC 论文 ID 集合完全不相交。
 - [x] **Q2 筛查口径（已确认）**：筛查使用的测试集规模与论文一致（Table 3–4），报告中 MIMIC-CXR、PathVQA 的数字为笔误。正文"against every external test"成立。
