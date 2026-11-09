@@ -105,7 +105,7 @@
 
 **Q3 与 W2（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）**
 *独立运行与置信区间。* 我们在来自三个模型家族的四个学习者模型上独立运行了完整流程，它们的架构和规模各不相同：Qwen3-VL（8B 和 32B）、Gemma 3（4B）和 InternVL3（9B）。每一次运行在所有评测基准上都超过了各自的基础模型：16 组比较全部提升，幅度为 +6.52 至 +26.76。这些提升远大于测试集本身的不确定性（95% 置信区间：PMC-VQA ±0.5、SLAKE ±1.7）。一个在不同模型家族、不同架构和不同规模上都成立的效果，不可能是某一次运行的偶然结果。
-*为什么 IU-Xray 的比较中没有 CURE-4B？* 我们考虑过，但 IU-Xray 对 CURE 来说不是公平的测试。CURE 是在 MIMIC-CXR 派生的数据（Chest ImaGenome、MS-CXR）以及 PadChest-GR 上微调的，而 IU-Xray 既不在它的训练数据中，也不在它的评测中。在那里它面对的是零样本测试，而且报告更长、风格不同，因此得到的分数主要反映的是数据域差异。
+*为什么 IU-Xray 的比较中没有 CURE-4B？* 我们考虑过，但 IU-Xray 对 CURE 来说不是公平的测试。CURE 是在 MIMIC-CXR 派生的数据（Chest ImaGenome、MS-CXR）以及 PadChest-GR 上微调的，而 IU-Xray 既不在它的训练数据中，也不在它的评测中。一次零样本测试证实了这种数据域差异：它的 RaTEScore 只有 28.65，低于 Figure 3 中全部 28 个模型，而且输出非常短。
 *为什么 32B 在 IU-Xray 上不如 8B？* 这在 IU-Xray 上很常见：Hulu-Med（7B 67.30，32B 62.40）和 MedGemma（4B 60.50，27B 59.00）也是如此。在相同规模下，CoEvoMed-32B 比 Hulu-Med-32B 高 2.68；在其余五个基准上，CoEvoMed-32B 都高于 CoEvoMed-8B。除了 RaTEScore 上 0.92 的领先，CoEvoMed-8B 在八个词汇指标中有六个领先 Hulu-Med-7B（ROUGE-2 最多领先 7.5；Figure 8）。
 
 **Q4 与 W2（复杂推理）** 我们选择这些基准，是为了在临床实际的形式下检验医学推理：基于图像、常常是体数据、而且大多是开放式的。它们要求模型根据胸片写出完整报告（MIMIC-CXR、IU-Xray），根据多器官 3D CT 写出报告（AMOS-MM）；在 64 张切片的体数据上回答扫描平面、期相、器官、异常和位置问题（M3D-VQA）；在开放式 3D 问题中测量直径、大小和厚度（3D-RAD）；并回答临床医生撰写的、基于知识的、病理的以及文献配图的问题（VQA-RAD、SLAKE、PathVQA、PMC-VQA）。
