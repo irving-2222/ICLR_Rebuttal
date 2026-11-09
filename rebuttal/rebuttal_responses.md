@@ -24,13 +24,13 @@
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
 | W1 | 多智能体是否必要 | — | 1,447 | 已压缩 |
-| W2 | 论文组织 | — | 286 | 已压缩 |
-| W3 | 遗忘与 R7 的选择 | — | 1,371 | 已重写 |
+| W2 | 论文组织 | — | 243 | 已压缩 |
+| W3 | 遗忘与 R7 的选择 | — | 1,410 | 已重写 |
 | Q1 | MedVLSynther 复现 | — | 712 | 已压缩 |
 | Q2 | 数据公开 | — | 247 | 已压缩 |
 | Q3 | 能力分类体系 | — | 915 | 已压缩 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,988** | |
+| **合计** | | **≤ 5,000** | **4,984** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -50,11 +50,10 @@ Can another plausible agent process substitute them? It must still perform these
 2. **Grounded construction.** The constructor writes only from selected source facts, not the image. A merged agent would write from the image, where VLMs often describe absent objects (Li et al., EMNLP 2023).
 3. **Learned allocation.** The planner is a small policy network trained by PPO each round, while the LLM agents stay frozen (App. B); merging would lose this learning.
 
-**W2 (Organization).** The main text specifies every mechanism (Secs. 3–4, Eqs. 1–9), including the capability cells (Sec. 3.1), and Sec. 5.1 gives the evaluation task composition. Implementation parameters and dataset statistics are in the appendix, each referenced from the main text.
+**W2 (Organization).** The main text specifies every mechanism (Secs. 3–4, Eqs. 1–9), and Sec. 5.1 gives the evaluation task composition. Implementation parameters and dataset statistics are in the appendix, each referenced from the main text.
 
-**W3 (Catastrophic forgetting and retention).** CoEvoMed is curriculum learning, not continual learning. Every round trains all tasks together (Eq. 7) with replay data (Sec. 3.3). With no task sequence, catastrophic forgetting and continual-learning metrics do not apply. "Retention" is a budget share for acquired capabilities (Sec. 4.2), ablated with the planner in W1.
-- *Reactive recovery and balance.* As the reviewer notes, the method recovers. This is the curriculum's design: measure the learner each round and reteach what weakened (Eqs. 6, 8). Localization dips at R4 (56.16) and recovers to 62.10 by R6; all five capabilities end above R1 (Fig. 6).
-- *Later-round declines.* Iterative self-training often plateaus or declines after early rounds on a finite pool (Chen et al., ICML 2024; Singh et al., TMLR 2024). Our pool is fixed (359,355 facts, App. C.3); each round builds 50,000 examples (App. B). By R7 the budget nearly matches the pool, so later rounds mostly reuse seen evidence. At R10, SLAKE, PathVQA, and IU-Xray stay within 3 points of their peaks and over 12 points above R1 (Fig. 7).
+**W3 (Catastrophic forgetting and retention).** CoEvoMed is curriculum learning, not continual learning. Every round trains all tasks together (Eq. 7) with replay data (Sec. 3.3), so catastrophic forgetting and continual-learning metrics do not apply. The recovery the reviewer notes is by design: each round measures the learner and reteaches what weakened (Eqs. 6, 8), and all five capabilities end above R1 (Fig. 6). "Retention" is a budget share (Sec. 4.2), ablated with the planner in W1. The two remaining points concern data and checkpoint choice, not the method:
+- *Later-round declines come from the data.* The support pool is fixed (359,355 facts, App. C.3); each round builds 50,000 examples (App. B). By R7 the budget nearly matches the pool, so later rounds mostly reuse seen evidence. Self-training on finite data shows the same pattern (Chen et al., ICML 2024; Singh et al., TMLR 2024). While new evidence lasts, CoEvoMed keeps improving to peaks at R7–R8. Even at R10, all three benchmarks stay within 3 points of their peaks and over 12 points above R1 (Fig. 7). A larger pool can extend the evolution without changing the method.
 - *Reliance on R7.* R7 has the most balanced capability profile on internal validation sets. One checkpoint serves all six benchmarks, though PathVQA peaks at R8. External benchmarks only track the evolution and never guide training or selection (App. C.4, C.6).
 
 **Q1 (MedVLSynther base model).** We were aware of the base difference. Absolute scores mix method and backbone, so we compare gains over each method's own base (MedVLSynther as published):
@@ -94,11 +93,10 @@ On the same base, we trained Qwen3-VL-8B with MedVLSynther's released data and G
 2. **基于证据的构建。** 构建器只根据选出的原始事实撰写样本，而不是根据图像。如果合并成一个智能体，它就要直接看图撰写，而视觉语言模型经常描述图像中并不存在的物体（Li et al., EMNLP 2023）。
 3. **可学习的分配。** 规划器是每轮用 PPO 训练的小型策略网络，而各个大语言模型智能体保持冻结（附录 B）；合并会失去这种学习能力。
 
-**W2（论文组织）** 正文给出了全部机制（第 3–4 节，式 1–9），包括能力单元（第 3.1 节）；第 5.1 节给出了评估任务的组成。实现参数和数据集统计放在附录，每项都在正文中注明了出处。
+**W2（论文组织）** 正文给出了全部机制（第 3–4 节，式 1–9），第 5.1 节给出了评估任务的组成。实现参数和数据集统计放在附录，每项都在正文中注明了出处。
 
-**W3（灾难性遗忘与保留）** CoEvoMed 是课程学习，不是持续学习。每一轮都同时训练所有任务（式 7），并混入回放数据（第 3.3 节）。由于不存在任务序列，灾难性遗忘和持续学习指标并不适用。"保留"是预算中分给已习得能力的份额（第 4.2 节），已在 W1 中随规划器一起做了消融。
-- *被动恢复与均衡。* 正如审稿人所指出的，该方法能够恢复。这正是课程学习的设计：每一轮测量学习者，并重新教授变弱的部分（式 6、8）。定位能力在 R4 降到 56.16，到 R6 恢复到 62.10；五项能力最终都高于 R1（Figure 6）。
-- *后期轮次的下降。* 迭代式自训练在有限的数据池上，通常在前几轮之后趋于平稳甚至下降（Chen et al., ICML 2024；Singh et al., TMLR 2024）。我们的数据池是固定的（359,355 条事实，附录 C.3），每轮构建 50,000 个样本（附录 B）。到 R7，累计预算已接近数据池的规模，因此后续轮次主要在重复使用学习者已见过的证据。在 R10，SLAKE、PathVQA 和 IU-Xray 距各自峰值都在 3 分以内，并且比 R1 高出 12 分以上（Figure 7）。
+**W3（灾难性遗忘与保留）** CoEvoMed 是课程学习，不是持续学习。每一轮都同时训练所有任务（式 7），并混入回放数据（第 3.3 节），因此灾难性遗忘和持续学习指标并不适用。审稿人指出的恢复正是有意的设计：每一轮都测量学习者，并重新教授变弱的部分（式 6、8）；最终五项能力都高于 R1（Figure 6）。"保留"是预算中的一个份额（第 4.2 节），已在 W1 中随规划器一起做了消融。剩下两点涉及的是数据和检查点的选择，而不是方法本身：
+- *后期下降源于数据。* 支持数据池是固定的（359,355 条事实，附录 C.3），每轮构建 50,000 个样本（附录 B）。到 R7，累计预算已接近数据池的规模，因此后续轮次主要在重复使用已见过的证据。在有限数据上的自训练也呈现同样的规律（Chen et al., ICML 2024；Singh et al., TMLR 2024）。只要还有新证据，CoEvoMed 就持续提升，直到 R7–R8 达到峰值。即使到 R10，三个基准仍都在各自峰值 3 分以内，并比 R1 高出 12 分以上（Figure 7）。更大的数据池可以在不改变方法的前提下延长演化。
 - *对 R7 的依赖。* R7 在内部验证集上具有最均衡的能力画像。六个基准共用这一个检查点，尽管 PathVQA 的峰值出现在 R8。外部基准只用于追踪演化过程，从不指导训练或检查点选择（附录 C.4、C.6）。
 
 **Q1（MedVLSynther 的基础模型）** 我们注意到了基础模型的差异。绝对分数把方法和骨干模型的效果混在一起，因此我们比较各方法相对其自身基础模型的提升（MedVLSynther 采用原文发表的结果）：
@@ -131,13 +129,14 @@ On the same base, we trained Qwen3-VL-8B with MedVLSynther's released data and G
 - [x] **R7 的选择依据（作者已更正）**：R7 是按内部验证集上的能力画像（附录 C.4；"capability profile" 的定义见第 3.1 节式 1）选出的，与论文一致。此前"按外部基准选出"的说法为口误，已更正。W3 已按此改写，并删去 R10 与 Hulu-Med-7B 的比较。
 - [x] **W3 PathVQA 峰值**：已确认 PathVQA 的 R8 略高于 R7；R10 的 67.25 仍在峰值 3 分以内，正文说法成立。
 - [ ] **W3 数据池解释（请确认）**："By R7 the budget nearly matches the pool, so later rounds mostly reuse seen evidence" 是按论文数字推出的解释：7 × 50,000 = 350,000，接近 359,355 条事实（附录 C.3 称之为 "reusable facts"）。样本和事实不一定一一对应。请确认后期轮次确实大量复用已用过的证据（例如从日志统计每轮首次使用的事实比例）。如果不符，改为 "so later rounds add little new evidence"。
+- [ ] **W3 "更大的数据池可以延长演化"**：这是基于机制的推断（数据池是输入，不是方法的一部分），没有扩池实验支撑。如果审稿人追问，可以回答：数据池在附录 C.3 中按来源构建，扩充来源不需要改动任何智能体或规划器。
 - [x] **W3 文献（已核实）**：Chen et al., ICML 2024 = SPIN（Self-Play Fine-Tuning），收益集中在前两轮，后续工作 SPACE 报告其在峰值后下降；Singh et al., TMLR 2024 = ReST-EM（"Beyond Human Data"），原文写明 APPS 在第二轮回退，迭代超过几轮后收益递减，并归因于在少量训练题上过拟合。R-Zero（论文中的 Huang et al., 2026a）后期下降没有查到原文证据，所以没有引用。
 - [x] **W3 R7 出处**：附录 C.4 "Checkpoint selection" 写明按整体均衡选 R7；附录 C.6 写明外部基准不参与监督构建、学习者训练、课程和原则更新。
-- [ ] **为容纳 W3 而删去的内容（可按需恢复）**：W1 表中的变化区间（−2.2 至 −9.6；+0.5 至 +2.8）；W2 中"四个 2D VQA、两个报告、三个 3D 基准"的括号；Q3 中"VQA-RAD 和 M3D-VQA 采用类似类别"一句，以及"过时诊断使 12 个分数中 11 个下降"一句（W1 表中已有同一证据）。
+- [ ] **为容纳 W3 而删去的内容（可按需恢复）**：W1 表中的变化区间（−2.2 至 −9.6；+0.5 至 +2.8）；W2 中"四个 2D VQA、两个报告、三个 3D 基准"的括号；Q3 中"VQA-RAD 和 M3D-VQA 采用类似类别"一句，以及"过时诊断使 12 个分数中 11 个下降"一句（W1 表中已有同一证据）。W2 中"包括能力单元（第 3.1 节）"一句。W3 原先单列的"被动恢复与均衡"已并入开头一段。
 - [ ] **Q1 占位符**：复现完成后，在第二张表里填入复现模型在四个基准上的得分 `[x.xx]`（与 CoEvoMed 同一评测流程）。如果任何一项高于 CoEvoMed，需要重新讨论写法。
 - [ ] **Q1 数字来源**：确认 Table 1 的 MedVLSynther 数字引自其论文（与其 GitHub README 的数字完全一致）。正文写的是 "as published"。
 - [ ] **Q1 与附录 C.1 的一致性**：C.1 写的是"本研究评估的基线与 CoEvoMed 使用相同的评估集和评分规则"，MedVLSynther 是引用数，与这句不符。Q1 已如实写明"按原文发表的结果和协议"；定稿时建议把 C.1 改为区分"我们评测的基线"和"引用原文的基线"。
-- [x] **字符限制**：当前 4,988 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
+- [x] **字符限制**：当前 4,984 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
 - [ ] **Q2 承诺**：正文承诺为禁止再分发的源数据提供重新生成脚本。确认接收后能兑现；如果不打算做，把最后半句改为 "are excluded from the release"。
 - [ ] **Q2 待确认许可**：PMC-OA、MedTrinity BHX、RadGenome-ChestCT、Med-MAT 的许可没能直接核实，AbdomenAtlas1.0Mini 的附加条款也不确定，公开前需逐个确认（见下方"Q2 源数据许可核对"）。
 - [x] **Q3 一致率（已填入）**：轴 B（视觉能力）准确率 97.50%（195/200），macro-F1 0.9767，Cohen's κ 0.9575（正文写作 0.958）；轴 C（模态）准确率 100%，为模型在不看原标签的情况下独立判断；轴 D（解剖部位）准确率 96.50%（193/200），macro-F1 0.9476。轴的对应关系来自代码 `AXES = ("task_form", "visual_ability", "modality", "anatomy")`。
