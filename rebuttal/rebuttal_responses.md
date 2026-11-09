@@ -482,7 +482,7 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 - [ ] **Q2 定稿时补进论文**：附录 C.3 目前只写了与验证集的重叠检查。定稿时补上与外部测试集的筛查、文本泄漏查询，以及 R7 依据外部基准选出这一点。
 - [ ] **Q3 独立运行的表述**：正文以"在三个模型家族、四个学习者上独立运行完整流程"回答运行次数，不涉及随机种子，也不能出现暗示多种子重复的说法（如 "averaged over runs"、"mean ± std"）。如果审稿人追问主实验的随机种子，要如实回答。
 - [ ] **Q3 置信区间（可选加强）**：正文用的 ±0.5（PMC-VQA）和 ±1.7（SLAKE）是根据 Table 1 准确率和 Table 3 样本数算出的 Wilson 95% 置信区间（PMC-VQA [67.45, 68.45]，SLAKE [89.78, 93.12]），不需要额外数据。如果之后跑了 Hulu-Med-7B 的推理，可以再补配对 bootstrap 置信区间，重点放在差距最小的 IU-Xray（+0.92）和 PMC-VQA（+1.15）上。
-- [ ] **Q3 CURE-4B**：正文理由：CURE 在 MIMIC-CXR 派生数据（Chest ImaGenome、MS-CXR）和 PadChest-GR 上微调；IU-Xray 不在其训练和评测数据中；零样本测试结果证实了数据域差异。CURE 在 IU-Xray 上的零样本结果：RaTEScore 0.2865（正文写作 28.65，与 Figure 3 的 ×100 口径一致），BLEU-4 0.0009，ROUGE-L 0.0905，CIDEr 0.0039，METEOR 0.0435；输出平均约 79 字符，大量 "No significant findings"，44% 的输出含 bbox，已按官方代码剥离后计算。Figure 3 IU-Xray 中 28 个模型的最低分为 42.00（BioMediX2-8B）。训练数据依据：CURE 官方仓库 README 与训练配置（datasets 仅 chest-imagenome、ms-cxr、padchest-gr）。需确认：28.65 是否用与 Figure 3 相同的 RaTEScore 评测流程算出。
+- [ ] **Q3 CURE-4B**：正文理由：CURE 在 MIMIC-CXR 派生数据（Chest ImaGenome、MS-CXR）和 PadChest-GR 上微调；IU-Xray 不在其训练和评测数据中；零样本测试结果证实了数据域差异。CURE 在 IU-Xray 上的零样本结果：RaTEScore 0.2865（正文写作 28.65，与 Figure 3 的 ×100 口径一致），BLEU-4 0.0009，ROUGE-L 0.0905，CIDEr 0.0039，METEOR 0.0435；输出平均约 79 字符，大量 "No significant findings"，44% 的输出含 bbox，已按官方代码剥离后计算。Figure 3 IU-Xray 中 28 个模型的最低分为 42.00（BioMediX2-8B）。训练数据依据：CURE 官方仓库 README 与训练配置（datasets 仅 chest-imagenome、ms-cxr、padchest-gr）。已确认：28.65 与 Figure 3 使用同一套 RaTEScore 评测流程。
 - [ ] **Q3 32B 的说法**：正文把 32B 在 IU-Xray 上低于 8B 归因于基准本身（Hulu-Med 同样如此）。如果你知道其他原因，例如 32B 的训练轮数或预算不同，请告诉我，必要时补充。
 - [ ] **Q4 备用弹药**：正文不承诺补测 MedXpertQA-MM 和 MMMU。如果 2Nuw 在讨论阶段坚持要这两个基准的结果，再考虑补测（只需推理）。
 
