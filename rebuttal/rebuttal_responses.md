@@ -447,15 +447,15 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | — | — | 已改为在标题中注明 |
-| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 1,839 | 已改为分点格式 |
-| Q2 | 数据泄漏；R7 的选择 | — | 903 | 已定稿 |
+| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 1,976 | 已改为分点格式 |
+| Q2 | 数据泄漏；R7 的选择 | — | 760 | 已定稿 |
 | Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,212 | 已定稿 |
 | Q4 | 复杂推理基准 | — | 1,014 | 已定稿 |
-| **合计** | | **≤ 5,000** | **4,974** | |
+| **合计** | | **≤ 5,000** | **4,968** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
-字符空间：当前 4,974 字符，占位符已全部填完，只剩 26 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
+字符空间：当前 4,968 字符，占位符已全部填完，只剩 32 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
@@ -473,15 +473,15 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 
 Removing either component lowers most or all scores; only both improve all six benchmarks.
 
-Unlike a greedy rule, PPO optimizes cumulative gain (Eq. 5), and its choices follow the learner's state. Across R1–R7: balanced, weakness-focused, retention-heavy, balanced, repair-heavy, repair-heavy, balanced. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (Fig. 6). With localization above R1, it returned to balanced at R7.
+Unlike a greedy rule, PPO optimizes cumulative gain (Eq. 5), and its choices follow the learner's state. Across R1–R7: balanced, weakness-focused, retention-heavy, balanced, repair-heavy, repair-heavy, balanced. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (Fig. 6). It then returned to balanced.
 
 The raw-data baseline degrades because its sources (App. D.3) are not task-aligned (58.3% of 2D records are figure descriptions; Fig. 10), not verified, not targeted, and not adapted. CoEvoMed's constructor, verifier, planner, and revision agent handle these. With CoEvoMed, SLAKE reaches 91.60 instead of 38.15 (Table 9).
 
-The selection criteria screen supervision quality before use; the loop then checks learning gains: principles whose net repair stays non-positive are revised again (Sec. 4.3). The selected principles raise all six benchmarks at R5, where the originals lower all six (Table 8).
+Sec. 4.3 and **App. B** (Eq. 11) define the selection criteria. Only principles with non-positive net repair are revised. A candidate is accepted only if, on 100 identical evidence assignments, usable yield ≥ 0.80, paired coverage ≥ 0.60, and it passes semantic review. The loop then tests learning gains and revises principles that still fail. From R5, selected principles raise all six benchmarks; original ones lower all six (**Table 8**).
 
-**Q2 (Overlaps; R7).** We excluded patient-, study-, and image-level overlaps by design: support, validation, and test data are separate partitions (Sec. 1; App. C.6), enforced in our code. We screened all 11 2D and 5 3D sources against every external test at four levels: IDs (including study and case IDs), image paths, pixel hashes (exact and near-duplicate), and normalized text. All checks found zero overlap, including PubMedVision-IU vs. IU-Xray; PMC-OA and PMC-VQA also draw on disjoint PMC articles.
+**Q2 (Overlaps; R7).** We excluded patient-, study-, and image-level overlaps by design: support, validation, and test data are separate partitions (Sec. 1; App. C.6), enforced in our code. We screened all 11 2D and 5 3D sources against every external test at four levels: IDs (including study and case IDs), image paths, pixel hashes (exact and near-duplicate), and normalized text. All checks found zero overlap, including PubMedVision-IU vs. IU-Xray.
 
-R7 was selected by a predefined internal criterion: it has the most balanced capability profile on the internal validation sets (App. C.4), and one checkpoint serves all six benchmarks. We test every round on external benchmarks only to show the evolution and report all ten rounds, including declines (Fig. 7). These scores never feed back into training or checkpoint selection (App. A, C.6).
+R7 was selected by a predefined internal criterion: it has the most balanced capability profile on the internal validation sets (App. C.4), and one checkpoint serves all six benchmarks. All ten rounds are reported (Fig. 7). These scores never feed back into training or checkpoint selection (App. A, C.6).
 
 **Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).** We ran the full pipeline independently on four learners across three model families, architectures, and scales: Qwen3-VL (8B and 32B), Gemma 3 (4B), and InternVL3 (9B). Every run improves over its own base on every benchmark evaluated (16 of 16, +6.52 to +26.76). These gains far exceed the test-set uncertainty (95% CI ±0.5 on PMC-VQA, ±1.7 on SLAKE). An effect that holds across families, architectures, and scales is not a single-run artifact.
 
@@ -509,15 +509,15 @@ The results support generalization: CoEvoMed ranks first on all nine benchmarks 
 
 去掉任何一个组件，大部分或全部分数都会下降；只有两者都保留，六个基准才全部提升。
 
-与贪心规则不同，PPO 优化的是累计收益（式 5），它的选择会随学习者的状态变化。R1–R7 依次为：balanced、weakness-focused、retention-heavy、balanced、repair-heavy、repair-heavy、balanced。定位能力在 R4 退化后（60.27 → 56.16），它在 R5 和 R6 换成了 repair-heavy，定位能力随之回升到 59.36 和 62.10（Figure 6）。定位能力超过 R1 之后，它在 R7 回到了 balanced。
+与贪心规则不同，PPO 优化的是累计收益（式 5），它的选择会随学习者的状态变化。R1–R7 依次为：balanced、weakness-focused、retention-heavy、balanced、repair-heavy、repair-heavy、balanced。定位能力在 R4 退化后（60.27 → 56.16），它在 R5 和 R6 换成了 repair-heavy，定位能力随之回升到 59.36 和 62.10（Figure 6）。之后它又回到了 balanced。
 
 原始数据基线之所以退化，是因为这些数据（附录 D.3）与任务不对齐（2D 记录中 58.3% 是图像描述；Figure 10），没有经过核查，没有针对性，也不会自适应。CoEvoMed 的构建器、核验器、规划器和修订智能体分别处理这几点。经过 CoEvoMed 处理后，SLAKE 达到 91.60，而不是 38.15（Table 9）。
 
-选择标准在使用之前筛查监督数据的质量；之后由闭环检验学习收益：净修复一直不为正的原则会被再次修订（第 4.3 节）。被选中的原则在 R5 让六个基准全部提升，而原始原则让六个基准全部下降（Table 8）。
+选择标准见第 4.3 节和**附录 B**（式 11）。只有净修复不为正的原则才会被修订。候选原则只有在 100 个相同的证据分配上满足可用产出率 ≥ 0.80、配对覆盖率 ≥ 0.60，并通过语义审查，才会被采用。之后由闭环检验学习收益，仍然不起作用的原则会被再次修订。从 R5 出发，被选中的原则让六个基准全部提升，而原始原则让六个基准全部下降（**Table 8**）。
 
-**Q2（数据重叠；R7）** 我们在设计上就排除了患者、检查和图像层面的重叠：支持数据、验证数据和测试数据是相互独立的划分（第 1 节；附录 C.6），并在我们的代码中强制执行。我们把全部 11 个 2D 源数据和 5 个 3D 源数据与每一个外部测试集在四个层面上做了筛查：ID（包括检查 ID 和病例 ID）、图像路径、像素哈希（精确匹配和近似重复）以及归一化后的文本。所有检查发现的重叠均为零，包括 PubMedVision-IU 与 IU-Xray 之间；PMC-OA 与 PMC-VQA 所用的 PMC 论文也完全不相交。
+**Q2（数据重叠；R7）** 我们在设计上就排除了患者、检查和图像层面的重叠：支持数据、验证数据和测试数据是相互独立的划分（第 1 节；附录 C.6），并在我们的代码中强制执行。我们把全部 11 个 2D 源数据和 5 个 3D 源数据与每一个外部测试集在四个层面上做了筛查：ID（包括检查 ID 和病例 ID）、图像路径、像素哈希（精确匹配和近似重复）以及归一化后的文本。所有检查发现的重叠均为零，包括 PubMedVision-IU 与 IU-Xray 之间。
 
-R7 是依据预先定义的内部标准选出的：它在内部验证集上的能力画像最均衡（附录 C.4），六个基准共用这一个检查点。我们在每一轮之后都用外部基准测试一次，只是为了展示演化过程，并且报告了全部十轮，包括下降的轮次（Figure 7）。这些分数从不反馈到训练或检查点选择中（附录 A、C.6）。
+R7 是依据预先定义的内部标准选出的：它在内部验证集上的能力画像最均衡（附录 C.4），六个基准共用这一个检查点。全部十轮的结果都已报告（Figure 7）。这些分数从不反馈到训练或检查点选择中（附录 A、C.6）。
 
 **Q3 与 W2（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）** 我们在跨越三个模型家族、不同架构和规模的四个学习者模型上独立运行了完整流程：Qwen3-VL（8B 和 32B）、Gemma 3（4B）和 InternVL3（9B）。每一次运行在所有评测基准上都超过了各自的基础模型（16 组比较全部提升，幅度为 +6.52 至 +26.76）。这些提升远大于测试集本身的不确定性（95% 置信区间：PMC-VQA ±0.5、SLAKE ±1.7）。一个在不同模型家族、不同架构和不同规模上都成立的效果，不可能是某一次运行的偶然结果。
 
@@ -533,6 +533,7 @@ MedXpertQA-MM 和 MMMU 都是在 2D 图像上通过选择题检验推理（MedXp
 
 ### 发布前待核对
 
+- [x] **Q1 选择标准（按论文改写）**：论文在第 4.3 节、附录 A 算法 1 第 18–23 行、附录 B 式 11 交代了原则的选择标准：只有使用足够且净修复（修复数减退化数）不为正的原则才进入修订；候选原则与当前原则在 N = 100 个相同证据分配、相同配额下各自构建，候选可用产出率 ≥ 0.80、Δuse ≥ −0.05、配对覆盖率 ρpair ≥ 0.60，并通过修订智能体对最多 30 对样本的语义审查，才替换当前原则。正文列出的是必要条件（"only if"），没有列 Δuse。为腾字数：Q2 删去 "We test every round … (Fig. 7)"，改为 "All ten rounds are reported (Fig. 7)"；删去 "PMC-OA and PMC-VQA also draw on disjoint PMC articles"；PPO 一段末句改为 "It then returned to balanced."
 - [x] **Q1 改为逐项消融表（作者要求不给计算出的平均值）**：表格与 jcb6 W1 相同的数据：只有自适应课程 = Table 8 条件 C；只有原则演化 = Table 7 的 R2 / R3 feedback（R5 起点、演化原则）；CoEvoMed = Table 8 条件 D（与 Table 7 的 R5 feedback 同一次训练）。删去 "Mean Δ" 和 "Improved" 两列，以及选择标准一段的 "+6.77 mean"。为腾字数：Q2 R7 一段出处只保留 App. C.4、"how evolution improves the learner" 改为 "the evolution"；Q3、Q4 各压缩一处措辞。
 - [x] **Q1 PPO 动作序列（已填入）**：R1–R7 依次为 balanced、weakness-focused、retention-heavy、balanced、repair-heavy、repair-heavy、balanced。定位能力 R1–R6 为 60.27、59.36、60.27、56.16、59.36、62.10（Figure 6）。按论文的轮次约定，Rk 的动作用于训练出 Rk 的模型，依据的是 R(k−1) 的验证反馈（附录 D.1：用 R5 反馈训练的结果对应 Figure 7 的第 6 轮）。所以 R5 的 repair-heavy 是看到 R4 退化后做出的选择，R5 的 59.36 已经是修复的结果。如果日志的记法相反（Rk 的动作是在 Rk 评估之后选出、用于 R(k+1)），这句话需要改写。
 - [x] **Q1 对照条件（已确认）**：与 pUjh W1、jcb6 W1 相同，Exp 1、Exp 2 都只改变一个因素。
