@@ -119,7 +119,7 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 ## Response to Reviewer 2Nuw
 
-*Posted text: 4,960 / 5,000 characters (quotes excluded).*
+*Posted text: 4,945 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** **The experimental controls and mechanism analyses do not sufficiently establish the contribution of co-evolution.** The method combines teacher-generated supervision, data verification, principle revision, and adaptive curricula, but does not adequately isolate their effects or those of additional resources. Improvements are difficult to attribute to individual principles, and the relationship between principle-selection criteria and subsequent learning gains remains unvalidated. The substantial degradation of the raw-data training baseline also lacks sufficient explanation.
 
@@ -162,8 +162,14 @@ Larger models often trail smaller ones on IU-Xray: Hulu-Med (7B 67.30 vs. 32B 62
 
 > **Question 4:** Why were complex reasoning benchmarks such as MedXpertQA-MM or the Health & Medicine portion of MMMU not included? How do the existing results support generalization to complex medical reasoning?
 
-**Q4 & W2 (Complex reasoning).** We chose our benchmarks to test medical reasoning in its clinical form: image-grounded, often volumetric, and mostly open-ended. They require full reports from chest X-rays (MIMIC-CXR, IU-Xray) and multi-organ 3D CT (AMOS-MM); five question types across 64-slice volumes (M3D-VQA); diameter, size, and thickness measurement in open-ended 3D questions (3D-RAD); and clinical, knowledge, pathology, and literature-figure questions (VQA-RAD, SLAKE, PathVQA, PMC-VQA).
+**Q4 & W2 (Complex reasoning).** We chose benchmarks that test medical reasoning in clinical form, which is harder than multiple choice on 2D images:
 
-MedXpertQA-MM and MMMU test reasoning through multiple choice on 2D images (all of MedXpertQA-MM, 94% of MMMU). Our suite already covers this format (PMC-VQA, M3D-VQA) and goes further: the model must write reports, answer without options, reason across 3D volumes, and measure structures.
+| What the model must do | Benchmarks |
+|---|---|
+| Write full reports | MIMIC-CXR, IU-Xray (chest X-ray); AMOS-MM (multi-organ 3D CT) |
+| Reason over 3D volumes | M3D-VQA (five question types over 64 slices); 3D-RAD (open-ended, including measuring diameter, size, and thickness) |
+| Answer varied 2D questions | VQA-RAD (clinician-authored), SLAKE (knowledge-based), PathVQA (pathology), PMC-VQA (literature figures) |
+
+MedXpertQA-MM and MMMU test reasoning through multiple choice on 2D images (all of MedXpertQA-MM, 94% of MMMU). Our suite already covers this format (PMC-VQA, M3D-VQA) and adds the harder tasks above.
 
 The results support generalization: CoEvoMed ranks first on all nine benchmarks (Table 1; Figs. 3–4). On 3D-RAD Medical Computation, it leads the next-best model by +8.6 BLEU-1 (Fig. 9b).

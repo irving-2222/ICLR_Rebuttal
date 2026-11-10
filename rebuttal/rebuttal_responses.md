@@ -457,12 +457,12 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,114 | 已改为分点格式 |
 | Q2 | 数据泄漏；R7 的选择 | — | 676 | 已定稿 |
 | Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,187 | 已定稿 |
-| Q4 | 复杂推理基准 | — | 977 | 已定稿 |
-| **合计** | | **≤ 5,000** | **4,960** | |
+| Q4 | 复杂推理基准 | — | 962 | 已定稿 |
+| **合计** | | **≤ 5,000** | **4,945** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
-字符空间：当前 4,960 字符，占位符已全部填完，只剩 40 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
+字符空间：当前 4,945 字符，占位符已全部填完，只剩 55 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
@@ -496,9 +496,15 @@ We considered CURE-4B, but IU-Xray is not a fair test for it. CURE is fine-tuned
 
 Larger models often trail smaller ones on IU-Xray: Hulu-Med (7B 67.30 vs. 32B 62.40) and MedGemma (4B 60.50 vs. 27B 59.00) do too. At matched scale, CoEvoMed-32B beats Hulu-Med-32B by +2.68, and it beats CoEvoMed-8B on the other five benchmarks. Beyond the 0.92 RaTEScore margin, CoEvoMed-8B leads Hulu-Med-7B on six of eight lexical metrics (up to +7.5 ROUGE-2; Fig. 8).
 
-**Q4 & W2 (Complex reasoning).** We chose our benchmarks to test medical reasoning in its clinical form: image-grounded, often volumetric, and mostly open-ended. They require full reports from chest X-rays (MIMIC-CXR, IU-Xray) and multi-organ 3D CT (AMOS-MM); five question types across 64-slice volumes (M3D-VQA); diameter, size, and thickness measurement in open-ended 3D questions (3D-RAD); and clinical, knowledge, pathology, and literature-figure questions (VQA-RAD, SLAKE, PathVQA, PMC-VQA).
+**Q4 & W2 (Complex reasoning).** We chose benchmarks that test medical reasoning in clinical form, which is harder than multiple choice on 2D images:
 
-MedXpertQA-MM and MMMU test reasoning through multiple choice on 2D images (all of MedXpertQA-MM, 94% of MMMU). Our suite already covers this format (PMC-VQA, M3D-VQA) and goes further: the model must write reports, answer without options, reason across 3D volumes, and measure structures.
+| What the model must do | Benchmarks |
+|---|---|
+| Write full reports | MIMIC-CXR, IU-Xray (chest X-ray); AMOS-MM (multi-organ 3D CT) |
+| Reason over 3D volumes | M3D-VQA (five question types over 64 slices); 3D-RAD (open-ended, including measuring diameter, size, and thickness) |
+| Answer varied 2D questions | VQA-RAD (clinician-authored), SLAKE (knowledge-based), PathVQA (pathology), PMC-VQA (literature figures) |
+
+MedXpertQA-MM and MMMU test reasoning through multiple choice on 2D images (all of MedXpertQA-MM, 94% of MMMU). Our suite already covers this format (PMC-VQA, M3D-VQA) and adds the harder tasks above.
 
 The results support generalization: CoEvoMed ranks first on all nine benchmarks (Table 1; Figs. 3–4). On 3D-RAD Medical Computation, it leads the next-best model by +8.6 BLEU-1 (Fig. 9b).
 ```
@@ -532,9 +538,15 @@ R7 是依据预先定义的内部标准选出的：它在内部验证集上的�
 
 在 IU-Xray 上，大模型不如小模型的情况很常见：Hulu-Med（7B 67.30，32B 62.40）和 MedGemma（4B 60.50，27B 59.00）也是如此。在相同规模下，CoEvoMed-32B 比 Hulu-Med-32B 高 2.68；在其余五个基准上，CoEvoMed-32B 都高于 CoEvoMed-8B。除了 RaTEScore 上 0.92 的领先，CoEvoMed-8B 在八个词汇指标中有六个领先 Hulu-Med-7B（ROUGE-2 最多领先 7.5；Figure 8）。
 
-**Q4 与 W2（复杂推理）** 我们选择这些基准，是为了在临床实际的形式下检验医学推理：基于图像、常常是体数据、而且大多是开放式的。它们要求模型根据胸片写出完整报告（MIMIC-CXR、IU-Xray），根据多器官 3D CT 写出报告（AMOS-MM）；在 64 张切片的体数据上回答五类问题（M3D-VQA）；在开放式 3D 问题中测量直径、大小和厚度（3D-RAD）；并回答临床、知识、病理以及文献配图类问题（VQA-RAD、SLAKE、PathVQA、PMC-VQA）。
+**Q4 与 W2（复杂推理）** 我们选择的基准是在临床实际的形式下检验医学推理，这比 2D 图像上的选择题更难：
 
-MedXpertQA-MM 和 MMMU 都是在 2D 图像上通过选择题检验推理（MedXpertQA-MM 全部是选择题，MMMU 有 94% 是选择题）。我们的评测已经包含了这种形式（PMC-VQA、M3D-VQA），而且走得更远：模型必须撰写报告、在没有选项的情况下作答、在 3D 体数据上推理，并对结构进行测量。
+| 模型需要做什么 | 基准 |
+|---|---|
+| 撰写完整报告 | MIMIC-CXR、IU-Xray（胸片）；AMOS-MM（多器官 3D CT） |
+| 在 3D 体数据上推理 | M3D-VQA（在 64 张切片上回答五类问题）；3D-RAD（开放式问题，包括测量直径、大小和厚度） |
+| 回答多种 2D 问题 | VQA-RAD（临床医生撰写）、SLAKE（基于知识）、PathVQA（病理）、PMC-VQA（文献配图） |
+
+MedXpertQA-MM 和 MMMU 都是在 2D 图像上通过选择题检验推理（MedXpertQA-MM 全部是选择题，MMMU 有 94% 是选择题）。我们的评测已经包含了这种形式（PMC-VQA、M3D-VQA），并且还加入了上表中更难的任务。
 
 现有结果支持泛化：CoEvoMed 在全部九个基准上都排名第一（Table 1；Figure 3–4）。在 3D-RAD 的医学计算任务上，它比第二名高出 BLEU-1 8.6（Figure 9b）。
 
