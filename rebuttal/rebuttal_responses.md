@@ -322,9 +322,9 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 | 条目 | 内容 | 当前 | 状态 |
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
-| W1 | 在预算匹配下分离各组件 | 1,605 | 已改为论文格式的合并表（Table 7–8） |
+| W1 | 在预算匹配下分离各组件 | 1,439 | 已改为论文格式的合并表（Table 7–8） |
 | Q1 | 原始数据退化原因；固定原则重构是否也有效 | 1,970 | 已改为分段 |
-| **合计** | | **3,657** | ≤ 5,000 |
+| **合计** | | **3,491** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
@@ -342,7 +342,7 @@ We thank the reviewer for the positive assessment and the precise suggestions.
 
 Fixing both principles and curriculum would not do better. In the first row, only the curriculum adapts, and all six scores already drop at R5. Fixing the curriculum as well would remove the last adaptive part.
 
-The gains come from co-evolution. At R5, each component alone degrades the learner; only co-evolution improves all six benchmarks. The same verified pipeline with fixed principles helps at R2 but harms at R5. High-quality synthetic data thus drives early progress, while co-evolution sustains it. At matched budget, evolved principles add +6.77 on average over fixed ones, and current feedback adds +4.15 to +4.28 over stale feedback.
+The gains come from co-evolution. At R5, each component alone degrades the learner; only co-evolution improves all six benchmarks. At matched budget, evolved principles add +6.77 on average over fixed ones, and current feedback adds +4.15 to +4.28 over stale feedback.
 
 **Q1 (Raw-data degradation; fixed-principle reconstruction).** The raw data lack what CoEvoMed's agents add, and fixed principles help only early.
 
@@ -375,7 +375,7 @@ Adaptive principle evolution adds +6.77 on average under a matched budget. At R5
 
 原则和课程都固定的设置不会更好。表中第一行只有课程在自适应，在 R5 时六个分数就已经全部下降；如果再把课程也固定，连这仅剩的自适应部分也没有了。
 
-收益来自共同演化。在 R5，单独使用任何一个组件都会让学习者变差；只有共同演化才让六个基准全部提升。同一条经过核验的流程，用固定原则在 R2 时有帮助，到 R5 时却有害。因此，高质量合成数据推动了早期的进步，而共同演化让进步得以持续。在预算匹配下，演化后的原则平均比固定原则高 6.77，当前反馈比过时反馈高 4.15 至 4.28。
+收益来自共同演化。在 R5，单独使用任何一个组件都会让学习者变差；只有共同演化才让六个基准全部提升。在预算匹配下，演化后的原则平均比固定原则高 6.77，当前反馈比过时反馈高 4.15 至 4.28。
 
 **Q1（原始数据退化的原因；固定原则重构的效果）** 原始数据缺少 CoEvoMed 各智能体所补上的环节，而固定原则只在早期有效。
 
@@ -395,6 +395,7 @@ Adaptive principle evolution adds +6.77 on average under a matched budget. At R5
 ### 发布前待核对
 
 - [x] **W1 合并表（数字已核对；改为标准消融表格式）**：列为"设置 / 原则演化（是/否）/ 课程自适应（是/否）/ 六个基准"，列顺序同论文 Table 7–8。"只有课程自适应"一行是 Table 8 条件 C（R5，原始原则 + 当前反馈）；"只有原则演化"两行是 Table 7 的 R2 feedback 和 R3 feedback（R5 起点，演化后的原则 + 过时反馈）；"CoEvoMed"一行是 Table 8 条件 D，与 Table 7 的 R5 feedback 为同一次训练（附录 D.1）。R2 起点的条件 A 已删去（作者要求）。
+- [x] **W1 删去 R2 的说法（作者要求）**：删去"固定原则在 R2 有帮助、到 R5 有害"和"高质量合成数据推动早期进步，共同演化让进步持续"两句，避免审稿人去对比 Table 8 条件 A（R2 起点，平均 +3.09）与共同演化（R5 起点，平均 +1.50）。保留的两个平均差值均由论文数字算出：D − C 六个差值（8.26、4.29、10.12、3.33、9.21、5.39，见附录 D.2 正文）平均 6.77；Table 7 中当前反馈平均 +1.50，R2、R3 反馈平均 −2.65、−2.78，相减得 +4.15、+4.28。
 - [x] **W1 对照条件只差一个因素（已确认）**：Exp 2 的 A/B、C/D 只在原则上不同，Exp 1 的三组只在反馈来源上不同，起点、流程和预算一致。
 - [ ] **W1 "原则和课程都固定"这一组**：论文里没有直接对应的实验。正文用推理回答：R5 时即使课程仍在自适应，固定原则也已失效（−5.27，0/6），再固定课程只会去掉仅剩的自适应部分。如果 jcb6 在讨论阶段坚持要这组实验，再考虑补跑一轮。
 - [ ] **W1 "过时反馈"不等于"固定课程"**：表中"只有原则演化"一行用的是过时反馈驱动的课程，即课程没有对准当前学习者，而不是完全不调整的课程。正文写的是 "stale (R2 / R3)"，如实标明了这一点。
