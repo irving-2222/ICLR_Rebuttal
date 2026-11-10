@@ -73,7 +73,7 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 
 ## Response to Reviewer jcb6
 
-*Posted text: 3,491 / 5,000 characters (quotes excluded).*
+*Posted text: 3,575 / 5,000 characters (quotes excluded).*
 
 We thank the reviewer for the positive assessment and the precise suggestions.
 
@@ -88,9 +88,9 @@ We thank the reviewer for the positive assessment and the precise suggestions.
 | Principles only | Yes | No (R3 feedback) | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
 | CoEvoMed | Yes | Yes | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-Fixing both principles and curriculum would not do better. In the first row, only the curriculum adapts, and all six scores already drop at R5. Fixing the curriculum as well would remove the last adaptive part.
+The table is an ablation of the two adaptive components. Removing principle evolution (first row) or curriculum adaptation (second and third rows) lowers most or all scores, while keeping both (CoEvoMed) improves all six benchmarks. All rows share the same verified pipeline, so the gains come from co-evolution, not from high-quality synthetic data alone.
 
-The gains come from co-evolution. At R5, each component alone degrades the learner; only co-evolution improves all six benchmarks. At matched budget, evolved principles add +6.77 on average over fixed ones, and current feedback adds +4.15 to +4.28 over stale feedback.
+Fixing both principles and curriculum would not do better. In the first row, only the curriculum adapts, and all six scores already drop at R5. Fixing the curriculum as well would remove the last adaptive part.
 
 > **Question:** Starting from the same initialization, training on raw data reduces performance on all four VQA benchmarks, with SLAKE accuracy dropping from 64.84% to 38.15%. What causes this substantial degradation? Would cleaning and reconstructing the data using fixed construction principles also yield substantial gains? A budget-matched comparison would help clarify the additional benefit of adaptive principle evolution.
 
@@ -107,7 +107,7 @@ Four properties of the raw sources cause the degradation. App. D.3 trains on the
 
 Reconstruction with fixed principles yields gains at first, but not later. Fixed principles handle the first three rows of the table, but not the fourth. At R2, reconstruction with the original principles improves all six benchmarks (+1.78 to +3.90; Table 8). This is why CoEvoMed starts from these principles (Algorithm 1). At R5, the same fixed principles lower all six benchmarks (−2.2 to −9.6).
 
-Adaptive principle evolution adds +6.77 on average under a matched budget. At R5, evolved principles outperform fixed ones on all six benchmarks (+3.33 to +10.12; Table 8).
+Under a matched budget, adaptive principle evolution helps on every benchmark: at R5, evolved principles outperform fixed ones on all six, by +3.33 to +10.12 (Table 8).
 
 ---
 
