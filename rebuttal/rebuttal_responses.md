@@ -456,13 +456,13 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | — | — | 已改为在标题中注明 |
 | Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,114 | 已改为分点格式 |
 | Q2 | 数据泄漏；R7 的选择 | — | 676 | 已定稿 |
-| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,187 | 已定稿 |
+| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,098 | 已定稿 |
 | Q4 | 复杂推理基准 | — | 962 | 已定稿 |
-| **合计** | | **≤ 5,000** | **4,945** | |
+| **合计** | | **≤ 5,000** | **4,856** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
-字符空间：当前 4,945 字符，占位符已全部填完，只剩 55 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
+字符空间：当前 4,856 字符，占位符已全部填完，只剩 144 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
@@ -490,7 +490,7 @@ Principles chosen by our criteria do produce later learning gains. In **Table 8*
 
 R7 was selected by a predefined internal criterion: it has the most balanced capability profile on the internal validation sets (App. C.4). These scores never feed back into training or checkpoint selection (App. A, C.6).
 
-**Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).** We ran the full pipeline independently on four learners across three model families, architectures, and scales: Qwen3-VL (8B and 32B), Gemma 3 (4B), and InternVL3 (9B). Every run improves over its own base on every benchmark evaluated (16 of 16, +6.52 to +26.76). These gains far exceed the test-set uncertainty (95% CI ±0.5 on PMC-VQA, ±1.7 on SLAKE). An effect that holds across families, architectures, and scales is not a single-run artifact.
+**Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).** We ran the full pipeline independently on four learners across three model families, architectures, and scales: Qwen3-VL (8B and 32B), Gemma 3 (4B), and InternVL3 (9B). Every run improves over its own base on every benchmark evaluated (16 of 16, +6.52 to +26.76). An effect that holds across families, architectures, and scales is not a single-run artifact.
 
 We considered CURE-4B, but IU-Xray is not a fair test for it. CURE is fine-tuned on MIMIC-CXR-derived data (Chest ImaGenome, MS-CXR) and PadChest-GR, and IU-Xray is outside its training and evaluation data. A zero-shot run confirms the domain shift: it scores 28.65 RaTEScore, below all 28 models in Fig. 3.
 
@@ -532,7 +532,7 @@ The results support generalization: CoEvoMed ranks first on all nine benchmarks 
 
 R7 是依据预先定义的内部标准选出的：它在内部验证集上的能力画像最均衡（附录 C.4）。这些分数从不反馈到训练或检查点选择中（附录 A、C.6）。
 
-**Q3 与 W2（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）** 我们在跨越三个模型家族、不同架构和规模的四个学习者模型上独立运行了完整流程：Qwen3-VL（8B 和 32B）、Gemma 3（4B）和 InternVL3（9B）。每一次运行在所有评测基准上都超过了各自的基础模型（16 组比较全部提升，幅度为 +6.52 至 +26.76）。这些提升远大于测试集本身的不确定性（95% 置信区间：PMC-VQA ±0.5、SLAKE ±1.7）。一个在不同模型家族、不同架构和不同规模上都成立的效果，不可能是某一次运行的偶然结果。
+**Q3 与 W2（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）** 我们在跨越三个模型家族、不同架构和规模的四个学习者模型上独立运行了完整流程：Qwen3-VL（8B 和 32B）、Gemma 3（4B）和 InternVL3（9B）。每一次运行在所有评测基准上都超过了各自的基础模型（16 组比较全部提升，幅度为 +6.52 至 +26.76）。一个在不同模型家族、不同架构和不同规模上都成立的效果，不可能是某一次运行的偶然结果。
 
 我们考虑过 CURE-4B，但 IU-Xray 对它来说不是公平的测试。CURE 是在 MIMIC-CXR 派生的数据（Chest ImaGenome、MS-CXR）以及 PadChest-GR 上微调的，而 IU-Xray 既不在它的训练数据中，也不在它的评测中。一次零样本测试证实了这种数据域差异：它的 RaTEScore 只有 28.65，低于 Figure 3 中全部 28 个模型。
 
@@ -552,6 +552,8 @@ MedXpertQA-MM 和 MMMU 都是在 2D 图像上通过选择题检验推理（MedXp
 
 ### 发布前待核对
 
+- [x] **Q3 删去测试集置信区间（作者要求）**：原句 "These gains far exceed the test-set uncertainty (95% CI ±0.5 on PMC-VQA, ±1.7 on SLAKE)" 是单次评测的 Wilson 区间，不是审稿人要的"配对置信区间"，已删去。
+- [ ] **Q3 配对置信区间（待算）**：脚本 `rebuttal/tools/paired_bootstrap.py`（配对 bootstrap，需每道题的对错或每份报告的 RaTEScore）。算出后可在 Q3 补一句，或在讨论阶段补充。
 - [x] **消融在正文、反馈消融即课程自适应消融**：同 jcb6；Q1 开头先指向正文 Table 2，并补一句 "Stale R2 or R3 feedback reproduces a curriculum fixed at an earlier stage."。为腾字数：选择标准一段把出处移到句末；Q2 删去 "and one checkpoint serves all six benchmarks"；Q3 删去 "with very short outputs"。
 - [x] **Q1 选择标准与学习收益的联系（作者指出审稿人问的是"联系"而非流程）**：改为先给验证证据（Table 8：通过选择标准的演化原则 D 让六个基准全部提升，从未修订的原始原则 C 全部下降），再说明设计上的联系（修订由净修复 ≤ 0 触发；语义审查确认候选针对造成问题的错误）。可用产出率、配对覆盖率两个阈值属于质量筛查，与学习收益无直接关系，已从这一段删去。
 - [x] **Q1 日志证据（作者决定不写入）**：日志统计为 "Of the 15 accepted revisions with a subsequent evolution window, 12 turned their target cells' net repair positive in the next window; the remaining three were in sparse cells or showed delayed effects."。作者决定正文保持不变，不加这一句；如审稿人在讨论阶段追问"选择标准与后续收益的关系"，可以用这个数据回答（注意另外三次的解释和"回归均值"的可能质疑）。
