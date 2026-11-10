@@ -6,7 +6,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,993 / 5,000 characters (quotes excluded).*
+*Posted text: 4,985 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
@@ -18,24 +18,24 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 | Revision agent: original principles | R5 | −5.64 | −3.60 | −9.60 | −2.20 |
 | Curriculum planner: R2 feedback | R5 | −1.10 | −5.20 | −3.60 | −3.10 |
 | Curriculum planner: R3 feedback | R5 | −1.77 | −5.80 | −1.80 | −2.40 |
-| None: CoEvoMed | base | **+25.72** | **+26.76** | **+13.82** | **+26.63** |
-| None: CoEvoMed | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** |
+| None: CoEvoMed | base | +25.72 | +26.76 | +13.82 | +26.63 |
+| None: CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
 
 No simpler process can substitute them: each one above lowers every score. We also separate the roles by design (**App. B**):
 
-1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., ICLR 2024). We therefore designed the verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) as different models.
-2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, as VLMs often do (Li et al., EMNLP 2023). We therefore let it write only from selected facts.
+1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., 2024). We therefore designed the verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) as different models.
+2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, as VLMs often do (Li et al., 2023). We therefore let it write only from selected facts.
 3. **Curriculum allocation.** If an LLM agent also set the budget, it could not learn, since LLM weights stay frozen. Curricula learned from learning progress match or beat hand-crafted ones (Matiisen et al., 2017). We therefore made the curriculum planner a separate policy trained by PPO on validation gains (Sec. 4.2).
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
 
-**W2 (Organization).** The main text follows the method's logic: problem (Sec. 3), mechanisms (Sec. 4, Eqs. 1–9), and evidence, including the evaluation task composition (Sec. 5.1). Each appendix part extends a main-text part; together they suffice for reproduction: full algorithm (**App. A**), models and hyperparameters (**App. B**), data sources and metrics (**App. C**), and component controls (**App. D**).
+**W2 (Organization).** The main text follows the method's logic: problem (Sec. 3), mechanisms (Sec. 4), and evidence, including the evaluation task composition (Sec. 5.1). For space, its analyses use one VQA and one report task; the appendix covers all tasks. Each appendix part extends a main-text part; together they suffice for reproduction: algorithm (**App. A**), models and hyperparameters (**App. B**), data and metrics (**App. C**), and full ablations (**App. D**).
 
 > **Weakness 3:** The method demonstrates reactive recovery from selected capability regressions, but does not establish prevention of catastrophic forgetting or stable balanced convergence. Later-round declines, reliance on R7 checkpoint selection, absence of retention ablations, and lack of standard continual-learning metrics leave the central retention claim only partially supported.
 
-**W3 (Catastrophic forgetting and retention).** CoEvoMed builds on curriculum learning, not continual learning. Forgetting arises when tasks are learned in sequence and old data is dropped. CoEvoMed trains all tasks every round and replays earlier data (Eq. 7; Sec. 3.3), so continual-learning metrics do not apply. "Retention" is a share of the curriculum planner's budget (Sec. 4.2) and is ablated with it (Table 7).
+**W3 (Catastrophic forgetting and retention).** CoEvoMed builds on curriculum learning, not continual learning. Forgetting arises when tasks are learned in sequence and old data is dropped. CoEvoMed trains all tasks every round and replays earlier data (Eq. 7; Sec. 3.3), so continual-learning metrics do not apply. "Retention" is a share of the planner's budget (Sec. 4.2) and is ablated with it (Table 7).
 
-The later-round declines come from the data, not from our mechanisms. The planner and revision agent work as designed but can only draw on a fixed pool (359,355 facts, App. C.3). Each round builds 50,000 examples (App. B), so by R7 the budget nearly matches the pool and later rounds mostly reuse evidence. Self-training on finite data shows the same pattern (Chen et al., ICML 2024; Singh et al., TMLR 2024). Even at R10, all three Fig. 7 benchmarks stay within 3 points of their peaks, over 12 above R1.
+The later-round declines come from the data, not from our mechanisms. The planner and revision agent work as designed but can only draw on a fixed pool (359,355 facts, App. C.3). Each round builds 50,000 examples (App. B), so by R7 the budget nearly matches the pool and later rounds mostly reuse evidence. Self-training on finite data shows the same pattern (Chen et al., 2024; Singh et al., 2024). At R10, all three Fig. 7 benchmarks stay within 3 points of their peaks, over 12 above R1.
 
 We selected R7 by a predefined criterion: the most balanced capability profile on internal validation sets (App. C.4). R7 is where this pool's new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (App. C.5). CoEvoMed is a general evolution mechanism: its final checkpoint is not a fixed round but follows the limit of the data pool.
 
