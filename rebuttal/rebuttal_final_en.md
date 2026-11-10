@@ -6,7 +6,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,977 / 5,000 characters (quotes excluded).*
+*Posted text: 4,990 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
@@ -35,9 +35,9 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 **W3 (Catastrophic forgetting and retention).** CoEvoMed builds on curriculum learning, not continual learning. Forgetting arises when tasks are learned in sequence and old data is dropped. CoEvoMed trains all tasks every round and replays earlier data (Eq. 7; Sec. 3.3), so continual-learning metrics do not apply. "Retention" is a share of the curriculum planner's budget (Sec. 4.2) and is ablated with it (Table 7).
 
-The later-round declines come from the data, not from our mechanisms. The planner and revision agent work as designed but can only draw on a fixed pool (359,355 facts, App. C.3). Each round builds 50,000 examples (App. B), so by R7 the budget nearly matches the pool and later rounds mostly reuse seen evidence. Self-training on finite data shows the same pattern (Chen et al., ICML 2024; Singh et al., TMLR 2024). Even at R10, all three Fig. 7 benchmarks stay within 3 points of their peaks and over 12 above R1.
+The later-round declines come from the data, not from our mechanisms. The planner and revision agent work as designed but can only draw on a fixed pool (359,355 facts, App. C.3). Each round builds 50,000 examples (App. B), so by R7 the budget nearly matches the pool and later rounds mostly reuse seen evidence. Self-training on finite data shows the same pattern (Chen et al., ICML 2024; Singh et al., TMLR 2024). Even at R10, all three Fig. 7 benchmarks stay within 3 points of their peaks, over 12 above R1.
 
-We selected R7 by a predefined criterion: the most balanced capability profile on internal validation sets (Sec. 3.1; App. C.4). R7 is not a fixed point but the round where this pool's new evidence runs out. With a larger or new pool, the same method and criterion would pick a later round.
+We selected R7 by a predefined criterion: the most balanced capability profile on internal validation sets (Sec. 3.1; App. C.4). The criterion fixes no round; R7 is where this pool's new evidence runs out. The best round varies: InternVL3-9B peaks at round 6 on VQA-RAD and round 4 on MIMIC-CXR (App. C.5).
 
 > **Question 1:** For medVLSynther results, do you use the same base model to replicate their results?
 
