@@ -323,16 +323,16 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 | 条目 | 内容 | 当前 | 状态 |
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
-| W1 | 在预算匹配下分离各组件 | 1,699 | 已改为论文格式的合并表（Table 7–8） |
+| W1 | 在预算匹配下分离各组件 | 1,602 | 已改为论文格式的合并表（Table 7–8） |
 | Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,210 | 已改为分段，展示论文 Table 8 的 R5 部分 |
-| **合计** | | **3,991** | ≤ 5,000 |
+| **合计** | | **3,894** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
 ```markdown
 We thank the reviewer for the positive assessment and the precise suggestions.
 
-**W1 (Isolating the contributions of individual components).** The mechanism ablations in **Table 2** (Sec. 5.3), extended in **App. D**, give the budget-matched comparisons the reviewer suggests. Each condition trains one round from the same R5 checkpoint with the same pipeline and budget. Without principle evolution, the original principles are kept; without curriculum adaptation, the curriculum follows stale R2 or R3 feedback. A fixed curriculum is set at an earlier learner state; giving the R5 learner R2 or R3 feedback reproduces this under the same budget. Change on each benchmark (**Tables 7–8**):
+**W1 (Isolating the contributions of individual components).** These budget-matched ablations are in the main text (**Table 2**, Sec. 5.3), with full results in **App. D** (**Tables 7–8**). All settings start from the same R5 checkpoint and train one round with the same pipeline and budget. To remove principle evolution, we keep the original principles. To remove curriculum adaptation, we give the curriculum stale R2 or R3 feedback, so it allocates as if fixed at that earlier stage. Change on each benchmark:
 
 | Setting | Principle evolution | Curriculum adaptation | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
@@ -369,7 +369,7 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 我们感谢审稿人的积极评价和具体建议。
 
-**W1（分离各个组件的贡献）** 正文 **Table 2**（第 5.3 节）中的机制消融，以及它在**附录 D** 中的扩展，提供了审稿人所建议的预算匹配比较。每个条件都从同一个 R5 检查点出发，用相同的流程和预算训练一轮。没有原则演化时，保留原始原则；没有课程自适应时，课程按过时的 R2 或 R3 反馈来分配。固定课程是在较早的学习者状态下定下来的；把 R2 或 R3 的反馈交给 R5 的学习者，在相同预算下复现的正是这种情况。下表为每个基准上的变化（**Table 7–8**）：
+**W1（分离各个组件的贡献）** 这些预算匹配的消融实验在正文中已经给出（**Table 2**，第 5.3 节），完整结果见**附录 D**（**Table 7–8**）。所有设置都从同一个 R5 检查点出发，用相同的流程和预算训练一轮。去掉原则演化时，我们保留原始原则；去掉课程自适应时，我们把过时的 R2 或 R3 反馈交给课程，使它按固定在那个较早阶段的方式分配预算。下表为每个基准上的变化：
 
 | 设置 | 原则演化 | 课程自适应 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|

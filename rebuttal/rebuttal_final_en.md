@@ -73,13 +73,13 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 
 ## Response to Reviewer jcb6
 
-*Posted text: 3,991 / 5,000 characters (quotes excluded).*
+*Posted text: 3,894 / 5,000 characters (quotes excluded).*
 
 We thank the reviewer for the positive assessment and the precise suggestions.
 
 > **Weakness:** The ablation study does not sufficiently isolate the contributions of the individual components. Budget-matched comparisons with fixed principles and a fixed curriculum, principle evolution alone, and curriculum adaptation alone would help determine whether the gains come primarily from high-quality synthetic data or the proposed co-evolution mechanism.
 
-**W1 (Isolating the contributions of individual components).** The mechanism ablations in **Table 2** (Sec. 5.3), extended in **App. D**, give the budget-matched comparisons the reviewer suggests. Each condition trains one round from the same R5 checkpoint with the same pipeline and budget. Without principle evolution, the original principles are kept; without curriculum adaptation, the curriculum follows stale R2 or R3 feedback. A fixed curriculum is set at an earlier learner state; giving the R5 learner R2 or R3 feedback reproduces this under the same budget. Change on each benchmark (**Tables 7–8**):
+**W1 (Isolating the contributions of individual components).** These budget-matched ablations are in the main text (**Table 2**, Sec. 5.3), with full results in **App. D** (**Tables 7–8**). All settings start from the same R5 checkpoint and train one round with the same pipeline and budget. To remove principle evolution, we keep the original principles. To remove curriculum adaptation, we give the curriculum stale R2 or R3 feedback, so it allocates as if fixed at that earlier stage. Change on each benchmark:
 
 | Setting | Principle evolution | Curriculum adaptation | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
