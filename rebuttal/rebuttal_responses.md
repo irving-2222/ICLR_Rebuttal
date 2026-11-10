@@ -457,13 +457,13 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | — | — | 已改为在标题中注明 |
 | Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,114 | 已改为分点格式 |
 | Q2 | 数据泄漏；R7 的选择 | — | 676 | 已定稿 |
-| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,134 | 已定稿 |
+| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,156 | 已定稿 |
 | Q4 | 复杂推理基准 | — | 962 | 已定稿 |
-| **合计** | | **≤ 5,000** | **4,892** | |
+| **合计** | | **≤ 5,000** | **4,914** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
-字符空间：当前 4,892 字符，占位符已全部填完，只剩 108 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
+字符空间：当前 4,914 字符，占位符已全部填完，只剩 86 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
@@ -495,7 +495,7 @@ R7 was selected by a predefined internal criterion: it has the most balanced cap
 
 We considered CURE-4B, but IU-Xray is not a fair test for it. CURE is fine-tuned on MIMIC-CXR-derived data (Chest ImaGenome, MS-CXR) and PadChest-GR, and IU-Xray is outside its training and evaluation data. A zero-shot run confirms the domain shift: it scores 28.65 RaTEScore, below all 28 models in Fig. 3.
 
-The reversal is a property of IU-Xray, not of CoEvoMed: Hulu-Med (7B 67.30 vs. 32B 62.40) and MedGemma (4B 60.50 vs. 27B 59.00) show it too. On MIMIC-CXR, a report benchmark four times larger (2,343 vs. 590 cases), scaling does help: CoEvoMed-32B beats 8B and ranks first among 29 models, and 8B leads Hulu-Med-7B by 6.62 (Fig. 3). At matched scale on IU-Xray, CoEvoMed-32B still beats Hulu-Med-32B by 2.68.
+The reversal is a property of IU-Xray: Hulu-Med (7B 67.30 vs. 32B 62.40) and MedGemma (4B 60.50 vs. 27B 59.00) show it too. IU-Xray references are short (30.5 words on average, versus 53.4 for MIMIC-CXR). CoEvoMed-8B matches this length (30.7 words), while 32B writes more detailed reports (40.1 words) that match the short references less well. On MIMIC-CXR, whose reports are longer, 32B does beat 8B (64.33 vs. 63.62; Fig. 3).
 
 **Q4 & W2 (Complex reasoning).** We chose benchmarks that test medical reasoning in clinical form, which is harder than multiple choice on 2D images:
 
@@ -537,7 +537,7 @@ R7 是依据预先定义的内部标准选出的：它在内部验证集上的�
 
 我们考虑过 CURE-4B，但 IU-Xray 对它来说不是公平的测试。CURE 是在 MIMIC-CXR 派生的数据（Chest ImaGenome、MS-CXR）以及 PadChest-GR 上微调的，而 IU-Xray 既不在它的训练数据中，也不在它的评测中。一次零样本测试证实了这种数据域差异：它的 RaTEScore 只有 28.65，低于 Figure 3 中全部 28 个模型。
 
-这种反转是 IU-Xray 数据集本身的特点，而不是 CoEvoMed 的问题：Hulu-Med（7B 67.30，32B 62.40）和 MedGemma（4B 60.50，27B 59.00）也是如此。在规模是它四倍的报告基准 MIMIC-CXR（2,343 例对 590 例）上，扩大规模确实有效：CoEvoMed-32B 高于 8B，在 29 个模型中排名第一；8B 也比 Hulu-Med-7B 高 6.62（Figure 3）。在 IU-Xray 上做相同规模的比较，CoEvoMed-32B 仍比 Hulu-Med-32B 高 2.68。
+这种反转是 IU-Xray 数据集本身的特点：Hulu-Med（7B 67.30，32B 62.40）和 MedGemma（4B 60.50，27B 59.00）也是如此。IU-Xray 的参考报告很短（平均 30.5 个词，MIMIC-CXR 为 53.4 个词）。CoEvoMed-8B 生成报告的长度与之相当（30.7 个词），而 32B 写得更详细（40.1 个词），与这些简短的参考报告匹配得更差。在报告更长的 MIMIC-CXR 上，32B 确实高于 8B（64.33 对 63.62；Figure 3）。
 
 **Q4 与 W2（复杂推理）** 我们选择的基准是在临床实际的形式下检验医学推理，这比 2D 图像上的选择题更难：
 
@@ -553,7 +553,7 @@ MedXpertQA-MM 和 MMMU 都是在 2D 图像上通过选择题检验推理（MedXp
 
 ### 发布前待核对
 
-- [x] **Q3 32B 不如 8B（按 Figure 3 改写）**：MIMIC-CXR（2,343 例，Table 3）排名：CoEvoMed-32B 64.33 第 1、CoEvoMed-8B 63.62 第 2、Qwen3.6-27B 61.92、……、Hulu-Med-32B 57.20、Hulu-Med-7B 57.00；IU-Xray（590 例）：CoEvoMed-8B 68.22、Hulu-Med-7B 67.30、CoEvoMed-32B 65.08、Hulu-Med-32B 62.40。数字由 PDF 第 7 页 Figure 3 的标签顺序读出。"反转是 IU-Xray 本身的特点"是根据多个模型家族都出现反转推出的。删去了"八个词汇指标中六个领先"一句（作者认为与问题无关）。
+- [x] **Q3 32B 不如 8B（用报告长度解释，作者提供数据）**：作者统计的平均词数：IU-Xray 参考报告 30.5、MIMIC-CXR 参考报告 53.4；CoEvoMed-8B 在 IU-Xray 上的输出 30.7、CoEvoMed-32B 为 40.1。解释：IU-Xray 参考报告短，8B 输出长度与之相当，32B 写得更详细，与短参考的匹配更差；MIMIC-CXR 参考报告更长，32B 高于 8B（64.33 对 63.62，Figure 3）。Hulu-Med、MedGemma 的反转例子保留。删去了"MIMIC 上 29 个模型中第一""8B 比 Hulu-Med-7B 高 6.62""同规模比 Hulu-Med-32B 高 2.68"（作者要求聚焦在"为什么"）。
 - [x] **Q3 删去测试集置信区间（作者要求）**：原句 "These gains far exceed the test-set uncertainty (95% CI ±0.5 on PMC-VQA, ±1.7 on SLAKE)" 是单次评测的 Wilson 区间，不是审稿人要的"配对置信区间"，已删去。
 - [ ] **Q3 配对置信区间（待算）**：脚本 `rebuttal/tools/paired_bootstrap.py`（配对 bootstrap，需每道题的对错或每份报告的 RaTEScore）。算出后可在 Q3 补一句，或在讨论阶段补充。
 - [x] **消融在正文、反馈消融即课程自适应消融**：同 jcb6；Q1 开头先指向正文 Table 2，并补一句 "Stale R2 or R3 feedback reproduces a curriculum fixed at an earlier stage."。为腾字数：选择标准一段把出处移到句末；Q2 删去 "and one checkpoint serves all six benchmarks"；Q3 删去 "with very short outputs"。
