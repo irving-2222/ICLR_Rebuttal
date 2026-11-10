@@ -323,8 +323,8 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
 | W1 | 在预算匹配下分离各组件 | 1,527 | 已改为论文格式的合并表（Table 7–8） |
-| Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,744 | 已改为分段，直接展示论文 Table 8 |
-| **合计** | | **4,353** | ≤ 5,000 |
+| Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,295 | 已改为分段，展示论文 Table 8 的 R5 部分 |
+| **合计** | | **3,904** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
@@ -353,18 +353,15 @@ Fixing both principles and curriculum would not do better. In the first row, onl
 | Not targeted: the mix follows source availability, not the learner's needs | The planner allocates a fixed budget to weak and regressing capabilities (Section 4.2) |
 | Not adaptive: supervision stays fixed while the learner changes | The revision agent updates principles from residual errors (Section 4.3) |
 
-Fixed principles do yield gains, but only while they match the learner's stage. **Table 8** (**App. D.2**) tests this under the same budget, with the original (fixed) or evolved principles at two stages:
+Fixed principles do yield gains, but only while they match the learner's stage. In **Table 8** (**App. D.2**), the original principles improve all six benchmarks at R2, which is why CoEvoMed starts from them (Algorithm 1). At R5, under the same budget, only the principles differ:
 
 | Condition | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
-| R2 reference | 61.64 | 81.60 | 50.80 | 62.00 | 53.31 | 52.87 |
-| A: R2 / original | 63.42 (+1.78) | 84.20 (+2.60) | 54.20 (+3.40) | 65.80 (+3.80) | 56.35 (+3.04) | 56.77 (+3.90) |
-| B: R2 / evolved | 59.20 (−2.44) | 81.00 (−0.60) | 48.00 (−2.80) | 65.40 (+3.40) | 56.47 (+3.16) | 56.69 (+3.82) |
 | R5 reference | 73.61 | 89.00 | 64.60 | 65.80 | 59.00 | 61.63 |
 | C: R5 / original | 67.97 (−5.64) | 85.40 (−3.60) | 55.00 (−9.60) | 63.60 (−2.20) | 52.56 (−6.44) | 57.52 (−4.11) |
 | D: R5 / evolved (CoEvoMed) | **76.23 (+2.62)** | **89.69 (+0.69)** | **65.12 (+0.52)** | **66.93 (+1.13)** | **61.77 (+2.77)** | **62.91 (+1.28)** |
 
-At R2, the original principles improve all six benchmarks (A), which is why CoEvoMed starts from them (Algorithm 1). At R5, the same fixed principles lower all six (C), while the evolved principles raise all six (D). The ordering reverses between stages, so no fixed set of principles suits every stage: fixed principles handle the first three properties above but not the fourth. Under the same budget, the gap between D and C is the additional benefit of adaptive principle evolution.
+The fixed principles lower all six benchmarks (C), while the evolved principles raise all six (D). Fixed principles handle the first three properties above but not the fourth. The gap between D and C is the additional benefit of adaptive principle evolution.
 ```
 
 ### 中文译文（不发布）
@@ -393,18 +390,15 @@ At R2, the original principles improve all six benchmarks (A), which is why CoEv
 | 没有针对性：数据构成取决于数据源里有什么，而不是学习者需要什么 | 规划器把固定预算分配给薄弱和退化的能力（第 4.2 节） |
 | 不会自适应：学习者在变化，监督却一成不变 | 修订智能体根据残余错误更新构建原则（第 4.3 节） |
 
-固定原则确实能带来收益，但前提是它们与学习者当前的阶段相匹配。**Table 8**（**附录 D.2**）在相同预算下检验了这一点，分别在两个阶段使用原始（固定）原则或演化后的原则：
+固定原则确实能带来收益，但前提是它们与学习者当前的阶段相匹配。在 **Table 8**（**附录 D.2**）中，原始原则在 R2 让六个基准全部提升，这也是 CoEvoMed 以这些原则作为起点的原因（Algorithm 1）。在 R5、相同预算下，只改变构建原则：
 
 | 条件 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
-| R2 参考值 | 61.64 | 81.60 | 50.80 | 62.00 | 53.31 | 52.87 |
-| A：R2 / 原始原则 | 63.42 (+1.78) | 84.20 (+2.60) | 54.20 (+3.40) | 65.80 (+3.80) | 56.35 (+3.04) | 56.77 (+3.90) |
-| B：R2 / 演化原则 | 59.20 (−2.44) | 81.00 (−0.60) | 48.00 (−2.80) | 65.40 (+3.40) | 56.47 (+3.16) | 56.69 (+3.82) |
 | R5 参考值 | 73.61 | 89.00 | 64.60 | 65.80 | 59.00 | 61.63 |
 | C：R5 / 原始原则 | 67.97 (−5.64) | 85.40 (−3.60) | 55.00 (−9.60) | 63.60 (−2.20) | 52.56 (−6.44) | 57.52 (−4.11) |
 | D：R5 / 演化原则（CoEvoMed） | **76.23 (+2.62)** | **89.69 (+0.69)** | **65.12 (+0.52)** | **66.93 (+1.13)** | **61.77 (+2.77)** | **62.91 (+1.28)** |
 
-在 R2，原始原则让六个基准全部提升（A），这也是 CoEvoMed 以这些原则作为起点的原因（Algorithm 1）。到 R5，同样的固定原则让六个基准全部下降（C），而演化后的原则让六个基准全部提升（D）。两个阶段的优劣顺序发生了反转，说明没有哪一套固定原则能适用于所有阶段：固定原则能处理上表的前三个特点，但处理不了第四个。在相同预算下，D 与 C 之间的差距就是自适应原则演化带来的额外收益。
+固定原则让六个基准全部下降（C），而演化后的原则让六个基准全部提升（D）。固定原则能处理上表的前三个特点，但处理不了第四个。D 与 C 之间的差距就是自适应原则演化带来的额外收益。
 
 ### 发布前待核对
 
@@ -413,6 +407,7 @@ At R2, the original principles improve all six benchmarks (A), which is why CoEv
 - [x] **不再给计算出的平均值（作者要求）**：W1 删去 "+6.77 on average" 和 "+4.15 to +4.28"，改为说明表格是对两个自适应组件的消融，以及所有行共用同一条核验流程、因此收益来自共同演化；Q1 最后一段删去 "+6.77 on average"，只保留论文 D.2 正文给出的逐项差值范围 +3.33 至 +10.12。
 - [x] **Q1 重组（作者要求）**：按审稿人三个子问题的顺序作答：(1) 退化原因（四个特点及对应机制的表）；(2) 固定原则重构"早期有效、后期无效"，R2 只说明"六个基准全部提升（Table 8）"，不再列 +1.78 至 +3.90；(3) 预算匹配比较改为两行表：从 R5 出发，固定原则（Table 8 条件 C）与演化原则（条件 D），两行之差即原则演化的额外收益。删去 "+3.33 to +10.12" 和 "−2.2 to −9.6" 两个范围，数字都在表里。
 - [x] **Q1 直接展示 Table 8（作者要求）**：按论文格式列出 R2 / R5 参考值和条件 A–D（绝对分数与括号内的变化），数字与论文 Table 8 逐项一致。开头改为"固定原则确实能带来收益，但前提是与学习者阶段匹配"，替代"早期有效、后期无效"。B 行（R2 时演化原则在三个 VQA 基准上下降）按论文 D.2 的解释写成"优劣顺序在两个阶段反转，没有一套固定原则适用于所有阶段"（论文原文："the utility of construction principles varies with learner stage, supporting their continued revision"）。
+- [x] **Q1 只展示 Table 8 的 R5 部分（作者要求）**：表中只保留 R5 参考值、条件 C、条件 D；R2 只在正文中说明"原始原则在 R2 让六个基准全部提升"。删去"两个阶段优劣顺序反转"一句（它依赖 B 行）。
 - [x] **W1 对照条件只差一个因素（已确认）**：Exp 2 的 A/B、C/D 只在原则上不同，Exp 1 的三组只在反馈来源上不同，起点、流程和预算一致。
 - [ ] **W1 "原则和课程都固定"这一组**：论文里没有直接对应的实验。正文用推理回答：R5 时即使课程仍在自适应，固定原则也已失效（−5.27，0/6），再固定课程只会去掉仅剩的自适应部分。如果 jcb6 在讨论阶段坚持要这组实验，再考虑补跑一轮。
 - [ ] **W1 "过时反馈"不等于"固定课程"**：表中"只有原则演化"一行用的是过时反馈驱动的课程，即课程没有对准当前学习者，而不是完全不调整的课程。正文写的是 "stale (R2 / R3)"，如实标明了这一点。

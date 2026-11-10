@@ -73,7 +73,7 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 
 ## Response to Reviewer jcb6
 
-*Posted text: 4,353 / 5,000 characters (quotes excluded).*
+*Posted text: 3,904 / 5,000 characters (quotes excluded).*
 
 We thank the reviewer for the positive assessment and the precise suggestions.
 
@@ -103,18 +103,15 @@ Fixing both principles and curriculum would not do better. In the first row, onl
 | Not targeted: the mix follows source availability, not the learner's needs | The planner allocates a fixed budget to weak and regressing capabilities (Section 4.2) |
 | Not adaptive: supervision stays fixed while the learner changes | The revision agent updates principles from residual errors (Section 4.3) |
 
-Fixed principles do yield gains, but only while they match the learner's stage. **Table 8** (**App. D.2**) tests this under the same budget, with the original (fixed) or evolved principles at two stages:
+Fixed principles do yield gains, but only while they match the learner's stage. In **Table 8** (**App. D.2**), the original principles improve all six benchmarks at R2, which is why CoEvoMed starts from them (Algorithm 1). At R5, under the same budget, only the principles differ:
 
 | Condition | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
-| R2 reference | 61.64 | 81.60 | 50.80 | 62.00 | 53.31 | 52.87 |
-| A: R2 / original | 63.42 (+1.78) | 84.20 (+2.60) | 54.20 (+3.40) | 65.80 (+3.80) | 56.35 (+3.04) | 56.77 (+3.90) |
-| B: R2 / evolved | 59.20 (−2.44) | 81.00 (−0.60) | 48.00 (−2.80) | 65.40 (+3.40) | 56.47 (+3.16) | 56.69 (+3.82) |
 | R5 reference | 73.61 | 89.00 | 64.60 | 65.80 | 59.00 | 61.63 |
 | C: R5 / original | 67.97 (−5.64) | 85.40 (−3.60) | 55.00 (−9.60) | 63.60 (−2.20) | 52.56 (−6.44) | 57.52 (−4.11) |
 | D: R5 / evolved (CoEvoMed) | **76.23 (+2.62)** | **89.69 (+0.69)** | **65.12 (+0.52)** | **66.93 (+1.13)** | **61.77 (+2.77)** | **62.91 (+1.28)** |
 
-At R2, the original principles improve all six benchmarks (A), which is why CoEvoMed starts from them (Algorithm 1). At R5, the same fixed principles lower all six (C), while the evolved principles raise all six (D). The ordering reverses between stages, so no fixed set of principles suits every stage: fixed principles handle the first three properties above but not the fourth. Under the same budget, the gap between D and C is the additional benefit of adaptive principle evolution.
+The fixed principles lower all six benchmarks (C), while the evolved principles raise all six (D). Fixed principles handle the first three properties above but not the fourth. The gap between D and C is the additional benefit of adaptive principle evolution.
 
 ---
 
