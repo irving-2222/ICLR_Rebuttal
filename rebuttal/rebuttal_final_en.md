@@ -73,21 +73,20 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 
 ## Response to Reviewer jcb6
 
-*Posted text: 3,696 / 5,000 characters (quotes excluded).*
+*Posted text: 3,578 / 5,000 characters (quotes excluded).*
 
 We thank the reviewer for the positive assessment and the precise suggestions.
 
 > **Weakness:** The ablation study does not sufficiently isolate the contributions of the individual components. Budget-matched comparisons with fixed principles and a fixed curriculum, principle evolution alone, and curriculum adaptation alone would help determine whether the gains come primarily from high-quality synthetic data or the proposed co-evolution mechanism.
 
-**W1 (Isolating the contributions of individual components).** The component controls in **App. D** give the budget-matched comparisons the reviewer suggests. Each condition trains one round from the same checkpoint with the same pipeline and budget; only the principles and the curriculum feedback differ. Change on each benchmark (**Tables 7–8**):
+**W1 (Isolating the contributions of individual components).** The component controls in **App. D** give the budget-matched comparisons the reviewer suggests. Each condition trains one round from the same R5 checkpoint with the same pipeline and budget; only the principles and the curriculum feedback differ. Change on each benchmark (**Tables 7–8**):
 
 | Comparison | Principles | Curriculum | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
-| Curriculum alone, from R2 | fixed | current | +1.78 | +2.60 | +3.40 | +3.80 | +3.04 | +3.90 |
-| Curriculum alone, from R5 | fixed | current | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
-| Evolution alone, from R5 | evolved | stale (R2) | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
-| Evolution alone, from R5 | evolved | stale (R3) | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
-| Co-evolution, from R5 | evolved | current | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
+| Curriculum alone | fixed | current | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
+| Evolution alone | evolved | stale (R2) | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
+| Evolution alone | evolved | stale (R3) | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
+| Co-evolution (CoEvoMed) | evolved | current | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
 Fixing both principles and curriculum cannot do better. Fixed principles already lower all six scores at R5 while the curriculum still adapts, and fixing the curriculum removes the only remaining adaptation.
 
