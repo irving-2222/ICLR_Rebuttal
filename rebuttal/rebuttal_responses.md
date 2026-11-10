@@ -23,14 +23,14 @@
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
-| W1 | 多智能体是否必要 | — | 1,630 | 已重写（两部分；合并表；三项设计保障） |
-| W2 | 论文组织 | — | 438 | 已重写（正文逻辑、附录对应、可复现） |
-| W3 | 遗忘与 R7 的选择 | — | 1,116 | 已重写 |
-| Q1 | MedVLSynther 复现 | — | 652 | 已压缩 |
+| W1 | 多智能体是否必要 | — | 1,626 | 已重写（两部分；合并表；三项设计保障） |
+| W2 | 论文组织 | — | 434 | 已重写（正文逻辑、附录对应、可复现） |
+| W3 | 遗忘与 R7 的选择 | — | 1,130 | 已重写 |
+| Q1 | MedVLSynther 复现 | — | 644 | 已压缩 |
 | Q2 | 数据公开 | — | 222 | 已压缩 |
 | Q3 | 能力分类体系 | — | 917 | 已压缩 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,985** | |
+| **合计** | | **≤ 5,000** | **4,983** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -49,14 +49,14 @@
 | None: CoEvoMed | base | **+25.72** | **+26.76** | **+13.82** | **+26.63** |
 | None: CoEvoMed | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** |
 
-- No simpler process can substitute them: each one above lowers every score, and only the full one improves all. We also separate the roles by design (**App. B**):
+- No simpler process can substitute them: each one above lowers every score; only the full one improves all. We also separate the roles by design (**App. B**):
     1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., ICLR 2024). We therefore designed the verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) as different models.
     2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, as VLMs often do (Li et al., EMNLP 2023). We therefore let it write only from selected facts; the verifier checks the image.
     3. **Curriculum allocation.** If an LLM agent also set the budget, it could not learn, since LLM weights stay frozen. Curricula learned from learning progress match or beat hand-crafted ones (Matiisen et al., 2017). We therefore made the curriculum planner a separate policy network trained by PPO on validation gains (Sec. 4.2).
 
-**W2 (Organization).** The main text follows the method's logic: problem (Sec. 3), mechanisms (Sec. 4, Eqs. 1–9), and evidence, including the evaluation task composition (Sec. 5.1). Each appendix part extends a main-text part that cites it, and together they suffice for reproduction: full algorithm (**App. A**), models and hyperparameters (**App. B**), data sources, links, and metrics (**App. C**), and component controls (**App. D**).
+**W2 (Organization).** The main text follows the method's logic: problem (Sec. 3), mechanisms (Sec. 4, Eqs. 1–9), and evidence, including the evaluation task composition (Sec. 5.1). Each appendix part extends a main-text part that cites it; together they suffice for reproduction: full algorithm (**App. A**), models and hyperparameters (**App. B**), data sources, links, and metrics (**App. C**), and component controls (**App. D**).
 
-**W3 (Catastrophic forgetting and retention).** CoEvoMed is curriculum learning, not continual learning. Every round trains all tasks together (Eq. 7) with replay data (Sec. 3.3), so catastrophic forgetting and continual-learning metrics do not apply. "Retention" is a budget share (Sec. 4.2), ablated in W1. The two remaining points concern data and checkpoint choice, not the method:
+**W3 (Catastrophic forgetting and retention).** CoEvoMed builds on curriculum learning, not continual learning. Every round trains all tasks together with replay data (Eq. 7; Sec. 3.3), so catastrophic forgetting and continual-learning metrics do not apply. "Retention" is a share of the curriculum planner's budget (Sec. 4.2) and is ablated with it (Table 7). We explain the other two points below:
 - Later-round declines come from the data. The support pool is fixed (359,355 facts, App. C.3); each round builds 50,000 examples (App. B). By R7 the budget nearly matches the pool, so later rounds mostly reuse seen evidence. Self-training on finite data shows the same pattern (Chen et al., ICML 2024; Singh et al., TMLR 2024). While new evidence lasts, CoEvoMed improves up to R7–R8. At R10, all three Fig. 7 benchmarks stay within 3 points of their peaks and over 12 above R1. A larger pool extends the gains without changing the method.
 - R7 has the most balanced capability profile on internal validation sets, though PathVQA peaks at R8. External benchmarks only track evolution, never training or selection (App. C.4, C.6).
 
@@ -67,7 +67,7 @@
 | MedVLSynther-7B (Qwen2.5-VL-7B) | +6.13 | +8.82 | +6.65 | +0.17 |
 | CoEvoMed-8B (Qwen3-VL-8B) | **+13.82** | **+25.72** | **+26.76** | **+26.63** |
 
-Same base, trained with MedVLSynther's released data and GRPO script:
+Same base, with MedVLSynther's released data and GRPO script:
 
 | Same base: Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
@@ -97,14 +97,14 @@ Same base, trained with MedVLSynther's released data and GRPO script:
 | 无：CoEvoMed | 基础模型 | **+25.72** | **+26.76** | **+13.82** | **+26.63** |
 | 无：CoEvoMed | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** |
 
-- 没有更简单的流程能替代它们：上表中每一种更简单的流程都会让所有分数下降，只有完整流程在所有基准上都提升。此外，我们有意把这些角色分开设计（**附录 B**）：
+- 没有更简单的流程能替代它们：上表中每一种更简单的流程都会让所有分数下降；只有完整流程在所有基准上都提升。此外，我们有意把这些角色分开设计（**附录 B**）：
     1. **独立核查。** 大语言模型在没有外部反馈时很难自我纠正（Huang et al., ICLR 2024）。因此，我们把核验器（Qwen3.6-27B）和构建器（deepseek-v4-flash）设计为不同的模型。
     2. **基于证据的构建。** 如果构建器直接看图撰写，它可能会像视觉语言模型常见的那样，描述图像中并不存在的物体（Li et al., EMNLP 2023）。因此，我们让构建器只根据选出的事实撰写，由核验器对照图像检查。
     3. **课程分配。** 如果由某个大语言模型智能体同时负责分配预算，这种分配就无法学习，因为大语言模型的权重是冻结的。根据学习进度学到的课程能够达到甚至超过人工设计的课程（Matiisen et al., 2017）。因此，我们把课程规划器单独设计为一个策略网络，用 PPO 依据验证集上的收益来训练（第 4.2 节）。
 
 **W2（论文组织）** 正文按方法本身的逻辑展开：问题定义（第 3 节）、机制（第 4 节，式 1–9），以及实验证据，其中包括评估任务的组成（第 5.1 节）。每一部分附录都是对正文某一部分的展开，并在正文中被引用；这些附录合起来足以复现本方法：完整算法（**附录 A**）、模型与超参数（**附录 B**）、数据来源、链接与评测指标（**附录 C**），以及组件对照实验（**附录 D**）。
 
-**W3（灾难性遗忘与保留）** CoEvoMed 是课程学习，不是持续学习。每一轮都同时训练所有任务（式 7），并混入回放数据（第 3.3 节），因此灾难性遗忘和持续学习指标并不适用。"保留"是预算中的一个份额（第 4.2 节），已在 W1 中做了消融。剩下两点涉及的是数据和检查点的选择，而不是方法本身：
+**W3（灾难性遗忘与保留）** CoEvoMed 是基于课程学习设计的，而不是持续学习。每一轮都同时训练所有任务，并混入回放数据（式 7；第 3.3 节），因此灾难性遗忘和持续学习指标并不适用。"保留"是课程规划器预算中的一个份额（第 4.2 节），因此已随课程规划器一起做了消融（Table 7）。下面说明另外两点：
 - 后期下降源于数据。支持数据池是固定的（359,355 条事实，附录 C.3），每轮构建 50,000 个样本（附录 B）。到 R7，累计预算已接近数据池的规模，因此后续轮次主要在重复使用已见过的证据。在有限数据上的自训练也呈现同样的规律（Chen et al., ICML 2024；Singh et al., TMLR 2024）。只要还有新证据，CoEvoMed 就一直提升到 R7–R8。到 R10，Figure 7 中的三个基准仍都在各自峰值 3 分以内，并比 R1 高出 12 分以上。更大的数据池可以在不改变方法的前提下延续收益。
 - R7 在内部验证集上具有最均衡的能力画像，尽管 PathVQA 的峰值出现在 R8。外部基准只用于追踪演化过程，从不指导训练或检查点选择（附录 C.4、C.6）。
 
@@ -148,13 +148,14 @@ Same base, trained with MedVLSynther's released data and GRPO script:
 - [x] **W3 PathVQA 峰值**：已确认 PathVQA 的 R8 略高于 R7；R10 的 67.25 仍在峰值 3 分以内，正文说法成立。
 - [ ] **W3 数据池解释（请确认）**："By R7 the budget nearly matches the pool, so later rounds mostly reuse seen evidence" 是按论文数字推出的解释：7 × 50,000 = 350,000，接近 359,355 条事实（附录 C.3 称之为 "reusable facts"）。样本和事实不一定一一对应。请确认后期轮次确实大量复用已用过的证据（例如从日志统计每轮首次使用的事实比例）。如果不符，改为 "so later rounds add little new evidence"。
 - [ ] **W3 "更大的数据池可以延长演化"**：这是基于机制的推断（数据池是输入，不是方法的一部分），没有扩池实验支撑。如果审稿人追问，可以回答：数据池在附录 C.3 中按来源构建，扩充来源不需要改动任何智能体或规划器。
+- [x] **W3 开头（作者要求修改）**："is curriculum learning" 改为 "builds on curriculum learning"（基于课程学习设计）；"保留"一句改为具体指出它是课程规划器预算中的份额（第 4.2 节："retention maintains coverage of acquired capabilities"），随课程规划器一起在 Table 7 中消融；衔接句改为 "We explain the other two points below:"。
 - [x] **W3 文献（已核实）**：Chen et al., ICML 2024 = SPIN（Self-Play Fine-Tuning），收益集中在前两轮，后续工作 SPACE 报告其在峰值后下降；Singh et al., TMLR 2024 = ReST-EM（"Beyond Human Data"），原文写明 APPS 在第二轮回退，迭代超过几轮后收益递减，并归因于在少量训练题上过拟合。R-Zero（论文中的 Huang et al., 2026a）后期下降没有查到原文证据，所以没有引用。
 - [x] **W3 R7 出处**：附录 C.4 "Checkpoint selection" 写明按整体均衡选 R7；附录 C.6 写明外部基准不参与监督构建、学习者训练、课程和原则更新。
 - [ ] **为容纳 W3 而删去的内容（可按需恢复）**：W2 中"四个 2D VQA、两个报告、三个 3D 基准"的括号；Q3 中"VQA-RAD 和 M3D-VQA 采用类似类别"一句。（"过时诊断使 12 个分数中 11 个下降"已作为 Q3 最后一点补回，因为它直接回答"收益来自诊断还是重新贴标签"。）W2 中"包括能力单元（第 3.1 节）"一句。W3 原先关于"被动恢复与均衡"的内容已删去：审稿人认可了恢复本身，"均衡收敛"由后两点（下降幅度小、R7 能力画像最均衡）回应。
 - [ ] **Q1 占位符**：复现完成后，在第二张表里填入复现模型在四个基准上的得分 `[x.xx]`（与 CoEvoMed 同一评测流程）。如果任何一项高于 CoEvoMed，需要重新讨论写法。
 - [ ] **Q1 数字来源**：确认 Table 1 的 MedVLSynther 数字引自其论文（与其 GitHub README 的数字完全一致）。正文写的是 "as published"。
 - [ ] **Q1 与附录 C.1 的一致性**：C.1 写的是"本研究评估的基线与 CoEvoMed 使用相同的评估集和评分规则"，MedVLSynther 是引用数，与这句不符。Q1 已如实写明"按原文发表的结果和协议"；定稿时建议把 C.1 改为区分"我们评测的基线"和"引用原文的基线"。
-- [x] **字符限制**：当前 4,985 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
+- [x] **字符限制**：当前 4,983 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
 - [ ] **Q2 承诺**：正文承诺为禁止再分发的源数据提供重新生成脚本。确认接收后能兑现；如果不打算做，把最后半句改为 "are excluded from the release"。
 - [ ] **Q2 待确认许可**：PMC-OA、MedTrinity BHX、RadGenome-ChestCT、Med-MAT 的许可没能直接核实，AbdomenAtlas1.0Mini 的附加条款也不确定，公开前需逐个确认（见下方"Q2 源数据许可核对"）。
 - [x] **Q3 一致率（已填入）**：轴 B（视觉能力）准确率 97.50%（195/200），macro-F1 0.9767，Cohen's κ 0.9575（正文写作 0.958）；轴 C（模态）准确率 100%，为模型在不看原标签的情况下独立判断；轴 D（解剖部位）准确率 96.50%（193/200），macro-F1 0.9476。轴的对应关系来自代码 `AXES = ("task_form", "visual_ability", "modality", "anatomy")`。
