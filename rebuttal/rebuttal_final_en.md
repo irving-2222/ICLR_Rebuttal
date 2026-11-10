@@ -73,7 +73,7 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 
 ## Response to Reviewer jcb6
 
-*Posted text: 3,904 / 5,000 characters (quotes excluded).*
+*Posted text: 3,819 / 5,000 characters (quotes excluded).*
 
 We thank the reviewer for the positive assessment and the precise suggestions.
 
@@ -103,7 +103,7 @@ Fixing both principles and curriculum would not do better. In the first row, onl
 | Not targeted: the mix follows source availability, not the learner's needs | The planner allocates a fixed budget to weak and regressing capabilities (Section 4.2) |
 | Not adaptive: supervision stays fixed while the learner changes | The revision agent updates principles from residual errors (Section 4.3) |
 
-Fixed principles do yield gains, but only while they match the learner's stage. In **Table 8** (**App. D.2**), the original principles improve all six benchmarks at R2, which is why CoEvoMed starts from them (Algorithm 1). At R5, under the same budget, only the principles differ:
+Fixed principles do yield gains, but only while they match the learner's stage. **Table 8** (**App. D.2**) compares fixed and evolved principles from the same R5 checkpoint under the same budget:
 
 | Condition | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
