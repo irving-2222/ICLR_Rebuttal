@@ -323,9 +323,9 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 | 条目 | 内容 | 当前 | 状态 |
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
-| W1 | 在预算匹配下分离各组件 | 1,602 | 已改为论文格式的合并表（Table 7–8） |
+| W1 | 在预算匹配下分离各组件 | 1,827 | 已改为论文格式的合并表（Table 7–8） |
 | Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,210 | 已改为分段，展示论文 Table 8 的 R5 部分 |
-| **合计** | | **3,894** | ≤ 5,000 |
+| **合计** | | **4,119** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
@@ -341,7 +341,9 @@ We thank the reviewer for the positive assessment and the precise suggestions.
 | Principles only | Yes | No (R3 feedback) | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
 | CoEvoMed | Yes | Yes | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-The table is an ablation of the two adaptive components. Removing principle evolution (first row) or curriculum adaptation (second and third rows) lowers most or all scores, while keeping both (CoEvoMed) improves all six benchmarks. All rows share the same verified pipeline, so the gains come from co-evolution, not from high-quality synthetic data alone.
+The table is an ablation of the two adaptive components. Removing principle evolution (first row) or curriculum adaptation (second and third rows) lowers most or all scores, while keeping both (CoEvoMed) improves all six benchmarks.
+
+This also answers whether the gains come from high-quality synthetic data. Every row builds data with the same selector, constructor, and verifier, so every row trains on verified, high-quality synthetic data. If such data alone drove the gains, every row would improve. Only the row with both components does, so the gains come from co-evolution.
 
 Fixing both principles and curriculum would not do better. In the first row, only the curriculum adapts, and all six scores already drop at R5. Fixing the curriculum as well would remove the last adaptive part.
 
@@ -378,7 +380,9 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | 只有原则演化 | 是 | 否（R3 反馈） | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
 | CoEvoMed | 是 | 是 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-这张表是对两个自适应组件的消融。去掉原则演化（第一行）或去掉课程自适应（第二、三行），大部分或全部分数都会下降；两者都保留（CoEvoMed）时，六个基准全部提升。所有行使用的是同一条经过核验的流程，因此收益来自共同演化，而不只是来自高质量的合成数据。
+这张表是对两个自适应组件的消融。去掉原则演化（第一行）或去掉课程自适应（第二、三行），大部分或全部分数都会下降；两者都保留（CoEvoMed）时，六个基准全部提升。
+
+这也回答了收益是否来自高质量的合成数据。表中每一行都用同样的选择器、构建器和核验器来构建数据，所以每一行训练用的都是经过核验的高质量合成数据。如果收益只来自这样的数据，每一行都应该提升；但只有两个组件都保留的那一行提升了，所以收益来自共同演化。
 
 原则和课程都固定的设置不会更好。表中第一行只有课程在自适应，在 R5 时六个分数就已经全部下降；如果再把课程也固定，连这仅剩的自适应部分也没有了。
 

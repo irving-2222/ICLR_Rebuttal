@@ -73,7 +73,7 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 
 ## Response to Reviewer jcb6
 
-*Posted text: 3,894 / 5,000 characters (quotes excluded).*
+*Posted text: 4,119 / 5,000 characters (quotes excluded).*
 
 We thank the reviewer for the positive assessment and the precise suggestions.
 
@@ -88,7 +88,9 @@ We thank the reviewer for the positive assessment and the precise suggestions.
 | Principles only | Yes | No (R3 feedback) | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
 | CoEvoMed | Yes | Yes | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-The table is an ablation of the two adaptive components. Removing principle evolution (first row) or curriculum adaptation (second and third rows) lowers most or all scores, while keeping both (CoEvoMed) improves all six benchmarks. All rows share the same verified pipeline, so the gains come from co-evolution, not from high-quality synthetic data alone.
+The table is an ablation of the two adaptive components. Removing principle evolution (first row) or curriculum adaptation (second and third rows) lowers most or all scores, while keeping both (CoEvoMed) improves all six benchmarks.
+
+This also answers whether the gains come from high-quality synthetic data. Every row builds data with the same selector, constructor, and verifier, so every row trains on verified, high-quality synthetic data. If such data alone drove the gains, every row would improve. Only the row with both components does, so the gains come from co-evolution.
 
 Fixing both principles and curriculum would not do better. In the first row, only the curriculum adapts, and all six scores already drop at R5. Fixing the curriculum as well would remove the last adaptive part.
 
