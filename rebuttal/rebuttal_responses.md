@@ -24,13 +24,13 @@
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
 | W1 | 多智能体是否必要 | — | 1,630 | 已重写（两部分；合并表；三项设计保障） |
-| W2 | 论文组织 | — | 227 | 已压缩 |
+| W2 | 论文组织 | — | 438 | 已重写（正文逻辑、附录对应、可复现） |
 | W3 | 遗忘与 R7 的选择 | — | 1,116 | 已重写 |
 | Q1 | MedVLSynther 复现 | — | 652 | 已压缩 |
-| Q2 | 数据公开 | — | 241 | 已压缩 |
-| Q3 | 能力分类体系 | — | 924 | 已重写（开头定位为反馈单元；补回实验 1 证据） |
+| Q2 | 数据公开 | — | 222 | 已压缩 |
+| Q3 | 能力分类体系 | — | 917 | 已压缩 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,800** | |
+| **合计** | | **≤ 5,000** | **4,985** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -54,7 +54,7 @@
     2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, as VLMs often do (Li et al., EMNLP 2023). We therefore let it write only from selected facts; the verifier checks the image.
     3. **Curriculum allocation.** If an LLM agent also set the budget, it could not learn, since LLM weights stay frozen. Curricula learned from learning progress match or beat hand-crafted ones (Matiisen et al., 2017). We therefore made the curriculum planner a separate policy network trained by PPO on validation gains (Sec. 4.2).
 
-**W2 (Organization).** The main text specifies every mechanism (Secs. 3–4, Eqs. 1–9) and the evaluation task composition (Sec. 5.1). The appendix holds only implementation parameters and statistics, each referenced in the text.
+**W2 (Organization).** The main text follows the method's logic: problem (Sec. 3), mechanisms (Sec. 4, Eqs. 1–9), and evidence, including the evaluation task composition (Sec. 5.1). Each appendix part extends a main-text part that cites it, and together they suffice for reproduction: full algorithm (**App. A**), models and hyperparameters (**App. B**), data sources, links, and metrics (**App. C**), and component controls (**App. D**).
 
 **W3 (Catastrophic forgetting and retention).** CoEvoMed is curriculum learning, not continual learning. Every round trains all tasks together (Eq. 7) with replay data (Sec. 3.3), so catastrophic forgetting and continual-learning metrics do not apply. "Retention" is a budget share (Sec. 4.2), ablated in W1. The two remaining points concern data and checkpoint choice, not the method:
 - Later-round declines come from the data. The support pool is fixed (359,355 facts, App. C.3); each round builds 50,000 examples (App. B). By R7 the budget nearly matches the pool, so later rounds mostly reuse seen evidence. Self-training on finite data shows the same pattern (Chen et al., ICML 2024; Singh et al., TMLR 2024). While new evidence lasts, CoEvoMed improves up to R7–R8. At R10, all three Fig. 7 benchmarks stay within 3 points of their peaks and over 12 above R1. A larger pool extends the gains without changing the method.
@@ -74,11 +74,11 @@ Same base, trained with MedVLSynther's released data and GRPO script:
 | MedVLSynther recipe | [x.xx] | [x.xx] | [x.xx] | [x.xx] |
 | CoEvoMed-8B | 67.95 | 82.48 | 91.60 | 69.40 |
 
-**Q2 (Data release).** Yes. Upon acceptance, we will release the synthesized data and all principle versions under each source's license, with images referenced by ID and regeneration scripts for non-redistributable sources (e.g., CheXpert).
+**Q2 (Data release).** Yes. Upon acceptance, we will release the synthesized data and all principle versions under each source's license (images by ID; regeneration scripts for non-redistributable sources, e.g., CheXpert).
 
 **Q3 (Capability taxonomy).** The taxonomy is not a claimed contribution but the unit of validation feedback (App. C.3).
 - We adopted SLAKE's physician-annotated question categories (Liu et al., 2021), so the overlap is by design. We merge its attribute types and add three for multi-image and report tasks.
-- The categories are necessary because they describe what a question asks, not a dataset, so they also cover unlabeled data (PathVQA, PMC-VQA, reports, support pool). One taxonomy lets us diagnose all tasks, share one budget, and retrieve evidence.
+- The categories are necessary: they describe what a question asks, not a dataset, so they also cover unlabeled data (PathVQA, PMC-VQA, reports, support pool). One taxonomy lets us diagnose all tasks, share one budget, and retrieve evidence.
 - On 200 SLAKE questions, our annotations match native labels for capability at 97.5% (Cohen's κ = 0.958), modality at 100%, and body region at 96.5%. κ > 0.81 is "almost perfect" agreement (Landis & Koch, 1977). We will add the mapping to Table 6.
 - Gains come from diagnosis, not relabeling: with the taxonomy fixed, stale diagnoses lower 11 of 12 scores (Table 7).
 ```
@@ -102,7 +102,7 @@ Same base, trained with MedVLSynther's released data and GRPO script:
     2. **基于证据的构建。** 如果构建器直接看图撰写，它可能会像视觉语言模型常见的那样，描述图像中并不存在的物体（Li et al., EMNLP 2023）。因此，我们让构建器只根据选出的事实撰写，由核验器对照图像检查。
     3. **课程分配。** 如果由某个大语言模型智能体同时负责分配预算，这种分配就无法学习，因为大语言模型的权重是冻结的。根据学习进度学到的课程能够达到甚至超过人工设计的课程（Matiisen et al., 2017）。因此，我们把课程规划器单独设计为一个策略网络，用 PPO 依据验证集上的收益来训练（第 4.2 节）。
 
-**W2（论文组织）** 正文给出了全部机制（第 3–4 节，式 1–9）和评估任务的组成（第 5.1 节）。附录中只放实现参数和统计数据，每项都在正文中注明了出处。
+**W2（论文组织）** 正文按方法本身的逻辑展开：问题定义（第 3 节）、机制（第 4 节，式 1–9），以及实验证据，其中包括评估任务的组成（第 5.1 节）。每一部分附录都是对正文某一部分的展开，并在正文中被引用；这些附录合起来足以复现本方法：完整算法（**附录 A**）、模型与超参数（**附录 B**）、数据来源、链接与评测指标（**附录 C**），以及组件对照实验（**附录 D**）。
 
 **W3（灾难性遗忘与保留）** CoEvoMed 是课程学习，不是持续学习。每一轮都同时训练所有任务（式 7），并混入回放数据（第 3.3 节），因此灾难性遗忘和持续学习指标并不适用。"保留"是预算中的一个份额（第 4.2 节），已在 W1 中做了消融。剩下两点涉及的是数据和检查点的选择，而不是方法本身：
 - 后期下降源于数据。支持数据池是固定的（359,355 条事实，附录 C.3），每轮构建 50,000 个样本（附录 B）。到 R7，累计预算已接近数据池的规模，因此后续轮次主要在重复使用已见过的证据。在有限数据上的自训练也呈现同样的规律（Chen et al., ICML 2024；Singh et al., TMLR 2024）。只要还有新证据，CoEvoMed 就一直提升到 R7–R8。到 R10，Figure 7 中的三个基准仍都在各自峰值 3 分以内，并比 R1 高出 12 分以上。更大的数据池可以在不改变方法的前提下延续收益。
@@ -122,11 +122,11 @@ Same base, trained with MedVLSynther's released data and GRPO script:
 | MedVLSynther 配方 | [x.xx] | [x.xx] | [x.xx] | [x.xx] |
 | CoEvoMed-8B | 67.95 | 82.48 | 91.60 | 69.40 |
 
-**Q2（数据公开）** 会公开。论文被接收后，我们将按各源数据的许可公开合成数据和全部版本的构建原则，图像只以 ID 引用，对禁止再分发的源数据（如 CheXpert）提供重新生成的脚本。
+**Q2（数据公开）** 会公开。论文被接收后，我们将按各源数据的许可公开合成数据和全部版本的构建原则（图像只以 ID 引用；对禁止再分发的源数据，如 CheXpert，提供重新生成的脚本）。
 
 **Q3（能力分类体系）** 这套分类体系不是我们主张的贡献，而只是验证反馈的基本单元（附录 C.3）。
 - 我们采用了 SLAKE 由医生标注的问题类别（Liu et al., 2021），因此与 SLAKE 的重合是有意设计的。我们合并了其中的属性类型，并为多图像和报告任务新增了三类。
-- 这些类别是必要的，因为它们描述的是问题在问什么，而不是某个数据集，因此同样覆盖没有原生标签的数据（PathVQA、PMC-VQA、报告任务、支持数据池）。一套分类体系让我们能够诊断所有任务、共享同一份预算并检索证据。
+- 这些类别是必要的：它们描述的是问题在问什么，而不是某个数据集，因此同样覆盖没有原生标签的数据（PathVQA、PMC-VQA、报告任务、支持数据池）。一套分类体系让我们能够诊断所有任务、共享同一份预算并检索证据。
 - 在 200 道 SLAKE 题目上，我们的标注与原生标签的一致率为：能力类别 97.5%（Cohen's κ = 0.958），模态 100%，解剖部位 96.5%。κ > 0.81 即属于"几乎完全一致"（Landis & Koch, 1977）。我们会把这一对应关系补充到 Table 6 中。
 - 收益来自诊断，而不是重新贴标签：在分类体系保持不变的情况下，使用过时的诊断会使 12 个分数中的 11 个下降（Table 7）。
 
@@ -141,7 +141,8 @@ Same base, trained with MedVLSynther's released data and GRPO script:
 - [ ] **W1 表格不再逐行标注表号**：为腾出字数，表号统一写在第一部分（**Tables 7–9**）。对应关系：原始数据和基础模型起点的 CoEvoMed 一行来自 Table 9；原始原则一行来自 Table 8 条件 C；R2/R3 反馈两行来自 Table 7；R5 起点的 CoEvoMed 一行是 Table 8 条件 D（与 Table 7 的 R5 feedback 为同一次训练）。
 - [ ] **为容纳 W1 而做的压缩（可按需恢复）**：Q1 删去 "We were aware of the base difference."；Q1 第二张表的引导句改为 "Same base: ..."；Q2、W2 改了措辞；Q3 把"空间关系、比较和整体描述"改为"three categories"，并把四个无标签数据源放进括号；W3 的 R10 一句改为 "all three Fig. 7 benchmarks ... over 12 above R1"。为了重写 W1 第 2 点，又做了三处压缩：W3 删去 "One checkpoint serves all six benchmarks"（保留 "though PathVQA peaks at R8"，同样说明不是按单项挑选）；W3 开头改为 "ablated in W1"；Q3 最后一点删去 "while current ones raise all six"。为了重写 W1 第 3 点，又压缩了：W2 改写措辞；W3 "keeps improving to peaks at R7–R8" 改为 "improves up to R7–R8"，"extend the evolution" 改为 "extends the gains"，"only track the evolution and never guide" 改为 "only track evolution, never training or selection"；Q1 第二张表引导句删去 "Qwen3-VL-8B"（表头已有）；Q3 删去 "matching"、"categories" 和 "W1 table"。
 - [ ] **W1 选择器和核验器没有单独消融**：表中"全部智能体"一行同时去掉了选择器、构建器和核验器，没有单独去掉核验器的实验。正文因此写的是"ablates the functions of the agent roles"，没有写"每个角色各有一个消融"。如果审稿人追问，可以引用核验器的拒绝率（若日志里有）。
-- [ ] **W2 可选补充**：如果想在不让步的前提下给一个姿态，可以在 W2 末尾加一句（约 70 字符）：`We will add a role summary table to Section 4 for quick reference.`
+- [x] **W2 重写（正文逻辑、附录对应、可复现）**：正文顺序为第 3 节问题定义、第 4 节三个机制（式 1–9）、第 5 节实验（5.1 设置含评估任务组成，5.2 结果，5.3 机制分析）。附录对应：A 完整训练流程（算法 1）、B 训练配置（各智能体模型、每轮 50,000 样本、PPO 设置等）、C 评测数据与输入、支持证据来源及链接（Table 5）、指标与统计、D 组件对照实验。
+- [ ] **W2 代码（请确认）**：如果投稿时代码作为补充材料上传了（仓库里有 `code/CoEvoMed_ICLR2027_submitted.zip`），可以在 W2 末尾加一句 "Our code is in the supplementary material."（约 50 字符，需要从别处再压缩）。如果没有上传，就不写。
 - [x] **W3 回放数据**：已确认主实验每轮混入回放数据，W3 已写入 "mixes in replay data (Section 3.3)"。
 - [x] **R7 的选择依据（作者已更正）**：R7 是按内部验证集上的能力画像（附录 C.4；"capability profile" 的定义见第 3.1 节式 1）选出的，与论文一致。此前"按外部基准选出"的说法为口误，已更正。W3 已按此改写，并删去 R10 与 Hulu-Med-7B 的比较。
 - [x] **W3 PathVQA 峰值**：已确认 PathVQA 的 R8 略高于 R7；R10 的 67.25 仍在峰值 3 分以内，正文说法成立。
@@ -153,7 +154,7 @@ Same base, trained with MedVLSynther's released data and GRPO script:
 - [ ] **Q1 占位符**：复现完成后，在第二张表里填入复现模型在四个基准上的得分 `[x.xx]`（与 CoEvoMed 同一评测流程）。如果任何一项高于 CoEvoMed，需要重新讨论写法。
 - [ ] **Q1 数字来源**：确认 Table 1 的 MedVLSynther 数字引自其论文（与其 GitHub README 的数字完全一致）。正文写的是 "as published"。
 - [ ] **Q1 与附录 C.1 的一致性**：C.1 写的是"本研究评估的基线与 CoEvoMed 使用相同的评估集和评分规则"，MedVLSynther 是引用数，与这句不符。Q1 已如实写明"按原文发表的结果和协议"；定稿时建议把 C.1 改为区分"我们评测的基线"和"引用原文的基线"。
-- [x] **字符限制**：当前 4,800 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
+- [x] **字符限制**：当前 4,985 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
 - [ ] **Q2 承诺**：正文承诺为禁止再分发的源数据提供重新生成脚本。确认接收后能兑现；如果不打算做，把最后半句改为 "are excluded from the release"。
 - [ ] **Q2 待确认许可**：PMC-OA、MedTrinity BHX、RadGenome-ChestCT、Med-MAT 的许可没能直接核实，AbdomenAtlas1.0Mini 的附加条款也不确定，公开前需逐个确认（见下方"Q2 源数据许可核对"）。
 - [x] **Q3 一致率（已填入）**：轴 B（视觉能力）准确率 97.50%（195/200），macro-F1 0.9767，Cohen's κ 0.9575（正文写作 0.958）；轴 C（模态）准确率 100%，为模型在不看原标签的情况下独立判断；轴 D（解剖部位）准确率 96.50%（193/200），macro-F1 0.9476。轴的对应关系来自代码 `AXES = ("task_form", "visual_ability", "modality", "anatomy")`。
