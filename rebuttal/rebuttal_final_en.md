@@ -6,7 +6,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,985 / 5,000 characters (quotes excluded).*
+*Posted text: 4,979 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
@@ -22,9 +22,9 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 | None: CoEvoMed | base | **+25.72** | **+26.76** | **+13.82** | **+26.63** | – | – |
 | None: CoEvoMed | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-- *Can another plausible agent process substitute them?* The simpler processes above lower most or all scores; only the full process improves every benchmark. Merging the roles would also remove three safeguards (**App. B**):
+- *Can another plausible agent process substitute them?* The simpler processes above lower most or all scores; only the full one improves every benchmark. Merging roles would also lose three safeguards (**App. B**):
     1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., ICLR 2024), so we designed the verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) as different models.
-    2. **Grounded construction.** The constructor writes from selected facts, never the image, avoiding hallucinated objects (Li et al., EMNLP 2023).
+    2. **Grounded construction.** A merged agent would write from the image, and VLMs often describe absent objects (Li et al., EMNLP 2023). We therefore let the constructor write only from selected facts; the verifier checks the image.
     3. **Outcome-based control.** The planner is a PPO-trained policy network, and new principles must pass a paired test (Sec. 4.3), which no frozen LLM can do.
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
@@ -33,9 +33,9 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 > **Weakness 3:** The method demonstrates reactive recovery from selected capability regressions, but does not establish prevention of catastrophic forgetting or stable balanced convergence. Later-round declines, reliance on R7 checkpoint selection, absence of retention ablations, and lack of standard continual-learning metrics leave the central retention claim only partially supported.
 
-**W3 (Catastrophic forgetting and retention).** CoEvoMed is curriculum learning, not continual learning. Every round trains all tasks together (Eq. 7) with replay data (Sec. 3.3), so catastrophic forgetting and continual-learning metrics do not apply. "Retention" is a budget share (Sec. 4.2), ablated with the planner in W1. The two remaining points concern data and checkpoint choice, not the method:
+**W3 (Catastrophic forgetting and retention).** CoEvoMed is curriculum learning, not continual learning. Every round trains all tasks together (Eq. 7) with replay data (Sec. 3.3), so catastrophic forgetting and continual-learning metrics do not apply. "Retention" is a budget share (Sec. 4.2), ablated in W1. The two remaining points concern data and checkpoint choice, not the method:
 - *Later-round declines come from the data.* The support pool is fixed (359,355 facts, App. C.3); each round builds 50,000 examples (App. B). By R7 the budget nearly matches the pool, so later rounds mostly reuse seen evidence. Self-training on finite data shows the same pattern (Chen et al., ICML 2024; Singh et al., TMLR 2024). While new evidence lasts, CoEvoMed keeps improving to peaks at R7–R8. At R10, all three Fig. 7 benchmarks stay within 3 points of their peaks and over 12 above R1. A larger pool can extend the evolution without changing the method.
-- *Reliance on R7.* R7 has the most balanced capability profile on internal validation sets. One checkpoint serves all six benchmarks, though PathVQA peaks at R8. External benchmarks only track the evolution and never guide training or selection (App. C.4, C.6).
+- *Reliance on R7.* R7 has the most balanced capability profile on internal validation sets, though PathVQA peaks at R8. External benchmarks only track the evolution and never guide training or selection (App. C.4, C.6).
 
 > **Question 1:** For medVLSynther results, do you use the same base model to replicate their results?
 
@@ -63,7 +63,7 @@ Same base: Qwen3-VL-8B trained with MedVLSynther's released data and GRPO script
 - *Why these categories.* We adopted SLAKE's physician-annotated question categories (Liu et al., 2021), so the overlap is by design. We merge its attribute types and add three categories for multi-image and report tasks.
 - *Why they are necessary.* The categories describe what a question asks, not a dataset, so they also cover unlabeled data (PathVQA, PMC-VQA, reports, support pool). One taxonomy lets us diagnose all tasks, share one budget, and retrieve matching evidence.
 - *Mapping and validation.* On 200 SLAKE questions, our annotations match native labels for capability at 97.5% (Cohen's κ = 0.958), modality at 100%, and body region at 96.5%. κ > 0.81 is "almost perfect" agreement (Landis & Koch, 1977). We will add the mapping to Table 6.
-- *Gains come from diagnosis, not relabeling.* With the taxonomy fixed, stale diagnoses lower 11 of 12 scores, while current ones raise all six (Table 7).
+- *Gains come from diagnosis, not relabeling.* With the taxonomy fixed, stale diagnoses lower 11 of 12 scores (W1 table; Table 7).
 
 ---
 
