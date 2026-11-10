@@ -324,9 +324,9 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 | 条目 | 内容 | 当前 | 状态 |
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
-| W1 | 在预算匹配下分离各组件 | 1,827 | 已改为论文格式的合并表（Table 7–8） |
+| W1 | 在预算匹配下分离各组件 | 1,892 | 已改为论文格式的合并表（Table 7–8） |
 | Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,163 | 已改为分段，展示论文 Table 8 的 R5 部分 |
-| **合计** | | **4,072** | ≤ 5,000 |
+| **合计** | | **4,137** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
@@ -346,7 +346,7 @@ The table is an ablation of the two adaptive components. Removing principle evol
 
 This also answers whether the gains come from high-quality synthetic data. Every row builds data with the same selector, constructor, and verifier, so every row trains on verified, high-quality synthetic data. If such data alone drove the gains, every row would improve. Only the row with both components does, so the gains come from co-evolution.
 
-Fixing both principles and curriculum would not do better. In the first row, only the curriculum adapts, and all six scores already drop at R5. Fixing the curriculum as well would remove the last adaptive part.
+For the setting the reviewer lists first, with both principles and curriculum fixed, the first row is an upper bound. That row keeps curriculum adaptation, yet all six scores drop at R5. Fixing the curriculum as well removes this last adaptive part, so it would do no better.
 
 **Q1 (Raw-data degradation; fixed-principle reconstruction).** The raw data teach the wrong task. Most 2D records are figure descriptions (58.3%), and most others are labels or reports (Fig. 10; App. C.3). Trained on them without reconstruction (**App. D.3**), the model learns to describe or label images instead of answering questions. The drop is largest on SLAKE (−26.69), whose answers are short and direct. The raw data are also unverified, untargeted, and static. The table lists these four causes and the CoEvoMed component that addresses each:
 
@@ -385,7 +385,7 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 这也回答了收益是否来自高质量的合成数据。表中每一行都用同样的选择器、构建器和核验器来构建数据，所以每一行训练用的都是经过核验的高质量合成数据。如果收益只来自这样的数据，每一行都应该提升；但只有两个组件都保留的那一行提升了，所以收益来自共同演化。
 
-原则和课程都固定的设置不会更好。表中第一行只有课程在自适应，在 R5 时六个分数就已经全部下降；如果再把课程也固定，连这仅剩的自适应部分也没有了。
+审稿人列出的第一种设置是原则和课程都固定。对它来说，表中第一行就是上限：第一行还保留着课程自适应，六个分数在 R5 却已经全部下降。如果把课程也固定，连这最后一个自适应部分也没有了，所以它不会比第一行更好。
 
 **Q1（原始数据退化的原因；固定原则重构的效果）** 原始数据教给模型的是错误的任务。2D 记录中 58.3% 是图像描述，其余大多是标签或报告（Figure 10；附录 C.3）。在不做重构的情况下用它们训练（**附录 D.3**），模型学会的是描述图像或给图像贴标签，而不是回答问题。答案简短直接的 SLAKE 因此下降最多（−26.69）。此外，原始数据也没有经过核验、没有针对性、不会自适应。下表列出这四个原因，以及 CoEvoMed 中处理每个原因的组件：
 
