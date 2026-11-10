@@ -23,14 +23,14 @@
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
-| W1 | 多智能体是否必要 | — | 1,523 | 已重写（两部分；合并表；三项设计保障） |
+| W1 | 多智能体是否必要 | — | 1,555 | 已重写（两部分；合并表；三项设计保障） |
 | W2 | 论文组织 | — | 412 | 已重写（正文逻辑、附录对应、可复现） |
 | W3 | 遗忘与 R7 的选择 | — | 1,266 | 已重写 |
 | Q1 | MedVLSynther 复现 | — | 640 | 已压缩 |
 | Q2 | 数据公开 | — | 137 | 已压缩 |
-| Q3 | 能力分类体系 | — | 995 | 已压缩 |
+| Q3 | 能力分类体系 | — | 814 | 已压缩 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,983** | |
+| **合计** | | **≤ 5,000** | **4,834** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -46,8 +46,8 @@
 | Revision agent: original principles | R5 | −5.64 | −3.60 | −9.60 | −2.20 |
 | Curriculum planner: R2 feedback | R5 | −1.10 | −5.20 | −3.60 | −3.10 |
 | Curriculum planner: R3 feedback | R5 | −1.77 | −5.80 | −1.80 | −2.40 |
-| None: CoEvoMed | base | +25.72 | +26.76 | +13.82 | +26.63 |
-| None: CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
+| None: CoEvoMed | base | **+25.72** | **+26.76** | **+13.82** | **+26.63** |
+| None: CoEvoMed | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** |
 
 - No simpler process can substitute them: each one above lowers every score. We also separate the roles by design (**App. B**):
     1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., ICLR 2024). We therefore designed the verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) as different models.
@@ -79,7 +79,7 @@ Same base, with MedVLSynther's released data and GRPO script:
 **Q2 (Data release).** Yes. Upon acceptance, we will release the synthesized data and all principle versions under each source's license.
 
 **Q3 (Capability taxonomy).** The taxonomy is not a claimed contribution but the unit of validation feedback (App. C.3).
-- We adopted SLAKE's question categories (Liu et al., 2021) by design: physicians annotated them, and SLAKE spans more modalities and body parts than earlier datasets. They describe what a question asks, not a dataset, so they fit every task: VQA-RAD and M3D-VQA use similar types (Lau et al., 2018; Fig. 9a). We add three categories for multi-image and report tasks. Data without native labels (PathVQA, PMC-VQA, reports, support pool) is labeled the same way, so all tasks share one diagnosis and budget.
+- We built our categories on SLAKE's question categories (Liu et al., 2021) by design: physicians annotated them, and SLAKE spans more modalities and body parts than earlier datasets. They describe what a question asks, not a dataset, so they fit every task: VQA-RAD and M3D-VQA use similar types (Lau et al., 2018; Fig. 9a).
 - On 200 SLAKE questions, our annotations match native labels for capability at 97.5% (Cohen's κ = 0.958), modality at 100%, and body region at 96.5%. κ > 0.81 is "almost perfect" agreement (Landis & Koch, 1977). We will add the mapping to Table 6.
 - Gains come from diagnosis, not relabeling: with the taxonomy fixed, stale diagnoses lower 11 of 12 scores (Table 7).
 ```
@@ -95,8 +95,8 @@ Same base, with MedVLSynther's released data and GRPO script:
 | 修订智能体：原始原则 | R5 | −5.64 | −3.60 | −9.60 | −2.20 |
 | 课程规划器：R2 反馈 | R5 | −1.10 | −5.20 | −3.60 | −3.10 |
 | 课程规划器：R3 反馈 | R5 | −1.77 | −5.80 | −1.80 | −2.40 |
-| 无：CoEvoMed | 基础模型 | +25.72 | +26.76 | +13.82 | +26.63 |
-| 无：CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
+| 无：CoEvoMed | 基础模型 | **+25.72** | **+26.76** | **+13.82** | **+26.63** |
+| 无：CoEvoMed | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** |
 
 - 没有更简单的流程能替代它们：上表中每一种更简单的流程都会让所有分数下降。此外，我们有意把这些角色分开设计（**附录 B**）：
     1. **独立核查。** 大语言模型在没有外部反馈时很难自我纠正（Huang et al., ICLR 2024）。因此，我们把核验器（Qwen3.6-27B）和构建器（deepseek-v4-flash）设计为不同的模型。
@@ -128,7 +128,7 @@ Same base, with MedVLSynther's released data and GRPO script:
 **Q2（数据公开）** 会公开。论文被接收后，我们将按各源数据的许可公开合成数据和全部版本的构建原则。
 
 **Q3（能力分类体系）** 这套分类体系不是我们主张的贡献，而只是验证反馈的基本单元（附录 C.3）。
-- 我们有意采用了 SLAKE 的问题类别（Liu et al., 2021）：这些类别由医生标注，而且 SLAKE 覆盖的模态和身体部位比以往的数据集更多。这些类别描述的是问题在问什么，而不是某个数据集，因此适用于所有任务：VQA-RAD 和 M3D-VQA 也采用了类似的问题类型（Lau et al., 2018；Figure 9a）。我们为多图像和报告任务补充了三个类别。没有原生标签的数据（PathVQA、PMC-VQA、报告任务、支持数据池）也按同一套类别标注，因此所有任务共用同一套诊断和同一份预算。
+- 我们有意以 SLAKE 的问题类别（Liu et al., 2021）为基础构建我们的类别：这些类别由医生标注，而且 SLAKE 覆盖的模态和身体部位比以往的数据集更多。这些类别描述的是问题在问什么，而不是某个数据集，因此适用于所有任务：VQA-RAD 和 M3D-VQA 也采用了类似的问题类型（Lau et al., 2018；Figure 9a）。
 - 在 200 道 SLAKE 题目上，我们的标注与原生标签的一致率为：能力类别 97.5%（Cohen's κ = 0.958），模态 100%，解剖部位 96.5%。κ > 0.81 即属于"几乎完全一致"（Landis & Koch, 1977）。我们会把这一对应关系补充到 Table 6 中。
 - 收益来自诊断，而不是重新贴标签：在分类体系保持不变的情况下，使用过时的诊断会使 12 个分数中的 11 个下降（Table 7）。
 
@@ -158,14 +158,14 @@ Same base, with MedVLSynther's released data and GRPO script:
 - [ ] **Q1 占位符**：复现完成后，在第二张表里填入复现模型在四个基准上的得分 `[x.xx]`（与 CoEvoMed 同一评测流程）。如果任何一项高于 CoEvoMed，需要重新讨论写法。
 - [ ] **Q1 数字来源**：确认 Table 1 的 MedVLSynther 数字引自其论文（与其 GitHub README 的数字完全一致）。正文写的是 "as published"。
 - [ ] **Q1 与附录 C.1 的一致性**：C.1 写的是"本研究评估的基线与 CoEvoMed 使用相同的评估集和评分规则"，MedVLSynther 是引用数，与这句不符。Q1 已如实写明"按原文发表的结果和协议"；定稿时建议把 C.1 改为区分"我们评测的基线"和"引用原文的基线"。
-- [x] **字符限制**：当前 4,983 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
+- [x] **字符限制**：当前 4,834 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
 - [x] **Q2 承诺（作者要求删除）**：正文已不再提"图像以 ID 引用、为禁止再分发的源数据提供重新生成脚本"，只承诺"按各源数据的许可公开合成数据和全部版本的构建原则"。
 - [ ] **Q2 待确认许可**：PMC-OA、MedTrinity BHX、RadGenome-ChestCT、Med-MAT 的许可没能直接核实，AbdomenAtlas1.0Mini 的附加条款也不确定，公开前需逐个确认（见下方"Q2 源数据许可核对"）。
 - [x] **Q3 一致率（已填入）**：轴 B（视觉能力）准确率 97.50%（195/200），macro-F1 0.9767，Cohen's κ 0.9575（正文写作 0.958）；轴 C（模态）准确率 100%，为模型在不看原标签的情况下独立判断；轴 D（解剖部位）准确率 96.50%（193/200），macro-F1 0.9476。轴的对应关系来自代码 `AXES = ("task_form", "visual_ability", "modality", "anatomy")`。
 - [x] **Q3 定位（作者已确认）**：分类体系不在论文第 1 节列出的三条贡献中（协同进化框架、课程分配策略、多智能体系统），附录 C.3 称其为 "the units used for validation feedback"。Q3 开头据此说明它不是主张的贡献；最后一点用实验 1（分类体系不变，只替换诊断的时效）回答"收益来自诊断还是重新贴标签"。
 - [ ] **Q3 κ 对应的轴**：正文把 κ = 0.958 放在能力类别（轴 B）后面。如果这个 κ 是别的轴或整体的值，告诉我调整位置。
 - [ ] **Q3 样本说明（可选）**：如果这 200 条是随机抽取的，可以在 "on 200 SLAKE questions" 前加 "randomly sampled"。
-- [ ] **Q3 选择 SLAKE 的理由（已写入，措辞请确认）**：Q3 第一点合并为一条，写了两条理由，均来自 SLAKE 摘要：(1) "comprehensive semantic labels annotated by experienced physicians"，正文写作 "physicians annotated them"；(2) "richer modalities and covers more human body parts than the currently available dataset"，正文写作 "spans more modalities and body parts than earlier datasets"。没有找到"经临床专家审核"的原文，所以没有写 "reviewed/validated by clinical experts"；如果你手上的 SLAKE 原文有这类表述，告诉我页码可以改。通用性的理由：类别描述的是"问题在问什么"，与数据集无关；VQA-RAD（Lau et al., 2018）和 M3D-VQA（Figure 9a 的五个类别）也采用类似的问题类型。为腾字数，W1 第 2 点删去 "the verifier checks the image"，W1 第二部分删去 "only the full one improves all"（表中 CoEvoMed 两行已经显示）。Q3 末句改为两句（作者要求换说法）；为腾字数，W2 删去 "that cites it"，W1 表中 CoEvoMed 两行的数值取消加粗。
+- [ ] **Q3 选择 SLAKE 的理由（已写入，措辞请确认）**：Q3 第一点合并为一条，写了两条理由，均来自 SLAKE 摘要：(1) "comprehensive semantic labels annotated by experienced physicians"，正文写作 "physicians annotated them"；(2) "richer modalities and covers more human body parts than the currently available dataset"，正文写作 "spans more modalities and body parts than earlier datasets"。没有找到"经临床专家审核"的原文，所以没有写 "reviewed/validated by clinical experts"；如果你手上的 SLAKE 原文有这类表述，告诉我页码可以改。通用性的理由：类别描述的是"问题在问什么"，与数据集无关；VQA-RAD（Lau et al., 2018）和 M3D-VQA（Figure 9a 的五个类别）也采用类似的问题类型。为腾字数，W1 第 2 点删去 "the verifier checks the image"，W1 第二部分删去 "only the full one improves all"（表中 CoEvoMed 两行已经显示）。Q3 删去"新增三个类别、无原生标签数据按同一套类别标注"两句（作者要求，避免被质疑新增类别的准确性）；"adopted SLAKE's question categories" 改为 "built our categories on SLAKE's question categories"，因为 Table 6 的九个视觉能力类别中有三个（空间关系、比较、整体描述）不在 SLAKE 中，写"采用"会与 Table 6 不符。W2 删去 "that cites it"。W1 表中 CoEvoMed 两行的加粗已恢复。
 - [ ] **Q3 对应关系**：正文写了"把 SLAKE 细分的属性类型合并为一类，并新增空间关系、比较和整体描述三类"。请对照下方对应表确认，尤其是 SLAKE 的 Plane 和 Quantity 分别归到哪一类。
 - [ ] **Q1 奖励函数的说明（已为字符限制删去）**：正文不再提"奖励函数取自 MedVLThinker 代码"。如果审稿人追问复现细节，再补充这一点（详见下方"Q1 复现配置备忘"）。
 - [ ] **W1 可选补充**：如果核验器日志里有拒绝率，可以在 "independently checked" 之后加一句（约 75 字符），作为核验器单独起作用的正面证据：`The verifier rejects [X]% of constructed candidates, mainly for [reason].`
