@@ -6,11 +6,11 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,967 / 5,000 characters (quotes excluded).*
+*Posted text: 4,993 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
-**W1 (Necessity of the multi-agent framework).** **App. D** shows that the agents are needed (**Tables 7–9**). Changes from a shared start, all else fixed:
+**W1 (Necessity of the multi-agent framework).** **Table 2** (Sec. 5.3) and **App. D** show that the agents are needed (**Tables 7–9**). Changes from a shared start, all else fixed:
 
 | Without | From | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
 |---|---|---|---|---|---|
@@ -73,13 +73,13 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 
 ## Response to Reviewer jcb6
 
-*Posted text: 3,819 / 5,000 characters (quotes excluded).*
+*Posted text: 3,991 / 5,000 characters (quotes excluded).*
 
 We thank the reviewer for the positive assessment and the precise suggestions.
 
 > **Weakness:** The ablation study does not sufficiently isolate the contributions of the individual components. Budget-matched comparisons with fixed principles and a fixed curriculum, principle evolution alone, and curriculum adaptation alone would help determine whether the gains come primarily from high-quality synthetic data or the proposed co-evolution mechanism.
 
-**W1 (Isolating the contributions of individual components).** The component controls in **App. D** give the budget-matched comparisons the reviewer suggests. Each condition trains one round from the same R5 checkpoint with the same pipeline and budget. Without principle evolution, the original principles are kept; without curriculum adaptation, the curriculum follows stale R2 or R3 feedback. Change on each benchmark (**Tables 7–8**):
+**W1 (Isolating the contributions of individual components).** The mechanism ablations in **Table 2** (Sec. 5.3), extended in **App. D**, give the budget-matched comparisons the reviewer suggests. Each condition trains one round from the same R5 checkpoint with the same pipeline and budget. Without principle evolution, the original principles are kept; without curriculum adaptation, the curriculum follows stale R2 or R3 feedback. A fixed curriculum is set at an earlier learner state; giving the R5 learner R2 or R3 feedback reproduces this under the same budget. Change on each benchmark (**Tables 7–8**):
 
 | Setting | Principle evolution | Curriculum adaptation | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
@@ -117,13 +117,13 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 ## Response to Reviewer 2Nuw
 
-*Posted text: 4,968 / 5,000 characters (quotes excluded).*
+*Posted text: 4,961 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** **The experimental controls and mechanism analyses do not sufficiently establish the contribution of co-evolution.** The method combines teacher-generated supervision, data verification, principle revision, and adaptive curricula, but does not adequately isolate their effects or those of additional resources. Improvements are difficult to attribute to individual principles, and the relationship between principle-selection criteria and subsequent learning gains remains unvalidated. The substantial degradation of the raw-data training baseline also lacks sufficient explanation.
 
 > **Question 1:** Under the same teachers, data sources, and comparable budgets, could you separately establish the contributions of principle evolution and adaptive curricula, including PPO’s advantage over simpler allocation strategies? Could you also explain the raw-data baseline’s degradation and validate the relationship between principle-selection criteria and subsequent learning gains?
 
-**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** **App. D** ablates each part with the same teachers, data sources, budget, and R5 checkpoint; change on each benchmark (**Tables 7–8**):
+**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** **Table 2** (Sec. 5.3) and **App. D** ablate each part with the same teachers, data sources, budget, and R5 checkpoint. Stale R2 or R3 feedback reproduces a curriculum fixed at an earlier stage. Change on each benchmark (**Tables 7–8**):
 
 | Setting | Principle evolution | Adaptive curriculum | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
@@ -138,13 +138,13 @@ Unlike a greedy rule, PPO optimizes cumulative gain (Eq. 5), and its choices fol
 
 The raw-data baseline degrades because its sources (App. D.3) are not task-aligned (58.3% of 2D records are figure descriptions; Fig. 10), not verified, not targeted, and not adapted. CoEvoMed's constructor, verifier, planner, and revision agent handle these. With CoEvoMed, SLAKE reaches 91.60 instead of 38.15 (Table 9).
 
-Sec. 4.3 and **App. B** (Eq. 11) define the selection criteria. Only principles with non-positive net repair are revised. A candidate is accepted only if, on 100 identical evidence assignments, usable yield ≥ 0.80, paired coverage ≥ 0.60, and it passes semantic review. The loop then tests learning gains and revises principles that still fail. From R5, selected principles raise all six benchmarks; original ones lower all six (**Table 8**).
+Only principles with non-positive net repair are revised, and a candidate is accepted only if, on 100 identical evidence assignments, usable yield ≥ 0.80, paired coverage ≥ 0.60, and it passes semantic review (Sec. 4.3; **App. B**). The loop then tests learning gains and revises principles that still fail. From R5, selected principles raise all six benchmarks; original ones lower all six (**Table 8**).
 
 > **Question 2:** How are patient-, study-, and image-level overlaps excluded across support data, internal validation sets, and external tests, particularly between PubMedVision-IU and IU-Xray? Was R7 selected exclusively using a predefined internal validation criterion?
 
 **Q2 (Overlaps; R7).** We excluded patient-, study-, and image-level overlaps by design: support, validation, and test data are separate partitions (Sec. 1; App. C.6), enforced in our code. We screened all 11 2D and 5 3D sources against every external test at four levels: IDs (including study and case IDs), image paths, pixel hashes (exact and near-duplicate), and normalized text. All checks found zero overlap, including PubMedVision-IU vs. IU-Xray.
 
-R7 was selected by a predefined internal criterion: it has the most balanced capability profile on the internal validation sets (App. C.4), and one checkpoint serves all six benchmarks. All ten rounds are reported (Fig. 7). These scores never feed back into training or checkpoint selection (App. A, C.6).
+R7 was selected by a predefined internal criterion: it has the most balanced capability profile on the internal validation sets (App. C.4). All ten rounds are reported (Fig. 7). These scores never feed back into training or checkpoint selection (App. A, C.6).
 
 > **Weakness 2:** **Evaluation coverage and statistical reliability remain limited.** The 2D VQA evaluation lacks expert-level, complex medical reasoning tasks, and independent repeated runs or confidence intervals are not clearly reported. On IU-Xray, the 8B model improves over the strongest baseline by only 0.92 RaTEScore points, while the 32B model performs worse than the 8B model. The stability of the gains and benefits of scaling therefore remain unclear.
 
@@ -152,7 +152,7 @@ R7 was selected by a predefined internal criterion: it has the most balanced cap
 
 **Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).** We ran the full pipeline independently on four learners across three model families, architectures, and scales: Qwen3-VL (8B and 32B), Gemma 3 (4B), and InternVL3 (9B). Every run improves over its own base on every benchmark evaluated (16 of 16, +6.52 to +26.76). These gains far exceed the test-set uncertainty (95% CI ±0.5 on PMC-VQA, ±1.7 on SLAKE). An effect that holds across families, architectures, and scales is not a single-run artifact.
 
-We considered CURE-4B, but IU-Xray is not a fair test for it. CURE is fine-tuned on MIMIC-CXR-derived data (Chest ImaGenome, MS-CXR) and PadChest-GR, and IU-Xray is outside its training and evaluation data. A zero-shot run confirms the domain shift: it scores 28.65 RaTEScore, below all 28 models in Fig. 3, with very short outputs.
+We considered CURE-4B, but IU-Xray is not a fair test for it. CURE is fine-tuned on MIMIC-CXR-derived data (Chest ImaGenome, MS-CXR) and PadChest-GR, and IU-Xray is outside its training and evaluation data. A zero-shot run confirms the domain shift: it scores 28.65 RaTEScore, below all 28 models in Fig. 3.
 
 Larger models often trail smaller ones on IU-Xray: Hulu-Med (7B 67.30 vs. 32B 62.40) and MedGemma (4B 60.50 vs. 27B 59.00) do too. At matched scale, CoEvoMed-32B beats Hulu-Med-32B by +2.68, and it beats CoEvoMed-8B on the other five benchmarks. Beyond the 0.92 RaTEScore margin, CoEvoMed-8B leads Hulu-Med-7B on six of eight lexical metrics (up to +7.5 ROUGE-2; Fig. 8).
 
