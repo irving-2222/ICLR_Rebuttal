@@ -73,23 +73,25 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 
 ## Response to Reviewer jcb6
 
-*Posted text: 3,401 / 5,000 characters (quotes excluded).*
+*Posted text: 3,696 / 5,000 characters (quotes excluded).*
 
 We thank the reviewer for the positive assessment and the precise suggestions.
 
 > **Weakness:** The ablation study does not sufficiently isolate the contributions of the individual components. Budget-matched comparisons with fixed principles and a fixed curriculum, principle evolution alone, and curriculum adaptation alone would help determine whether the gains come primarily from high-quality synthetic data or the proposed co-evolution mechanism.
 
-**W1 (Isolating the contributions of individual components).** The component controls in App. D give the budget-matched comparisons the reviewer suggests. All conditions start from the same R5 checkpoint and train one round with the same pipeline and budget. Only the principles and the curriculum feedback differ (Tables 7–8; mean change over six benchmarks):
+**W1 (Isolating the contributions of individual components).** The component controls in **App. D** give the budget-matched comparisons the reviewer suggests. Each condition trains one round from the same checkpoint with the same pipeline and budget; only the principles and the curriculum feedback differ. Change on each benchmark (**Tables 7–8**):
 
-| Requested comparison | Principles | Curriculum | Mean Δ | Improved |
-|---|---|---|---|---|
-| Principle evolution alone | evolved | stale (R2 / R3) feedback | −2.65 / −2.78 | 1/6 / 0/6 |
-| Curriculum adaptation alone | fixed (original) | current feedback | −5.27 | 0/6 |
-| Co-evolution (CoEvoMed) | evolved | current feedback | **+1.50** | **6/6** |
+| Comparison | Principles | Curriculum | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
+|---|---|---|---|---|---|---|---|---|
+| Curriculum alone, from R2 | fixed | current | +1.78 | +2.60 | +3.40 | +3.80 | +3.04 | +3.90 |
+| Curriculum alone, from R5 | fixed | current | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
+| Evolution alone, from R5 | evolved | stale (R2) | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
+| Evolution alone, from R5 | evolved | stale (R3) | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
+| Co-evolution, from R5 | evolved | current | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-Fixing both principles and curriculum cannot do better. Fixed principles already fail at R5 while the curriculum still adapts (−5.27, 0/6), and fixing the curriculum removes the only remaining adaptation.
+Fixing both principles and curriculum cannot do better. Fixed principles already lower all six scores at R5 while the curriculum still adapts, and fixing the curriculum removes the only remaining adaptation.
 
-The gains come from co-evolution. Each component alone degrades the learner; only co-evolution improves all six benchmarks. The same verified pipeline with fixed principles helps at R2 (+3.09, 6/6) but harms at R5. High-quality synthetic data thus drives early progress, while co-evolution sustains it. At matched budget, evolved principles add +6.77 over fixed ones, and current feedback adds +4.15 to +4.28 over stale feedback.
+The gains come from co-evolution. At R5, each component alone degrades the learner; only co-evolution improves all six benchmarks. The same verified pipeline with fixed principles helps at R2 but harms at R5. High-quality synthetic data thus drives early progress, while co-evolution sustains it. At matched budget, evolved principles add +6.77 on average over fixed ones, and current feedback adds +4.15 to +4.28 over stale feedback.
 
 > **Question:** Starting from the same initialization, training on raw data reduces performance on all four VQA benchmarks, with SLAKE accuracy dropping from 64.84% to 38.15%. What causes this substantial degradation? Would cleaning and reconstructing the data using fixed construction principles also yield substantial gains? A budget-matched comparison would help clarify the additional benefit of adaptive principle evolution.
 

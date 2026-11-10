@@ -322,26 +322,28 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 | 条目 | 内容 | 当前 | 状态 |
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
-| W1 | 在预算匹配下分离各组件 | 1,349 | 已改为分点格式 |
-| Q1 | 原始数据退化原因；固定原则重构是否也有效 | 1,970 | 已改为分点格式 |
-| **合计** | | **3,401** | ≤ 5,000 |
+| W1 | 在预算匹配下分离各组件 | 1,644 | 已改为论文格式的合并表（Table 7–8） |
+| Q1 | 原始数据退化原因；固定原则重构是否也有效 | 1,970 | 已改为分段 |
+| **合计** | | **3,696** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
 ```markdown
 We thank the reviewer for the positive assessment and the precise suggestions.
 
-**W1 (Isolating the contributions of individual components).** The component controls in App. D give the budget-matched comparisons the reviewer suggests. All conditions start from the same R5 checkpoint and train one round with the same pipeline and budget. Only the principles and the curriculum feedback differ (Tables 7–8; mean change over six benchmarks):
+**W1 (Isolating the contributions of individual components).** The component controls in **App. D** give the budget-matched comparisons the reviewer suggests. Each condition trains one round from the same checkpoint with the same pipeline and budget; only the principles and the curriculum feedback differ. Change on each benchmark (**Tables 7–8**):
 
-| Requested comparison | Principles | Curriculum | Mean Δ | Improved |
-|---|---|---|---|---|
-| Principle evolution alone | evolved | stale (R2 / R3) feedback | −2.65 / −2.78 | 1/6 / 0/6 |
-| Curriculum adaptation alone | fixed (original) | current feedback | −5.27 | 0/6 |
-| Co-evolution (CoEvoMed) | evolved | current feedback | **+1.50** | **6/6** |
+| Comparison | Principles | Curriculum | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
+|---|---|---|---|---|---|---|---|---|
+| Curriculum alone, from R2 | fixed | current | +1.78 | +2.60 | +3.40 | +3.80 | +3.04 | +3.90 |
+| Curriculum alone, from R5 | fixed | current | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
+| Evolution alone, from R5 | evolved | stale (R2) | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
+| Evolution alone, from R5 | evolved | stale (R3) | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
+| Co-evolution, from R5 | evolved | current | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-Fixing both principles and curriculum cannot do better. Fixed principles already fail at R5 while the curriculum still adapts (−5.27, 0/6), and fixing the curriculum removes the only remaining adaptation.
+Fixing both principles and curriculum cannot do better. Fixed principles already lower all six scores at R5 while the curriculum still adapts, and fixing the curriculum removes the only remaining adaptation.
 
-The gains come from co-evolution. Each component alone degrades the learner; only co-evolution improves all six benchmarks. The same verified pipeline with fixed principles helps at R2 (+3.09, 6/6) but harms at R5. High-quality synthetic data thus drives early progress, while co-evolution sustains it. At matched budget, evolved principles add +6.77 over fixed ones, and current feedback adds +4.15 to +4.28 over stale feedback.
+The gains come from co-evolution. At R5, each component alone degrades the learner; only co-evolution improves all six benchmarks. The same verified pipeline with fixed principles helps at R2 but harms at R5. High-quality synthetic data thus drives early progress, while co-evolution sustains it. At matched budget, evolved principles add +6.77 on average over fixed ones, and current feedback adds +4.15 to +4.28 over stale feedback.
 
 **Q1 (Raw-data degradation; fixed-principle reconstruction).** The raw data lack what CoEvoMed's agents add, and fixed principles help only early.
 
@@ -363,17 +365,19 @@ Adaptive principle evolution adds +6.77 on average under a matched budget. At R5
 
 我们感谢审稿人的积极评价和具体建议。
 
-**W1（分离各个组件的贡献）** 附录 D 的组件对照实验提供了审稿人所建议的预算匹配比较。所有条件都从同一个 R5 检查点出发，用相同的流程和预算训练一轮。区别只在于构建原则和课程所用的反馈（Table 7–8；六个基准上的平均变化）：
+**W1（分离各个组件的贡献）** **附录 D** 的组件对照实验提供了审稿人所建议的预算匹配比较。每个条件都从同一个检查点出发，用相同的流程和预算训练一轮；区别只在于构建原则和课程所用的反馈。下表为每个基准上的变化（**Table 7–8**）：
 
-| 所要求的比较 | 原则 | 课程 | 平均变化 | 提升的基准数 |
-|---|---|---|---|---|
-| 只有原则演化 | 演化后 | 过时（R2 / R3）反馈 | −2.65 / −2.78 | 1/6 / 0/6 |
-| 只有课程自适应 | 固定（原始） | 当前反馈 | −5.27 | 0/6 |
-| 共同演化（CoEvoMed） | 演化后 | 当前反馈 | **+1.50** | **6/6** |
+| 比较 | 原则 | 课程 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
+|---|---|---|---|---|---|---|---|---|
+| 只有课程自适应，从 R2 出发 | 固定 | 当前反馈 | +1.78 | +2.60 | +3.40 | +3.80 | +3.04 | +3.90 |
+| 只有课程自适应，从 R5 出发 | 固定 | 当前反馈 | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
+| 只有原则演化，从 R5 出发 | 演化后 | 过时（R2）反馈 | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
+| 只有原则演化，从 R5 出发 | 演化后 | 过时（R3）反馈 | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
+| 共同演化，从 R5 出发 | 演化后 | 当前反馈 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-原则和课程都固定，不会做得更好。在 R5，即使课程仍在自适应，固定原则也已经失效（−5.27，0/6）；再把课程也固定下来，只会去掉仅剩的自适应部分。
+原则和课程都固定，不会做得更好。在 R5，即使课程仍在自适应，固定原则也已经让六个分数全部下降；再把课程也固定下来，只会去掉仅剩的自适应部分。
 
-收益来自共同演化。单独使用任何一个组件都会让学习者变差；只有共同演化才让六个基准全部提升。同一条经过核验的流程，用固定原则在 R2 时有帮助（+3.09，6/6），到 R5 时却有害。因此，高质量合成数据推动了早期的进步，而共同演化让进步得以持续。在预算匹配下，演化后的原则比固定原则高 6.77，当前反馈比过时反馈高 4.15 至 4.28。
+收益来自共同演化。在 R5，单独使用任何一个组件都会让学习者变差；只有共同演化才让六个基准全部提升。同一条经过核验的流程，用固定原则在 R2 时有帮助，到 R5 时却有害。因此，高质量合成数据推动了早期的进步，而共同演化让进步得以持续。在预算匹配下，演化后的原则平均比固定原则高 6.77，当前反馈比过时反馈高 4.15 至 4.28。
 
 **Q1（原始数据退化的原因；固定原则重构的效果）** 原始数据缺少 CoEvoMed 各智能体所补上的环节，而固定原则只在早期有效。
 
@@ -392,6 +396,7 @@ Adaptive principle evolution adds +6.77 on average under a matched budget. At R5
 
 ### 发布前待核对
 
+- [x] **W1 合并表（数字已核对）**：列顺序同论文 Table 7–8。"只有课程自适应"两行是 Table 8 条件 A（R2 / original）和 C（R5 / original）；"只有原则演化"两行是 Table 7 的 R2 feedback 和 R3 feedback（R5 起点，使用演化后的原则）；"共同演化"一行是 Table 8 条件 D，与 Table 7 的 R5 feedback 为同一次训练（附录 D.1）。六个基准在这两个实验中都测了。正文里的平均值 +6.77（D − C）和 +4.15 至 +4.28（当前反馈 − 过时反馈）保留。
 - [x] **W1 对照条件只差一个因素（已确认）**：Exp 2 的 A/B、C/D 只在原则上不同，Exp 1 的三组只在反馈来源上不同，起点、流程和预算一致。
 - [ ] **W1 "原则和课程都固定"这一组**：论文里没有直接对应的实验。正文用推理回答：R5 时即使课程仍在自适应，固定原则也已失效（−5.27，0/6），再固定课程只会去掉仅剩的自适应部分。如果 jcb6 在讨论阶段坚持要这组实验，再考虑补跑一轮。
 - [ ] **W1 "过时反馈"不等于"固定课程"**：表中"只有原则演化"一行用的是过时反馈驱动的课程，即课程没有对准当前学习者，而不是完全不调整的课程。正文写的是 "stale (R2 / R3)"，如实标明了这一点。
