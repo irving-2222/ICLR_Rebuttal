@@ -25,10 +25,10 @@
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
 | W1 | 多智能体是否必要 | — | 1,618 | 已重写（两部分；合并表；三项设计保障） |
 | W2 | 论文组织 | — | 426 | 已重写（正文逻辑、附录对应、可复现） |
-| W3 | 遗忘与 R7 的选择 | — | 1,238 | 已重写 |
-| Q1 | MedVLSynther 复现 | — | 644 | 已压缩 |
+| W3 | 遗忘与 R7 的选择 | — | 1,264 | 已重写 |
+| Q1 | MedVLSynther 复现 | — | 640 | 已压缩 |
 | Q2 | 数据公开 | — | 137 | 已压缩 |
-| Q3 | 能力分类体系 | — | 917 | 已压缩 |
+| Q3 | 能力分类体系 | — | 895 | 已压缩 |
 | 结尾 | | — | — | 不写（为字符限制） |
 | **合计** | | **≤ 5,000** | **4,990** | |
 
@@ -58,11 +58,11 @@
 
 **W3 (Catastrophic forgetting and retention).** CoEvoMed builds on curriculum learning, not continual learning. Forgetting arises when tasks are learned in sequence and old data is dropped. CoEvoMed trains all tasks every round and replays earlier data (Eq. 7; Sec. 3.3), so continual-learning metrics do not apply. "Retention" is a share of the curriculum planner's budget (Sec. 4.2) and is ablated with it (Table 7).
 
-The later-round declines come from the data, not from our mechanisms. The planner and revision agent work as designed but can only draw on a fixed pool (359,355 facts, App. C.3). Each round builds 50,000 examples (App. B), so by R7 the budget nearly matches the pool and later rounds mostly reuse seen evidence. Self-training on finite data shows the same pattern (Chen et al., ICML 2024; Singh et al., TMLR 2024). Even at R10, all three Fig. 7 benchmarks stay within 3 points of their peaks, over 12 above R1.
+The later-round declines come from the data, not from our mechanisms. The planner and revision agent work as designed but can only draw on a fixed pool (359,355 facts, App. C.3). Each round builds 50,000 examples (App. B), so by R7 the budget nearly matches the pool and later rounds mostly reuse evidence. Self-training on finite data shows the same pattern (Chen et al., ICML 2024; Singh et al., TMLR 2024). Even at R10, all three Fig. 7 benchmarks stay within 3 points of their peaks, over 12 above R1.
 
-We selected R7 by a predefined criterion: the most balanced capability profile on internal validation sets (Sec. 3.1; App. C.4). The criterion fixes no round; R7 is where this pool's new evidence runs out. The best round varies: InternVL3-9B peaks at round 6 on VQA-RAD and round 4 on MIMIC-CXR (App. C.5).
+We selected R7 by a predefined criterion: the most balanced capability profile on internal validation sets (App. C.4). The criterion fixes no round: R7 is where this pool's new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (App. C.5). CoEvoMed thus relies on a general rule, not on R7, and transfers to other learners and data.
 
-**Q1 (MedVLSynther base model).** Absolute scores mix method and backbone, so we compare gains over each method's own base (MedVLSynther as published):
+**Q1 (MedVLSynther base model).** Absolute scores mix method and backbone, so we compare gains over each method's base (MedVLSynther as published):
 
 | Gain over own base | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
@@ -79,8 +79,8 @@ Same base, with MedVLSynther's released data and GRPO script:
 **Q2 (Data release).** Yes. Upon acceptance, we will release the synthesized data and all principle versions under each source's license.
 
 **Q3 (Capability taxonomy).** The taxonomy is not a claimed contribution but the unit of validation feedback (App. C.3).
-- We adopted SLAKE's physician-annotated question categories (Liu et al., 2021), so the overlap is by design. We merge its attribute types and add three for multi-image and report tasks.
-- The categories are necessary: they describe what a question asks, not a dataset, so they also cover unlabeled data (PathVQA, PMC-VQA, reports, support pool). One taxonomy lets us diagnose all tasks, share one budget, and retrieve evidence.
+- We adopted SLAKE's physician-annotated question categories (Liu et al., 2021), so the overlap is by design. We add three categories for multi-image and report tasks.
+- The categories are necessary: they describe what a question asks, not a dataset, so they also cover unlabeled PathVQA, PMC-VQA, reports, and support pool. One taxonomy lets us diagnose all tasks, share one budget, and retrieve evidence.
 - On 200 SLAKE questions, our annotations match native labels for capability at 97.5% (Cohen's κ = 0.958), modality at 100%, and body region at 96.5%. κ > 0.81 is "almost perfect" agreement (Landis & Koch, 1977). We will add the mapping to Table 6.
 - Gains come from diagnosis, not relabeling: with the taxonomy fixed, stale diagnoses lower 11 of 12 scores (Table 7).
 ```
@@ -108,11 +108,11 @@ Same base, with MedVLSynther's released data and GRPO script:
 
 **W3（灾难性遗忘与保留）** CoEvoMed 是基于课程学习设计的，而不是持续学习。灾难性遗忘出现在按顺序学习各个任务、并丢弃旧数据的情况下。CoEvoMed 每一轮都同时训练所有任务，并回放之前的数据（式 7；第 3.3 节），因此持续学习的指标并不适用。"保留"是课程规划器预算中的一个份额（第 4.2 节），已随课程规划器一起做了消融（Table 7）。
 
-后期轮次的下降源于数据，而不是我们的机制。课程规划器和修订智能体都按设计正常工作，但它们只能使用一个固定的数据池（359,355 条事实，附录 C.3）。每轮构建 50,000 个样本（附录 B），因此到 R7，累计预算已接近数据池的规模，后续轮次主要在重复使用学习者已见过的证据。在有限数据上的自训练也呈现同样的规律（Chen et al., ICML 2024；Singh et al., TMLR 2024）。即使到 R10，Figure 7 中的三个基准仍都在各自峰值 3 分以内，并比 R1 高出 12 分以上。
+后期轮次的下降源于数据，而不是我们的机制。课程规划器和修订智能体都按设计正常工作，但它们只能使用一个固定的数据池（359,355 条事实，附录 C.3）。每轮构建 50,000 个样本（附录 B），因此到 R7，累计预算已接近数据池的规模，后续轮次主要在重复使用已用过的证据。在有限数据上的自训练也呈现同样的规律（Chen et al., ICML 2024；Singh et al., TMLR 2024）。即使到 R10，Figure 7 中的三个基准仍都在各自峰值 3 分以内，并比 R1 高出 12 分以上。
 
-我们按预先定义的标准选择 R7：它在内部验证集上的能力画像最均衡（第 3.1 节；附录 C.4）。这个标准并不指定某一轮；R7 正是当前数据池的新证据用尽的那一轮。最佳轮次会随设置变化：InternVL3-9B 在 VQA-RAD 上的峰值出现在第 6 轮，在 MIMIC-CXR 上出现在第 4 轮（附录 C.5）。
+我们按预先定义的标准选择 R7：它在内部验证集上的能力画像最均衡（附录 C.4）。这个标准并不指定某一轮：R7 正是当前数据池的新证据用尽的那一轮，而 InternVL3-9B 的峰值出现在第 4–6 轮（附录 C.5）。因此，CoEvoMed 依赖的是一条通用的规则，而不是 R7 这个轮次，可以推广到其他学习者和数据上。
 
-**Q1（MedVLSynther 的基础模型）** 绝对分数把方法和骨干模型的效果混在一起，因此我们比较各方法相对其自身基础模型的提升（MedVLSynther 采用原文发表的结果）：
+**Q1（MedVLSynther 的基础模型）** 绝对分数把方法和骨干模型的效果混在一起，因此我们比较各方法相对其基础模型的提升（MedVLSynther 采用原文发表的结果）：
 
 | 相对自身基础模型的提升 | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
@@ -129,8 +129,8 @@ Same base, with MedVLSynther's released data and GRPO script:
 **Q2（数据公开）** 会公开。论文被接收后，我们将按各源数据的许可公开合成数据和全部版本的构建原则。
 
 **Q3（能力分类体系）** 这套分类体系不是我们主张的贡献，而只是验证反馈的基本单元（附录 C.3）。
-- 我们采用了 SLAKE 由医生标注的问题类别（Liu et al., 2021），因此与 SLAKE 的重合是有意设计的。我们合并了其中的属性类型，并为多图像和报告任务新增了三类。
-- 这些类别是必要的：它们描述的是问题在问什么，而不是某个数据集，因此同样覆盖没有原生标签的数据（PathVQA、PMC-VQA、报告任务、支持数据池）。一套分类体系让我们能够诊断所有任务、共享同一份预算并检索证据。
+- 我们采用了 SLAKE 由医生标注的问题类别（Liu et al., 2021），因此与 SLAKE 的重合是有意设计的。我们为多图像和报告任务新增了三个类别。
+- 这些类别是必要的：它们描述的是问题在问什么，而不是某个数据集，因此同样覆盖没有原生标签的 PathVQA、PMC-VQA、报告任务和支持数据池。一套分类体系让我们能够诊断所有任务、共享同一份预算并检索证据。
 - 在 200 道 SLAKE 题目上，我们的标注与原生标签的一致率为：能力类别 97.5%（Cohen's κ = 0.958），模态 100%，解剖部位 96.5%。κ > 0.81 即属于"几乎完全一致"（Landis & Koch, 1977）。我们会把这一对应关系补充到 Table 6 中。
 - 收益来自诊断，而不是重新贴标签：在分类体系保持不变的情况下，使用过时的诊断会使 12 个分数中的 11 个下降（Table 7）。
 
@@ -153,7 +153,7 @@ Same base, with MedVLSynther's released data and GRPO script:
 - [ ] **W3 数据池解释（请确认）**："By R7 the budget nearly matches the pool, so later rounds mostly reuse seen evidence" 是按论文数字推出的解释：7 × 50,000 = 350,000，接近 359,355 条事实（附录 C.3 称之为 "reusable facts"）。样本和事实不一定一一对应。请确认后期轮次确实大量复用已用过的证据（例如从日志统计每轮首次使用的事实比例）。如果不符，改为 "so later rounds add little new evidence"。
 - [ ] **W3 "更大的数据池可以延长演化"**：这是基于机制的推断（数据池是输入，不是方法的一部分），没有扩池实验支撑。如果审稿人追问，可以回答：数据池在附录 C.3 中按来源构建，扩充来源不需要改动任何智能体或规划器。
 - [x] **W3 改为分段（作者要求）**：不再分点，三段分别回答：(1) 基于课程学习设计；先说明灾难性遗忘出现在按顺序学习、丢弃旧数据的情况下，而 CoEvoMed 每轮同时训练所有任务并回放旧数据，所以持续学习指标不适用；"保留"是课程规划器预算的份额，随规划器在 Table 7 中消融。(2) 后期下降源于数据而非机制：规划器和修订智能体按设计工作，但只能使用固定数据池。(3) 选择 R7 的依据。为腾字数：Q2 删去括号里的"图像以 ID 引用、为禁止再分发的数据提供重新生成脚本"（承诺本身仍在核对清单中）；W2 删去 "links"；W1 第 3 点 "policy network" 改为 "policy"；R7 段删去 "only track evolution"。
-- [x] **W3 选择 R7 一段（只用论文中的事实）**：(1) 按预先定义的标准选出（内部验证集上能力画像最均衡；第 3.1 节式 1，附录 C.4）；(2) 标准本身不指定轮次，R7 恰好是当前数据池新证据用尽的一轮（7 × 50,000 ≈ 359,355，见第二段）；(3) 最佳轮次随设置变化：InternVL3-9B 的 VQA-RAD 在第 6 轮达到峰值 78.71%，MIMIC-CXR 在第 4 轮达到最高 65.34（附录 C.5，Figure 11）。原先"换成更大的数据池会选出更靠后的一轮"没有实验支撑，已删去。
+- [x] **W3 选择 R7 一段（只用论文中的事实）**：(1) 按预先定义的标准选出（内部验证集上能力画像最均衡；第 3.1 节式 1，附录 C.4）；(2) 标准本身不指定轮次，R7 恰好是当前数据池新证据用尽的一轮（7 × 50,000 ≈ 359,355，见第二段）；(3) 最佳轮次随设置变化：InternVL3-9B 的 VQA-RAD 在第 6 轮达到峰值 78.71%，MIMIC-CXR 在第 4 轮达到最高 65.34（附录 C.5，Figure 11）。原先"换成更大的数据池会选出更靠后的一轮"没有实验支撑，已删去。段末落脚到通用性："CoEvoMed thus relies on a general rule, not on R7, and transfers to other learners and data." 其中"推广到其他学习者"有跨骨干实验支撑（Gemma-3-4B、InternVL3-9B，第 5.3 节和附录 C.5）。为腾字数：Q3 删去"合并 SLAKE 的属性类型"；Q1 "own base" 改为 "base"（表头仍为 "Gain over own base"）。
 - [x] **W3 文献（已核实）**：Chen et al., ICML 2024 = SPIN（Self-Play Fine-Tuning），收益集中在前两轮，后续工作 SPACE 报告其在峰值后下降；Singh et al., TMLR 2024 = ReST-EM（"Beyond Human Data"），原文写明 APPS 在第二轮回退，迭代超过几轮后收益递减，并归因于在少量训练题上过拟合。R-Zero（论文中的 Huang et al., 2026a）后期下降没有查到原文证据，所以没有引用。
 - [x] **W3 R7 出处**：附录 C.4 "Checkpoint selection" 写明按整体均衡选 R7；附录 C.6 写明外部基准不参与监督构建、学习者训练、课程和原则更新。
 - [ ] **为容纳 W3 而删去的内容（可按需恢复）**：W2 中"四个 2D VQA、两个报告、三个 3D 基准"的括号；Q3 中"VQA-RAD 和 M3D-VQA 采用类似类别"一句。（"过时诊断使 12 个分数中 11 个下降"已作为 Q3 最后一点补回，因为它直接回答"收益来自诊断还是重新贴标签"。）W2 中"包括能力单元（第 3.1 节）"一句。W3 原先关于"被动恢复与均衡"的内容已删去：审稿人认可了恢复本身，"均衡收敛"由后两点（下降幅度小、R7 能力画像最均衡）回应。

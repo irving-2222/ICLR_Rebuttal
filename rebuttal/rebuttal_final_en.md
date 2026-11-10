@@ -35,13 +35,13 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 **W3 (Catastrophic forgetting and retention).** CoEvoMed builds on curriculum learning, not continual learning. Forgetting arises when tasks are learned in sequence and old data is dropped. CoEvoMed trains all tasks every round and replays earlier data (Eq. 7; Sec. 3.3), so continual-learning metrics do not apply. "Retention" is a share of the curriculum planner's budget (Sec. 4.2) and is ablated with it (Table 7).
 
-The later-round declines come from the data, not from our mechanisms. The planner and revision agent work as designed but can only draw on a fixed pool (359,355 facts, App. C.3). Each round builds 50,000 examples (App. B), so by R7 the budget nearly matches the pool and later rounds mostly reuse seen evidence. Self-training on finite data shows the same pattern (Chen et al., ICML 2024; Singh et al., TMLR 2024). Even at R10, all three Fig. 7 benchmarks stay within 3 points of their peaks, over 12 above R1.
+The later-round declines come from the data, not from our mechanisms. The planner and revision agent work as designed but can only draw on a fixed pool (359,355 facts, App. C.3). Each round builds 50,000 examples (App. B), so by R7 the budget nearly matches the pool and later rounds mostly reuse evidence. Self-training on finite data shows the same pattern (Chen et al., ICML 2024; Singh et al., TMLR 2024). Even at R10, all three Fig. 7 benchmarks stay within 3 points of their peaks, over 12 above R1.
 
-We selected R7 by a predefined criterion: the most balanced capability profile on internal validation sets (Sec. 3.1; App. C.4). The criterion fixes no round; R7 is where this pool's new evidence runs out. The best round varies: InternVL3-9B peaks at round 6 on VQA-RAD and round 4 on MIMIC-CXR (App. C.5).
+We selected R7 by a predefined criterion: the most balanced capability profile on internal validation sets (App. C.4). The criterion fixes no round: R7 is where this pool's new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (App. C.5). CoEvoMed thus relies on a general rule, not on R7, and transfers to other learners and data.
 
 > **Question 1:** For medVLSynther results, do you use the same base model to replicate their results?
 
-**Q1 (MedVLSynther base model).** Absolute scores mix method and backbone, so we compare gains over each method's own base (MedVLSynther as published):
+**Q1 (MedVLSynther base model).** Absolute scores mix method and backbone, so we compare gains over each method's base (MedVLSynther as published):
 
 | Gain over own base | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
@@ -62,8 +62,8 @@ Same base, with MedVLSynther's released data and GRPO script:
 > **Question 3:** CoEvoMed relies on a hand-designed capability taxonomy to construct validation cells and guide curriculum allocation, but the paper does not justify why these dimensions and categories are necessary. Some datasets, such as SLAKE, already provide question-type annotations that overlap with categories such as organ recognition, abnormality detection, and localization. The authors should report this mapping, validate the generated annotations, and compare the proposed taxonomy against native dataset labels. Otherwise, it remains unclear whether the gains come from meaningful capability diagnosis or an arbitrary relabeling of existing task categories.
 
 **Q3 (Capability taxonomy).** The taxonomy is not a claimed contribution but the unit of validation feedback (App. C.3).
-- We adopted SLAKE's physician-annotated question categories (Liu et al., 2021), so the overlap is by design. We merge its attribute types and add three for multi-image and report tasks.
-- The categories are necessary: they describe what a question asks, not a dataset, so they also cover unlabeled data (PathVQA, PMC-VQA, reports, support pool). One taxonomy lets us diagnose all tasks, share one budget, and retrieve evidence.
+- We adopted SLAKE's physician-annotated question categories (Liu et al., 2021), so the overlap is by design. We add three categories for multi-image and report tasks.
+- The categories are necessary: they describe what a question asks, not a dataset, so they also cover unlabeled PathVQA, PMC-VQA, reports, and support pool. One taxonomy lets us diagnose all tasks, share one budget, and retrieve evidence.
 - On 200 SLAKE questions, our annotations match native labels for capability at 97.5% (Cohen's κ = 0.958), modality at 100%, and body region at 96.5%. κ > 0.81 is "almost perfect" agreement (Landis & Koch, 1977). We will add the mapping to Table 6.
 - Gains come from diagnosis, not relabeling: with the taxonomy fixed, stale diagnoses lower 11 of 12 scores (Table 7).
 
