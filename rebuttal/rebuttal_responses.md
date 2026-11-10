@@ -23,14 +23,14 @@
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
-| W1 | 多智能体是否必要 | — | 1,652 | 已重写（两部分；合并表；三项设计保障） |
+| W1 | 多智能体是否必要 | — | 1,648 | 已重写（两部分；合并表；三项设计保障） |
 | W2 | 论文组织 | — | 238 | 已压缩 |
 | W3 | 遗忘与 R7 的选择 | — | 1,169 | 已重写 |
 | Q1 | MedVLSynther 复现 | — | 664 | 已压缩 |
 | Q2 | 数据公开 | — | 241 | 已压缩 |
 | Q3 | 能力分类体系 | — | 1,005 | 已重写（开头定位为反馈单元；补回实验 1 证据） |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,979** | |
+| **合计** | | **≤ 5,000** | **4,975** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -49,9 +49,9 @@
 | None: CoEvoMed | base | **+25.72** | **+26.76** | **+13.82** | **+26.63** | – | – |
 | None: CoEvoMed | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-- *Can another plausible agent process substitute them?* The simpler processes above lower most or all scores; only the full one improves every benchmark. Merging roles would also lose three safeguards (**App. B**):
-    1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., ICLR 2024), so we designed the verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) as different models.
-    2. **Grounded construction.** A merged agent would write from the image, and VLMs often describe absent objects (Li et al., EMNLP 2023). We therefore let the constructor write only from selected facts; the verifier checks the image.
+- *Can another plausible agent process substitute them?* The simpler processes above lower most or all scores; only the full one improves every benchmark. We also separate the roles by design (**App. B**):
+    1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., ICLR 2024). We therefore designed the verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) as different models.
+    2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, a common VLM error (Li et al., EMNLP 2023). We therefore let it write only from selected facts; the verifier checks the image.
     3. **Outcome-based control.** The planner is a PPO-trained policy network, and new principles must pass a paired test (Sec. 4.3), which no frozen LLM can do.
 
 **W2 (Organization).** The main text specifies every mechanism (Secs. 3–4, Eqs. 1–9), and Sec. 5.1 gives the evaluation task composition. Only implementation parameters and statistics are in the appendix, each referenced in the main text.
@@ -97,9 +97,9 @@ Same base: Qwen3-VL-8B trained with MedVLSynther's released data and GRPO script
 | 无：CoEvoMed | 基础模型 | **+25.72** | **+26.76** | **+13.82** | **+26.63** | – | – |
 | 无：CoEvoMed | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-- *能否找到另一种合理的智能体流程来替代它们？* 上表中更简单的流程都会让大部分或全部分数下降；只有完整流程在所有基准上都提升。把这些角色合并起来，还会失去三项保障（**附录 B**）：
-    1. **独立核查。** 大语言模型在没有外部反馈时很难自我纠正（Huang et al., ICLR 2024），因此我们把核验器（Qwen3.6-27B）和构建器（deepseek-v4-flash）设计为不同的模型。
-    2. **基于证据的构建。** 合并后的智能体要直接看图撰写样本，而视觉语言模型经常描述图像中并不存在的物体（Li et al., EMNLP 2023）。因此，我们让构建器只根据选出的事实撰写，由核验器对照图像检查。
+- *能否找到另一种合理的智能体流程来替代它们？* 上表中更简单的流程都会让大部分或全部分数下降；只有完整流程在所有基准上都提升。此外，我们有意把这些角色分开设计（**附录 B**）：
+    1. **独立核查。** 大语言模型在没有外部反馈时很难自我纠正（Huang et al., ICLR 2024）。因此，我们把核验器（Qwen3.6-27B）和构建器（deepseek-v4-flash）设计为不同的模型。
+    2. **基于证据的构建。** 如果构建器直接看图撰写，它可能会描述图像中并不存在的物体，这是视觉语言模型的常见错误（Li et al., EMNLP 2023）。因此，我们让构建器只根据选出的事实撰写，由核验器对照图像检查。
     3. **基于结果的调控。** 规划器是用 PPO 训练的策略网络，新的构建原则必须通过配对测试才会被采用（第 4.3 节），这两点都是参数冻结的大语言模型做不到的。
 
 **W2（论文组织）** 正文给出了全部机制（第 3–4 节，式 1–9），第 5.1 节给出了评估任务的组成。附录中只放实现参数和统计数据，每项都在正文中注明了出处。
@@ -151,7 +151,7 @@ Same base: Qwen3-VL-8B trained with MedVLSynther's released data and GRPO script
 - [ ] **Q1 占位符**：复现完成后，在第二张表里填入复现模型在四个基准上的得分 `[x.xx]`（与 CoEvoMed 同一评测流程）。如果任何一项高于 CoEvoMed，需要重新讨论写法。
 - [ ] **Q1 数字来源**：确认 Table 1 的 MedVLSynther 数字引自其论文（与其 GitHub README 的数字完全一致）。正文写的是 "as published"。
 - [ ] **Q1 与附录 C.1 的一致性**：C.1 写的是"本研究评估的基线与 CoEvoMed 使用相同的评估集和评分规则"，MedVLSynther 是引用数，与这句不符。Q1 已如实写明"按原文发表的结果和协议"；定稿时建议把 C.1 改为区分"我们评测的基线"和"引用原文的基线"。
-- [x] **字符限制**：当前 4,979 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
+- [x] **字符限制**：当前 4,975 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
 - [ ] **Q2 承诺**：正文承诺为禁止再分发的源数据提供重新生成脚本。确认接收后能兑现；如果不打算做，把最后半句改为 "are excluded from the release"。
 - [ ] **Q2 待确认许可**：PMC-OA、MedTrinity BHX、RadGenome-ChestCT、Med-MAT 的许可没能直接核实，AbdomenAtlas1.0Mini 的附加条款也不确定，公开前需逐个确认（见下方"Q2 源数据许可核对"）。
 - [x] **Q3 一致率（已填入）**：轴 B（视觉能力）准确率 97.50%（195/200），macro-F1 0.9767，Cohen's κ 0.9575（正文写作 0.958）；轴 C（模态）准确率 100%，为模型在不看原标签的情况下独立判断；轴 D（解剖部位）准确率 96.50%（193/200），macro-F1 0.9476。轴的对应关系来自代码 `AXES = ("task_form", "visual_ability", "modality", "anatomy")`。

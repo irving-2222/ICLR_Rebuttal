@@ -6,7 +6,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,979 / 5,000 characters (quotes excluded).*
+*Posted text: 4,975 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
@@ -22,9 +22,9 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 | None: CoEvoMed | base | **+25.72** | **+26.76** | **+13.82** | **+26.63** | – | – |
 | None: CoEvoMed | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-- *Can another plausible agent process substitute them?* The simpler processes above lower most or all scores; only the full one improves every benchmark. Merging roles would also lose three safeguards (**App. B**):
-    1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., ICLR 2024), so we designed the verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) as different models.
-    2. **Grounded construction.** A merged agent would write from the image, and VLMs often describe absent objects (Li et al., EMNLP 2023). We therefore let the constructor write only from selected facts; the verifier checks the image.
+- *Can another plausible agent process substitute them?* The simpler processes above lower most or all scores; only the full one improves every benchmark. We also separate the roles by design (**App. B**):
+    1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., ICLR 2024). We therefore designed the verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) as different models.
+    2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, a common VLM error (Li et al., EMNLP 2023). We therefore let it write only from selected facts; the verifier checks the image.
     3. **Outcome-based control.** The planner is a PPO-trained policy network, and new principles must pass a paired test (Sec. 4.3), which no frozen LLM can do.
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
