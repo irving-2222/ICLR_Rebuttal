@@ -310,9 +310,9 @@ Same base, trained with MedVLSynther's released data and GRPO script:
 | 条目 | 内容 | 当前 | 状态 |
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
-| W1 | 在预算匹配下分离各组件 | 1,395 | 已改为分点格式 |
-| Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,178 | 已改为分点格式 |
-| **合计** | | **3,655** | ≤ 5,000 |
+| W1 | 在预算匹配下分离各组件 | 1,382 | 已改为分点格式 |
+| Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,068 | 已改为分点格式 |
+| **合计** | | **3,532** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
@@ -328,10 +328,10 @@ We thank the reviewer for the positive assessment and the precise suggestions.
 | Co-evolution (CoEvoMed) | evolved | current feedback | **+1.50** | **6/6** |
 
 - *Fixed principles and a fixed curriculum.* Fixed principles already fail at R5 while the curriculum still adapts (−5.27, 0/6). Fixing the curriculum as well removes the only remaining adaptation, so it cannot be expected to do better.
-- *High-quality synthetic data or co-evolution?* Each component alone degrades the learner; only co-evolution improves all six benchmarks. The same verified pipeline with fixed principles helps at R2 (+3.09, 6/6) but harms at R5. High-quality synthetic data thus drives early progress, while co-evolution sustains it. At matched budget, evolved principles add +6.77 over fixed ones, and current feedback adds +4.15 to +4.28 over stale feedback.
+- The gains come from co-evolution. Each component alone degrades the learner; only co-evolution improves all six benchmarks. The same verified pipeline with fixed principles helps at R2 (+3.09, 6/6) but harms at R5. High-quality synthetic data thus drives early progress, while co-evolution sustains it. At matched budget, evolved principles add +6.77 over fixed ones, and current feedback adds +4.15 to +4.28 over stale feedback.
 
 **Q1 (Raw-data degradation; fixed-principle reconstruction).** The raw data lack what CoEvoMed's agents add, and fixed principles help only early.
-- *What causes this substantial degradation?* App. D.3 trains on the raw sources "without supervision reconstruction or adaptive curriculum allocation". The ~700K raw examples fall below the base model. The largest drop is on SLAKE (−26.69), whose answers are short. Routed through CoEvoMed, the same kinds of sources reach 91.60 with fewer examples. Four properties of the raw sources explain the gap. The right column shows where CoEvoMed handles each:
+- Four properties of the raw sources cause the degradation. App. D.3 trains on these sources "without supervision reconstruction or adaptive curriculum allocation". The ~700K raw examples fall below the base model, most on SLAKE (−26.69), whose answers are short. Routed through CoEvoMed, the same kinds of sources reach 91.60 with fewer examples. The right column shows where CoEvoMed handles each property:
 
 | Property of the raw sources | Where CoEvoMed handles it |
 |---|---|
@@ -340,7 +340,7 @@ We thank the reviewer for the positive assessment and the precise suggestions.
 | Not targeted: the mix follows source availability, not the learner's needs | The planner allocates a fixed budget to weak and regressing capabilities (Section 4.2) |
 | Not adaptive: supervision stays fixed while the learner changes | The revision agent updates principles from residual errors (Section 4.3) |
 
-- *Would cleaning and reconstructing the data with fixed construction principles also yield substantial gains?* Yes at first, but not later. Fixed principles handle the first three rows of the table, but not the fourth. At R2, reconstruction with the original principles improves all six benchmarks (+1.78 to +3.90; Table 8). This is why CoEvoMed starts from these principles (Algorithm 1). At R5, the same fixed principles lower all six benchmarks (−2.2 to −9.6).
+- Reconstruction with fixed principles yields gains at first, but not later. Fixed principles handle the first three rows of the table, but not the fourth. At R2, reconstruction with the original principles improves all six benchmarks (+1.78 to +3.90; Table 8). This is why CoEvoMed starts from these principles (Algorithm 1). At R5, the same fixed principles lower all six benchmarks (−2.2 to −9.6).
 - *Additional benefit of adaptive principle evolution (budget-matched).* At R5 and under the same budget, evolved principles outperform fixed ones on all six benchmarks, by +6.77 on average (+3.33 to +10.12; Table 8). This margin is the benefit of principle evolution.
 ```
 
@@ -357,10 +357,10 @@ We thank the reviewer for the positive assessment and the precise suggestions.
 | 共同演化（CoEvoMed） | 演化后 | 当前反馈 | **+1.50** | **6/6** |
 
 - *原则固定且课程固定。* 在 R5，即使课程仍在自适应，固定原则也已经失效（−5.27，0/6）。再把课程也固定下来，只会去掉仅剩的自适应部分，因此不能指望它做得更好。
-- *收益来自高质量合成数据，还是共同演化？* 单独使用任何一个组件都会让学习者变差；只有共同演化才让六个基准全部提升。同一条经过核验的流程，用固定原则在 R2 时有帮助（+3.09，6/6），到 R5 时却有害。因此，高质量合成数据推动了早期的进步，而共同演化让进步得以持续。在预算匹配下，演化后的原则比固定原则高 6.77，当前反馈比过时反馈高 4.15 至 4.28。
+- 收益来自共同演化。单独使用任何一个组件都会让学习者变差；只有共同演化才让六个基准全部提升。同一条经过核验的流程，用固定原则在 R2 时有帮助（+3.09，6/6），到 R5 时却有害。因此，高质量合成数据推动了早期的进步，而共同演化让进步得以持续。在预算匹配下，演化后的原则比固定原则高 6.77，当前反馈比过时反馈高 4.15 至 4.28。
 
 **Q1（原始数据退化的原因；固定原则重构的效果）** 原始数据缺少 CoEvoMed 各智能体所补上的环节，而固定原则只在早期有效。
-- *是什么导致了如此明显的退化？* 附录 D.3 是在"没有监督重构，也没有自适应课程分配"的条件下用原始数据训练的。约 70 万条原始数据训练后低于基础模型。降幅最大的是 SLAKE（−26.69），它的答案都很简短。同类数据源经过 CoEvoMed 处理后，用更少的样本就达到了 91.60。原始数据的四个特点解释了这一差距。右栏注明了 CoEvoMed 在哪个环节处理每个特点：
+- 退化由原始数据的四个特点造成。附录 D.3 是在"没有监督重构，也没有自适应课程分配"的条件下用这些数据训练的。约 70 万条原始数据训练后低于基础模型，降幅最大的是 SLAKE（−26.69），它的答案都很简短。同类数据源经过 CoEvoMed 处理后，用更少的样本就达到了 91.60。右栏注明了 CoEvoMed 在哪个环节处理每个特点：
 
 | 原始数据的特点 | CoEvoMed 在哪里处理它 |
 |---|---|
@@ -369,7 +369,7 @@ We thank the reviewer for the positive assessment and the precise suggestions.
 | 没有针对性：数据构成取决于数据源里有什么，而不是学习者需要什么 | 规划器把固定预算分配给薄弱和退化的能力（第 4.2 节） |
 | 不会自适应：学习者在变化，监督却一成不变 | 修订智能体根据残余错误更新构建原则（第 4.3 节） |
 
-- *使用固定构建原则清洗并重构数据，是否也能带来显著收益？* 早期能，后期不能。固定原则能处理表中的前三行，但处理不了第四行。在 R2，用原始原则重构数据让六个基准全部提升（+1.78 至 +3.90；Table 8），这也是 CoEvoMed 以这些原则作为起点的原因（Algorithm 1）。到 R5，同样的固定原则让六个基准全部下降（−2.2 至 −9.6）。
+- 用固定原则重构数据，早期能带来收益，后期不能。固定原则能处理表中的前三行，但处理不了第四行。在 R2，用原始原则重构数据让六个基准全部提升（+1.78 至 +3.90；Table 8），这也是 CoEvoMed 以这些原则作为起点的原因（Algorithm 1）。到 R5，同样的固定原则让六个基准全部下降（−2.2 至 −9.6）。
 - *自适应原则演化的额外收益（预算匹配）。* 在 R5、相同预算下，演化后的原则在六个基准上全部优于固定原则，平均高出 6.77（+3.33 至 +10.12；Table 8）。这个差距就是原则演化带来的收益。
 
 ### 发布前待核对
@@ -414,14 +414,14 @@ We thank the reviewer for the positive assessment and the precise suggestions.
 |---|---|---:|---:|---|
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | — | — | 已改为在标题中注明 |
 | Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 1,642 | 已改为分点格式 |
-| Q2 | 数据泄漏；R7 的选择 | — | 978 | 已定稿 |
-| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,321 | 已定稿 |
-| Q4 | 复杂推理基准 | — | 1,029 | 已定稿 |
-| **合计** | | **≤ 5,000** | **4,976** | |
+| Q2 | 数据泄漏；R7 的选择 | — | 971 | 已定稿 |
+| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,262 | 已定稿 |
+| Q4 | 复杂推理基准 | — | 1,014 | 已定稿 |
+| **合计** | | **≤ 5,000** | **4,895** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
-字符空间：当前 4,976 字符，占位符已全部填完，只剩 24 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
+字符空间：当前 4,895 字符，占位符已全部填完，只剩 105 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
@@ -443,15 +443,15 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 
 **Q2 (Overlaps; R7).**
 - *Patient-, study-, and image-level overlaps.* We treated leakage as a design constraint: support, validation, and test data are separate partitions (Sec. 1; App. C.6) and enforced in our code. We screened all 11 2D and 5 3D sources against every external test at four levels: IDs (including study and case IDs), image paths, pixel hashes (exact and near-duplicate), and normalized text. All checks found zero overlap, including PubMedVision-IU vs. IU-Xray; PMC-OA and PMC-VQA also draw on disjoint PMC articles.
-- *Was R7 selected by a predefined internal criterion?* Yes. R7 has the most balanced capability profile on the internal validation sets (Sec. 3.1, Eq. 1; App. C.4), and one checkpoint serves all six benchmarks. We test every round on external benchmarks only to show how evolution improves the learner, and report all ten rounds, including declines (Fig. 7). These scores never feed back into training or checkpoint selection (App. A, C.6).
+- R7 was selected by a predefined internal criterion: it has the most balanced capability profile on the internal validation sets (Sec. 3.1, Eq. 1; App. C.4), and one checkpoint serves all six benchmarks. We test every round on external benchmarks only to show how evolution improves the learner, and report all ten rounds, including declines (Fig. 7). These scores never feed back into training or checkpoint selection (App. A, C.6).
 
 **Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).**
 - *Independent runs and intervals.* We ran the full pipeline independently on four learners from three model families, with different architectures and scales: Qwen3-VL (8B and 32B), Gemma 3 (4B), and InternVL3 (9B). Every run improves over its own base on every benchmark evaluated (16 of 16, +6.52 to +26.76). These gains far exceed the test-set uncertainty (95% CI ±0.5 on PMC-VQA, ±1.7 on SLAKE). An effect that holds across families, architectures, and scales is not a single-run artifact.
-- *Why is CURE-4B absent from IU-Xray?* We considered it, but IU-Xray is not a fair test for CURE. CURE is fine-tuned on MIMIC-CXR-derived data (Chest ImaGenome, MS-CXR) and PadChest-GR, and IU-Xray is outside its training and evaluation data. A zero-shot run confirms the domain shift: it scores 28.65 RaTEScore, below all 28 models in Fig. 3, with very short outputs.
-- *Why does 32B underperform 8B on IU-Xray?* This is common on IU-Xray: Hulu-Med (7B 67.30 vs. 32B 62.40) and MedGemma (4B 60.50 vs. 27B 59.00) show it too. At matched scale, CoEvoMed-32B beats Hulu-Med-32B by +2.68, and it beats CoEvoMed-8B on the other five benchmarks. Beyond the 0.92 RaTEScore margin, CoEvoMed-8B leads Hulu-Med-7B on six of eight lexical metrics (up to +7.5 ROUGE-2; Fig. 8).
+- We considered CURE-4B, but IU-Xray is not a fair test for it. CURE is fine-tuned on MIMIC-CXR-derived data (Chest ImaGenome, MS-CXR) and PadChest-GR, and IU-Xray is outside its training and evaluation data. A zero-shot run confirms the domain shift: it scores 28.65 RaTEScore, below all 28 models in Fig. 3, with very short outputs.
+- Larger models often trail smaller ones on IU-Xray: Hulu-Med (7B 67.30 vs. 32B 62.40) and MedGemma (4B 60.50 vs. 27B 59.00) do too. At matched scale, CoEvoMed-32B beats Hulu-Med-32B by +2.68, and it beats CoEvoMed-8B on the other five benchmarks. Beyond the 0.92 RaTEScore margin, CoEvoMed-8B leads Hulu-Med-7B on six of eight lexical metrics (up to +7.5 ROUGE-2; Fig. 8).
 
 **Q4 & W2 (Complex reasoning).** We chose our benchmarks to test medical reasoning in its clinical form: image-grounded, often volumetric, and mostly open-ended. They require full reports from chest X-rays (MIMIC-CXR, IU-Xray) and multi-organ 3D CT (AMOS-MM); plane, phase, organ, abnormality, and location questions across 64-slice volumes (M3D-VQA); diameter, size, and thickness measurement in open-ended 3D questions (3D-RAD); and clinician-authored, knowledge-based, pathology, and literature-figure questions (VQA-RAD, SLAKE, PathVQA, PMC-VQA).
-- *Why not MedXpertQA-MM or MMMU?* Both test reasoning through multiple choice on 2D images (all of MedXpertQA-MM, 94% of MMMU). Our suite already covers this format (PMC-VQA, M3D-VQA) and goes further: the model must write reports, answer without options, reason across 3D volumes, and measure structures.
+- MedXpertQA-MM and MMMU test reasoning through multiple choice on 2D images (all of MedXpertQA-MM, 94% of MMMU). Our suite already covers this format (PMC-VQA, M3D-VQA) and goes further: the model must write reports, answer without options, reason across 3D volumes, and measure structures.
 - *Generalization.* CoEvoMed ranks first on all nine benchmarks (Table 1; Figs. 3–4). On 3D-RAD Medical Computation, it leads the next-best model by +8.6 BLEU-1 (Fig. 9b).
 ```
 
@@ -472,15 +472,15 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 
 **Q2（数据重叠；R7）**
 - *患者、检查和图像层面的重叠。* 我们把防止泄漏作为一项设计约束：支持数据、验证数据和测试数据是相互独立的划分（第 1 节；附录 C.6），并在我们的代码中强制执行。我们把全部 11 个 2D 源数据和 5 个 3D 源数据与每一个外部测试集在四个层面上做了筛查：ID（包括检查 ID 和病例 ID）、图像路径、像素哈希（精确匹配和近似重复）以及归一化后的文本。所有检查发现的重叠均为零，包括 PubMedVision-IU 与 IU-Xray 之间；PMC-OA 与 PMC-VQA 所用的 PMC 论文也完全不相交。
-- *R7 是否依据预先定义的内部标准选出？* 是的。R7 在内部验证集上的能力画像最均衡（第 3.1 节，式 1；附录 C.4），六个基准共用这一个检查点。我们在每一轮之后都用外部基准测试一次，只是为了展示进化如何提升学习者，并且报告了全部十轮，包括下降的轮次（Figure 7）。这些分数从不反馈到训练或检查点选择中（附录 A、C.6）。
+- R7 是依据预先定义的内部标准选出的：它在内部验证集上的能力画像最均衡（第 3.1 节，式 1；附录 C.4），六个基准共用这一个检查点。我们在每一轮之后都用外部基准测试一次，只是为了展示进化如何提升学习者，并且报告了全部十轮，包括下降的轮次（Figure 7）。这些分数从不反馈到训练或检查点选择中（附录 A、C.6）。
 
 **Q3 与 W2（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）**
 - *独立运行与置信区间。* 我们在来自三个模型家族的四个学习者模型上独立运行了完整流程，它们的架构和规模各不相同：Qwen3-VL（8B 和 32B）、Gemma 3（4B）和 InternVL3（9B）。每一次运行在所有评测基准上都超过了各自的基础模型（16 组比较全部提升，幅度为 +6.52 至 +26.76）。这些提升远大于测试集本身的不确定性（95% 置信区间：PMC-VQA ±0.5、SLAKE ±1.7）。一个在不同模型家族、不同架构和不同规模上都成立的效果，不可能是某一次运行的偶然结果。
-- *为什么 IU-Xray 的比较中没有 CURE-4B？* 我们考虑过，但 IU-Xray 对 CURE 来说不是公平的测试。CURE 是在 MIMIC-CXR 派生的数据（Chest ImaGenome、MS-CXR）以及 PadChest-GR 上微调的，而 IU-Xray 既不在它的训练数据中，也不在它的评测中。一次零样本测试证实了这种数据域差异：它的 RaTEScore 只有 28.65，低于 Figure 3 中全部 28 个模型，而且输出非常短。
-- *为什么 32B 在 IU-Xray 上不如 8B？* 这在 IU-Xray 上很常见：Hulu-Med（7B 67.30，32B 62.40）和 MedGemma（4B 60.50，27B 59.00）也是如此。在相同规模下，CoEvoMed-32B 比 Hulu-Med-32B 高 2.68；在其余五个基准上，CoEvoMed-32B 都高于 CoEvoMed-8B。除了 RaTEScore 上 0.92 的领先，CoEvoMed-8B 在八个词汇指标中有六个领先 Hulu-Med-7B（ROUGE-2 最多领先 7.5；Figure 8）。
+- 我们考虑过 CURE-4B，但 IU-Xray 对它来说不是公平的测试。CURE 是在 MIMIC-CXR 派生的数据（Chest ImaGenome、MS-CXR）以及 PadChest-GR 上微调的，而 IU-Xray 既不在它的训练数据中，也不在它的评测中。一次零样本测试证实了这种数据域差异：它的 RaTEScore 只有 28.65，低于 Figure 3 中全部 28 个模型，而且输出非常短。
+- 在 IU-Xray 上，大模型不如小模型的情况很常见：Hulu-Med（7B 67.30，32B 62.40）和 MedGemma（4B 60.50，27B 59.00）也是如此。在相同规模下，CoEvoMed-32B 比 Hulu-Med-32B 高 2.68；在其余五个基准上，CoEvoMed-32B 都高于 CoEvoMed-8B。除了 RaTEScore 上 0.92 的领先，CoEvoMed-8B 在八个词汇指标中有六个领先 Hulu-Med-7B（ROUGE-2 最多领先 7.5；Figure 8）。
 
 **Q4 与 W2（复杂推理）** 我们选择这些基准，是为了在临床实际的形式下检验医学推理：基于图像、常常是体数据、而且大多是开放式的。它们要求模型根据胸片写出完整报告（MIMIC-CXR、IU-Xray），根据多器官 3D CT 写出报告（AMOS-MM）；在 64 张切片的体数据上回答扫描平面、期相、器官、异常和位置问题（M3D-VQA）；在开放式 3D 问题中测量直径、大小和厚度（3D-RAD）；并回答临床医生撰写的、基于知识的、病理的以及文献配图的问题（VQA-RAD、SLAKE、PathVQA、PMC-VQA）。
-- *为什么不用 MedXpertQA-MM 或 MMMU？* 两者都是在 2D 图像上通过选择题检验推理（MedXpertQA-MM 全部是选择题，MMMU 有 94% 是选择题）。我们的评测已经包含了这种形式（PMC-VQA、M3D-VQA），而且走得更远：模型必须撰写报告、在没有选项的情况下作答、在 3D 体数据上推理，并对结构进行测量。
+- MedXpertQA-MM 和 MMMU 都是在 2D 图像上通过选择题检验推理（MedXpertQA-MM 全部是选择题，MMMU 有 94% 是选择题）。我们的评测已经包含了这种形式（PMC-VQA、M3D-VQA），而且走得更远：模型必须撰写报告、在没有选项的情况下作答、在 3D 体数据上推理，并对结构进行测量。
 - *泛化能力。* CoEvoMed 在全部九个基准上都排名第一（Table 1；Figure 3–4）。在 3D-RAD 的医学计算任务上，它比第二名高出 BLEU-1 8.6（Figure 9b）。
 
 ### 发布前待核对
