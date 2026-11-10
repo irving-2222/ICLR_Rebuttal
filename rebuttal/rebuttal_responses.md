@@ -324,8 +324,8 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
 | W1 | 在预算匹配下分离各组件 | 1,827 | 已改为论文格式的合并表（Table 7–8） |
-| Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,210 | 已改为分段，展示论文 Table 8 的 R5 部分 |
-| **合计** | | **4,119** | ≤ 5,000 |
+| Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,173 | 已改为分段，展示论文 Table 8 的 R5 部分 |
+| **合计** | | **4,082** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
@@ -347,11 +347,11 @@ This also answers whether the gains come from high-quality synthetic data. Every
 
 Fixing both principles and curriculum would not do better. In the first row, only the curriculum adapts, and all six scores already drop at R5. Fixing the curriculum as well would remove the last adaptive part.
 
-**Q1 (Raw-data degradation; fixed-principle reconstruction).** Four properties of the raw sources cause the degradation. **App. D.3** trains on these sources "without supervision reconstruction or adaptive curriculum allocation". The ~700K raw examples fall below the base model, most on SLAKE (−26.69), whose answers are short. Routed through CoEvoMed, the same kinds of sources reach 91.60 with fewer examples. The right column shows where CoEvoMed handles each property:
+**Q1 (Raw-data degradation; fixed-principle reconstruction).** The raw data teach the wrong task. Most 2D records are figure descriptions (58.3%), and most others are labels or reports (Fig. 10; App. C.3). Trained on them without reconstruction (**App. D.3**), the model learns to describe or label images instead of answering questions. The drop is largest on SLAKE (−26.69), whose answers are short and direct. The raw data are also unverified, untargeted, and static. The table lists these four causes and the CoEvoMed component that addresses each:
 
 | Property of the raw sources | Where CoEvoMed handles it |
 |---|---|
-| Not task-aligned: 58.3% of 2D records are figure descriptions, most others label-derived items or reports (Figure 10, App. C.3), so the model learns to describe or label rather than answer | Principles define question intent; the constructor turns evidence into supervision for the target capability (Sections 3, 4.1) |
+| Not task-aligned: descriptions, labels, and reports instead of questions | Principles define question intent; the constructor turns evidence into supervision for the target capability (Sections 3, 4.1) |
 | Not verified: image–text associations are never checked | The verifier checks factual consistency and visual dependence (Section 4.1) |
 | Not targeted: the mix follows source availability, not the learner's needs | The planner allocates a fixed budget to weak and regressing capabilities (Section 4.2) |
 | Not adaptive: supervision stays fixed while the learner changes | The revision agent updates principles from residual errors (Section 4.3) |
@@ -386,11 +386,11 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 原则和课程都固定的设置不会更好。表中第一行只有课程在自适应，在 R5 时六个分数就已经全部下降；如果再把课程也固定，连这仅剩的自适应部分也没有了。
 
-**Q1（原始数据退化的原因；固定原则重构的效果）** 退化由原始数据的四个特点造成。**附录 D.3** 是在"没有监督重构，也没有自适应课程分配"的条件下用这些数据训练的。约 70 万条原始数据训练后低于基础模型，降幅最大的是 SLAKE（−26.69），它的答案都很简短。同类数据源经过 CoEvoMed 处理后，用更少的样本就达到了 91.60。右栏注明了 CoEvoMed 在哪个环节处理每个特点：
+**Q1（原始数据退化的原因；固定原则重构的效果）** 原始数据教给模型的是错误的任务。2D 记录中 58.3% 是图像描述，其余大多是标签或报告（Figure 10；附录 C.3）。在不做重构的情况下用它们训练（**附录 D.3**），模型学会的是描述图像或给图像贴标签，而不是回答问题。答案简短直接的 SLAKE 因此下降最多（−26.69）。此外，原始数据也没有经过核验、没有针对性、不会自适应。下表列出这四个原因，以及 CoEvoMed 中处理每个原因的组件：
 
 | 原始数据的特点 | CoEvoMed 在哪里处理它 |
 |---|---|
-| 与任务不对齐：2D 记录中 58.3% 是图像描述，其余大多是由标签转换的条目或报告（Figure 10，附录 C.3），模型学会的是描述或贴标签，而不是回答问题 | 构建原则定义问题意图；构建器把证据转化为针对目标能力的监督数据（第 3、4.1 节） |
+| 与任务不对齐：是图像描述、标签和报告，而不是问答 | 构建原则定义问题意图；构建器把证据转化为针对目标能力的监督数据（第 3、4.1 节） |
 | 未经核查：图文关联从未被检查 | 核验器检查事实一致性和视觉依赖性（第 4.1 节） |
 | 没有针对性：数据构成取决于数据源里有什么，而不是学习者需要什么 | 规划器把固定预算分配给薄弱和退化的能力（第 4.2 节） |
 | 不会自适应：学习者在变化，监督却一成不变 | 修订智能体根据残余错误更新构建原则（第 4.3 节） |
@@ -411,6 +411,7 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 - [x] **W1 合并表（数字已核对；改为标准消融表格式）**：列为"设置 / 原则演化（是/否）/ 课程自适应（是/否）/ 六个基准"，列顺序同论文 Table 7–8。"只有课程自适应"一行是 Table 8 条件 C（R5，原始原则 + 当前反馈）；"只有原则演化"两行是 Table 7 的 R2 feedback 和 R3 feedback（R5 起点，演化后的原则 + 过时反馈）；"CoEvoMed"一行是 Table 8 条件 D，与 Table 7 的 R5 feedback 为同一次训练（附录 D.1）。R2 起点的条件 A 已删去（作者要求）。
 - [x] **W1 删去 R2 的说法（作者要求）**：删去"固定原则在 R2 有帮助、到 R5 有害"和"高质量合成数据推动早期进步，共同演化让进步持续"两句，避免审稿人去对比 Table 8 条件 A（R2 起点，平均 +3.09）与共同演化（R5 起点，平均 +1.50）。保留的两个平均差值均由论文数字算出：D − C 六个差值（8.26、4.29、10.12、3.33、9.21、5.39，见附录 D.2 正文）平均 6.77；Table 7 中当前反馈平均 +1.50，R2、R3 反馈平均 −2.65、−2.78，相减得 +4.15、+4.28。
 - [x] **不再给计算出的平均值（作者要求）**：W1 删去 "+6.77 on average" 和 "+4.15 to +4.28"，改为说明表格是对两个自适应组件的消融，以及所有行共用同一条核验流程、因此收益来自共同演化；Q1 最后一段删去 "+6.77 on average"，只保留论文 D.2 正文给出的逐项差值范围 +3.33 至 +10.12。
+- [x] **Q1 退化原因直接作答（作者要求）**：开头直接给出主因"原始数据教给模型的是错误的任务"：2D 记录 58.3% 是图像描述（PMC-OA 79,858 + Quilt 49,022 + ROCO 22,463，共 259,767 条，Figure 10），其余多为标签或报告；不经重构直接训练，模型学会描述或贴标签而不是回答，因此答案简短直接的 SLAKE 降得最多。"学会描述而不是回答"是依据数据构成的推断，论文没有输出长度分析；若审稿人追问，可补充对原始数据训练模型输出的统计。删去 "Routed through CoEvoMed, the same kinds of sources reach 91.60 with fewer examples"（不是原因）。
 - [x] **Q1 重组（作者要求）**：按审稿人三个子问题的顺序作答：(1) 退化原因（四个特点及对应机制的表）；(2) 固定原则重构"早期有效、后期无效"，R2 只说明"六个基准全部提升（Table 8）"，不再列 +1.78 至 +3.90；(3) 预算匹配比较改为两行表：从 R5 出发，固定原则（Table 8 条件 C）与演化原则（条件 D），两行之差即原则演化的额外收益。删去 "+3.33 to +10.12" 和 "−2.2 to −9.6" 两个范围，数字都在表里。
 - [x] **Q1 直接展示 Table 8（作者要求）**：按论文格式列出 R2 / R5 参考值和条件 A–D（绝对分数与括号内的变化），数字与论文 Table 8 逐项一致。开头改为"固定原则确实能带来收益，但前提是与学习者阶段匹配"，替代"早期有效、后期无效"。B 行（R2 时演化原则在三个 VQA 基准上下降）按论文 D.2 的解释写成"优劣顺序在两个阶段反转，没有一套固定原则适用于所有阶段"（论文原文："the utility of construction principles varies with learner stage, supporting their continued revision"）。
 - [x] **Q1 只展示 Table 8 的 R5 部分（作者要求）**：表中只保留 R5 参考值、条件 C、条件 D；正文不再提 R2 和 Algorithm 1（作者要求删除）。

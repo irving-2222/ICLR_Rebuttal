@@ -73,7 +73,7 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 
 ## Response to Reviewer jcb6
 
-*Posted text: 4,119 / 5,000 characters (quotes excluded).*
+*Posted text: 4,082 / 5,000 characters (quotes excluded).*
 
 We thank the reviewer for the positive assessment and the precise suggestions.
 
@@ -96,11 +96,11 @@ Fixing both principles and curriculum would not do better. In the first row, onl
 
 > **Question:** Starting from the same initialization, training on raw data reduces performance on all four VQA benchmarks, with SLAKE accuracy dropping from 64.84% to 38.15%. What causes this substantial degradation? Would cleaning and reconstructing the data using fixed construction principles also yield substantial gains? A budget-matched comparison would help clarify the additional benefit of adaptive principle evolution.
 
-**Q1 (Raw-data degradation; fixed-principle reconstruction).** Four properties of the raw sources cause the degradation. **App. D.3** trains on these sources "without supervision reconstruction or adaptive curriculum allocation". The ~700K raw examples fall below the base model, most on SLAKE (−26.69), whose answers are short. Routed through CoEvoMed, the same kinds of sources reach 91.60 with fewer examples. The right column shows where CoEvoMed handles each property:
+**Q1 (Raw-data degradation; fixed-principle reconstruction).** The raw data teach the wrong task. Most 2D records are figure descriptions (58.3%), and most others are labels or reports (Fig. 10; App. C.3). Trained on them without reconstruction (**App. D.3**), the model learns to describe or label images instead of answering questions. The drop is largest on SLAKE (−26.69), whose answers are short and direct. The raw data are also unverified, untargeted, and static. The table lists these four causes and the CoEvoMed component that addresses each:
 
 | Property of the raw sources | Where CoEvoMed handles it |
 |---|---|
-| Not task-aligned: 58.3% of 2D records are figure descriptions, most others label-derived items or reports (Figure 10, App. C.3), so the model learns to describe or label rather than answer | Principles define question intent; the constructor turns evidence into supervision for the target capability (Sections 3, 4.1) |
+| Not task-aligned: descriptions, labels, and reports instead of questions | Principles define question intent; the constructor turns evidence into supervision for the target capability (Sections 3, 4.1) |
 | Not verified: image–text associations are never checked | The verifier checks factual consistency and visual dependence (Section 4.1) |
 | Not targeted: the mix follows source availability, not the learner's needs | The planner allocates a fixed budget to weak and regressing capabilities (Section 4.2) |
 | Not adaptive: supervision stays fixed while the learner changes | The revision agent updates principles from residual errors (Section 4.3) |
