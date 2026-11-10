@@ -25,17 +25,19 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 - No simpler process can substitute them: each one above lowers every score; only the full one improves all. We also separate the roles by design (**App. B**):
     1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., ICLR 2024). We therefore designed the verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) as different models.
     2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, as VLMs often do (Li et al., EMNLP 2023). We therefore let it write only from selected facts; the verifier checks the image.
-    3. **Curriculum allocation.** If an LLM agent also set the budget, it could not learn, since LLM weights stay frozen. Curricula learned from learning progress match or beat hand-crafted ones (Matiisen et al., 2017). We therefore made the curriculum planner a separate policy network trained by PPO on validation gains (Sec. 4.2).
+    3. **Curriculum allocation.** If an LLM agent also set the budget, it could not learn, since LLM weights stay frozen. Curricula learned from learning progress match or beat hand-crafted ones (Matiisen et al., 2017). We therefore made the curriculum planner a separate policy trained by PPO on validation gains (Sec. 4.2).
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
 
-**W2 (Organization).** The main text follows the method's logic: problem (Sec. 3), mechanisms (Sec. 4, Eqs. 1–9), and evidence, including the evaluation task composition (Sec. 5.1). Each appendix part extends a main-text part that cites it; together they suffice for reproduction: full algorithm (**App. A**), models and hyperparameters (**App. B**), data sources, links, and metrics (**App. C**), and component controls (**App. D**).
+**W2 (Organization).** The main text follows the method's logic: problem (Sec. 3), mechanisms (Sec. 4, Eqs. 1–9), and evidence, including the evaluation task composition (Sec. 5.1). Each appendix part extends a main-text part that cites it; together they suffice for reproduction: full algorithm (**App. A**), models and hyperparameters (**App. B**), data sources and metrics (**App. C**), and component controls (**App. D**).
 
 > **Weakness 3:** The method demonstrates reactive recovery from selected capability regressions, but does not establish prevention of catastrophic forgetting or stable balanced convergence. Later-round declines, reliance on R7 checkpoint selection, absence of retention ablations, and lack of standard continual-learning metrics leave the central retention claim only partially supported.
 
-**W3 (Catastrophic forgetting and retention).** CoEvoMed builds on curriculum learning, not continual learning. Every round trains all tasks together with replay data (Eq. 7; Sec. 3.3), so catastrophic forgetting and continual-learning metrics do not apply. "Retention" is a share of the curriculum planner's budget (Sec. 4.2) and is ablated with it (Table 7). We explain the other two points below:
-- Later-round declines come from the data. The support pool is fixed (359,355 facts, App. C.3); each round builds 50,000 examples (App. B). By R7 the budget nearly matches the pool, so later rounds mostly reuse seen evidence. Self-training on finite data shows the same pattern (Chen et al., ICML 2024; Singh et al., TMLR 2024). While new evidence lasts, CoEvoMed improves up to R7–R8. At R10, all three Fig. 7 benchmarks stay within 3 points of their peaks and over 12 above R1. A larger pool extends the gains without changing the method.
-- R7 has the most balanced capability profile on internal validation sets, though PathVQA peaks at R8. External benchmarks only track evolution, never training or selection (App. C.4, C.6).
+**W3 (Catastrophic forgetting and retention).** CoEvoMed builds on curriculum learning, not continual learning. Forgetting arises when tasks are learned in sequence and old data is dropped. CoEvoMed trains all tasks every round and replays earlier data (Eq. 7; Sec. 3.3), so continual-learning metrics do not apply. "Retention" is a share of the curriculum planner's budget (Sec. 4.2) and is ablated with it (Table 7).
+
+The later-round declines come from the data, not from our mechanisms. The planner and revision agent work as designed but can only draw on a fixed pool (359,355 facts, App. C.3). Each round builds 50,000 examples (App. B), so by R7 the budget nearly matches the pool and later rounds mostly reuse seen evidence. Self-training on finite data shows the same pattern (Chen et al., ICML 2024; Singh et al., TMLR 2024). While new evidence lasts, CoEvoMed improves up to R7–R8; at R10, all three Fig. 7 benchmarks stay within 3 points of their peaks and over 12 above R1. A larger pool extends the gains without changing the method.
+
+We selected R7 for its most balanced capability profile on internal validation sets, though PathVQA peaks at R8. External benchmarks never guide training or selection (App. C.4, C.6).
 
 > **Question 1:** For medVLSynther results, do you use the same base model to replicate their results?
 
@@ -55,7 +57,7 @@ Same base, with MedVLSynther's released data and GRPO script:
 
 > **Question 2:** Would you consider to publicate the data generated in your evolving pipeline?
 
-**Q2 (Data release).** Yes. Upon acceptance, we will release the synthesized data and all principle versions under each source's license (images by ID; regeneration scripts for non-redistributable sources, e.g., CheXpert).
+**Q2 (Data release).** Yes. Upon acceptance, we will release the synthesized data and all principle versions under each source's license.
 
 > **Question 3:** CoEvoMed relies on a hand-designed capability taxonomy to construct validation cells and guide curriculum allocation, but the paper does not justify why these dimensions and categories are necessary. Some datasets, such as SLAKE, already provide question-type annotations that overlap with categories such as organ recognition, abnormality detection, and localization. The authors should report this mapping, validate the generated annotations, and compare the proposed taxonomy against native dataset labels. Otherwise, it remains unclear whether the gains come from meaningful capability diagnosis or an arbitrary relabeling of existing task categories.
 
