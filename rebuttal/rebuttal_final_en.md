@@ -73,7 +73,7 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 
 ## Response to Reviewer jcb6
 
-*Posted text: 3,848 / 5,000 characters (quotes excluded).*
+*Posted text: 3,763 / 5,000 characters (quotes excluded).*
 
 We thank the reviewer for the positive assessment and the precise suggestions.
 
@@ -94,9 +94,7 @@ Fixing both principles and curriculum would not do better. In the first row, onl
 
 > **Question:** Starting from the same initialization, training on raw data reduces performance on all four VQA benchmarks, with SLAKE accuracy dropping from 64.84% to 38.15%. What causes this substantial degradation? Would cleaning and reconstructing the data using fixed construction principles also yield substantial gains? A budget-matched comparison would help clarify the additional benefit of adaptive principle evolution.
 
-**Q1 (Raw-data degradation; fixed-principle reconstruction).** The raw data lack what CoEvoMed's agents add, and fixed principles help only early.
-
-Four properties of the raw sources cause the degradation. **App. D.3** trains on these sources "without supervision reconstruction or adaptive curriculum allocation". The ~700K raw examples fall below the base model, most on SLAKE (−26.69), whose answers are short. Routed through CoEvoMed, the same kinds of sources reach 91.60 with fewer examples. The right column shows where CoEvoMed handles each property:
+**Q1 (Raw-data degradation; fixed-principle reconstruction).** Four properties of the raw sources cause the degradation. **App. D.3** trains on these sources "without supervision reconstruction or adaptive curriculum allocation". The ~700K raw examples fall below the base model, most on SLAKE (−26.69), whose answers are short. Routed through CoEvoMed, the same kinds of sources reach 91.60 with fewer examples. The right column shows where CoEvoMed handles each property:
 
 | Property of the raw sources | Where CoEvoMed handles it |
 |---|---|

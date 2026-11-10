@@ -323,8 +323,8 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
 | W1 | 在预算匹配下分离各组件 | 1,527 | 已改为论文格式的合并表（Table 7–8） |
-| Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,239 | 已改为分段，并加入论文格式的对比表（Table 8） |
-| **合计** | | **3,848** | ≤ 5,000 |
+| Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,154 | 已改为分段，并加入论文格式的对比表（Table 8） |
+| **合计** | | **3,763** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
@@ -344,9 +344,7 @@ The table is an ablation of the two adaptive components. Removing principle evol
 
 Fixing both principles and curriculum would not do better. In the first row, only the curriculum adapts, and all six scores already drop at R5. Fixing the curriculum as well would remove the last adaptive part.
 
-**Q1 (Raw-data degradation; fixed-principle reconstruction).** The raw data lack what CoEvoMed's agents add, and fixed principles help only early.
-
-Four properties of the raw sources cause the degradation. **App. D.3** trains on these sources "without supervision reconstruction or adaptive curriculum allocation". The ~700K raw examples fall below the base model, most on SLAKE (−26.69), whose answers are short. Routed through CoEvoMed, the same kinds of sources reach 91.60 with fewer examples. The right column shows where CoEvoMed handles each property:
+**Q1 (Raw-data degradation; fixed-principle reconstruction).** Four properties of the raw sources cause the degradation. **App. D.3** trains on these sources "without supervision reconstruction or adaptive curriculum allocation". The ~700K raw examples fall below the base model, most on SLAKE (−26.69), whose answers are short. Routed through CoEvoMed, the same kinds of sources reach 91.60 with fewer examples. The right column shows where CoEvoMed handles each property:
 
 | Property of the raw sources | Where CoEvoMed handles it |
 |---|---|
@@ -382,9 +380,7 @@ This is the budget-matched comparison the reviewer suggests: only the principles
 
 原则和课程都固定的设置不会更好。表中第一行只有课程在自适应，在 R5 时六个分数就已经全部下降；如果再把课程也固定，连这仅剩的自适应部分也没有了。
 
-**Q1（原始数据退化的原因；固定原则重构的效果）** 原始数据缺少 CoEvoMed 各智能体所补上的环节，而固定原则只在早期有效。
-
-退化由原始数据的四个特点造成。**附录 D.3** 是在"没有监督重构，也没有自适应课程分配"的条件下用这些数据训练的。约 70 万条原始数据训练后低于基础模型，降幅最大的是 SLAKE（−26.69），它的答案都很简短。同类数据源经过 CoEvoMed 处理后，用更少的样本就达到了 91.60。右栏注明了 CoEvoMed 在哪个环节处理每个特点：
+**Q1（原始数据退化的原因；固定原则重构的效果）** 退化由原始数据的四个特点造成。**附录 D.3** 是在"没有监督重构，也没有自适应课程分配"的条件下用这些数据训练的。约 70 万条原始数据训练后低于基础模型，降幅最大的是 SLAKE（−26.69），它的答案都很简短。同类数据源经过 CoEvoMed 处理后，用更少的样本就达到了 91.60。右栏注明了 CoEvoMed 在哪个环节处理每个特点：
 
 | 原始数据的特点 | CoEvoMed 在哪里处理它 |
 |---|---|
