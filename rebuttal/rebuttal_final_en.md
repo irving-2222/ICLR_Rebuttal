@@ -6,23 +6,23 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,918 / 5,000 characters (quotes excluded).*
+*Posted text: 4,800 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
 **W1 (Necessity of the multi-agent framework).**
 - **App. D** shows that the agents are needed (**Tables 7–9**). Changes from a shared start, all else fixed:
 
-| Without | From | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
-|---|---|---|---|---|---|---|---|
-| All agents: raw data | base | −13.75 | −26.69 | −8.62 | −6.83 | – | – |
-| Revision agent: original principles | R5 | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
-| Curriculum planner: R2 feedback | R5 | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
-| Curriculum planner: R3 feedback | R5 | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
-| None: CoEvoMed | base | **+25.72** | **+26.76** | **+13.82** | **+26.63** | – | – |
-| None: CoEvoMed | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
+| Without | From | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
+|---|---|---|---|---|---|
+| All agents: raw data | base | −13.75 | −26.69 | −8.62 | −6.83 |
+| Revision agent: original principles | R5 | −5.64 | −3.60 | −9.60 | −2.20 |
+| Curriculum planner: R2 feedback | R5 | −1.10 | −5.20 | −3.60 | −3.10 |
+| Curriculum planner: R3 feedback | R5 | −1.77 | −5.80 | −1.80 | −2.40 |
+| None: CoEvoMed | base | **+25.72** | **+26.76** | **+13.82** | **+26.63** |
+| None: CoEvoMed | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** |
 
-- No simpler process can substitute them: each one above lowers most scores, and only the full one improves all. We also separate the roles by design (**App. B**):
+- No simpler process can substitute them: each one above lowers every score, and only the full one improves all. We also separate the roles by design (**App. B**):
     1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., ICLR 2024). We therefore designed the verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) as different models.
     2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, as VLMs often do (Li et al., EMNLP 2023). We therefore let it write only from selected facts; the verifier checks the image.
     3. **Curriculum allocation.** If an LLM agent also set the budget, it could not learn, since LLM weights stay frozen. Curricula learned from learning progress match or beat hand-crafted ones (Matiisen et al., 2017). We therefore made the curriculum planner a separate policy network trained by PPO on validation gains (Sec. 4.2).
