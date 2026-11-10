@@ -73,7 +73,7 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 
 ## Response to Reviewer jcb6
 
-*Posted text: 3,578 / 5,000 characters (quotes excluded).*
+*Posted text: 3,581 / 5,000 characters (quotes excluded).*
 
 We thank the reviewer for the positive assessment and the precise suggestions.
 
@@ -88,7 +88,7 @@ We thank the reviewer for the positive assessment and the precise suggestions.
 | Evolution alone | evolved | stale (R3) | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
 | Co-evolution (CoEvoMed) | evolved | current | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-Fixing both principles and curriculum cannot do better. Fixed principles already lower all six scores at R5 while the curriculum still adapts, and fixing the curriculum removes the only remaining adaptation.
+Fixing both principles and curriculum would not do better. In the first row, only the curriculum adapts, and all six scores already drop at R5. Fixing the curriculum as well would remove the last adaptive part.
 
 The gains come from co-evolution. At R5, each component alone degrades the learner; only co-evolution improves all six benchmarks. The same verified pipeline with fixed principles helps at R2 but harms at R5. High-quality synthetic data thus drives early progress, while co-evolution sustains it. At matched budget, evolved principles add +6.77 on average over fixed ones, and current feedback adds +4.15 to +4.28 over stale feedback.
 

@@ -322,9 +322,9 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 | 条目 | 内容 | 当前 | 状态 |
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
-| W1 | 在预算匹配下分离各组件 | 1,526 | 已改为论文格式的合并表（Table 7–8） |
+| W1 | 在预算匹配下分离各组件 | 1,529 | 已改为论文格式的合并表（Table 7–8） |
 | Q1 | 原始数据退化原因；固定原则重构是否也有效 | 1,970 | 已改为分段 |
-| **合计** | | **3,578** | ≤ 5,000 |
+| **合计** | | **3,581** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
@@ -340,7 +340,7 @@ We thank the reviewer for the positive assessment and the precise suggestions.
 | Evolution alone | evolved | stale (R3) | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
 | Co-evolution (CoEvoMed) | evolved | current | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-Fixing both principles and curriculum cannot do better. Fixed principles already lower all six scores at R5 while the curriculum still adapts, and fixing the curriculum removes the only remaining adaptation.
+Fixing both principles and curriculum would not do better. In the first row, only the curriculum adapts, and all six scores already drop at R5. Fixing the curriculum as well would remove the last adaptive part.
 
 The gains come from co-evolution. At R5, each component alone degrades the learner; only co-evolution improves all six benchmarks. The same verified pipeline with fixed principles helps at R2 but harms at R5. High-quality synthetic data thus drives early progress, while co-evolution sustains it. At matched budget, evolved principles add +6.77 on average over fixed ones, and current feedback adds +4.15 to +4.28 over stale feedback.
 
@@ -373,7 +373,7 @@ Adaptive principle evolution adds +6.77 on average under a matched budget. At R5
 | 只有原则演化 | 演化后 | 过时（R3）反馈 | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
 | 共同演化（CoEvoMed） | 演化后 | 当前反馈 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-原则和课程都固定，不会做得更好。在 R5，即使课程仍在自适应，固定原则也已经让六个分数全部下降；再把课程也固定下来，只会去掉仅剩的自适应部分。
+原则和课程都固定的设置不会更好。表中第一行只有课程在自适应，在 R5 时六个分数就已经全部下降；如果再把课程也固定，连这仅剩的自适应部分也没有了。
 
 收益来自共同演化。在 R5，单独使用任何一个组件都会让学习者变差；只有共同演化才让六个基准全部提升。同一条经过核验的流程，用固定原则在 R2 时有帮助，到 R5 时却有害。因此，高质量合成数据推动了早期的进步，而共同演化让进步得以持续。在预算匹配下，演化后的原则平均比固定原则高 6.77，当前反馈比过时反馈高 4.15 至 4.28。
 
