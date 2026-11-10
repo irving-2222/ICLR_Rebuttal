@@ -6,44 +6,47 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,978 / 5,000 characters (quotes excluded).*
+*Posted text: 4,985 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
-**W1 (Is the multi-agent framework necessary?)** Yes. **App. D** ablates the functions of the agent roles.
-- *Do we need all of these agents?* Each row removes agent functions from a shared start point, with everything else unchanged. Change from that start point:
+**W1 (Is the multi-agent framework necessary?)**
+- *Do we need all of these agents?* Yes. **App. D** ablates their functions (**Tables 7–9**). Changes from a shared start, all else fixed:
 
 | Without | From | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|
-| All agents: raw data (**Table 9**) | base | −13.75 | −26.69 | −8.62 | −6.83 | – | – |
-| Revision agent: original principles (**Table 8**) | R5 | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
-| Current diagnosis: R2 feedback (**Table 7**) | R5 | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
-| Current diagnosis: R3 feedback (**Table 7**) | R5 | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
-| None: CoEvoMed (**Table 9**) | base | **+25.72** | **+26.76** | **+13.82** | **+26.63** | – | – |
-| None: CoEvoMed (**Tables 7–8**) | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
+| All agents: raw data | base | −13.75 | −26.69 | −8.62 | −6.83 | – | – |
+| Revision agent: original principles | R5 | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
+| Current diagnosis: R2 feedback | R5 | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
+| Current diagnosis: R3 feedback | R5 | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
+| None: CoEvoMed | base | **+25.72** | **+26.76** | **+13.82** | **+26.63** | – | – |
+| None: CoEvoMed | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-- *Can another plausible agent process substitute them?* The table already tests the simpler processes: no agents, fixed principles, and outdated diagnosis. Each lowers most or all scores; only the full process improves every benchmark. A merged agent would also check its own output, which LLMs do poorly without external feedback (Huang et al., ICLR 2024). Our verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) are different models.
+- *Can another plausible agent process substitute them?* The simpler processes above lower most or all scores; only the full process improves every benchmark. Merging the roles would also remove three safeguards (**App. B**):
+    1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., ICLR 2024), so we designed the verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) as different models.
+    2. **Grounded construction.** The constructor writes from selected facts, never the image, avoiding hallucinated objects (Li et al., EMNLP 2023).
+    3. **Outcome-based control.** The planner is a PPO-trained policy network, and new principles must pass a paired test (Sec. 4.3), which no frozen LLM can do.
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
 
-**W2 (Organization).** The main text specifies every mechanism (Secs. 3–4, Eqs. 1–9), and Sec. 5.1 gives the evaluation task composition. Implementation parameters and dataset statistics are in the appendix, each referenced from the main text.
+**W2 (Organization).** The main text specifies every mechanism (Secs. 3–4, Eqs. 1–9), and Sec. 5.1 gives the evaluation task composition. Only implementation parameters and statistics are in the appendix, each referenced in the main text.
 
 > **Weakness 3:** The method demonstrates reactive recovery from selected capability regressions, but does not establish prevention of catastrophic forgetting or stable balanced convergence. Later-round declines, reliance on R7 checkpoint selection, absence of retention ablations, and lack of standard continual-learning metrics leave the central retention claim only partially supported.
 
 **W3 (Catastrophic forgetting and retention).** CoEvoMed is curriculum learning, not continual learning. Every round trains all tasks together (Eq. 7) with replay data (Sec. 3.3), so catastrophic forgetting and continual-learning metrics do not apply. "Retention" is a budget share (Sec. 4.2), ablated with the planner in W1. The two remaining points concern data and checkpoint choice, not the method:
-- *Later-round declines come from the data.* The support pool is fixed (359,355 facts, App. C.3); each round builds 50,000 examples (App. B). By R7 the budget nearly matches the pool, so later rounds mostly reuse seen evidence. Self-training on finite data shows the same pattern (Chen et al., ICML 2024; Singh et al., TMLR 2024). While new evidence lasts, CoEvoMed keeps improving to peaks at R7–R8. Even at R10, all three benchmarks stay within 3 points of their peaks and over 12 points above R1 (Fig. 7). A larger pool can extend the evolution without changing the method.
+- *Later-round declines come from the data.* The support pool is fixed (359,355 facts, App. C.3); each round builds 50,000 examples (App. B). By R7 the budget nearly matches the pool, so later rounds mostly reuse seen evidence. Self-training on finite data shows the same pattern (Chen et al., ICML 2024; Singh et al., TMLR 2024). While new evidence lasts, CoEvoMed keeps improving to peaks at R7–R8. At R10, all three Fig. 7 benchmarks stay within 3 points of their peaks and over 12 above R1. A larger pool can extend the evolution without changing the method.
 - *Reliance on R7.* R7 has the most balanced capability profile on internal validation sets. One checkpoint serves all six benchmarks, though PathVQA peaks at R8. External benchmarks only track the evolution and never guide training or selection (App. C.4, C.6).
 
 > **Question 1:** For medVLSynther results, do you use the same base model to replicate their results?
 
-**Q1 (MedVLSynther base model).** We were aware of the base difference. Absolute scores mix method and backbone, so we compare gains over each method's own base (MedVLSynther as published):
+**Q1 (MedVLSynther base model).** Absolute scores mix method and backbone, so we compare gains over each method's own base (MedVLSynther as published):
 
 | Gain over own base | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
 | MedVLSynther-7B (Qwen2.5-VL-7B) | +6.13 | +8.82 | +6.65 | +0.17 |
 | CoEvoMed-8B (Qwen3-VL-8B) | **+13.82** | **+25.72** | **+26.76** | **+26.63** |
 
-On the same base, we trained Qwen3-VL-8B with MedVLSynther's released data and GRPO script:
+Same base: Qwen3-VL-8B trained with MedVLSynther's released data and GRPO script:
 
 | Same base: Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
@@ -52,14 +55,14 @@ On the same base, we trained Qwen3-VL-8B with MedVLSynther's released data and G
 
 > **Question 2:** Would you consider to publicate the data generated in your evolving pipeline?
 
-**Q2 (Data release).** Yes. Upon acceptance, we will release the synthesized data and all principle versions under each source's license: images are referenced by ID, and sources forbidding redistribution (e.g., CheXpert) get regeneration scripts.
+**Q2 (Data release).** Yes. Upon acceptance, we will release the synthesized data and all principle versions under each source's license, with images referenced by ID and regeneration scripts for non-redistributable sources (e.g., CheXpert).
 
 > **Question 3:** CoEvoMed relies on a hand-designed capability taxonomy to construct validation cells and guide curriculum allocation, but the paper does not justify why these dimensions and categories are necessary. Some datasets, such as SLAKE, already provide question-type annotations that overlap with categories such as organ recognition, abnormality detection, and localization. The authors should report this mapping, validate the generated annotations, and compare the proposed taxonomy against native dataset labels. Otherwise, it remains unclear whether the gains come from meaningful capability diagnosis or an arbitrary relabeling of existing task categories.
 
 **Q3 (Capability taxonomy).** The taxonomy is not a claimed contribution but the unit of validation feedback (App. C.3).
-- *Why these categories.* We adopted SLAKE's physician-annotated question categories (Liu et al., 2021), so the overlap is by design. We merge its attribute types and add spatial relations, comparison, and holistic description for multi-image and report tasks.
-- *Why they are necessary.* The categories describe what a question asks, not a dataset, so they also cover PathVQA, PMC-VQA, reports, and the support pool, which lack native labels. One taxonomy lets us diagnose all tasks, share one budget, and retrieve matching evidence.
-- *Mapping and validation.* On 200 SLAKE questions, our annotations match the native labels for capability at 97.5% (Cohen's κ = 0.958), modality at 100%, and body region at 96.5%. κ > 0.81 is "almost perfect" agreement (Landis & Koch, 1977). We will add the mapping to Table 6.
+- *Why these categories.* We adopted SLAKE's physician-annotated question categories (Liu et al., 2021), so the overlap is by design. We merge its attribute types and add three categories for multi-image and report tasks.
+- *Why they are necessary.* The categories describe what a question asks, not a dataset, so they also cover unlabeled data (PathVQA, PMC-VQA, reports, support pool). One taxonomy lets us diagnose all tasks, share one budget, and retrieve matching evidence.
+- *Mapping and validation.* On 200 SLAKE questions, our annotations match native labels for capability at 97.5% (Cohen's κ = 0.958), modality at 100%, and body region at 96.5%. κ > 0.81 is "almost perfect" agreement (Landis & Koch, 1977). We will add the mapping to Table 6.
 - *Gains come from diagnosis, not relabeling.* With the taxonomy fixed, stale diagnoses lower 11 of 12 scores, while current ones raise all six (Table 7).
 
 ---
