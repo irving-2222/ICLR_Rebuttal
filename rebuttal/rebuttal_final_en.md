@@ -73,7 +73,7 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 
 ## Response to Reviewer jcb6
 
-*Posted text: 3,575 / 5,000 characters (quotes excluded).*
+*Posted text: 3,848 / 5,000 characters (quotes excluded).*
 
 We thank the reviewer for the positive assessment and the precise suggestions.
 
@@ -96,7 +96,7 @@ Fixing both principles and curriculum would not do better. In the first row, onl
 
 **Q1 (Raw-data degradation; fixed-principle reconstruction).** The raw data lack what CoEvoMed's agents add, and fixed principles help only early.
 
-Four properties of the raw sources cause the degradation. App. D.3 trains on these sources "without supervision reconstruction or adaptive curriculum allocation". The ~700K raw examples fall below the base model, most on SLAKE (−26.69), whose answers are short. Routed through CoEvoMed, the same kinds of sources reach 91.60 with fewer examples. The right column shows where CoEvoMed handles each property:
+Four properties of the raw sources cause the degradation. **App. D.3** trains on these sources "without supervision reconstruction or adaptive curriculum allocation". The ~700K raw examples fall below the base model, most on SLAKE (−26.69), whose answers are short. Routed through CoEvoMed, the same kinds of sources reach 91.60 with fewer examples. The right column shows where CoEvoMed handles each property:
 
 | Property of the raw sources | Where CoEvoMed handles it |
 |---|---|
@@ -105,9 +105,14 @@ Four properties of the raw sources cause the degradation. App. D.3 trains on the
 | Not targeted: the mix follows source availability, not the learner's needs | The planner allocates a fixed budget to weak and regressing capabilities (Section 4.2) |
 | Not adaptive: supervision stays fixed while the learner changes | The revision agent updates principles from residual errors (Section 4.3) |
 
-Reconstruction with fixed principles yields gains at first, but not later. Fixed principles handle the first three rows of the table, but not the fourth. At R2, reconstruction with the original principles improves all six benchmarks (+1.78 to +3.90; Table 8). This is why CoEvoMed starts from these principles (Algorithm 1). At R5, the same fixed principles lower all six benchmarks (−2.2 to −9.6).
+Reconstruction with fixed principles helps early but not later. Fixed principles cover the first three properties above but not the fourth, so they cannot follow the learner. With the original principles, reconstruction improves all six benchmarks at R2 (**Table 8**), which is why CoEvoMed starts from them (Algorithm 1). At R5, the same principles lower all six:
 
-Under a matched budget, adaptive principle evolution helps on every benchmark: at R5, evolved principles outperform fixed ones on all six, by +3.33 to +10.12 (Table 8).
+| From R5, same budget | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
+|---|---|---|---|---|---|---|
+| Fixed principles | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
+| Evolved principles (CoEvoMed) | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
+
+This is the budget-matched comparison the reviewer suggests: only the principles differ, and the gap between the two rows is the additional benefit of adaptive principle evolution.
 
 ---
 

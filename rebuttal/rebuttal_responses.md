@@ -323,8 +323,8 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
 | W1 | 在预算匹配下分离各组件 | 1,527 | 已改为论文格式的合并表（Table 7–8） |
-| Q1 | 原始数据退化原因；固定原则重构是否也有效 | 1,966 | 已改为分段 |
-| **合计** | | **3,575** | ≤ 5,000 |
+| Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,239 | 已改为分段，并加入论文格式的对比表（Table 8） |
+| **合计** | | **3,848** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
@@ -346,7 +346,7 @@ Fixing both principles and curriculum would not do better. In the first row, onl
 
 **Q1 (Raw-data degradation; fixed-principle reconstruction).** The raw data lack what CoEvoMed's agents add, and fixed principles help only early.
 
-Four properties of the raw sources cause the degradation. App. D.3 trains on these sources "without supervision reconstruction or adaptive curriculum allocation". The ~700K raw examples fall below the base model, most on SLAKE (−26.69), whose answers are short. Routed through CoEvoMed, the same kinds of sources reach 91.60 with fewer examples. The right column shows where CoEvoMed handles each property:
+Four properties of the raw sources cause the degradation. **App. D.3** trains on these sources "without supervision reconstruction or adaptive curriculum allocation". The ~700K raw examples fall below the base model, most on SLAKE (−26.69), whose answers are short. Routed through CoEvoMed, the same kinds of sources reach 91.60 with fewer examples. The right column shows where CoEvoMed handles each property:
 
 | Property of the raw sources | Where CoEvoMed handles it |
 |---|---|
@@ -355,9 +355,14 @@ Four properties of the raw sources cause the degradation. App. D.3 trains on the
 | Not targeted: the mix follows source availability, not the learner's needs | The planner allocates a fixed budget to weak and regressing capabilities (Section 4.2) |
 | Not adaptive: supervision stays fixed while the learner changes | The revision agent updates principles from residual errors (Section 4.3) |
 
-Reconstruction with fixed principles yields gains at first, but not later. Fixed principles handle the first three rows of the table, but not the fourth. At R2, reconstruction with the original principles improves all six benchmarks (+1.78 to +3.90; Table 8). This is why CoEvoMed starts from these principles (Algorithm 1). At R5, the same fixed principles lower all six benchmarks (−2.2 to −9.6).
+Reconstruction with fixed principles helps early but not later. Fixed principles cover the first three properties above but not the fourth, so they cannot follow the learner. With the original principles, reconstruction improves all six benchmarks at R2 (**Table 8**), which is why CoEvoMed starts from them (Algorithm 1). At R5, the same principles lower all six:
 
-Under a matched budget, adaptive principle evolution helps on every benchmark: at R5, evolved principles outperform fixed ones on all six, by +3.33 to +10.12 (Table 8).
+| From R5, same budget | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
+|---|---|---|---|---|---|---|
+| Fixed principles | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
+| Evolved principles (CoEvoMed) | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
+
+This is the budget-matched comparison the reviewer suggests: only the principles differ, and the gap between the two rows is the additional benefit of adaptive principle evolution.
 ```
 
 ### 中文译文（不发布）
@@ -379,7 +384,7 @@ Under a matched budget, adaptive principle evolution helps on every benchmark: a
 
 **Q1（原始数据退化的原因；固定原则重构的效果）** 原始数据缺少 CoEvoMed 各智能体所补上的环节，而固定原则只在早期有效。
 
-退化由原始数据的四个特点造成。附录 D.3 是在"没有监督重构，也没有自适应课程分配"的条件下用这些数据训练的。约 70 万条原始数据训练后低于基础模型，降幅最大的是 SLAKE（−26.69），它的答案都很简短。同类数据源经过 CoEvoMed 处理后，用更少的样本就达到了 91.60。右栏注明了 CoEvoMed 在哪个环节处理每个特点：
+退化由原始数据的四个特点造成。**附录 D.3** 是在"没有监督重构，也没有自适应课程分配"的条件下用这些数据训练的。约 70 万条原始数据训练后低于基础模型，降幅最大的是 SLAKE（−26.69），它的答案都很简短。同类数据源经过 CoEvoMed 处理后，用更少的样本就达到了 91.60。右栏注明了 CoEvoMed 在哪个环节处理每个特点：
 
 | 原始数据的特点 | CoEvoMed 在哪里处理它 |
 |---|---|
@@ -388,15 +393,21 @@ Under a matched budget, adaptive principle evolution helps on every benchmark: a
 | 没有针对性：数据构成取决于数据源里有什么，而不是学习者需要什么 | 规划器把固定预算分配给薄弱和退化的能力（第 4.2 节） |
 | 不会自适应：学习者在变化，监督却一成不变 | 修订智能体根据残余错误更新构建原则（第 4.3 节） |
 
-用固定原则重构数据，早期能带来收益，后期不能。固定原则能处理表中的前三行，但处理不了第四行。在 R2，用原始原则重构数据让六个基准全部提升（+1.78 至 +3.90；Table 8），这也是 CoEvoMed 以这些原则作为起点的原因（Algorithm 1）。到 R5，同样的固定原则让六个基准全部下降（−2.2 至 −9.6）。
+用固定原则重构数据，早期有效，后期无效。固定原则能处理上表的前三个特点，但处理不了第四个，因此无法跟上学习者的变化。在 R2，用原始原则重构数据让六个基准全部提升（**Table 8**），这也是 CoEvoMed 以这些原则作为起点的原因（Algorithm 1）。但到 R5，同样的原则让六个基准全部下降：
 
-在预算匹配下，自适应原则演化在每个基准上都有收益：在 R5，演化后的原则在六个基准上全部优于固定原则，高出 +3.33 至 +10.12（Table 8）。
+| 从 R5 出发，预算相同 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
+|---|---|---|---|---|---|---|
+| 固定原则 | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
+| 演化后的原则（CoEvoMed） | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
+
+这正是审稿人建议的预算匹配比较：两行只有构建原则不同，两行之间的差距就是自适应原则演化带来的额外收益。
 
 ### 发布前待核对
 
 - [x] **W1 合并表（数字已核对；改为标准消融表格式）**：列为"设置 / 原则演化（是/否）/ 课程自适应（是/否）/ 六个基准"，列顺序同论文 Table 7–8。"只有课程自适应"一行是 Table 8 条件 C（R5，原始原则 + 当前反馈）；"只有原则演化"两行是 Table 7 的 R2 feedback 和 R3 feedback（R5 起点，演化后的原则 + 过时反馈）；"CoEvoMed"一行是 Table 8 条件 D，与 Table 7 的 R5 feedback 为同一次训练（附录 D.1）。R2 起点的条件 A 已删去（作者要求）。
 - [x] **W1 删去 R2 的说法（作者要求）**：删去"固定原则在 R2 有帮助、到 R5 有害"和"高质量合成数据推动早期进步，共同演化让进步持续"两句，避免审稿人去对比 Table 8 条件 A（R2 起点，平均 +3.09）与共同演化（R5 起点，平均 +1.50）。保留的两个平均差值均由论文数字算出：D − C 六个差值（8.26、4.29、10.12、3.33、9.21、5.39，见附录 D.2 正文）平均 6.77；Table 7 中当前反馈平均 +1.50，R2、R3 反馈平均 −2.65、−2.78，相减得 +4.15、+4.28。
 - [x] **不再给计算出的平均值（作者要求）**：W1 删去 "+6.77 on average" 和 "+4.15 to +4.28"，改为说明表格是对两个自适应组件的消融，以及所有行共用同一条核验流程、因此收益来自共同演化；Q1 最后一段删去 "+6.77 on average"，只保留论文 D.2 正文给出的逐项差值范围 +3.33 至 +10.12。
+- [x] **Q1 重组（作者要求）**：按审稿人三个子问题的顺序作答：(1) 退化原因（四个特点及对应机制的表）；(2) 固定原则重构"早期有效、后期无效"，R2 只说明"六个基准全部提升（Table 8）"，不再列 +1.78 至 +3.90；(3) 预算匹配比较改为两行表：从 R5 出发，固定原则（Table 8 条件 C）与演化原则（条件 D），两行之差即原则演化的额外收益。删去 "+3.33 to +10.12" 和 "−2.2 to −9.6" 两个范围，数字都在表里。
 - [x] **W1 对照条件只差一个因素（已确认）**：Exp 2 的 A/B、C/D 只在原则上不同，Exp 1 的三组只在反馈来源上不同，起点、流程和预算一致。
 - [ ] **W1 "原则和课程都固定"这一组**：论文里没有直接对应的实验。正文用推理回答：R5 时即使课程仍在自适应，固定原则也已失效（−5.27，0/6），再固定课程只会去掉仅剩的自适应部分。如果 jcb6 在讨论阶段坚持要这组实验，再考虑补跑一轮。
 - [ ] **W1 "过时反馈"不等于"固定课程"**：表中"只有原则演化"一行用的是过时反馈驱动的课程，即课程没有对准当前学习者，而不是完全不调整的课程。正文写的是 "stale (R2 / R3)"，如实标明了这一点。
