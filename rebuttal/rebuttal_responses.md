@@ -23,14 +23,14 @@
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
-| W1 | 多智能体是否必要 | — | 1,648 | 已重写（两部分；合并表；三项设计保障） |
-| W2 | 论文组织 | — | 238 | 已压缩 |
-| W3 | 遗忘与 R7 的选择 | — | 1,169 | 已重写 |
-| Q1 | MedVLSynther 复现 | — | 664 | 已压缩 |
+| W1 | 多智能体是否必要 | — | 1,744 | 已重写（两部分；合并表；三项设计保障） |
+| W2 | 论文组织 | — | 227 | 已压缩 |
+| W3 | 遗忘与 R7 的选择 | — | 1,136 | 已重写 |
+| Q1 | MedVLSynther 复现 | — | 652 | 已压缩 |
 | Q2 | 数据公开 | — | 241 | 已压缩 |
-| Q3 | 能力分类体系 | — | 1,005 | 已重写（开头定位为反馈单元；补回实验 1 证据） |
+| Q3 | 能力分类体系 | — | 975 | 已重写（开头定位为反馈单元；补回实验 1 证据） |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,975** | |
+| **合计** | | **≤ 5,000** | **4,985** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -44,21 +44,21 @@
 |---|---|---|---|---|---|---|---|
 | All agents: raw data | base | −13.75 | −26.69 | −8.62 | −6.83 | – | – |
 | Revision agent: original principles | R5 | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
-| Current diagnosis: R2 feedback | R5 | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
-| Current diagnosis: R3 feedback | R5 | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
+| Curriculum planner: R2 feedback | R5 | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
+| Curriculum planner: R3 feedback | R5 | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
 | None: CoEvoMed | base | **+25.72** | **+26.76** | **+13.82** | **+26.63** | – | – |
 | None: CoEvoMed | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-- *Can another plausible agent process substitute them?* The simpler processes above lower most or all scores; only the full one improves every benchmark. We also separate the roles by design (**App. B**):
+- *Can another plausible agent process substitute them?* Each simpler process above lowers most scores; only the full one improves all. We also separate the roles by design (**App. B**):
     1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., ICLR 2024). We therefore designed the verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) as different models.
-    2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, a common VLM error (Li et al., EMNLP 2023). We therefore let it write only from selected facts; the verifier checks the image.
-    3. **Outcome-based control.** The planner is a PPO-trained policy network, and new principles must pass a paired test (Sec. 4.3), which no frozen LLM can do.
+    2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, as VLMs often do (Li et al., EMNLP 2023). We therefore let it write only from selected facts; the verifier checks the image.
+    3. **Curriculum allocation.** If a fixed schedule set the budget, it could not respond to regressions. Progress-tracking teachers match or beat hand-crafted curricula (Matiisen et al., 2017). We therefore train the curriculum planner by PPO on validation gains (Sec. 4.2).
 
-**W2 (Organization).** The main text specifies every mechanism (Secs. 3–4, Eqs. 1–9), and Sec. 5.1 gives the evaluation task composition. Only implementation parameters and statistics are in the appendix, each referenced in the main text.
+**W2 (Organization).** The main text specifies every mechanism (Secs. 3–4, Eqs. 1–9) and the evaluation task composition (Sec. 5.1). The appendix holds only implementation parameters and statistics, each referenced in the text.
 
 **W3 (Catastrophic forgetting and retention).** CoEvoMed is curriculum learning, not continual learning. Every round trains all tasks together (Eq. 7) with replay data (Sec. 3.3), so catastrophic forgetting and continual-learning metrics do not apply. "Retention" is a budget share (Sec. 4.2), ablated in W1. The two remaining points concern data and checkpoint choice, not the method:
-- *Later-round declines come from the data.* The support pool is fixed (359,355 facts, App. C.3); each round builds 50,000 examples (App. B). By R7 the budget nearly matches the pool, so later rounds mostly reuse seen evidence. Self-training on finite data shows the same pattern (Chen et al., ICML 2024; Singh et al., TMLR 2024). While new evidence lasts, CoEvoMed keeps improving to peaks at R7–R8. At R10, all three Fig. 7 benchmarks stay within 3 points of their peaks and over 12 above R1. A larger pool can extend the evolution without changing the method.
-- *Reliance on R7.* R7 has the most balanced capability profile on internal validation sets, though PathVQA peaks at R8. External benchmarks only track the evolution and never guide training or selection (App. C.4, C.6).
+- *Later-round declines come from the data.* The support pool is fixed (359,355 facts, App. C.3); each round builds 50,000 examples (App. B). By R7 the budget nearly matches the pool, so later rounds mostly reuse seen evidence. Self-training on finite data shows the same pattern (Chen et al., ICML 2024; Singh et al., TMLR 2024). While new evidence lasts, CoEvoMed improves up to R7–R8. At R10, all three Fig. 7 benchmarks stay within 3 points of their peaks and over 12 above R1. A larger pool extends the gains without changing the method.
+- *Reliance on R7.* R7 has the most balanced capability profile on internal validation sets, though PathVQA peaks at R8. External benchmarks only track evolution, never training or selection (App. C.4, C.6).
 
 **Q1 (MedVLSynther base model).** Absolute scores mix method and backbone, so we compare gains over each method's own base (MedVLSynther as published):
 
@@ -67,7 +67,7 @@
 | MedVLSynther-7B (Qwen2.5-VL-7B) | +6.13 | +8.82 | +6.65 | +0.17 |
 | CoEvoMed-8B (Qwen3-VL-8B) | **+13.82** | **+25.72** | **+26.76** | **+26.63** |
 
-Same base: Qwen3-VL-8B trained with MedVLSynther's released data and GRPO script:
+Same base, trained with MedVLSynther's released data and GRPO script:
 
 | Same base: Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
@@ -77,10 +77,10 @@ Same base: Qwen3-VL-8B trained with MedVLSynther's released data and GRPO script
 **Q2 (Data release).** Yes. Upon acceptance, we will release the synthesized data and all principle versions under each source's license, with images referenced by ID and regeneration scripts for non-redistributable sources (e.g., CheXpert).
 
 **Q3 (Capability taxonomy).** The taxonomy is not a claimed contribution but the unit of validation feedback (App. C.3).
-- *Why these categories.* We adopted SLAKE's physician-annotated question categories (Liu et al., 2021), so the overlap is by design. We merge its attribute types and add three categories for multi-image and report tasks.
-- *Why they are necessary.* The categories describe what a question asks, not a dataset, so they also cover unlabeled data (PathVQA, PMC-VQA, reports, support pool). One taxonomy lets us diagnose all tasks, share one budget, and retrieve matching evidence.
+- *Why these categories.* We adopted SLAKE's physician-annotated question categories (Liu et al., 2021), so the overlap is by design. We merge its attribute types and add three for multi-image and report tasks.
+- *Why they are necessary.* The categories describe what a question asks, not a dataset, so they also cover unlabeled data (PathVQA, PMC-VQA, reports, support pool). One taxonomy lets us diagnose all tasks, share one budget, and retrieve evidence.
 - *Mapping and validation.* On 200 SLAKE questions, our annotations match native labels for capability at 97.5% (Cohen's κ = 0.958), modality at 100%, and body region at 96.5%. κ > 0.81 is "almost perfect" agreement (Landis & Koch, 1977). We will add the mapping to Table 6.
-- *Gains come from diagnosis, not relabeling.* With the taxonomy fixed, stale diagnoses lower 11 of 12 scores (W1 table; Table 7).
+- *Gains come from diagnosis, not relabeling.* With the taxonomy fixed, stale diagnoses lower 11 of 12 scores (Table 7).
 ```
 
 ### 中文译文（不发布）
@@ -92,20 +92,20 @@ Same base: Qwen3-VL-8B trained with MedVLSynther's released data and GRPO script
 |---|---|---|---|---|---|---|---|
 | 全部智能体：原始数据 | 基础模型 | −13.75 | −26.69 | −8.62 | −6.83 | – | – |
 | 修订智能体：原始原则 | R5 | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
-| 当前诊断：R2 反馈 | R5 | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
-| 当前诊断：R3 反馈 | R5 | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
+| 课程规划器：R2 反馈 | R5 | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
+| 课程规划器：R3 反馈 | R5 | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
 | 无：CoEvoMed | 基础模型 | **+25.72** | **+26.76** | **+13.82** | **+26.63** | – | – |
 | 无：CoEvoMed | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-- *能否找到另一种合理的智能体流程来替代它们？* 上表中更简单的流程都会让大部分或全部分数下降；只有完整流程在所有基准上都提升。此外，我们有意把这些角色分开设计（**附录 B**）：
+- *能否找到另一种合理的智能体流程来替代它们？* 上表中每一种更简单的流程都会让大部分分数下降；只有完整流程在所有基准上都提升。此外，我们有意把这些角色分开设计（**附录 B**）：
     1. **独立核查。** 大语言模型在没有外部反馈时很难自我纠正（Huang et al., ICLR 2024）。因此，我们把核验器（Qwen3.6-27B）和构建器（deepseek-v4-flash）设计为不同的模型。
-    2. **基于证据的构建。** 如果构建器直接看图撰写，它可能会描述图像中并不存在的物体，这是视觉语言模型的常见错误（Li et al., EMNLP 2023）。因此，我们让构建器只根据选出的事实撰写，由核验器对照图像检查。
-    3. **基于结果的调控。** 规划器是用 PPO 训练的策略网络，新的构建原则必须通过配对测试才会被采用（第 4.3 节），这两点都是参数冻结的大语言模型做不到的。
+    2. **基于证据的构建。** 如果构建器直接看图撰写，它可能会像视觉语言模型常见的那样，描述图像中并不存在的物体（Li et al., EMNLP 2023）。因此，我们让构建器只根据选出的事实撰写，由核验器对照图像检查。
+    3. **课程分配。** 如果用固定的日程来分配预算，它就无法应对能力退化。跟踪学习进度的教师策略能够达到甚至超过人工设计的课程（Matiisen et al., 2017）。因此，我们用 PPO、依据验证集上的收益来训练课程规划器（第 4.2 节）。
 
-**W2（论文组织）** 正文给出了全部机制（第 3–4 节，式 1–9），第 5.1 节给出了评估任务的组成。附录中只放实现参数和统计数据，每项都在正文中注明了出处。
+**W2（论文组织）** 正文给出了全部机制（第 3–4 节，式 1–9）和评估任务的组成（第 5.1 节）。附录中只放实现参数和统计数据，每项都在正文中注明了出处。
 
 **W3（灾难性遗忘与保留）** CoEvoMed 是课程学习，不是持续学习。每一轮都同时训练所有任务（式 7），并混入回放数据（第 3.3 节），因此灾难性遗忘和持续学习指标并不适用。"保留"是预算中的一个份额（第 4.2 节），已在 W1 中做了消融。剩下两点涉及的是数据和检查点的选择，而不是方法本身：
-- *后期下降源于数据。* 支持数据池是固定的（359,355 条事实，附录 C.3），每轮构建 50,000 个样本（附录 B）。到 R7，累计预算已接近数据池的规模，因此后续轮次主要在重复使用已见过的证据。在有限数据上的自训练也呈现同样的规律（Chen et al., ICML 2024；Singh et al., TMLR 2024）。只要还有新证据，CoEvoMed 就持续提升，直到 R7–R8 达到峰值。到 R10，Figure 7 中的三个基准仍都在各自峰值 3 分以内，并比 R1 高出 12 分以上。更大的数据池可以在不改变方法的前提下延长演化。
+- *后期下降源于数据。* 支持数据池是固定的（359,355 条事实，附录 C.3），每轮构建 50,000 个样本（附录 B）。到 R7，累计预算已接近数据池的规模，因此后续轮次主要在重复使用已见过的证据。在有限数据上的自训练也呈现同样的规律（Chen et al., ICML 2024；Singh et al., TMLR 2024）。只要还有新证据，CoEvoMed 就一直提升到 R7–R8。到 R10，Figure 7 中的三个基准仍都在各自峰值 3 分以内，并比 R1 高出 12 分以上。更大的数据池可以在不改变方法的前提下延续收益。
 - *对 R7 的依赖。* R7 在内部验证集上具有最均衡的能力画像，尽管 PathVQA 的峰值出现在 R8。外部基准只用于追踪演化过程，从不指导训练或检查点选择（附录 C.4、C.6）。
 
 **Q1（MedVLSynther 的基础模型）** 绝对分数把方法和骨干模型的效果混在一起，因此我们比较各方法相对其自身基础模型的提升（MedVLSynther 采用原文发表的结果）：
@@ -115,7 +115,7 @@ Same base: Qwen3-VL-8B trained with MedVLSynther's released data and GRPO script
 | MedVLSynther-7B（Qwen2.5-VL-7B） | +6.13 | +8.82 | +6.65 | +0.17 |
 | CoEvoMed-8B（Qwen3-VL-8B） | **+13.82** | **+25.72** | **+26.76** | **+26.63** |
 
-相同的基础模型：用 MedVLSynther 公开的数据和 GRPO 训练脚本训练 Qwen3-VL-8B：
+相同的基础模型，用 MedVLSynther 公开的数据和 GRPO 训练脚本训练：
 
 | 相同基础模型：Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
@@ -125,19 +125,21 @@ Same base: Qwen3-VL-8B trained with MedVLSynther's released data and GRPO script
 **Q2（数据公开）** 会公开。论文被接收后，我们将按各源数据的许可公开合成数据和全部版本的构建原则，图像只以 ID 引用，对禁止再分发的源数据（如 CheXpert）提供重新生成的脚本。
 
 **Q3（能力分类体系）** 这套分类体系不是我们主张的贡献，而只是验证反馈的基本单元（附录 C.3）。
-- *为什么是这些类别。* 我们采用了 SLAKE 由医生标注的问题类别（Liu et al., 2021），因此与 SLAKE 的重合是有意设计的。我们合并了其中的属性类型，并为多图像和报告任务新增了三个类别。
-- *为什么这些类别是必要的。* 这些类别描述的是问题在问什么，而不是某个数据集，因此同样覆盖没有原生标签的数据（PathVQA、PMC-VQA、报告任务、支持数据池）。一套分类体系让我们能够诊断所有任务、共享同一份预算并检索匹配的证据。
+- *为什么是这些类别。* 我们采用了 SLAKE 由医生标注的问题类别（Liu et al., 2021），因此与 SLAKE 的重合是有意设计的。我们合并了其中的属性类型，并为多图像和报告任务新增了三类。
+- *为什么这些类别是必要的。* 这些类别描述的是问题在问什么，而不是某个数据集，因此同样覆盖没有原生标签的数据（PathVQA、PMC-VQA、报告任务、支持数据池）。一套分类体系让我们能够诊断所有任务、共享同一份预算并检索证据。
 - *对应关系与验证。* 在 200 道 SLAKE 题目上，我们的标注与原生标签的一致率为：能力类别 97.5%（Cohen's κ = 0.958），模态 100%，解剖部位 96.5%。κ > 0.81 即属于"几乎完全一致"（Landis & Koch, 1977）。我们会把这一对应关系补充到 Table 6 中。
-- *收益来自诊断，而不是重新贴标签。* 在分类体系保持不变的情况下，使用过时的诊断会使 12 个分数中的 11 个下降（W1 中的表；Table 7）。
+- *收益来自诊断，而不是重新贴标签。* 在分类体系保持不变的情况下，使用过时的诊断会使 12 个分数中的 11 个下降（Table 7）。
 
 ### 发布前待核对
 
 - [x] **W1 修订智能体（已确认）**：Exp 2 的条件 C 和 D 只在原则上不同，分配动作、预算和训练设置一致。
 - [x] **W1 规划器（已确认）**：Exp 1 的三组使用相同的原则和预算，只替换了反馈来源。
 - [x] **W1 合并表（数字已核对）**：按论文 Table 7–8 的列顺序（VQA-RAD、SLAKE、PMC-VQA、PathVQA、MIMIC-CXR、IU-Xray）。原始数据和 CoEvoMed 两行是相对 Qwen3-VL-8B 基础模型的变化，由 Table 9 的绝对分数换算：原始数据 −13.75 / −26.69 / −8.62 / −6.83，CoEvoMed +25.72 / +26.76 / +13.82 / +26.63；Table 9 只有四个 VQA 基准，报告两列写"–"。其余各行取自 Table 7、8 括号中的变化值；R5 起点的 CoEvoMed 一行就是 Table 8 条件 D，它与 Table 7 的"R5 feedback"是同一次训练（附录 D.1）。
-- [x] **W1 三项设计保障（已补回）**：第二部分列出为什么把角色分开设计：(1) 独立核查，核验器与构建器设计为不同模型（Huang et al., ICLR 2024）；(2) 基于证据的构建，构建器只用选择器选出的事实、不看图像（附录 A："Construction uses selected facts rather than direct image access"；Li et al., EMNLP 2023）；(3) 基于结果的调控，规划器是 PPO 训练的策略网络（附录 B），新原则须在窗口结束时通过 N = 100 的配对测试（算法 1 第 18–20 行；第 4.3 节）。
+- [x] **W1 三项设计保障**：第二部分按"如果……→ 文献 → 因此我们这样设计"来写：(1) 独立核查，核验器与构建器设计为不同模型（Huang et al., ICLR 2024）；(2) 基于证据的构建，构建器只用选出的事实、不看图像，核验器对照图像检查（附录 A："Construction uses selected facts rather than direct image access; verification checks candidates using the image"；Li et al., EMNLP 2023）；(3) 课程分配，课程规划器用 PPO 依据验证收益训练（第 4.2 节、式 8；附录 B）。第 3 点引用的 Matiisen et al., 2017（Teacher-Student Curriculum Learning，论文参考文献已收录，arXiv:1707.00183）摘要原文为 TSCL "matches or surpasses the results of carefully hand-crafted curricula"。
+- [ ] **W1 表格"课程规划器"两行**：这两行来自实验 1（Table 7）。实验 1 替换的反馈同时用于课程分配和监督构建（附录 D.1），表中按你之前认可的写法归到课程规划器名下。如果审稿人追问，可以说明这一点。
+- [ ] **修订智能体的单独理由已删去**：第 3 点改为只讲课程规划器后，"新原则须通过 N = 100 的配对测试"（算法 1 第 18–20 行）不再出现在 W1 中；修订智能体的作用仍由表中"原始原则"一行体现。
 - [ ] **W1 表格不再逐行标注表号**：为腾出字数，表号统一写在第一部分（**Tables 7–9**）。对应关系：原始数据和基础模型起点的 CoEvoMed 一行来自 Table 9；原始原则一行来自 Table 8 条件 C；R2/R3 反馈两行来自 Table 7；R5 起点的 CoEvoMed 一行是 Table 8 条件 D（与 Table 7 的 R5 feedback 为同一次训练）。
-- [ ] **为容纳 W1 而做的压缩（可按需恢复）**：Q1 删去 "We were aware of the base difference."；Q1 第二张表的引导句改为 "Same base: ..."；Q2、W2 改了措辞；Q3 把"空间关系、比较和整体描述"改为"three categories"，并把四个无标签数据源放进括号；W3 的 R10 一句改为 "all three Fig. 7 benchmarks ... over 12 above R1"。为了重写 W1 第 2 点，又做了三处压缩：W3 删去 "One checkpoint serves all six benchmarks"（保留 "though PathVQA peaks at R8"，同样说明不是按单项挑选）；W3 开头改为 "ablated in W1"；Q3 最后一点删去 "while current ones raise all six"，改为引用 W1 中的表。
+- [ ] **为容纳 W1 而做的压缩（可按需恢复）**：Q1 删去 "We were aware of the base difference."；Q1 第二张表的引导句改为 "Same base: ..."；Q2、W2 改了措辞；Q3 把"空间关系、比较和整体描述"改为"three categories"，并把四个无标签数据源放进括号；W3 的 R10 一句改为 "all three Fig. 7 benchmarks ... over 12 above R1"。为了重写 W1 第 2 点，又做了三处压缩：W3 删去 "One checkpoint serves all six benchmarks"（保留 "though PathVQA peaks at R8"，同样说明不是按单项挑选）；W3 开头改为 "ablated in W1"；Q3 最后一点删去 "while current ones raise all six"。为了重写 W1 第 3 点，又压缩了：W2 改写措辞；W3 "keeps improving to peaks at R7–R8" 改为 "improves up to R7–R8"，"extend the evolution" 改为 "extends the gains"，"only track the evolution and never guide" 改为 "only track evolution, never training or selection"；Q1 第二张表引导句删去 "Qwen3-VL-8B"（表头已有）；Q3 删去 "matching"、"categories" 和 "W1 table"。
 - [ ] **W1 选择器和核验器没有单独消融**：表中"全部智能体"一行同时去掉了选择器、构建器和核验器，没有单独去掉核验器的实验。正文因此写的是"ablates the functions of the agent roles"，没有写"每个角色各有一个消融"。如果审稿人追问，可以引用核验器的拒绝率（若日志里有）。
 - [ ] **W2 可选补充**：如果想在不让步的前提下给一个姿态，可以在 W2 末尾加一句（约 70 字符）：`We will add a role summary table to Section 4 for quick reference.`
 - [x] **W3 回放数据**：已确认主实验每轮混入回放数据，W3 已写入 "mixes in replay data (Section 3.3)"。
@@ -151,7 +153,7 @@ Same base: Qwen3-VL-8B trained with MedVLSynther's released data and GRPO script
 - [ ] **Q1 占位符**：复现完成后，在第二张表里填入复现模型在四个基准上的得分 `[x.xx]`（与 CoEvoMed 同一评测流程）。如果任何一项高于 CoEvoMed，需要重新讨论写法。
 - [ ] **Q1 数字来源**：确认 Table 1 的 MedVLSynther 数字引自其论文（与其 GitHub README 的数字完全一致）。正文写的是 "as published"。
 - [ ] **Q1 与附录 C.1 的一致性**：C.1 写的是"本研究评估的基线与 CoEvoMed 使用相同的评估集和评分规则"，MedVLSynther 是引用数，与这句不符。Q1 已如实写明"按原文发表的结果和协议"；定稿时建议把 C.1 改为区分"我们评测的基线"和"引用原文的基线"。
-- [x] **字符限制**：当前 4,975 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
+- [x] **字符限制**：当前 4,985 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
 - [ ] **Q2 承诺**：正文承诺为禁止再分发的源数据提供重新生成脚本。确认接收后能兑现；如果不打算做，把最后半句改为 "are excluded from the release"。
 - [ ] **Q2 待确认许可**：PMC-OA、MedTrinity BHX、RadGenome-ChestCT、Med-MAT 的许可没能直接核实，AbdomenAtlas1.0Mini 的附加条款也不确定，公开前需逐个确认（见下方"Q2 源数据许可核对"）。
 - [x] **Q3 一致率（已填入）**：轴 B（视觉能力）准确率 97.50%（195/200），macro-F1 0.9767，Cohen's κ 0.9575（正文写作 0.958）；轴 C（模态）准确率 100%，为模型在不看原标签的情况下独立判断；轴 D（解剖部位）准确率 96.50%（193/200），macro-F1 0.9476。轴的对应关系来自代码 `AXES = ("task_form", "visual_ability", "modality", "anatomy")`。
