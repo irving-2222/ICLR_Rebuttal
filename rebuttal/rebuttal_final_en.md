@@ -6,22 +6,23 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,990 / 5,000 characters (quotes excluded).*
+*Posted text: 4,978 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
-**W1 (Is the multi-agent framework necessary?)** Yes. App. D tests each agent role's critical function from the same checkpoint, with and without it:
+**W1 (Is the multi-agent framework necessary?)** Yes. **App. D** ablates the functions of the agent roles.
+- *Do we need all of these agents?* Each row removes agent functions from a shared start point, with everything else unchanged. Change from that start point:
 
-| Agent role | Critical function | Without it | With it |
-|---|---|---|---|
-| Selector, constructor, verifier | Verified, task-aligned data | Raw data (~700K): 4/4 VQA below base; SLAKE 38.15 | Fewer examples: 4/4 improve; SLAKE **91.60** (Tab. 9) |
-| Revision agent | Adapt principles to learner | Original principles at R5: 6/6 decline | Revised: **6/6 improve** (Tab. 8) |
-| Curriculum planner | Allocate budget to current needs | Stale R2/R3 feedback: 11/12 decline | Current: **6/6 improve** (Tab. 7) |
+| Without | From | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
+|---|---|---|---|---|---|---|---|
+| All agents: raw data (**Table 9**) | base | −13.75 | −26.69 | −8.62 | −6.83 | – | – |
+| Revision agent: original principles (**Table 8**) | R5 | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
+| Current diagnosis: R2 feedback (**Table 7**) | R5 | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
+| Current diagnosis: R3 feedback (**Table 7**) | R5 | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
+| None: CoEvoMed (**Table 9**) | base | **+25.72** | **+26.76** | **+13.82** | **+26.63** | – | – |
+| None: CoEvoMed (**Tables 7–8**) | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-Can another plausible agent process substitute them? It must still perform these functions; the simpler alternatives above all fail. Why not merge the roles into one agent?
-1. **Independent checking.** The verifier (Qwen3.6-27B) and the constructor (deepseek-v4-flash) are different models, so no model checks its own output. LLMs struggle to self-correct without external feedback (Huang et al., ICLR 2024).
-2. **Grounded construction.** The constructor writes only from selected source facts, not the image. A merged agent would write from the image, where VLMs often describe absent objects (Li et al., EMNLP 2023).
-3. **Learned allocation.** The planner is a small policy network trained by PPO each round, while the LLM agents stay frozen (App. B); merging would lose this learning.
+- *Can another plausible agent process substitute them?* The table already tests the simpler processes: no agents, fixed principles, and outdated diagnosis. Each lowers most or all scores; only the full process improves every benchmark. A merged agent would also check its own output, which LLMs do poorly without external feedback (Huang et al., ICLR 2024). Our verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) are different models.
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
 

@@ -23,32 +23,33 @@
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
-| W1 | 多智能体是否必要 | — | 1,447 | 已压缩 |
+| W1 | 多智能体是否必要 | — | 1,435 | 已重写（两部分；合并 Table 7–9 为一张表） |
 | W2 | 论文组织 | — | 243 | 已压缩 |
 | W3 | 遗忘与 R7 的选择 | — | 1,242 | 已重写 |
 | Q1 | MedVLSynther 复现 | — | 712 | 已压缩 |
 | Q2 | 数据公开 | — | 247 | 已压缩 |
 | Q3 | 能力分类体系 | — | 1,089 | 已重写（开头定位为反馈单元；补回实验 1 证据） |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,990** | |
+| **合计** | | **≤ 5,000** | **4,978** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
 ### 英文正文（发布用）
 
 ```markdown
-**W1 (Is the multi-agent framework necessary?)** Yes. App. D tests each agent role's critical function from the same checkpoint, with and without it:
+**W1 (Is the multi-agent framework necessary?)** Yes. **App. D** ablates the functions of the agent roles.
+- *Do we need all of these agents?* Each row removes agent functions from a shared start point, with everything else unchanged. Change from that start point:
 
-| Agent role | Critical function | Without it | With it |
-|---|---|---|---|
-| Selector, constructor, verifier | Verified, task-aligned data | Raw data (~700K): 4/4 VQA below base; SLAKE 38.15 | Fewer examples: 4/4 improve; SLAKE **91.60** (Tab. 9) |
-| Revision agent | Adapt principles to learner | Original principles at R5: 6/6 decline | Revised: **6/6 improve** (Tab. 8) |
-| Curriculum planner | Allocate budget to current needs | Stale R2/R3 feedback: 11/12 decline | Current: **6/6 improve** (Tab. 7) |
+| Without | From | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
+|---|---|---|---|---|---|---|---|
+| All agents: raw data (**Table 9**) | base | −13.75 | −26.69 | −8.62 | −6.83 | – | – |
+| Revision agent: original principles (**Table 8**) | R5 | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
+| Current diagnosis: R2 feedback (**Table 7**) | R5 | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
+| Current diagnosis: R3 feedback (**Table 7**) | R5 | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
+| None: CoEvoMed (**Table 9**) | base | **+25.72** | **+26.76** | **+13.82** | **+26.63** | – | – |
+| None: CoEvoMed (**Tables 7–8**) | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-Can another plausible agent process substitute them? It must still perform these functions; the simpler alternatives above all fail. Why not merge the roles into one agent?
-1. **Independent checking.** The verifier (Qwen3.6-27B) and the constructor (deepseek-v4-flash) are different models, so no model checks its own output. LLMs struggle to self-correct without external feedback (Huang et al., ICLR 2024).
-2. **Grounded construction.** The constructor writes only from selected source facts, not the image. A merged agent would write from the image, where VLMs often describe absent objects (Li et al., EMNLP 2023).
-3. **Learned allocation.** The planner is a small policy network trained by PPO each round, while the LLM agents stay frozen (App. B); merging would lose this learning.
+- *Can another plausible agent process substitute them?* The table already tests the simpler processes: no agents, fixed principles, and outdated diagnosis. Each lowers most or all scores; only the full process improves every benchmark. A merged agent would also check its own output, which LLMs do poorly without external feedback (Huang et al., ICLR 2024). Our verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) are different models.
 
 **W2 (Organization).** The main text specifies every mechanism (Secs. 3–4, Eqs. 1–9), and Sec. 5.1 gives the evaluation task composition. Implementation parameters and dataset statistics are in the appendix, each referenced from the main text.
 
@@ -81,18 +82,19 @@ On the same base, we trained Qwen3-VL-8B with MedVLSynther's released data and G
 
 ### 中文译文（不发布）
 
-**W1（多智能体框架是否必要？）** 是的。附录 D 从同一个检查点出发，在有和没有该角色的条件下，检验了每个智能体角色的关键功能：
+**W1（多智能体框架是否必要？）** 是的。**附录 D** 对各个智能体角色的功能做了消融。
+- *我们是否需要所有这些智能体？* 每一行都从同一个起点出发，去掉相应的智能体功能，其余设置保持不变。下表为相对该起点的变化：
 
-| 智能体角色 | 关键功能 | 没有该功能 | 有该功能 |
-|---|---|---|---|
-| 选择器、构建器、核验器 | 经过核验、与任务对齐的数据 | 原始数据（约 70 万条）：4/4 个 VQA 基准低于基础模型；SLAKE 38.15 | 样本更少：4/4 提升；SLAKE **91.60**（Table 9） |
-| 修订智能体 | 让原则适应学习者 | R5 时使用原始原则：6/6 下降 | 修订后：**6/6 提升**（Table 8） |
-| 课程规划器 | 按当前需要分配预算 | 使用过时的 R2/R3 反馈：12 个中 11 个下降 | 使用当前反馈：**6/6 提升**（Table 7） |
+| 去掉的功能 | 起点 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
+|---|---|---|---|---|---|---|---|
+| 全部智能体：原始数据（**Table 9**） | 基础模型 | −13.75 | −26.69 | −8.62 | −6.83 | – | – |
+| 修订智能体：原始原则（**Table 8**） | R5 | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
+| 当前诊断：R2 反馈（**Table 7**） | R5 | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
+| 当前诊断：R3 反馈（**Table 7**） | R5 | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
+| 无：CoEvoMed（**Table 9**） | 基础模型 | **+25.72** | **+26.76** | **+13.82** | **+26.63** | – | – |
+| 无：CoEvoMed（**Table 7–8**） | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-能否用另一种合理的智能体流程替代它们？替代方案仍然必须完成这些功能，而上面那些更简单的做法都失败了。为什么不把这些角色合并成一个智能体？
-1. **独立核查。** 核验器（Qwen3.6-27B）和构建器（deepseek-v4-flash）是不同的模型，因此没有任何模型在检查自己的输出。大语言模型在没有外部反馈时很难自我纠正（Huang et al., ICLR 2024）。
-2. **基于证据的构建。** 构建器只根据选出的原始事实撰写样本，而不是根据图像。如果合并成一个智能体，它就要直接看图撰写，而视觉语言模型经常描述图像中并不存在的物体（Li et al., EMNLP 2023）。
-3. **可学习的分配。** 规划器是每轮用 PPO 训练的小型策略网络，而各个大语言模型智能体保持冻结（附录 B）；合并会失去这种学习能力。
+- *能否找到另一种合理的智能体流程来替代它们？* 表中已经检验了这些更简单的流程：没有智能体、固定原则、过时的诊断。它们都会让大部分或全部分数下降；只有完整流程在所有基准上都提升。合并成一个智能体，还意味着由它检查自己的输出，而大语言模型在没有外部反馈时很难做到这一点（Huang et al., ICLR 2024）。我们的核验器（Qwen3.6-27B）和构建器（deepseek-v4-flash）是不同的模型。
 
 **W2（论文组织）** 正文给出了全部机制（第 3–4 节，式 1–9），第 5.1 节给出了评估任务的组成。实现参数和数据集统计放在附录，每项都在正文中注明了出处。
 
@@ -126,6 +128,9 @@ On the same base, we trained Qwen3-VL-8B with MedVLSynther's released data and G
 
 - [x] **W1 修订智能体（已确认）**：Exp 2 的条件 C 和 D 只在原则上不同，分配动作、预算和训练设置一致。
 - [x] **W1 规划器（已确认）**：Exp 1 的三组使用相同的原则和预算，只替换了反馈来源。
+- [x] **W1 合并表（数字已核对）**：按论文 Table 7–8 的列顺序（VQA-RAD、SLAKE、PMC-VQA、PathVQA、MIMIC-CXR、IU-Xray）。原始数据和 CoEvoMed 两行是相对 Qwen3-VL-8B 基础模型的变化，由 Table 9 的绝对分数换算：原始数据 −13.75 / −26.69 / −8.62 / −6.83，CoEvoMed +25.72 / +26.76 / +13.82 / +26.63；Table 9 只有四个 VQA 基准，报告两列写"–"。其余各行取自 Table 7、8 括号中的变化值；R5 起点的 CoEvoMed 一行就是 Table 8 条件 D，它与 Table 7 的"R5 feedback"是同一次训练（附录 D.1）。
+- [ ] **W1 删去的两点（可在讨论阶段补）**：为了放下合并表，W1 只保留了"独立核查"（Huang et al., ICLR 2024），删去了"基于证据的构建"（构建器不看图，避免幻觉，Li et al., EMNLP 2023）和"可学习的分配"（规划器用 PPO 训练，LLM 冻结）。如果审稿人追问"为什么不合并成一个智能体"，再补这两点。
+- [ ] **W1 选择器和核验器没有单独消融**：表中"全部智能体"一行同时去掉了选择器、构建器和核验器，没有单独去掉核验器的实验。正文因此写的是"ablates the functions of the agent roles"，没有写"每个角色各有一个消融"。如果审稿人追问，可以引用核验器的拒绝率（若日志里有）。
 - [ ] **W2 可选补充**：如果想在不让步的前提下给一个姿态，可以在 W2 末尾加一句（约 70 字符）：`We will add a role summary table to Section 4 for quick reference.`
 - [x] **W3 回放数据**：已确认主实验每轮混入回放数据，W3 已写入 "mixes in replay data (Section 3.3)"。
 - [x] **R7 的选择依据（作者已更正）**：R7 是按内部验证集上的能力画像（附录 C.4；"capability profile" 的定义见第 3.1 节式 1）选出的，与论文一致。此前"按外部基准选出"的说法为口误，已更正。W3 已按此改写，并删去 R10 与 Hulu-Med-7B 的比较。
@@ -134,11 +139,11 @@ On the same base, we trained Qwen3-VL-8B with MedVLSynther's released data and G
 - [ ] **W3 "更大的数据池可以延长演化"**：这是基于机制的推断（数据池是输入，不是方法的一部分），没有扩池实验支撑。如果审稿人追问，可以回答：数据池在附录 C.3 中按来源构建，扩充来源不需要改动任何智能体或规划器。
 - [x] **W3 文献（已核实）**：Chen et al., ICML 2024 = SPIN（Self-Play Fine-Tuning），收益集中在前两轮，后续工作 SPACE 报告其在峰值后下降；Singh et al., TMLR 2024 = ReST-EM（"Beyond Human Data"），原文写明 APPS 在第二轮回退，迭代超过几轮后收益递减，并归因于在少量训练题上过拟合。R-Zero（论文中的 Huang et al., 2026a）后期下降没有查到原文证据，所以没有引用。
 - [x] **W3 R7 出处**：附录 C.4 "Checkpoint selection" 写明按整体均衡选 R7；附录 C.6 写明外部基准不参与监督构建、学习者训练、课程和原则更新。
-- [ ] **为容纳 W3 而删去的内容（可按需恢复）**：W1 表中的变化区间（−2.2 至 −9.6；+0.5 至 +2.8）；W2 中"四个 2D VQA、两个报告、三个 3D 基准"的括号；Q3 中"VQA-RAD 和 M3D-VQA 采用类似类别"一句。（"过时诊断使 12 个分数中 11 个下降"已作为 Q3 最后一点补回，因为它直接回答"收益来自诊断还是重新贴标签"。）W2 中"包括能力单元（第 3.1 节）"一句。W3 原先关于"被动恢复与均衡"的内容已删去：审稿人认可了恢复本身，"均衡收敛"由后两点（下降幅度小、R7 能力画像最均衡）回应。
+- [ ] **为容纳 W3 而删去的内容（可按需恢复）**：W2 中"四个 2D VQA、两个报告、三个 3D 基准"的括号；Q3 中"VQA-RAD 和 M3D-VQA 采用类似类别"一句。（"过时诊断使 12 个分数中 11 个下降"已作为 Q3 最后一点补回，因为它直接回答"收益来自诊断还是重新贴标签"。）W2 中"包括能力单元（第 3.1 节）"一句。W3 原先关于"被动恢复与均衡"的内容已删去：审稿人认可了恢复本身，"均衡收敛"由后两点（下降幅度小、R7 能力画像最均衡）回应。
 - [ ] **Q1 占位符**：复现完成后，在第二张表里填入复现模型在四个基准上的得分 `[x.xx]`（与 CoEvoMed 同一评测流程）。如果任何一项高于 CoEvoMed，需要重新讨论写法。
 - [ ] **Q1 数字来源**：确认 Table 1 的 MedVLSynther 数字引自其论文（与其 GitHub README 的数字完全一致）。正文写的是 "as published"。
 - [ ] **Q1 与附录 C.1 的一致性**：C.1 写的是"本研究评估的基线与 CoEvoMed 使用相同的评估集和评分规则"，MedVLSynther 是引用数，与这句不符。Q1 已如实写明"按原文发表的结果和协议"；定稿时建议把 C.1 改为区分"我们评测的基线"和"引用原文的基线"。
-- [x] **字符限制**：当前 4,990 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
+- [x] **字符限制**：当前 4,978 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
 - [ ] **Q2 承诺**：正文承诺为禁止再分发的源数据提供重新生成脚本。确认接收后能兑现；如果不打算做，把最后半句改为 "are excluded from the release"。
 - [ ] **Q2 待确认许可**：PMC-OA、MedTrinity BHX、RadGenome-ChestCT、Med-MAT 的许可没能直接核实，AbdomenAtlas1.0Mini 的附加条款也不确定，公开前需逐个确认（见下方"Q2 源数据许可核对"）。
 - [x] **Q3 一致率（已填入）**：轴 B（视觉能力）准确率 97.50%（195/200），macro-F1 0.9767，Cohen's κ 0.9575（正文写作 0.958）；轴 C（模态）准确率 100%，为模型在不看原标签的情况下独立判断；轴 D（解剖部位）准确率 96.50%（193/200），macro-F1 0.9476。轴的对应关系来自代码 `AXES = ("task_form", "visual_ability", "modality", "anatomy")`。
