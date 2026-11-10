@@ -454,15 +454,15 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | — | — | 已改为在标题中注明 |
-| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,117 | 已改为分点格式 |
+| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,114 | 已改为分点格式 |
 | Q2 | 数据泄漏；R7 的选择 | — | 676 | 已定稿 |
 | Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,187 | 已定稿 |
 | Q4 | 复杂推理基准 | — | 977 | 已定稿 |
-| **合计** | | **≤ 5,000** | **4,963** | |
+| **合计** | | **≤ 5,000** | **4,960** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
-字符空间：当前 4,963 字符，占位符已全部填完，只剩 37 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
+字符空间：当前 4,960 字符，占位符已全部填完，只剩 40 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
@@ -484,7 +484,7 @@ Unlike a greedy rule, PPO optimizes cumulative gain (Eq. 5), and its choices fol
 
 The raw-data baseline degrades because its sources (App. D.3) are not task-aligned (58.3% of 2D records are figure descriptions; Fig. 10), not verified, not targeted, and not adapted. CoEvoMed's agents handle each. CoEvoMed instead reaches 91.60 on SLAKE (Table 9).
 
-We validate the link between the selection criteria and later learning gains by what happens after selection. From the same R5 checkpoint and budget, principles that passed the criteria raise all six benchmarks, while the original, never-revised ones lower all six (**Table 8**). The link also holds by design: a principle is revised only when its net repair (repaired minus regressed cases) is non-positive, and a candidate is accepted only if a semantic review confirms it targets the errors behind that shortfall (Sec. 4.3; **App. B**).
+Principles chosen by our criteria do produce later learning gains. In **Table 8**, from the same R5 checkpoint and budget, the chosen principles raise all six benchmarks, while the original, never-revised principles lower all six. This follows from how the criteria work (Sec. 4.3; **App. B**). A principle is replaced only when the validation cases it fixes no longer outnumber those it breaks, that is, when it stops helping the learner. A replacement is chosen only if a review confirms it targets the errors the learner still makes.
 
 **Q2 (Overlaps; R7).** We excluded patient-, study-, and image-level overlaps by design: support, validation, and test data are separate partitions (Sec. 1; App. C.6), enforced in our code. We screened all 11 2D and 5 3D sources against every external test at four levels: IDs (including study and case IDs), image paths, pixel hashes (exact and near-duplicate), and normalized text. All checks found zero overlap, including PubMedVision-IU vs. IU-Xray.
 
@@ -520,7 +520,7 @@ The results support generalization: CoEvoMed ranks first on all nine benchmarks 
 
 原始数据基线之所以退化，是因为这些数据（附录 D.3）与任务不对齐（2D 记录中 58.3% 是图像描述；Figure 10），没有经过核查，没有针对性，也不会自适应。CoEvoMed 的各个智能体分别处理这几点。而 CoEvoMed 在 SLAKE 上达到 91.60（Table 9）。
 
-我们用选择之后的结果，来验证选择标准与后续学习收益之间的联系。从同一个 R5 检查点、相同预算出发，通过选择标准的原则让六个基准全部提升，而从未修订过的原始原则让六个基准全部下降（**Table 8**）。这种联系在设计上也成立：只有净修复（修复的样本数减去退化的样本数）不为正的原则才会被修订，而候选原则只有在语义审查确认它针对的正是造成这一问题的错误时，才会被采用（第 4.3 节；**附录 B**）。
+按我们的选择标准选出的原则，确实带来了后续的学习收益。在 **Table 8** 中，从同一个 R5 检查点、相同预算出发，选出的原则让六个基准全部提升，而从未修订过的原始原则让六个基准全部下降。这是由选择标准的设计决定的（第 4.3 节；**附录 B**）。只有当一条原则修好的验证题不再多于它弄错的题，也就是它不再帮助学习者时，才会被替换。而新原则只有在审查确认它针对的是学习者仍在犯的错误时，才会被选中。
 
 **Q2（数据重叠；R7）** 我们在设计上就排除了患者、检查和图像层面的重叠：支持数据、验证数据和测试数据是相互独立的划分（第 1 节；附录 C.6），并在我们的代码中强制执行。我们把全部 11 个 2D 源数据和 5 个 3D 源数据与每一个外部测试集在四个层面上做了筛查：ID（包括检查 ID 和病例 ID）、图像路径、像素哈希（精确匹配和近似重复）以及归一化后的文本。所有检查发现的重叠均为零，包括 PubMedVision-IU 与 IU-Xray 之间。
 
