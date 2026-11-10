@@ -6,7 +6,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,989 / 5,000 characters (quotes excluded).*
+*Posted text: 4,983 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
@@ -19,8 +19,8 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 | Revision agent: original principles | R5 | −5.64 | −3.60 | −9.60 | −2.20 |
 | Curriculum planner: R2 feedback | R5 | −1.10 | −5.20 | −3.60 | −3.10 |
 | Curriculum planner: R3 feedback | R5 | −1.77 | −5.80 | −1.80 | −2.40 |
-| None: CoEvoMed | base | **+25.72** | **+26.76** | **+13.82** | **+26.63** |
-| None: CoEvoMed | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** |
+| None: CoEvoMed | base | +25.72 | +26.76 | +13.82 | +26.63 |
+| None: CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
 
 - No simpler process can substitute them: each one above lowers every score. We also separate the roles by design (**App. B**):
     1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., ICLR 2024). We therefore designed the verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) as different models.
@@ -29,7 +29,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
 
-**W2 (Organization).** The main text follows the method's logic: problem (Sec. 3), mechanisms (Sec. 4, Eqs. 1–9), and evidence, including the evaluation task composition (Sec. 5.1). Each appendix part extends a main-text part that cites it; together they suffice for reproduction: full algorithm (**App. A**), models and hyperparameters (**App. B**), data sources and metrics (**App. C**), and component controls (**App. D**).
+**W2 (Organization).** The main text follows the method's logic: problem (Sec. 3), mechanisms (Sec. 4, Eqs. 1–9), and evidence, including the evaluation task composition (Sec. 5.1). Each appendix part extends a main-text part; together they suffice for reproduction: full algorithm (**App. A**), models and hyperparameters (**App. B**), data sources and metrics (**App. C**), and component controls (**App. D**).
 
 > **Weakness 3:** The method demonstrates reactive recovery from selected capability regressions, but does not establish prevention of catastrophic forgetting or stable balanced convergence. Later-round declines, reliance on R7 checkpoint selection, absence of retention ablations, and lack of standard continual-learning metrics leave the central retention claim only partially supported.
 
@@ -62,7 +62,7 @@ Same base, with MedVLSynther's released data and GRPO script:
 > **Question 3:** CoEvoMed relies on a hand-designed capability taxonomy to construct validation cells and guide curriculum allocation, but the paper does not justify why these dimensions and categories are necessary. Some datasets, such as SLAKE, already provide question-type annotations that overlap with categories such as organ recognition, abnormality detection, and localization. The authors should report this mapping, validate the generated annotations, and compare the proposed taxonomy against native dataset labels. Otherwise, it remains unclear whether the gains come from meaningful capability diagnosis or an arbitrary relabeling of existing task categories.
 
 **Q3 (Capability taxonomy).** The taxonomy is not a claimed contribution but the unit of validation feedback (App. C.3).
-- We adopted SLAKE's question categories (Liu et al., 2021) by design: physicians annotated them, and SLAKE spans more modalities and body parts than earlier datasets. They describe what a question asks, not a dataset, so they fit every task: VQA-RAD and M3D-VQA use similar types (Lau et al., 2018; Fig. 9a). With three added for multi-image and reports, one taxonomy also covers unlabeled data (PathVQA, PMC-VQA, reports, support pool) for diagnosis and budgeting.
+- We adopted SLAKE's question categories (Liu et al., 2021) by design: physicians annotated them, and SLAKE spans more modalities and body parts than earlier datasets. They describe what a question asks, not a dataset, so they fit every task: VQA-RAD and M3D-VQA use similar types (Lau et al., 2018; Fig. 9a). We add three categories for multi-image and report tasks. Data without native labels (PathVQA, PMC-VQA, reports, support pool) is labeled the same way, so all tasks share one diagnosis and budget.
 - On 200 SLAKE questions, our annotations match native labels for capability at 97.5% (Cohen's κ = 0.958), modality at 100%, and body region at 96.5%. κ > 0.81 is "almost perfect" agreement (Landis & Koch, 1977). We will add the mapping to Table 6.
 - Gains come from diagnosis, not relabeling: with the taxonomy fixed, stale diagnoses lower 11 of 12 scores (Table 7).
 
