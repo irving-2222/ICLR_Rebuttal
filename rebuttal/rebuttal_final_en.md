@@ -6,7 +6,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,992 / 5,000 characters (quotes excluded).*
+*Posted text: 4,989 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
@@ -22,9 +22,9 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 | None: CoEvoMed | base | **+25.72** | **+26.76** | **+13.82** | **+26.63** |
 | None: CoEvoMed | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** |
 
-- No simpler process can substitute them: each one above lowers every score; only the full one improves all. We also separate the roles by design (**App. B**):
+- No simpler process can substitute them: each one above lowers every score. We also separate the roles by design (**App. B**):
     1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., ICLR 2024). We therefore designed the verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) as different models.
-    2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, as VLMs often do (Li et al., EMNLP 2023). We therefore let it write only from selected facts; the verifier checks the image.
+    2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, as VLMs often do (Li et al., EMNLP 2023). We therefore let it write only from selected facts.
     3. **Curriculum allocation.** If an LLM agent also set the budget, it could not learn, since LLM weights stay frozen. Curricula learned from learning progress match or beat hand-crafted ones (Matiisen et al., 2017). We therefore made the curriculum planner a separate policy trained by PPO on validation gains (Sec. 4.2).
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
@@ -62,8 +62,7 @@ Same base, with MedVLSynther's released data and GRPO script:
 > **Question 3:** CoEvoMed relies on a hand-designed capability taxonomy to construct validation cells and guide curriculum allocation, but the paper does not justify why these dimensions and categories are necessary. Some datasets, such as SLAKE, already provide question-type annotations that overlap with categories such as organ recognition, abnormality detection, and localization. The authors should report this mapping, validate the generated annotations, and compare the proposed taxonomy against native dataset labels. Otherwise, it remains unclear whether the gains come from meaningful capability diagnosis or an arbitrary relabeling of existing task categories.
 
 **Q3 (Capability taxonomy).** The taxonomy is not a claimed contribution but the unit of validation feedback (App. C.3).
-- We adopted SLAKE's physician-annotated question categories (Liu et al., 2021), so the overlap is by design. We add three categories for multi-image and report tasks.
-- The categories are necessary: they describe what a question asks, not a dataset, so they also cover unlabeled PathVQA, PMC-VQA, reports, and support pool. One taxonomy lets us diagnose all tasks, share one budget, and retrieve evidence.
+- We adopted SLAKE's question categories (Liu et al., 2021) by design: physicians annotated them, and SLAKE spans more modalities and body parts than earlier datasets. They describe what a question asks, not a dataset, so they fit every task: VQA-RAD and M3D-VQA use similar types (Lau et al., 2018; Fig. 9a). With three added for multi-image and reports, one taxonomy also covers unlabeled data (PathVQA, PMC-VQA, reports, support pool) for diagnosis and budgeting.
 - On 200 SLAKE questions, our annotations match native labels for capability at 97.5% (Cohen's κ = 0.958), modality at 100%, and body region at 96.5%. κ > 0.81 is "almost perfect" agreement (Landis & Koch, 1977). We will add the mapping to Table 6.
 - Gains come from diagnosis, not relabeling: with the taxonomy fixed, stale diagnoses lower 11 of 12 scores (Table 7).
 
