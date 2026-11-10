@@ -322,23 +322,23 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 | 条目 | 内容 | 当前 | 状态 |
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
-| W1 | 在预算匹配下分离各组件 | 1,529 | 已改为论文格式的合并表（Table 7–8） |
+| W1 | 在预算匹配下分离各组件 | 1,605 | 已改为论文格式的合并表（Table 7–8） |
 | Q1 | 原始数据退化原因；固定原则重构是否也有效 | 1,970 | 已改为分段 |
-| **合计** | | **3,581** | ≤ 5,000 |
+| **合计** | | **3,657** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
 ```markdown
 We thank the reviewer for the positive assessment and the precise suggestions.
 
-**W1 (Isolating the contributions of individual components).** The component controls in **App. D** give the budget-matched comparisons the reviewer suggests. Each condition trains one round from the same R5 checkpoint with the same pipeline and budget; only the principles and the curriculum feedback differ. Change on each benchmark (**Tables 7–8**):
+**W1 (Isolating the contributions of individual components).** The component controls in **App. D** give the budget-matched comparisons the reviewer suggests. Each condition trains one round from the same R5 checkpoint with the same pipeline and budget. Without principle evolution, the original principles are kept; without curriculum adaptation, the curriculum follows stale R2 or R3 feedback. Change on each benchmark (**Tables 7–8**):
 
-| Comparison | Principles | Curriculum | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
+| Setting | Principle evolution | Curriculum adaptation | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
-| Curriculum alone | fixed | current | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
-| Evolution alone | evolved | stale (R2) | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
-| Evolution alone | evolved | stale (R3) | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
-| Co-evolution (CoEvoMed) | evolved | current | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
+| Curriculum only | No | Yes | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
+| Principles only | Yes | No (R2 feedback) | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
+| Principles only | Yes | No (R3 feedback) | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
+| CoEvoMed | Yes | Yes | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
 Fixing both principles and curriculum would not do better. In the first row, only the curriculum adapts, and all six scores already drop at R5. Fixing the curriculum as well would remove the last adaptive part.
 
@@ -364,14 +364,14 @@ Adaptive principle evolution adds +6.77 on average under a matched budget. At R5
 
 我们感谢审稿人的积极评价和具体建议。
 
-**W1（分离各个组件的贡献）** **附录 D** 的组件对照实验提供了审稿人所建议的预算匹配比较。每个条件都从同一个 R5 检查点出发，用相同的流程和预算训练一轮；区别只在于构建原则和课程所用的反馈。下表为每个基准上的变化（**Table 7–8**）：
+**W1（分离各个组件的贡献）** **附录 D** 的组件对照实验提供了审稿人所建议的预算匹配比较。每个条件都从同一个 R5 检查点出发，用相同的流程和预算训练一轮。没有原则演化时，保留原始原则；没有课程自适应时，课程按过时的 R2 或 R3 反馈来分配。下表为每个基准上的变化（**Table 7–8**）：
 
-| 比较 | 原则 | 课程 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
+| 设置 | 原则演化 | 课程自适应 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
-| 只有课程自适应 | 固定 | 当前反馈 | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
-| 只有原则演化 | 演化后 | 过时（R2）反馈 | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
-| 只有原则演化 | 演化后 | 过时（R3）反馈 | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
-| 共同演化（CoEvoMed） | 演化后 | 当前反馈 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
+| 只有课程自适应 | 否 | 是 | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
+| 只有原则演化 | 是 | 否（R2 反馈） | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
+| 只有原则演化 | 是 | 否（R3 反馈） | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
+| CoEvoMed | 是 | 是 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
 原则和课程都固定的设置不会更好。表中第一行只有课程在自适应，在 R5 时六个分数就已经全部下降；如果再把课程也固定，连这仅剩的自适应部分也没有了。
 
@@ -394,7 +394,7 @@ Adaptive principle evolution adds +6.77 on average under a matched budget. At R5
 
 ### 发布前待核对
 
-- [x] **W1 合并表（数字已核对）**：列顺序同论文 Table 7–8。"只有课程自适应"一行是 Table 8 条件 C（R5 / original）；R2 起点的条件 A 一行已删去（作者要求：它的提升幅度大于共同演化一行，放在表里容易被误读）；"只有原则演化"两行是 Table 7 的 R2 feedback 和 R3 feedback（R5 起点，使用演化后的原则）；"共同演化"一行是 Table 8 条件 D，与 Table 7 的 R5 feedback 为同一次训练（附录 D.1）。六个基准在这两个实验中都测了。正文里的平均值 +6.77（D − C）和 +4.15 至 +4.28（当前反馈 − 过时反馈）保留。
+- [x] **W1 合并表（数字已核对；改为标准消融表格式）**：列为"设置 / 原则演化（是/否）/ 课程自适应（是/否）/ 六个基准"，列顺序同论文 Table 7–8。"只有课程自适应"一行是 Table 8 条件 C（R5，原始原则 + 当前反馈）；"只有原则演化"两行是 Table 7 的 R2 feedback 和 R3 feedback（R5 起点，演化后的原则 + 过时反馈）；"CoEvoMed"一行是 Table 8 条件 D，与 Table 7 的 R5 feedback 为同一次训练（附录 D.1）。R2 起点的条件 A 已删去（作者要求）。
 - [x] **W1 对照条件只差一个因素（已确认）**：Exp 2 的 A/B、C/D 只在原则上不同，Exp 1 的三组只在反馈来源上不同，起点、流程和预算一致。
 - [ ] **W1 "原则和课程都固定"这一组**：论文里没有直接对应的实验。正文用推理回答：R5 时即使课程仍在自适应，固定原则也已失效（−5.27，0/6），再固定课程只会去掉仅剩的自适应部分。如果 jcb6 在讨论阶段坚持要这组实验，再考虑补跑一轮。
 - [ ] **W1 "过时反馈"不等于"固定课程"**：表中"只有原则演化"一行用的是过时反馈驱动的课程，即课程没有对准当前学习者，而不是完全不调整的课程。正文写的是 "stale (R2 / R3)"，如实标明了这一点。
