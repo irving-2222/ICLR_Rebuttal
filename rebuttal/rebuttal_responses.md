@@ -324,8 +324,8 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
 | W1 | 在预算匹配下分离各组件 | 1,827 | 已改为论文格式的合并表（Table 7–8） |
-| Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,173 | 已改为分段，展示论文 Table 8 的 R5 部分 |
-| **合计** | | **4,082** | ≤ 5,000 |
+| Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,163 | 已改为分段，展示论文 Table 8 的 R5 部分 |
+| **合计** | | **4,072** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
@@ -356,7 +356,7 @@ Fixing both principles and curriculum would not do better. In the first row, onl
 | Not targeted: the mix follows source availability, not the learner's needs | The planner allocates a fixed budget to weak and regressing capabilities (Section 4.2) |
 | Not adaptive: supervision stays fixed while the learner changes | The revision agent updates principles from residual errors (Section 4.3) |
 
-Fixed principles do yield gains, but only while they match the learner's stage. **Table 8** (**App. D.2**) compares fixed and evolved principles from the same R5 checkpoint under the same budget:
+Reconstruction with fixed principles cannot keep up with the learner. **Table 8** (**App. D.2**) compares fixed and evolved principles from the same R5 checkpoint under the same budget:
 
 | Condition | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
@@ -395,7 +395,7 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | 没有针对性：数据构成取决于数据源里有什么，而不是学习者需要什么 | 规划器把固定预算分配给薄弱和退化的能力（第 4.2 节） |
 | 不会自适应：学习者在变化，监督却一成不变 | 修订智能体根据残余错误更新构建原则（第 4.3 节） |
 
-固定原则确实能带来收益，但前提是它们与学习者当前的阶段相匹配。**Table 8**（**附录 D.2**）在相同预算下，从同一个 R5 检查点出发，比较了固定原则和演化后的原则：
+用固定原则重构数据，跟不上学习者的变化。**Table 8**（**附录 D.2**）在相同预算下，从同一个 R5 检查点出发，比较了固定原则和演化后的原则：
 
 | 条件 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
