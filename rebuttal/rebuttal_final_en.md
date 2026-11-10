@@ -6,12 +6,12 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,985 / 5,000 characters (quotes excluded).*
+*Posted text: 4,989 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
-**W1 (Is the multi-agent framework necessary?)**
-- *Do we need all of these agents?* Yes. **App. D** ablates their functions (**Tables 7–9**). Changes from a shared start, all else fixed:
+**W1 (Necessity of the multi-agent framework).**
+- **App. D** shows that the agents are needed (**Tables 7–9**). Changes from a shared start, all else fixed:
 
 | Without | From | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|
@@ -22,10 +22,10 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 | None: CoEvoMed | base | **+25.72** | **+26.76** | **+13.82** | **+26.63** | – | – |
 | None: CoEvoMed | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-- *Can another plausible agent process substitute them?* Each simpler process above lowers most scores; only the full one improves all. We also separate the roles by design (**App. B**):
+- No simpler process can substitute them: each one above lowers most scores, and only the full one improves all. We also separate the roles by design (**App. B**):
     1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., ICLR 2024). We therefore designed the verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) as different models.
     2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, as VLMs often do (Li et al., EMNLP 2023). We therefore let it write only from selected facts; the verifier checks the image.
-    3. **Curriculum allocation.** If a fixed schedule set the budget, it could not respond to regressions. Progress-tracking teachers match or beat hand-crafted curricula (Matiisen et al., 2017). We therefore train the curriculum planner by PPO on validation gains (Sec. 4.2).
+    3. **Curriculum allocation.** If an LLM agent also set the budget, it could not learn, since LLM weights stay frozen. Curricula learned from learning progress match or beat hand-crafted ones (Matiisen et al., 2017). We therefore made the curriculum planner a separate policy network trained by PPO on validation gains (Sec. 4.2).
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
 

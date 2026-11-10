@@ -23,22 +23,22 @@
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
-| W1 | 多智能体是否必要 | — | 1,744 | 已重写（两部分；合并表；三项设计保障） |
+| W1 | 多智能体是否必要 | — | 1,748 | 已重写（两部分；合并表；三项设计保障） |
 | W2 | 论文组织 | — | 227 | 已压缩 |
 | W3 | 遗忘与 R7 的选择 | — | 1,136 | 已重写 |
 | Q1 | MedVLSynther 复现 | — | 652 | 已压缩 |
 | Q2 | 数据公开 | — | 241 | 已压缩 |
 | Q3 | 能力分类体系 | — | 975 | 已重写（开头定位为反馈单元；补回实验 1 证据） |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,985** | |
+| **合计** | | **≤ 5,000** | **4,989** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
 ### 英文正文（发布用）
 
 ```markdown
-**W1 (Is the multi-agent framework necessary?)**
-- *Do we need all of these agents?* Yes. **App. D** ablates their functions (**Tables 7–9**). Changes from a shared start, all else fixed:
+**W1 (Necessity of the multi-agent framework).**
+- **App. D** shows that the agents are needed (**Tables 7–9**). Changes from a shared start, all else fixed:
 
 | Without | From | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|
@@ -49,10 +49,10 @@
 | None: CoEvoMed | base | **+25.72** | **+26.76** | **+13.82** | **+26.63** | – | – |
 | None: CoEvoMed | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-- *Can another plausible agent process substitute them?* Each simpler process above lowers most scores; only the full one improves all. We also separate the roles by design (**App. B**):
+- No simpler process can substitute them: each one above lowers most scores, and only the full one improves all. We also separate the roles by design (**App. B**):
     1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., ICLR 2024). We therefore designed the verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) as different models.
     2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, as VLMs often do (Li et al., EMNLP 2023). We therefore let it write only from selected facts; the verifier checks the image.
-    3. **Curriculum allocation.** If a fixed schedule set the budget, it could not respond to regressions. Progress-tracking teachers match or beat hand-crafted curricula (Matiisen et al., 2017). We therefore train the curriculum planner by PPO on validation gains (Sec. 4.2).
+    3. **Curriculum allocation.** If an LLM agent also set the budget, it could not learn, since LLM weights stay frozen. Curricula learned from learning progress match or beat hand-crafted ones (Matiisen et al., 2017). We therefore made the curriculum planner a separate policy network trained by PPO on validation gains (Sec. 4.2).
 
 **W2 (Organization).** The main text specifies every mechanism (Secs. 3–4, Eqs. 1–9) and the evaluation task composition (Sec. 5.1). The appendix holds only implementation parameters and statistics, each referenced in the text.
 
@@ -85,8 +85,8 @@ Same base, trained with MedVLSynther's released data and GRPO script:
 
 ### 中文译文（不发布）
 
-**W1（多智能体框架是否必要？）**
-- *我们是否需要所有这些智能体？* 需要。**附录 D** 对它们的功能做了消融（**Table 7–9**）。下表为相对同一起点的变化，其余设置保持不变：
+**W1（多智能体框架的必要性）**
+- **附录 D** 表明这些智能体都是必要的（**Table 7–9**）。下表为相对同一起点的变化，其余设置保持不变：
 
 | 去掉的功能 | 起点 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|
@@ -97,10 +97,10 @@ Same base, trained with MedVLSynther's released data and GRPO script:
 | 无：CoEvoMed | 基础模型 | **+25.72** | **+26.76** | **+13.82** | **+26.63** | – | – |
 | 无：CoEvoMed | R5 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-- *能否找到另一种合理的智能体流程来替代它们？* 上表中每一种更简单的流程都会让大部分分数下降；只有完整流程在所有基准上都提升。此外，我们有意把这些角色分开设计（**附录 B**）：
+- 没有更简单的流程能替代它们：上表中每一种更简单的流程都会让大部分分数下降，只有完整流程在所有基准上都提升。此外，我们有意把这些角色分开设计（**附录 B**）：
     1. **独立核查。** 大语言模型在没有外部反馈时很难自我纠正（Huang et al., ICLR 2024）。因此，我们把核验器（Qwen3.6-27B）和构建器（deepseek-v4-flash）设计为不同的模型。
     2. **基于证据的构建。** 如果构建器直接看图撰写，它可能会像视觉语言模型常见的那样，描述图像中并不存在的物体（Li et al., EMNLP 2023）。因此，我们让构建器只根据选出的事实撰写，由核验器对照图像检查。
-    3. **课程分配。** 如果用固定的日程来分配预算，它就无法应对能力退化。跟踪学习进度的教师策略能够达到甚至超过人工设计的课程（Matiisen et al., 2017）。因此，我们用 PPO、依据验证集上的收益来训练课程规划器（第 4.2 节）。
+    3. **课程分配。** 如果由某个大语言模型智能体同时负责分配预算，这种分配就无法学习，因为大语言模型的权重是冻结的。根据学习进度学到的课程能够达到甚至超过人工设计的课程（Matiisen et al., 2017）。因此，我们把课程规划器单独设计为一个策略网络，用 PPO 依据验证集上的收益来训练（第 4.2 节）。
 
 **W2（论文组织）** 正文给出了全部机制（第 3–4 节，式 1–9）和评估任务的组成（第 5.1 节）。附录中只放实现参数和统计数据，每项都在正文中注明了出处。
 
@@ -135,7 +135,7 @@ Same base, trained with MedVLSynther's released data and GRPO script:
 - [x] **W1 修订智能体（已确认）**：Exp 2 的条件 C 和 D 只在原则上不同，分配动作、预算和训练设置一致。
 - [x] **W1 规划器（已确认）**：Exp 1 的三组使用相同的原则和预算，只替换了反馈来源。
 - [x] **W1 合并表（数字已核对）**：按论文 Table 7–8 的列顺序（VQA-RAD、SLAKE、PMC-VQA、PathVQA、MIMIC-CXR、IU-Xray）。原始数据和 CoEvoMed 两行是相对 Qwen3-VL-8B 基础模型的变化，由 Table 9 的绝对分数换算：原始数据 −13.75 / −26.69 / −8.62 / −6.83，CoEvoMed +25.72 / +26.76 / +13.82 / +26.63；Table 9 只有四个 VQA 基准，报告两列写"–"。其余各行取自 Table 7、8 括号中的变化值；R5 起点的 CoEvoMed 一行就是 Table 8 条件 D，它与 Table 7 的"R5 feedback"是同一次训练（附录 D.1）。
-- [x] **W1 三项设计保障**：第二部分按"如果……→ 文献 → 因此我们这样设计"来写：(1) 独立核查，核验器与构建器设计为不同模型（Huang et al., ICLR 2024）；(2) 基于证据的构建，构建器只用选出的事实、不看图像，核验器对照图像检查（附录 A："Construction uses selected facts rather than direct image access; verification checks candidates using the image"；Li et al., EMNLP 2023）；(3) 课程分配，课程规划器用 PPO 依据验证收益训练（第 4.2 节、式 8；附录 B）。第 3 点引用的 Matiisen et al., 2017（Teacher-Student Curriculum Learning，论文参考文献已收录，arXiv:1707.00183）摘要原文为 TSCL "matches or surpasses the results of carefully hand-crafted curricula"。
+- [x] **W1 三项设计保障**：第二部分按"如果……→ 文献 → 因此我们这样设计"来写：(1) 独立核查，核验器与构建器设计为不同模型（Huang et al., ICLR 2024）；(2) 基于证据的构建，构建器只用选出的事实、不看图像，核验器对照图像检查（附录 A："Construction uses selected facts rather than direct image access; verification checks candidates using the image"；Li et al., EMNLP 2023）；(3) 课程分配：如果由大语言模型智能体同时分配预算，分配无法学习（附录 B："external LLM weights remain fixed"），因此把课程规划器单独设计为用 PPO 依据验证收益训练的策略网络（第 4.2 节、式 8）。W1 的两个分点直接以答案开头，不再重复审稿人的问题；标题改为 "Necessity of the multi-agent framework"。第 3 点引用的 Matiisen et al., 2017（Teacher-Student Curriculum Learning，论文参考文献已收录，arXiv:1707.00183）摘要原文为 TSCL "matches or surpasses the results of carefully hand-crafted curricula"。
 - [ ] **W1 表格"课程规划器"两行**：这两行来自实验 1（Table 7）。实验 1 替换的反馈同时用于课程分配和监督构建（附录 D.1），表中按你之前认可的写法归到课程规划器名下。如果审稿人追问，可以说明这一点。
 - [ ] **修订智能体的单独理由已删去**：第 3 点改为只讲课程规划器后，"新原则须通过 N = 100 的配对测试"（算法 1 第 18–20 行）不再出现在 W1 中；修订智能体的作用仍由表中"原始原则"一行体现。
 - [ ] **W1 表格不再逐行标注表号**：为腾出字数，表号统一写在第一部分（**Tables 7–9**）。对应关系：原始数据和基础模型起点的 CoEvoMed 一行来自 Table 9；原始原则一行来自 Table 8 条件 C；R2/R3 反馈两行来自 Table 7；R5 起点的 CoEvoMed 一行是 Table 8 条件 D（与 Table 7 的 R5 feedback 为同一次训练）。
@@ -153,7 +153,7 @@ Same base, trained with MedVLSynther's released data and GRPO script:
 - [ ] **Q1 占位符**：复现完成后，在第二张表里填入复现模型在四个基准上的得分 `[x.xx]`（与 CoEvoMed 同一评测流程）。如果任何一项高于 CoEvoMed，需要重新讨论写法。
 - [ ] **Q1 数字来源**：确认 Table 1 的 MedVLSynther 数字引自其论文（与其 GitHub README 的数字完全一致）。正文写的是 "as published"。
 - [ ] **Q1 与附录 C.1 的一致性**：C.1 写的是"本研究评估的基线与 CoEvoMed 使用相同的评估集和评分规则"，MedVLSynther 是引用数，与这句不符。Q1 已如实写明"按原文发表的结果和协议"；定稿时建议把 C.1 改为区分"我们评测的基线"和"引用原文的基线"。
-- [x] **字符限制**：当前 4,985 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
+- [x] **字符限制**：当前 4,989 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
 - [ ] **Q2 承诺**：正文承诺为禁止再分发的源数据提供重新生成脚本。确认接收后能兑现；如果不打算做，把最后半句改为 "are excluded from the release"。
 - [ ] **Q2 待确认许可**：PMC-OA、MedTrinity BHX、RadGenome-ChestCT、Med-MAT 的许可没能直接核实，AbdomenAtlas1.0Mini 的附加条款也不确定，公开前需逐个确认（见下方"Q2 源数据许可核对"）。
 - [x] **Q3 一致率（已填入）**：轴 B（视觉能力）准确率 97.50%（195/200），macro-F1 0.9767，Cohen's κ 0.9575（正文写作 0.958）；轴 C（模态）准确率 100%，为模型在不看原标签的情况下独立判断；轴 D（解剖部位）准确率 96.50%（193/200），macro-F1 0.9476。轴的对应关系来自代码 `AXES = ("task_form", "visual_ability", "modality", "anatomy")`。
