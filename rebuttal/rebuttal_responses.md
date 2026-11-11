@@ -24,13 +24,13 @@
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
 | W1 | 多智能体是否必要 | — | 1,523 | 已重写（两部分；合并表；三项设计保障） |
-| W2 | 论文组织 | — | 470 | 已重写（正文逻辑、附录对应、可复现） |
+| W2 | 论文组织 | — | 468 | 已重写（正文逻辑、附录对应、可复现） |
 | W3 | 遗忘与 R7 的选择 | — | 1,249 | 已重写 |
 | Q1 | MedVLSynther 复现 | — | 640 | 已压缩 |
 | Q2 | 数据公开 | — | 137 | 已压缩 |
 | Q3 | 能力分类体系 | — | 962 | 已压缩 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,991** | |
+| **合计** | | **≤ 5,000** | **4,989** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -54,7 +54,7 @@ No simpler process can substitute them: each one above lowers every score. We al
 2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, as VLMs often do (Li et al., 2023). We therefore let it write only from selected facts.
 3. **Curriculum allocation.** If an LLM agent also set the budget, it could not learn, since LLM weights stay frozen. Curricula learned from learning progress match or beat hand-crafted ones (Matiisen et al., 2017). We therefore made the curriculum planner a separate policy trained by PPO on validation gains (Sec. 4.2).
 
-**W2 (Organization).** The main text follows the method's logic: problem (Sec. 3), mechanisms (Sec. 4), and evidence, including the evaluation task composition (Sec. 5.1). For space, its analyses use one VQA and one report task; the appendix has all tasks. Each appendix part extends a main-text part; together they suffice for reproduction: algorithm (**App. A**), models and hyperparameters (**App. B**), data and metrics (**App. C**), and full ablations (**App. D**).
+**W2 (Organization).** The layout follows our contributions and scope. The main text gives each contribution with its evidence: co-evolution framework (Sec. 3), multi-agent system and curriculum policy (Sec. 4), and evaluation task composition (Sec. 5.1). For space, its analyses use one VQA and one report task. The appendix adds what reproduction needs: algorithm (**App. A**), settings (**App. B**), data and metrics (**App. C**), and all-task results (**App. D**).
 
 **W3 (Catastrophic forgetting and retention).** We respectfully note a misunderstanding: CoEvoMed builds on curriculum learning, not continual learning. Forgetting arises when tasks are learned in sequence and old data is dropped. It trains all tasks every round and replays earlier data (Eq. 7; Sec. 3.3), so continual-learning metrics do not apply. "Retention" is a share of the planner's budget (Sec. 4.2), ablated with it (Table 7).
 
@@ -106,7 +106,7 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 2. **基于证据的构建。** 如果构建器直接看图撰写，它可能会像视觉语言模型常见的那样，描述图像中并不存在的物体（Li et al., 2023）。因此，我们让构建器只根据选出的事实撰写。
 3. **课程分配。** 如果由某个大语言模型智能体同时负责分配预算，这种分配就无法学习，因为大语言模型的权重是冻结的。根据学习进度学到的课程能够达到甚至超过人工设计的课程（Matiisen et al., 2017）。因此，我们把课程规划器单独设计为一个策略网络，用 PPO 依据验证集上的收益来训练（第 4.2 节）。
 
-**W2（论文组织）** 正文按方法本身的逻辑展开：问题定义（第 3 节）、机制（第 4 节）和实验证据，其中包括评估任务的组成（第 5.1 节）。受篇幅所限，正文的分析各选用一个 VQA 任务和一个报告生成任务，附录给出全部任务。每一部分附录都是对正文某一部分的展开；这些附录合起来足以复现本方法：算法（**附录 A**）、模型与超参数（**附录 B**）、数据与评测指标（**附录 C**），以及完整的消融实验（**附录 D**）。
+**W2（论文组织）** 论文的排版与我们的贡献和研究范围是一致的。正文给出每一项贡献及其证据：协同进化框架（第 3 节），多智能体系统与课程策略（第 4 节），以及评估任务的组成（第 5.1 节）。受篇幅所限，正文的分析各选用一个 VQA 任务和一个报告生成任务。附录补充复现所需的内容：算法（**附录 A**）、设置（**附录 B**）、数据与评测指标（**附录 C**），以及全部任务的结果（**附录 D**）。
 
 **W3（灾难性遗忘与保留）** 我们想指出一个误解：CoEvoMed 是基于课程学习设计的，而不是持续学习。灾难性遗忘出现在按顺序学习各个任务、并丢弃旧数据的情况下。CoEvoMed 每一轮都同时训练所有任务，并回放之前的数据（式 7；第 3.3 节），因此持续学习的指标并不适用。"保留"是规划器预算中的一个份额（第 4.2 节），已随规划器一起做了消融（Table 7）。
 
@@ -150,6 +150,7 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 - [ ] **W1 表格不再逐行标注表号**：为腾出字数，表号统一写在第一部分（**Tables 7–9**）。对应关系：原始数据和基础模型起点的 CoEvoMed 一行来自 Table 9；原始原则一行来自 Table 8 条件 C；R2/R3 反馈两行来自 Table 7；R5 起点的 CoEvoMed 一行是 Table 8 条件 D（与 Table 7 的 R5 feedback 为同一次训练）。
 - [ ] **为容纳 W1 而做的压缩（可按需恢复）**：Q1 删去 "We were aware of the base difference."；Q1 第二张表的引导句改为 "Same base: ..."；Q2、W2 改了措辞；Q3 把"空间关系、比较和整体描述"改为"three categories"，并把四个无标签数据源放进括号；W3 的 R10 一句改为 "all three Fig. 7 benchmarks ... over 12 above R1"。为了重写 W1 第 2 点，又做了三处压缩：W3 删去 "One checkpoint serves all six benchmarks"（保留 "though PathVQA peaks at R8"，同样说明不是按单项挑选）；W3 开头改为 "ablated in W1"；Q3 最后一点删去 "while current ones raise all six"。为了重写 W1 第 3 点，又压缩了：W2 改写措辞；W3 "keeps improving to peaks at R7–R8" 改为 "improves up to R7–R8"，"extend the evolution" 改为 "extends the gains"，"only track the evolution and never guide" 改为 "only track evolution, never training or selection"；Q1 第二张表引导句删去 "Qwen3-VL-8B"（表头已有）；Q3 删去 "matching"、"categories" 和 "W1 table"。
 - [ ] **W1 选择器和核验器没有单独消融**：表中"全部智能体"一行同时去掉了选择器、构建器和核验器，没有单独去掉核验器的实验。正文因此写的是"ablates the functions of the agent roles"，没有写"每个角色各有一个消融"。如果审稿人追问，可以引用核验器的拒绝率（若日志里有）。
+- [x] **W2 排版与贡献、范围一致（作者要求）**：开头改为 "The layout follows our contributions and scope."，并把正文各节对应到第 1 节列出的三项贡献：协同进化框架（第 3 节），多智能体系统与课程分配策略（第 4 节；4.1 多智能体构建、4.2 课程分配、4.3 原则演化），评估任务组成在第 5.1 节。"范围"对应附录 E（"Scope of the formulation"：结论限于所评估的数据和骨干模型设置）。附录内容表述为复现所需的细节。
 - [x] **W2 补充"正文放代表性任务、附录放全部"（作者要求）**：依据第 5.3 节 "Mechanism comparisons use VQA-RAD and MIMIC-CXR; full results and experimental details appear in Appendix D"，以及 Figure 5（Gemma 同样用 VQA-RAD 和 MIMIC-CXR）。正文写作 "For space, its analyses use one VQA and one report task; the appendix covers all tasks."。为腾字数：四处引用去掉会议名（与论文的作者-年份格式一致）；W2 删去 "Eqs. 1–9" 和 "(Sec. 5)"；W3 "curriculum planner's budget" 改为 "planner's budget"，"Even at R10" 改为 "At R10"；W1 表中 CoEvoMed 两行取消加粗。
 - [x] **W2 重写（正文逻辑、附录对应、可复现）**：正文顺序为第 3 节问题定义、第 4 节三个机制（式 1–9）、第 5 节实验（5.1 设置含评估任务组成，5.2 结果，5.3 机制分析）。附录对应：A 完整训练流程（算法 1）、B 训练配置（各智能体模型、每轮 50,000 样本、PPO 设置等）、C 评测数据与输入、支持证据来源及链接（Table 5）、指标与统计、D 组件对照实验。
 - [ ] **W2 代码（请确认）**：如果投稿时代码作为补充材料上传了（仓库里有 `code/CoEvoMed_ICLR2027_submitted.zip`），可以在 W2 末尾加一句 "Our code is in the supplementary material."（约 50 字符，需要从别处再压缩）。如果没有上传，就不写。
@@ -167,7 +168,7 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 - [ ] **Q1 占位符**：复现完成后，在第二张表里填入复现模型在四个基准上的得分 `[x.xx]`（与 CoEvoMed 同一评测流程）。如果任何一项高于 CoEvoMed，需要重新讨论写法。
 - [ ] **Q1 数字来源**：确认 Table 1 的 MedVLSynther 数字引自其论文（与其 GitHub README 的数字完全一致）。正文写的是 "as published"。
 - [ ] **Q1 与附录 C.1 的一致性**：C.1 写的是"本研究评估的基线与 CoEvoMed 使用相同的评估集和评分规则"，MedVLSynther 是引用数，与这句不符。Q1 已如实写明"按原文发表的结果和协议"；定稿时建议把 C.1 改为区分"我们评测的基线"和"引用原文的基线"。
-- [x] **字符限制**：当前 4,991 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
+- [x] **字符限制**：当前 4,989 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
 - [x] **Q2 承诺（作者要求删除）**：正文已不再提"图像以 ID 引用、为禁止再分发的源数据提供重新生成脚本"，只承诺"按各源数据的许可公开合成数据和全部版本的构建原则"。
 - [ ] **Q2 待确认许可**：PMC-OA、MedTrinity BHX、RadGenome-ChestCT、Med-MAT 的许可没能直接核实，AbdomenAtlas1.0Mini 的附加条款也不确定，公开前需逐个确认（见下方"Q2 源数据许可核对"）。
 - [x] **Q3 一致率（已填入）**：轴 B（视觉能力）准确率 97.50%（195/200），macro-F1 0.9767，Cohen's κ 0.9575（正文写作 0.958）；轴 C（模态）准确率 100%，为模型在不看原标签的情况下独立判断；轴 D（解剖部位）准确率 96.50%（193/200），macro-F1 0.9476。轴的对应关系来自代码 `AXES = ("task_form", "visual_ability", "modality", "anatomy")`。

@@ -6,7 +6,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,991 / 5,000 characters (quotes excluded).*
+*Posted text: 4,989 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
@@ -29,7 +29,7 @@ No simpler process can substitute them: each one above lowers every score. We al
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
 
-**W2 (Organization).** The main text follows the method's logic: problem (Sec. 3), mechanisms (Sec. 4), and evidence, including the evaluation task composition (Sec. 5.1). For space, its analyses use one VQA and one report task; the appendix has all tasks. Each appendix part extends a main-text part; together they suffice for reproduction: algorithm (**App. A**), models and hyperparameters (**App. B**), data and metrics (**App. C**), and full ablations (**App. D**).
+**W2 (Organization).** The layout follows our contributions and scope. The main text gives each contribution with its evidence: co-evolution framework (Sec. 3), multi-agent system and curriculum policy (Sec. 4), and evaluation task composition (Sec. 5.1). For space, its analyses use one VQA and one report task. The appendix adds what reproduction needs: algorithm (**App. A**), settings (**App. B**), data and metrics (**App. C**), and all-task results (**App. D**).
 
 > **Weakness 3:** The method demonstrates reactive recovery from selected capability regressions, but does not establish prevention of catastrophic forgetting or stable balanced convergence. Later-round declines, reliance on R7 checkpoint selection, absence of retention ablations, and lack of standard continual-learning metrics leave the central retention claim only partially supported.
 
