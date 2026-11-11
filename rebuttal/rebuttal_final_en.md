@@ -6,7 +6,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,987 / 5,000 characters (quotes excluded).*
+*Posted text: 4,937 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
@@ -41,19 +41,12 @@ We selected R7 by a predefined criterion: the most balanced capability profile o
 
 > **Question 1:** For medVLSynther results, do you use the same base model to replicate their results?
 
-**Q1 (MedVLSynther base model).** Absolute scores mix method and backbone, so we compare gains over each base (MedVLSynther as published):
-
-| Gain over own base | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
-|---|---|---|---|---|
-| MedVLSynther-7B (Qwen2.5-VL-7B) | +6.13 | +8.82 | +6.65 | +0.17 |
-| CoEvoMed-8B (Qwen3-VL-8B) | **+13.82** | **+25.72** | **+26.76** | **+26.63** |
-
-Same base, MedVLSynther's released data and GRPO script:
+**Q1 (MedVLSynther base model).** Table 1 reports MedVLSynther's published results on Qwen2.5-VL-7B. To answer this, we retrained it on our base, Qwen3-VL-8B, with its released data and GRPO script. On the same base, CoEvoMed leads on all four benchmarks:
 
 | Same base: Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
 | MedVLSynther recipe | 53.18 | 70.96 | 73.32 | 68.69 |
-| CoEvoMed-8B | 67.95 | 82.48 | 91.60 | 69.40 |
+| CoEvoMed-8B | **67.95** | **82.48** | **91.60** | **69.40** |
 
 > **Question 2:** Would you consider to publicate the data generated in your evolving pipeline?
 
@@ -61,11 +54,9 @@ Same base, MedVLSynther's released data and GRPO script:
 
 > **Question 3:** CoEvoMed relies on a hand-designed capability taxonomy to construct validation cells and guide curriculum allocation, but the paper does not justify why these dimensions and categories are necessary. Some datasets, such as SLAKE, already provide question-type annotations that overlap with categories such as organ recognition, abnormality detection, and localization. The authors should report this mapping, validate the generated annotations, and compare the proposed taxonomy against native dataset labels. Otherwise, it remains unclear whether the gains come from meaningful capability diagnosis or an arbitrary relabeling of existing task categories.
 
-**Q3 (Capability taxonomy).** The taxonomy is not a claimed contribution but the unit of validation feedback (App. C.3).
+**Q3 (Capability taxonomy).** The dimensions are necessary because every CoEvoMed mechanism runs on the cells they define (Table 6). The profile is measured per cell (Eq. 1), the planner allocates the budget across cells (Eq. 7), each principle serves one cell and is revised when it stops improving (Sec. 4.3), and the selector retrieves evidence matching a cell's modality and anatomy (App. C.3). With the taxonomy fixed, stale diagnoses lower 11 of 12 scores (Table 7), so gains come from diagnosis, not relabeling.
 
 We built our categories on SLAKE's (Liu et al., 2021) by design: physicians annotated them, and SLAKE spans more modalities and body parts than earlier datasets. They describe what a question asks, not a dataset, so they fit every task: VQA-RAD and M3D-VQA use similar types (Lau et al., 2018; Fig. 9a).
-
-The dimensions are necessary because the loop runs on them: task form and capability set the planner's targets, and modality and anatomy match evidence to them (Table 6). With the taxonomy fixed, stale diagnoses lower 11 of 12 scores (Table 7): gains come from diagnosis, not relabeling.
 
 On 200 SLAKE questions, our annotations match native labels for capability at 97.5% (Cohen's κ = 0.958), modality at 100%, and body region at 96.5%. κ > 0.81 is "almost perfect" agreement (Landis & Koch, 1977). Table 6 will add the mapping.
 

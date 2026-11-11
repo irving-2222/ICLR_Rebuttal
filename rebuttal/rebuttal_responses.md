@@ -26,11 +26,11 @@
 | W1 | 多智能体是否必要 | — | 1,523 | 已重写（两部分；合并表；三项设计保障） |
 | W2 | 论文组织 | — | 498 | 已重写（正文逻辑、附录对应、可复现） |
 | W3 | 遗忘与 R7 的选择 | — | 1,241 | 已重写 |
-| Q1 | MedVLSynther 复现 | — | 622 | 已填入复现结果 |
+| Q1 | MedVLSynther 复现 | — | 463 | 已重写 |
 | Q2 | 数据公开 | — | 137 | 已压缩 |
-| Q3 | 能力分类体系 | — | 956 | 已压缩 |
+| Q3 | 能力分类体系 | — | 1,065 | 已重写 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,987** | |
+| **合计** | | **≤ 5,000** | **4,937** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -62,27 +62,18 @@ The later-round declines come from the data, not from our mechanisms. The planne
 
 We selected R7 by a predefined criterion: the most balanced capability profile on internal validation (App. C.4). R7 is where this pool's new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (App. C.5). CoEvoMed is a general evolution mechanism: its final checkpoint is not a fixed round but follows the limit of the data pool.
 
-**Q1 (MedVLSynther base model).** Absolute scores mix method and backbone, so we compare gains over each base (MedVLSynther as published):
-
-| Gain over own base | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
-|---|---|---|---|---|
-| MedVLSynther-7B (Qwen2.5-VL-7B) | +6.13 | +8.82 | +6.65 | +0.17 |
-| CoEvoMed-8B (Qwen3-VL-8B) | **+13.82** | **+25.72** | **+26.76** | **+26.63** |
-
-Same base, MedVLSynther's released data and GRPO script:
+**Q1 (MedVLSynther base model).** Table 1 reports MedVLSynther's published results on Qwen2.5-VL-7B. To answer this, we retrained it on our base, Qwen3-VL-8B, with its released data and GRPO script. On the same base, CoEvoMed leads on all four benchmarks:
 
 | Same base: Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
 | MedVLSynther recipe | 53.18 | 70.96 | 73.32 | 68.69 |
-| CoEvoMed-8B | 67.95 | 82.48 | 91.60 | 69.40 |
+| CoEvoMed-8B | **67.95** | **82.48** | **91.60** | **69.40** |
 
 **Q2 (Data release).** Yes. Upon acceptance, we will release the synthesized data and all principle versions under each source's license.
 
-**Q3 (Capability taxonomy).** The taxonomy is not a claimed contribution but the unit of validation feedback (App. C.3).
+**Q3 (Capability taxonomy).** The dimensions are necessary because every CoEvoMed mechanism runs on the cells they define (Table 6). The profile is measured per cell (Eq. 1), the planner allocates the budget across cells (Eq. 7), each principle serves one cell and is revised when it stops improving (Sec. 4.3), and the selector retrieves evidence matching a cell's modality and anatomy (App. C.3). With the taxonomy fixed, stale diagnoses lower 11 of 12 scores (Table 7), so gains come from diagnosis, not relabeling.
 
 We built our categories on SLAKE's (Liu et al., 2021) by design: physicians annotated them, and SLAKE spans more modalities and body parts than earlier datasets. They describe what a question asks, not a dataset, so they fit every task: VQA-RAD and M3D-VQA use similar types (Lau et al., 2018; Fig. 9a).
-
-The dimensions are necessary because the loop runs on them: task form and capability set the planner's targets, and modality and anatomy match evidence to them (Table 6). With the taxonomy fixed, stale diagnoses lower 11 of 12 scores (Table 7): gains come from diagnosis, not relabeling.
 
 On 200 SLAKE questions, our annotations match native labels for capability at 97.5% (Cohen's κ = 0.958), modality at 100%, and body region at 96.5%. κ > 0.81 is "almost perfect" agreement (Landis & Koch, 1977). Table 6 will add the mapping.
 ```
@@ -114,27 +105,18 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 
 我们按预先定义的标准选择 R7：它在内部验证上的能力画像最均衡（附录 C.4）。R7 正是当前数据池的新证据用尽的那一轮，而 InternVL3-9B 的峰值出现在第 4–6 轮（附录 C.5）。CoEvoMed 是一个通用的进化机制：最终检查点不是固定的某一轮，而是取决于所用数据池的上限。
 
-**Q1（MedVLSynther 的基础模型）** 绝对分数把方法和骨干模型的效果混在一起，因此我们比较各方法相对其基础模型的提升（MedVLSynther 采用原文发表的结果）：
-
-| 相对自身基础模型的提升 | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
-|---|---|---|---|---|
-| MedVLSynther-7B（Qwen2.5-VL-7B） | +6.13 | +8.82 | +6.65 | +0.17 |
-| CoEvoMed-8B（Qwen3-VL-8B） | **+13.82** | **+25.72** | **+26.76** | **+26.63** |
-
-相同的基础模型，使用 MedVLSynther 公开的数据和 GRPO 训练脚本：
+**Q1（MedVLSynther 的基础模型）** Table 1 中 MedVLSynther 的结果是其论文在 Qwen2.5-VL-7B 上发表的数字。为回答这一问题，我们用它公开的数据和 GRPO 训练脚本，在我们的基础模型 Qwen3-VL-8B 上重新训练了它。在相同的基础模型上，CoEvoMed 在四个基准上全部领先：
 
 | 相同基础模型：Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
 | MedVLSynther 配方 | 53.18 | 70.96 | 73.32 | 68.69 |
-| CoEvoMed-8B | 67.95 | 82.48 | 91.60 | 69.40 |
+| CoEvoMed-8B | **67.95** | **82.48** | **91.60** | **69.40** |
 
 **Q2（数据公开）** 会公开。论文被接收后，我们将按各源数据的许可公开合成数据和全部版本的构建原则。
 
-**Q3（能力分类体系）** 这套分类体系不是我们主张的贡献，而只是验证反馈的基本单元（附录 C.3）。
+**Q3（能力分类体系）** 这些维度是必要的，因为 CoEvoMed 的每一个机制都在它们划分出的能力单元上运行（Table 6）：能力画像按单元测量（式 1），规划器在各单元之间分配预算（式 7），每条原则对应一个单元、在该单元不再进步时被修订（第 4.3 节），选择器按单元的模态和解剖部位检索匹配的证据（附录 C.3）。在分类体系保持不变的情况下，使用过时的诊断会使 12 个分数中的 11 个下降（Table 7），因此收益来自诊断，而不是重新贴标签。
 
 我们有意以 SLAKE 的问题类别（Liu et al., 2021）为基础构建我们的类别：这些类别由医生标注，而且 SLAKE 覆盖的模态和身体部位比以往的数据集更多。这些类别描述的是问题在问什么，而不是某个数据集，因此适用于所有任务：VQA-RAD 和 M3D-VQA 也采用了类似的问题类型（Lau et al., 2018；Figure 9a）。
-
-这些维度是必要的，因为整个闭环都建立在它们之上：任务形式和能力类别决定课程规划器的目标，模态和解剖部位让证据与这些目标相匹配（Table 6）。在分类体系保持不变的情况下，使用过时的诊断会使 12 个分数中的 11 个下降（Table 7）：收益来自诊断，而不是重新贴标签。
 
 在 200 道 SLAKE 题目上，我们的标注与原生标签的一致率为：能力类别 97.5%（Cohen's κ = 0.958），模态 100%，解剖部位 96.5%。κ > 0.81 即属于"几乎完全一致"（Landis & Koch, 1977）。Table 6 会补充这一对应关系。
 
@@ -165,10 +147,12 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 - [x] **W3 文献（已核实）**：Chen et al., ICML 2024 = SPIN（Self-Play Fine-Tuning），收益集中在前两轮，后续工作 SPACE 报告其在峰值后下降；Singh et al., TMLR 2024 = ReST-EM（"Beyond Human Data"），原文写明 APPS 在第二轮回退，迭代超过几轮后收益递减，并归因于在少量训练题上过拟合。R-Zero（论文中的 Huang et al., 2026a）后期下降没有查到原文证据，所以没有引用。
 - [x] **W3 R7 出处**：附录 C.4 "Checkpoint selection" 写明按整体均衡选 R7；附录 C.6 写明外部基准不参与监督构建、学习者训练、课程和原则更新。
 - [ ] **为容纳 W3 而删去的内容（可按需恢复）**：W2 中"四个 2D VQA、两个报告、三个 3D 基准"的括号；Q3 中"VQA-RAD 和 M3D-VQA 采用类似类别"一句。（"过时诊断使 12 个分数中 11 个下降"已作为 Q3 最后一点补回，因为它直接回答"收益来自诊断还是重新贴标签"。）W2 中"包括能力单元（第 3.1 节）"一句。W3 原先关于"被动恢复与均衡"的内容已删去：审稿人认可了恢复本身，"均衡收敛"由后两点（下降幅度小、R7 能力画像最均衡）回应。
+- [x] **Q3 先答必要性（作者要求）**：Q3 开头直接回答审稿人第一个疑问"为何必要"，从方法机制出发：四个维度划分出能力单元（代码 `cell_key` = 基准 + 四个维度；论文 Table 6、第 3.1 节式 1），能力画像按单元测量（式 1），规划器在单元间分配预算（式 7），每条原则对应一个单元（代码 `principle_key`）并在不再进步时被修订（第 4.3 节），选择器按单元的模态和解剖部位检索证据（附录 C.3；代码 curriculum.py 用四个维度作检索目标）。删去开头"不是我们主张的贡献"一句。
+- [ ] **Q1 删去"相对自身基础模型的提升"表（为给 Q3 腾字数）**：同基础模型复现已直接回答审稿人的问题，原来那张基于 MedVLSynther 发表数字的提升表（+6.13/+8.82/+6.65/+0.17 对 +13.82/+25.72/+26.76/+26.63）删去。正文改为先说明 Table 1 用的是其在 Qwen2.5-VL-7B 上发表的数字，再给同基础模型复现结果。若想恢复那张表，需要再压缩约 280 字符。
 - [x] **Q1 复现结果（作者提供，已填入）**：用 MedVLSynther 公开数据和 GRPO 脚本在 Qwen3-VL-8B 上复现：PMC-VQA 53.18、VQA-RAD 70.96、SLAKE 73.32、PathVQA 68.69。CoEvoMed-8B 四项全部更高（+14.77、+11.52、+18.28、+0.71）。注意：PMC-VQA 53.18 低于 Qwen3-VL-8B 基础模型的 54.13。
 - [ ] **Q1 数字来源**：确认 Table 1 的 MedVLSynther 数字引自其论文（与其 GitHub README 的数字完全一致）。正文写的是 "as published"。
 - [ ] **Q1 与附录 C.1 的一致性**：C.1 写的是"本研究评估的基线与 CoEvoMed 使用相同的评估集和评分规则"，MedVLSynther 是引用数，与这句不符。Q1 已如实写明"按原文发表的结果和协议"；定稿时建议把 C.1 改为区分"我们评测的基线"和"引用原文的基线"。
-- [x] **字符限制**：当前 4,987 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
+- [x] **字符限制**：当前 4,937 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
 - [x] **Q2 承诺（作者要求删除）**：正文已不再提"图像以 ID 引用、为禁止再分发的源数据提供重新生成脚本"，只承诺"按各源数据的许可公开合成数据和全部版本的构建原则"。
 - [ ] **Q2 待确认许可**：PMC-OA、MedTrinity BHX、RadGenome-ChestCT、Med-MAT 的许可没能直接核实，AbdomenAtlas1.0Mini 的附加条款也不确定，公开前需逐个确认（见下方"Q2 源数据许可核对"）。
 - [x] **Q3 一致率（已填入）**：轴 B（视觉能力）准确率 97.50%（195/200），macro-F1 0.9767，Cohen's κ 0.9575（正文写作 0.958）；轴 C（模态）准确率 100%，为模型在不看原标签的情况下独立判断；轴 D（解剖部位）准确率 96.50%（193/200），macro-F1 0.9476。轴的对应关系来自代码 `AXES = ("task_form", "visual_ability", "modality", "anatomy")`。
