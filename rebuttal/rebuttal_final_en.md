@@ -6,7 +6,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,985 / 5,000 characters (quotes excluded).*
+*Posted text: 4,987 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
@@ -29,26 +29,26 @@ No simpler process can substitute them: each one above lowers every score. We al
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
 
-**W2 (Organization).** The layout follows our contributions and scope. The main text gives each contribution with its evidence: co-evolution framework (Sec. 3), multi-agent system and curriculum policy (Sec. 4), and evaluation task composition (Sec. 5.1). For space, its analyses use one VQA and one report task. The appendix adds what reproduction needs: algorithm (**App. A**), settings (**App. B**), data and metrics (**App. C**), and all-task results (**App. D**).
+**W2 (Organization).** The layout follows our contributions and scope. The main text gives each contribution with its evidence: co-evolution framework (Sec. 3), multi-agent system and curriculum policy (Sec. 4). The evaluation task composition is in Sec. 5.1; for space, main analyses use one VQA and one report task from it. The appendix covers all tasks and adds what reproduction needs: algorithm (**App. A**), settings (**App. B**), data and metrics (**App. C**), and full results (**App. D**).
 
 > **Weakness 3:** The method demonstrates reactive recovery from selected capability regressions, but does not establish prevention of catastrophic forgetting or stable balanced convergence. Later-round declines, reliance on R7 checkpoint selection, absence of retention ablations, and lack of standard continual-learning metrics leave the central retention claim only partially supported.
 
 **W3 (Catastrophic forgetting and retention).** We respectfully note a misunderstanding: CoEvoMed builds on curriculum learning, not continual learning. Forgetting arises when tasks are learned in sequence and old data is dropped. It trains all tasks every round and replays earlier data (Eq. 7; Sec. 3.3), so continual-learning metrics do not apply. "Retention" is a share of the planner's budget (Sec. 4.2), ablated with it (Table 7).
 
-The later-round declines come from the data, not from our mechanisms. The planner and revision agent work as designed but draw on a fixed pool (359,355 facts, App. C.3). Each round builds 50,000 examples (App. B), so by R7 the budget nearly matches the pool and later rounds mostly reuse evidence. Self-training on finite data shows the same pattern (Chen et al., 2024; Singh et al., 2024). At R10, the Fig. 7 benchmarks stay within 3 points of their peaks, over 12 above R1.
+The later-round declines come from the data, not from our mechanisms. The planner and revision agent work as designed but draw on a fixed pool (359,355 facts, App. C.3). Each round builds 50,000 examples (App. B), so by R7 the budget nearly matches the pool and later rounds mostly reuse evidence. Self-training on finite data shows this pattern (Chen et al., 2024; Singh et al., 2024). At R10, Fig. 7 benchmarks stay within 3 points of their peaks, over 12 above R1.
 
 We selected R7 by a predefined criterion: the most balanced capability profile on internal validation (App. C.4). R7 is where this pool's new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (App. C.5). CoEvoMed is a general evolution mechanism: its final checkpoint is not a fixed round but follows the limit of the data pool.
 
 > **Question 1:** For medVLSynther results, do you use the same base model to replicate their results?
 
-**Q1 (MedVLSynther base model).** Absolute scores mix method and backbone, so we compare gains over each method's base (MedVLSynther as published):
+**Q1 (MedVLSynther base model).** Absolute scores mix method and backbone, so we compare gains over each base (MedVLSynther as published):
 
 | Gain over own base | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
 | MedVLSynther-7B (Qwen2.5-VL-7B) | +6.13 | +8.82 | +6.65 | +0.17 |
 | CoEvoMed-8B (Qwen3-VL-8B) | **+13.82** | **+25.72** | **+26.76** | **+26.63** |
 
-Same base, with MedVLSynther's released data and GRPO script:
+Same base, MedVLSynther's released data and GRPO script:
 
 | Same base: Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
@@ -67,7 +67,7 @@ We built our categories on SLAKE's (Liu et al., 2021) by design: physicians anno
 
 The dimensions are necessary because the loop runs on them: task form and capability set the planner's targets, and modality and anatomy match evidence to them (Table 6). With the taxonomy fixed, stale diagnoses lower 11 of 12 scores (Table 7): gains come from diagnosis, not relabeling.
 
-On 200 SLAKE questions, our annotations match native labels for capability at 97.5% (Cohen's κ = 0.958), modality at 100%, and body region at 96.5%. κ > 0.81 is "almost perfect" agreement (Landis & Koch, 1977). We will add the mapping to Table 6.
+On 200 SLAKE questions, our annotations match native labels for capability at 97.5% (Cohen's κ = 0.958), modality at 100%, and body region at 96.5%. κ > 0.81 is "almost perfect" agreement (Landis & Koch, 1977). Table 6 will add the mapping.
 
 ---
 
