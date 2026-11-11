@@ -25,12 +25,12 @@
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
 | W1 | 多智能体是否必要 | — | 1,523 | 已重写（两部分；合并表；三项设计保障） |
 | W2 | 论文组织 | — | 498 | 已重写（正文逻辑、附录对应、可复现） |
-| W3 | 遗忘与 R7 的选择 | — | 1,258 | 已重写 |
+| W3 | 遗忘与 R7 的选择 | — | 1,278 | 已重写 |
 | Q1 | MedVLSynther 复现 | — | 463 | 已重写 |
 | Q2 | 数据公开 | — | 137 | 已压缩 |
 | Q3 | 能力分类体系 | — | 1,065 | 已重写 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,954** | |
+| **合计** | | **≤ 5,000** | **4,974** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -58,9 +58,9 @@ No simpler process can substitute them: each one above lowers every score. We al
 
 **W3 (Catastrophic forgetting and retention).** We respectfully note a misunderstanding: CoEvoMed builds on curriculum learning, not continual learning. Forgetting arises when tasks are learned in sequence and old data is dropped. It trains all tasks every round and replays earlier data (Eq. 7; Sec. 3.3), so continual-learning metrics do not apply. "Retention" is a share of the planner's budget (Sec. 4.2), ablated with it (Table 7).
 
-The later-round declines come from the data, not from our mechanisms. The planner and revision agent work as designed but draw on a fixed pool (359,355 facts, App. C.3). Our logs show that by R7 training has used 95% of the pool, and examples with new evidence fall from 49.1% at R7 to 18.0% at R8 and 2.2% at R10. Self-training on finite data shows this pattern (Chen et al., 2024; Singh et al., 2024). At R10, Fig. 7 benchmarks stay within 3 points of their peaks, over 12 above R1.
+The later-round declines come from the data, not from our mechanisms. The support pool is fixed (359,355 facts, App. C.3), and our logs show 95% of it is used by R7. After that, few examples contain new evidence (18.0% at R8, 2.2% at R10), so later rounds mostly retrain on seen evidence. Scores peak at R7–R8, exactly when new evidence runs out; self-training on finite data does the same (Chen et al., 2024; Singh et al., 2024). At R10, Fig. 7 benchmarks remain within 3 points of their peaks and over 12 above R1.
 
-We selected R7 by a predefined criterion: the most balanced capability profile on internal validation (App. C.4). R7 is where this pool's new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (App. C.5). CoEvoMed is a general evolution mechanism: its final checkpoint is not a fixed round but follows the limit of the data pool.
+We selected R7 by a predefined criterion: the most balanced capability profile on internal validation (App. C.4). R7 is where new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (App. C.5). CoEvoMed is a general evolution mechanism: its final checkpoint is not a fixed round but follows the limit of the data pool.
 
 **Q1 (MedVLSynther base model).** Table 1 reports MedVLSynther's published results on Qwen2.5-VL-7B. To answer this, we retrained it on our base, Qwen3-VL-8B, with its released data and GRPO script. On the same base, CoEvoMed leads on all four benchmarks:
 
@@ -101,9 +101,9 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 
 **W3（灾难性遗忘与保留）** 我们想指出一个误解：CoEvoMed 是基于课程学习设计的，而不是持续学习。灾难性遗忘出现在按顺序学习各个任务、并丢弃旧数据的情况下。CoEvoMed 每一轮都同时训练所有任务，并回放之前的数据（式 7；第 3.3 节），因此持续学习的指标并不适用。"保留"是规划器预算中的一个份额（第 4.2 节），已随规划器一起做了消融（Table 7）。
 
-后期轮次的下降源于数据，而不是我们的机制。课程规划器和修订智能体都按设计正常工作，但它们使用的是一个固定的数据池（359,355 条事实，附录 C.3）。训练日志显示，到 R7 已用掉数据池的 95%；含有新证据的样本占比从 R7 的 49.1% 降到 R8 的 18.0%、R10 的 2.2%。在有限数据上的自训练也呈现这一规律（Chen et al., 2024；Singh et al., 2024）。到 R10，Figure 7 中的基准仍都在各自峰值 3 分以内，并比 R1 高出 12 分以上。
+后期轮次的下降源于数据，而不是我们的机制。支持数据池是固定的（359,355 条事实，附录 C.3），训练日志显示到 R7 已用掉其中的 95%。此后，含有新证据的样本越来越少（R8 为 18.0%，R10 为 2.2%），后续轮次主要是在已经见过的证据上反复训练。分数恰好在新证据用尽的 R7–R8 达到峰值；在有限数据上的自训练也是如此（Chen et al., 2024；Singh et al., 2024）。到 R10，Figure 7 中的基准仍在各自峰值 3 分以内，并比 R1 高出 12 分以上。
 
-我们按预先定义的标准选择 R7：它在内部验证上的能力画像最均衡（附录 C.4）。R7 正是当前数据池的新证据用尽的那一轮，而 InternVL3-9B 的峰值出现在第 4–6 轮（附录 C.5）。CoEvoMed 是一个通用的进化机制：最终检查点不是固定的某一轮，而是取决于所用数据池的上限。
+我们按预先定义的标准选择 R7：它在内部验证上的能力画像最均衡（附录 C.4）。R7 正是新证据用尽的那一轮，而 InternVL3-9B 的峰值出现在第 4–6 轮（附录 C.5）。CoEvoMed 是一个通用的进化机制：最终检查点不是固定的某一轮，而是取决于所用数据池的上限。
 
 **Q1（MedVLSynther 的基础模型）** Table 1 中 MedVLSynther 的结果是其论文在 Qwen2.5-VL-7B 上发表的数字。为回答这一问题，我们用它公开的数据和 GRPO 训练脚本，在我们的基础模型 Qwen3-VL-8B 上重新训练了它。在相同的基础模型上，CoEvoMed 在四个基准上全部领先：
 
@@ -167,7 +167,7 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 - [x] **Q1 复现结果（作者提供，已填入）**：用 MedVLSynther 公开数据和 GRPO 脚本在 Qwen3-VL-8B 上复现：PMC-VQA 53.18、VQA-RAD 70.96、SLAKE 73.32、PathVQA 68.69。CoEvoMed-8B 四项全部更高（+14.77、+11.52、+18.28、+0.71）。注意：PMC-VQA 53.18 低于 Qwen3-VL-8B 基础模型的 54.13。
 - [ ] **Q1 数字来源**：确认 Table 1 的 MedVLSynther 数字引自其论文（与其 GitHub README 的数字完全一致）。正文写的是 "as published"。
 - [ ] **Q1 与附录 C.1 的一致性**：C.1 写的是"本研究评估的基线与 CoEvoMed 使用相同的评估集和评分规则"，MedVLSynther 是引用数，与这句不符。Q1 已如实写明"按原文发表的结果和协议"；定稿时建议把 C.1 改为区分"我们评测的基线"和"引用原文的基线"。
-- [x] **字符限制**：当前 4,954 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
+- [x] **字符限制**：当前 4,974 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
 - [x] **Q2 承诺（作者要求删除）**：正文已不再提"图像以 ID 引用、为禁止再分发的源数据提供重新生成脚本"，只承诺"按各源数据的许可公开合成数据和全部版本的构建原则"。
 - [ ] **Q2 待确认许可**：PMC-OA、MedTrinity BHX、RadGenome-ChestCT、Med-MAT 的许可没能直接核实，AbdomenAtlas1.0Mini 的附加条款也不确定，公开前需逐个确认（见下方"Q2 源数据许可核对"）。
 - [x] **Q3 一致率（已填入）**：轴 B（视觉能力）准确率 97.50%（195/200），macro-F1 0.9767，Cohen's κ 0.9575（正文写作 0.958）；轴 C（模态）准确率 100%，为模型在不看原标签的情况下独立判断；轴 D（解剖部位）准确率 96.50%（193/200），macro-F1 0.9476。轴的对应关系来自代码 `AXES = ("task_form", "visual_ability", "modality", "anatomy")`。

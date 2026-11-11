@@ -6,7 +6,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,954 / 5,000 characters (quotes excluded).*
+*Posted text: 4,974 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
@@ -35,9 +35,9 @@ No simpler process can substitute them: each one above lowers every score. We al
 
 **W3 (Catastrophic forgetting and retention).** We respectfully note a misunderstanding: CoEvoMed builds on curriculum learning, not continual learning. Forgetting arises when tasks are learned in sequence and old data is dropped. It trains all tasks every round and replays earlier data (Eq. 7; Sec. 3.3), so continual-learning metrics do not apply. "Retention" is a share of the planner's budget (Sec. 4.2), ablated with it (Table 7).
 
-The later-round declines come from the data, not from our mechanisms. The planner and revision agent work as designed but draw on a fixed pool (359,355 facts, App. C.3). Our logs show that by R7 training has used 95% of the pool, and examples with new evidence fall from 49.1% at R7 to 18.0% at R8 and 2.2% at R10. Self-training on finite data shows this pattern (Chen et al., 2024; Singh et al., 2024). At R10, Fig. 7 benchmarks stay within 3 points of their peaks, over 12 above R1.
+The later-round declines come from the data, not from our mechanisms. The support pool is fixed (359,355 facts, App. C.3), and our logs show 95% of it is used by R7. After that, few examples contain new evidence (18.0% at R8, 2.2% at R10), so later rounds mostly retrain on seen evidence. Scores peak at R7–R8, exactly when new evidence runs out; self-training on finite data does the same (Chen et al., 2024; Singh et al., 2024). At R10, Fig. 7 benchmarks remain within 3 points of their peaks and over 12 above R1.
 
-We selected R7 by a predefined criterion: the most balanced capability profile on internal validation (App. C.4). R7 is where this pool's new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (App. C.5). CoEvoMed is a general evolution mechanism: its final checkpoint is not a fixed round but follows the limit of the data pool.
+We selected R7 by a predefined criterion: the most balanced capability profile on internal validation (App. C.4). R7 is where new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (App. C.5). CoEvoMed is a general evolution mechanism: its final checkpoint is not a fixed round but follows the limit of the data pool.
 
 > **Question 1:** For medVLSynther results, do you use the same base model to replicate their results?
 
