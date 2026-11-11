@@ -325,16 +325,16 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 | 条目 | 内容 | 当前 | 状态 |
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
-| W1 | 在预算匹配下分离各组件 | 1,949 | 已改为论文格式的合并表（Table 7–8） |
+| W1 | 在预算匹配下分离各组件 | 1,915 | 已改为论文格式的合并表（Table 7–8） |
 | Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,163 | 已改为分段，展示论文 Table 8 的 R5 部分 |
-| **合计** | | **4,194** | ≤ 5,000 |
+| **合计** | | **4,160** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
 ```markdown
 We thank the reviewer for the positive assessment and the precise suggestions.
 
-**W1 (Isolating the contributions of individual components).** The paper already contains these budget-matched ablations: **Table 2** (Sec. 5.3) in the main text, with full results in **App. D** (**Tables 7–8**); we will make them more prominent. All settings start from the same R5 checkpoint and train one round with the same pipeline and budget. To remove principle evolution, we keep the original principles. To remove curriculum adaptation, we give the curriculum stale R2 or R3 feedback, so it allocates as if fixed at that earlier stage. Change on each benchmark:
+**W1 (Isolating the contributions of individual components).** The paper already contains these budget-matched ablations: **Table 2** (Sec. 5.3) in the main text, with full results in **App. D** (**Tables 7–8**). All settings start from the same R5 checkpoint and train one round with the same pipeline and budget. To remove principle evolution, we keep the original principles. To remove curriculum adaptation, we give the curriculum stale R2 or R3 feedback, so it allocates as if fixed at that earlier stage. Change on each benchmark:
 
 | Setting | Principle evolution | Curriculum adaptation | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
@@ -373,7 +373,7 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 我们感谢审稿人的积极评价和具体建议。
 
-**W1（分离各个组件的贡献）** 论文中已经包含这些预算匹配的消融实验：正文 **Table 2**（第 5.3 节），完整结果见**附录 D**（**Table 7–8**）；修改稿中我们会让它们更醒目。所有设置都从同一个 R5 检查点出发，用相同的流程和预算训练一轮。去掉原则演化时，我们保留原始原则；去掉课程自适应时，我们把过时的 R2 或 R3 反馈交给课程，使它按固定在那个较早阶段的方式分配预算。下表为每个基准上的变化：
+**W1（分离各个组件的贡献）** 论文中已经包含这些预算匹配的消融实验：正文 **Table 2**（第 5.3 节），完整结果见**附录 D**（**Table 7–8**）。所有设置都从同一个 R5 检查点出发，用相同的流程和预算训练一轮。去掉原则演化时，我们保留原始原则；去掉课程自适应时，我们把过时的 R2 或 R3 反馈交给课程，使它按固定在那个较早阶段的方式分配预算。下表为每个基准上的变化：
 
 | 设置 | 原则演化 | 课程自适应 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
@@ -456,22 +456,22 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | — | — | 已改为在标题中注明 |
-| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,171 | 已改为分点格式 |
+| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,137 | 已改为分点格式 |
 | Q2 | 数据泄漏；R7 的选择 | — | 676 | 已定稿 |
 | Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,156 | 已定稿 |
 | Q4 | 复杂推理基准 | — | 962 | 已定稿 |
-| **合计** | | **≤ 5,000** | **4,971** | |
+| **合计** | | **≤ 5,000** | **4,937** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
-字符空间：当前 4,971 字符，占位符已全部填完，只剩 29 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
+字符空间：当前 4,937 字符，占位符已全部填完，只剩 63 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
 ### 英文正文（发布用）
 
 ```markdown
-**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** The paper already ablates both components with the same teachers, data sources, budget, and R5 checkpoint (**Table 2**, Sec. 5.3; **App. D**); we will make this more prominent. Stale R2 or R3 feedback reproduces a curriculum fixed at an earlier stage. Change on each benchmark (**Tables 7–8**):
+**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** The paper already ablates both components with the same teachers, data sources, budget, and R5 checkpoint (**Table 2**, Sec. 5.3; **App. D**). Stale R2 or R3 feedback reproduces a curriculum fixed at an earlier stage. Change on each benchmark (**Tables 7–8**):
 
 | Setting | Principle evolution | Adaptive curriculum | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
@@ -513,7 +513,7 @@ The results support generalization: CoEvoMed ranks first on all nine benchmarks 
 
 ### 中文译文（不发布）
 
-**Q1 与 W1（各部分的贡献、PPO、原始数据、选择标准）** 论文已经在相同的教师模型、数据来源、预算和 R5 检查点下，对这两个组件做了消融（正文 **Table 2**，第 5.3 节；**附录 D**）；修改稿中我们会让这一点更醒目。过时的 R2 或 R3 反馈相当于一套在较早阶段就固定下来的课程。下表为每个基准上的变化（**Table 7–8**）：
+**Q1 与 W1（各部分的贡献、PPO、原始数据、选择标准）** 论文已经在相同的教师模型、数据来源、预算和 R5 检查点下，对这两个组件做了消融（正文 **Table 2**，第 5.3 节；**附录 D**）。过时的 R2 或 R3 反馈相当于一套在较早阶段就固定下来的课程。下表为每个基准上的变化（**Table 7–8**）：
 
 | 设置 | 原则演化 | 自适应课程 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
