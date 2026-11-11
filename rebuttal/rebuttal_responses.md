@@ -26,11 +26,11 @@
 | W1 | 多智能体是否必要 | — | 1,523 | 已重写（两部分；合并表；三项设计保障） |
 | W2 | 论文组织 | — | 468 | 已重写（正文逻辑、附录对应、可复现） |
 | W3 | 遗忘与 R7 的选择 | — | 1,249 | 已重写 |
-| Q1 | MedVLSynther 复现 | — | 640 | 已压缩 |
+| Q1 | MedVLSynther 复现 | — | 636 | 已填入复现结果 |
 | Q2 | 数据公开 | — | 137 | 已压缩 |
 | Q3 | 能力分类体系 | — | 962 | 已压缩 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,989** | |
+| **合计** | | **≤ 5,000** | **4,985** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -73,7 +73,7 @@ Same base, with MedVLSynther's released data and GRPO script:
 
 | Same base: Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
-| MedVLSynther recipe | [x.xx] | [x.xx] | [x.xx] | [x.xx] |
+| MedVLSynther recipe | 53.18 | 70.96 | 73.32 | 68.69 |
 | CoEvoMed-8B | 67.95 | 82.48 | 91.60 | 69.40 |
 
 **Q2 (Data release).** Yes. Upon acceptance, we will release the synthesized data and all principle versions under each source's license.
@@ -125,7 +125,7 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 
 | 相同基础模型：Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
-| MedVLSynther 配方 | [x.xx] | [x.xx] | [x.xx] | [x.xx] |
+| MedVLSynther 配方 | 53.18 | 70.96 | 73.32 | 68.69 |
 | CoEvoMed-8B | 67.95 | 82.48 | 91.60 | 69.40 |
 
 **Q2（数据公开）** 会公开。论文被接收后，我们将按各源数据的许可公开合成数据和全部版本的构建原则。
@@ -165,10 +165,10 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 - [x] **W3 文献（已核实）**：Chen et al., ICML 2024 = SPIN（Self-Play Fine-Tuning），收益集中在前两轮，后续工作 SPACE 报告其在峰值后下降；Singh et al., TMLR 2024 = ReST-EM（"Beyond Human Data"），原文写明 APPS 在第二轮回退，迭代超过几轮后收益递减，并归因于在少量训练题上过拟合。R-Zero（论文中的 Huang et al., 2026a）后期下降没有查到原文证据，所以没有引用。
 - [x] **W3 R7 出处**：附录 C.4 "Checkpoint selection" 写明按整体均衡选 R7；附录 C.6 写明外部基准不参与监督构建、学习者训练、课程和原则更新。
 - [ ] **为容纳 W3 而删去的内容（可按需恢复）**：W2 中"四个 2D VQA、两个报告、三个 3D 基准"的括号；Q3 中"VQA-RAD 和 M3D-VQA 采用类似类别"一句。（"过时诊断使 12 个分数中 11 个下降"已作为 Q3 最后一点补回，因为它直接回答"收益来自诊断还是重新贴标签"。）W2 中"包括能力单元（第 3.1 节）"一句。W3 原先关于"被动恢复与均衡"的内容已删去：审稿人认可了恢复本身，"均衡收敛"由后两点（下降幅度小、R7 能力画像最均衡）回应。
-- [ ] **Q1 占位符**：复现完成后，在第二张表里填入复现模型在四个基准上的得分 `[x.xx]`（与 CoEvoMed 同一评测流程）。如果任何一项高于 CoEvoMed，需要重新讨论写法。
+- [x] **Q1 复现结果（作者提供，已填入）**：用 MedVLSynther 公开数据和 GRPO 脚本在 Qwen3-VL-8B 上复现：PMC-VQA 53.18、VQA-RAD 70.96、SLAKE 73.32、PathVQA 68.69。CoEvoMed-8B 四项全部更高（+14.77、+11.52、+18.28、+0.71）。注意：PMC-VQA 53.18 低于 Qwen3-VL-8B 基础模型的 54.13。
 - [ ] **Q1 数字来源**：确认 Table 1 的 MedVLSynther 数字引自其论文（与其 GitHub README 的数字完全一致）。正文写的是 "as published"。
 - [ ] **Q1 与附录 C.1 的一致性**：C.1 写的是"本研究评估的基线与 CoEvoMed 使用相同的评估集和评分规则"，MedVLSynther 是引用数，与这句不符。Q1 已如实写明"按原文发表的结果和协议"；定稿时建议把 C.1 改为区分"我们评测的基线"和"引用原文的基线"。
-- [x] **字符限制**：当前 4,989 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
+- [x] **字符限制**：当前 4,985 字符。填入 Q1 复现结果后，`[x.xx]` 每格少 1 个字符，仍在限制内。
 - [x] **Q2 承诺（作者要求删除）**：正文已不再提"图像以 ID 引用、为禁止再分发的源数据提供重新生成脚本"，只承诺"按各源数据的许可公开合成数据和全部版本的构建原则"。
 - [ ] **Q2 待确认许可**：PMC-OA、MedTrinity BHX、RadGenome-ChestCT、Med-MAT 的许可没能直接核实，AbdomenAtlas1.0Mini 的附加条款也不确定，公开前需逐个确认（见下方"Q2 源数据许可核对"）。
 - [x] **Q3 一致率（已填入）**：轴 B（视觉能力）准确率 97.50%（195/200），macro-F1 0.9767，Cohen's κ 0.9575（正文写作 0.958）；轴 C（模态）准确率 100%，为模型在不看原标签的情况下独立判断；轴 D（解剖部位）准确率 96.50%（193/200），macro-F1 0.9476。轴的对应关系来自代码 `AXES = ("task_form", "visual_ability", "modality", "anatomy")`。

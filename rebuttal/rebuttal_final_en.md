@@ -6,7 +6,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,989 / 5,000 characters (quotes excluded).*
+*Posted text: 4,985 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
@@ -52,7 +52,7 @@ Same base, with MedVLSynther's released data and GRPO script:
 
 | Same base: Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
-| MedVLSynther recipe | [x.xx] | [x.xx] | [x.xx] | [x.xx] |
+| MedVLSynther recipe | 53.18 | 70.96 | 73.32 | 68.69 |
 | CoEvoMed-8B | 67.95 | 82.48 | 91.60 | 69.40 |
 
 > **Question 2:** Would you consider to publicate the data generated in your evolving pipeline?
