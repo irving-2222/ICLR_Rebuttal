@@ -23,10 +23,10 @@
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
-| W1 | 多智能体是否必要 | — | 1,523 | 已重写（两部分；合并表；三项设计保障） |
-| W2 | 论文组织 | — | 532 | 已重写（正文逻辑、附录对应、可复现） |
-| W3 | 遗忘与 R7 的选择 | — | 1,278 | 已重写 |
-| Q1 | MedVLSynther 复现 | — | 447 | 已重写 |
+| W1 | 多智能体是否必要 | — | 1,534 | 已重写（两部分；合并表；三项设计保障） |
+| W2 | 论文组织 | — | 528 | 已重写（正文逻辑、附录对应、可复现） |
+| W3 | 遗忘与 R7 的选择 | — | 1,274 | 已重写 |
+| Q1 | MedVLSynther 复现 | — | 444 | 已重写 |
 | Q2 | 数据公开 | — | 137 | 已压缩 |
 | Q3 | 能力分类体系 | — | 1,064 | 已重写 |
 | 结尾 | | — | — | 不写（为字符限制） |
@@ -37,7 +37,7 @@
 ### 英文正文（发布用）
 
 ```markdown
-**W1 (Necessity of the multi-agent framework).** **Table 2** (Sec. 5.3) and **App. D** show that the agents are needed (**Tables 7–9**). Changes from a shared start, all else fixed:
+**W1 (Necessity of the multi-agent framework).** The paper already shows the agents are needed (**Table 2**, Sec. 5.3; **App. D**, **Tables 7–9**). Changes from a shared start, all else fixed:
 
 | Without | From | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
 |---|---|---|---|---|---|
@@ -54,15 +54,15 @@ No simpler process can substitute them: each one above lowers every score. We al
 2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, as VLMs often do (Li et al., 2023). We therefore let it write only from selected facts.
 3. **Curriculum allocation.** If an LLM agent also set the budget, it could not learn, since LLM weights stay frozen. Curricula learned from learning progress match or beat hand-crafted ones (Matiisen et al., 2017). We therefore made the curriculum planner a separate policy trained by PPO on validation gains (Sec. 4.2).
 
-**W2 (Organization).** The layout follows our contributions and scope. The main text gives each contribution with its evidence: co-evolution framework (Sec. 3), multi-agent system and curriculum policy (Sec. 4). The evaluation task composition is in Sec. 5.1; for space, main analyses use one VQA and one report task from it. The appendix covers all tasks and what reproduction needs: algorithm (**App. A**), settings (**App. B**), data and metrics (**App. C**), and full results (**App. D**). Code is in the supplementary material.
+**W2 (Organization).** The layout follows our contributions and scope. The main text gives each contribution with evidence: co-evolution framework (Sec. 3), multi-agent system and curriculum policy (Sec. 4). The evaluation task composition is in Sec. 5.1; for space, main analyses use one VQA and one report task from it. The appendix covers all tasks and what reproduction needs: algorithm (**App. A**), settings (**App. B**), data and metrics (**App. C**), and full results (**App. D**). Code is in the supplementary material.
 
 **W3 (Catastrophic forgetting and retention).** We respectfully note a misunderstanding: CoEvoMed builds on curriculum learning, not continual learning. Forgetting arises when tasks are learned in sequence and old data is dropped. It trains all tasks every round and replays earlier data (Eq. 7; Sec. 3.3), so continual-learning metrics do not apply. "Retention" is a share of the planner's budget (Sec. 4.2), ablated with it (Table 7).
 
-The later-round declines come from the data, not from our mechanisms. The support pool is fixed (359,355 facts, App. C.3), and our logs show 95% of it is used by R7. After that, few examples contain new evidence (18.0% at R8, 2.2% at R10), so later rounds mostly retrain on seen evidence. Scores peak at R7–R8, exactly when new evidence runs out; self-training on finite data does the same (Chen et al., 2024; Singh et al., 2024). At R10, Fig. 7 benchmarks remain within 3 points of their peaks and over 12 above R1.
+The later-round declines come from the data, not from our mechanisms. The support pool is fixed (359,355 facts, App. C.3), and logs show 95% of it is used by R7. After that, few examples contain new evidence (18.0% at R8, 2.2% at R10), so later rounds mostly retrain on seen evidence. Scores peak at R7–R8, exactly when new evidence runs out; self-training on finite data does the same (Chen et al., 2024; Singh et al., 2024). At R10, Fig. 7 benchmarks remain within 3 points of their peaks and over 12 above R1.
 
 We selected R7 by a predefined criterion: the most balanced capability profile on internal validation (App. C.4). R7 is where new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (App. C.5). CoEvoMed is a general evolution mechanism: its final checkpoint is not a fixed round but follows the limit of the data pool.
 
-**Q1 (MedVLSynther base model).** Table 1 reports MedVLSynther's published results on Qwen2.5-VL-7B. We retrained it on our base, Qwen3-VL-8B, with its released data and GRPO script. On the same base, CoEvoMed leads on all four benchmarks:
+**Q1 (MedVLSynther base model).** Table 1 uses MedVLSynther's published results on Qwen2.5-VL-7B. We retrained it on our base, Qwen3-VL-8B, with its released data and GRPO script. On the same base, CoEvoMed leads on all four benchmarks:
 
 | Same base: Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
@@ -80,7 +80,7 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 
 ### 中文译文（不发布）
 
-**W1（多智能体框架的必要性）** 正文 **Table 2**（第 5.3 节）和**附录 D** 表明这些智能体都是必要的（**Table 7–9**）。下表为相对同一起点的变化，其余设置保持不变：
+**W1（多智能体框架的必要性）** 论文已经证明了这些智能体是必要的（正文 **Table 2**，第 5.3 节；**附录 D**，**Table 7–9**）。下表为相对同一起点的变化，其余设置保持不变：
 
 | 去掉的功能 | 起点 | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
 |---|---|---|---|---|---|
@@ -325,16 +325,16 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 | 条目 | 内容 | 当前 | 状态 |
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
-| W1 | 在预算匹配下分离各组件 | 1,892 | 已改为论文格式的合并表（Table 7–8） |
+| W1 | 在预算匹配下分离各组件 | 1,949 | 已改为论文格式的合并表（Table 7–8） |
 | Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,163 | 已改为分段，展示论文 Table 8 的 R5 部分 |
-| **合计** | | **4,137** | ≤ 5,000 |
+| **合计** | | **4,194** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
 ```markdown
 We thank the reviewer for the positive assessment and the precise suggestions.
 
-**W1 (Isolating the contributions of individual components).** These budget-matched ablations are in the main text (**Table 2**, Sec. 5.3), with full results in **App. D** (**Tables 7–8**). All settings start from the same R5 checkpoint and train one round with the same pipeline and budget. To remove principle evolution, we keep the original principles. To remove curriculum adaptation, we give the curriculum stale R2 or R3 feedback, so it allocates as if fixed at that earlier stage. Change on each benchmark:
+**W1 (Isolating the contributions of individual components).** The paper already contains these budget-matched ablations: **Table 2** (Sec. 5.3) in the main text, with full results in **App. D** (**Tables 7–8**); we will make them more prominent. All settings start from the same R5 checkpoint and train one round with the same pipeline and budget. To remove principle evolution, we keep the original principles. To remove curriculum adaptation, we give the curriculum stale R2 or R3 feedback, so it allocates as if fixed at that earlier stage. Change on each benchmark:
 
 | Setting | Principle evolution | Curriculum adaptation | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
@@ -373,7 +373,7 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 我们感谢审稿人的积极评价和具体建议。
 
-**W1（分离各个组件的贡献）** 这些预算匹配的消融实验在正文中已经给出（**Table 2**，第 5.3 节），完整结果见**附录 D**（**Table 7–8**）。所有设置都从同一个 R5 检查点出发，用相同的流程和预算训练一轮。去掉原则演化时，我们保留原始原则；去掉课程自适应时，我们把过时的 R2 或 R3 反馈交给课程，使它按固定在那个较早阶段的方式分配预算。下表为每个基准上的变化：
+**W1（分离各个组件的贡献）** 论文中已经包含这些预算匹配的消融实验：正文 **Table 2**（第 5.3 节），完整结果见**附录 D**（**Table 7–8**）；修改稿中我们会让它们更醒目。所有设置都从同一个 R5 检查点出发，用相同的流程和预算训练一轮。去掉原则演化时，我们保留原始原则；去掉课程自适应时，我们把过时的 R2 或 R3 反馈交给课程，使它按固定在那个较早阶段的方式分配预算。下表为每个基准上的变化：
 
 | 设置 | 原则演化 | 课程自适应 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
@@ -456,22 +456,22 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | — | — | 已改为在标题中注明 |
-| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,114 | 已改为分点格式 |
+| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,171 | 已改为分点格式 |
 | Q2 | 数据泄漏；R7 的选择 | — | 676 | 已定稿 |
 | Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,156 | 已定稿 |
 | Q4 | 复杂推理基准 | — | 962 | 已定稿 |
-| **合计** | | **≤ 5,000** | **4,914** | |
+| **合计** | | **≤ 5,000** | **4,971** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
-字符空间：当前 4,914 字符，占位符已全部填完，只剩 86 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
+字符空间：当前 4,971 字符，占位符已全部填完，只剩 29 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
 ### 英文正文（发布用）
 
 ```markdown
-**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** **Table 2** (Sec. 5.3) and **App. D** ablate each part with the same teachers, data sources, budget, and R5 checkpoint. Stale R2 or R3 feedback reproduces a curriculum fixed at an earlier stage. Change on each benchmark (**Tables 7–8**):
+**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** The paper already ablates both components with the same teachers, data sources, budget, and R5 checkpoint (**Table 2**, Sec. 5.3; **App. D**); we will make this more prominent. Stale R2 or R3 feedback reproduces a curriculum fixed at an earlier stage. Change on each benchmark (**Tables 7–8**):
 
 | Setting | Principle evolution | Adaptive curriculum | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
@@ -513,7 +513,7 @@ The results support generalization: CoEvoMed ranks first on all nine benchmarks 
 
 ### 中文译文（不发布）
 
-**Q1 与 W1（各部分的贡献、PPO、原始数据、选择标准）** 正文 **Table 2**（第 5.3 节）和**附录 D** 在相同的教师模型、数据来源、预算和 R5 检查点下，对每个部分做了消融。过时的 R2 或 R3 反馈相当于一套在较早阶段就固定下来的课程。下表为每个基准上的变化（**Table 7–8**）：
+**Q1 与 W1（各部分的贡献、PPO、原始数据、选择标准）** 论文已经在相同的教师模型、数据来源、预算和 R5 检查点下，对这两个组件做了消融（正文 **Table 2**，第 5.3 节；**附录 D**）；修改稿中我们会让这一点更醒目。过时的 R2 或 R3 反馈相当于一套在较早阶段就固定下来的课程。下表为每个基准上的变化（**Table 7–8**）：
 
 | 设置 | 原则演化 | 自适应课程 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|

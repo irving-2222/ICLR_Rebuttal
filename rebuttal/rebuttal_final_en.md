@@ -10,7 +10,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
-**W1 (Necessity of the multi-agent framework).** **Table 2** (Sec. 5.3) and **App. D** show that the agents are needed (**Tables 7–9**). Changes from a shared start, all else fixed:
+**W1 (Necessity of the multi-agent framework).** The paper already shows the agents are needed (**Table 2**, Sec. 5.3; **App. D**, **Tables 7–9**). Changes from a shared start, all else fixed:
 
 | Without | From | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
 |---|---|---|---|---|---|
@@ -29,19 +29,19 @@ No simpler process can substitute them: each one above lowers every score. We al
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
 
-**W2 (Organization).** The layout follows our contributions and scope. The main text gives each contribution with its evidence: co-evolution framework (Sec. 3), multi-agent system and curriculum policy (Sec. 4). The evaluation task composition is in Sec. 5.1; for space, main analyses use one VQA and one report task from it. The appendix covers all tasks and what reproduction needs: algorithm (**App. A**), settings (**App. B**), data and metrics (**App. C**), and full results (**App. D**). Code is in the supplementary material.
+**W2 (Organization).** The layout follows our contributions and scope. The main text gives each contribution with evidence: co-evolution framework (Sec. 3), multi-agent system and curriculum policy (Sec. 4). The evaluation task composition is in Sec. 5.1; for space, main analyses use one VQA and one report task from it. The appendix covers all tasks and what reproduction needs: algorithm (**App. A**), settings (**App. B**), data and metrics (**App. C**), and full results (**App. D**). Code is in the supplementary material.
 
 > **Weakness 3:** The method demonstrates reactive recovery from selected capability regressions, but does not establish prevention of catastrophic forgetting or stable balanced convergence. Later-round declines, reliance on R7 checkpoint selection, absence of retention ablations, and lack of standard continual-learning metrics leave the central retention claim only partially supported.
 
 **W3 (Catastrophic forgetting and retention).** We respectfully note a misunderstanding: CoEvoMed builds on curriculum learning, not continual learning. Forgetting arises when tasks are learned in sequence and old data is dropped. It trains all tasks every round and replays earlier data (Eq. 7; Sec. 3.3), so continual-learning metrics do not apply. "Retention" is a share of the planner's budget (Sec. 4.2), ablated with it (Table 7).
 
-The later-round declines come from the data, not from our mechanisms. The support pool is fixed (359,355 facts, App. C.3), and our logs show 95% of it is used by R7. After that, few examples contain new evidence (18.0% at R8, 2.2% at R10), so later rounds mostly retrain on seen evidence. Scores peak at R7–R8, exactly when new evidence runs out; self-training on finite data does the same (Chen et al., 2024; Singh et al., 2024). At R10, Fig. 7 benchmarks remain within 3 points of their peaks and over 12 above R1.
+The later-round declines come from the data, not from our mechanisms. The support pool is fixed (359,355 facts, App. C.3), and logs show 95% of it is used by R7. After that, few examples contain new evidence (18.0% at R8, 2.2% at R10), so later rounds mostly retrain on seen evidence. Scores peak at R7–R8, exactly when new evidence runs out; self-training on finite data does the same (Chen et al., 2024; Singh et al., 2024). At R10, Fig. 7 benchmarks remain within 3 points of their peaks and over 12 above R1.
 
 We selected R7 by a predefined criterion: the most balanced capability profile on internal validation (App. C.4). R7 is where new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (App. C.5). CoEvoMed is a general evolution mechanism: its final checkpoint is not a fixed round but follows the limit of the data pool.
 
 > **Question 1:** For medVLSynther results, do you use the same base model to replicate their results?
 
-**Q1 (MedVLSynther base model).** Table 1 reports MedVLSynther's published results on Qwen2.5-VL-7B. We retrained it on our base, Qwen3-VL-8B, with its released data and GRPO script. On the same base, CoEvoMed leads on all four benchmarks:
+**Q1 (MedVLSynther base model).** Table 1 uses MedVLSynther's published results on Qwen2.5-VL-7B. We retrained it on our base, Qwen3-VL-8B, with its released data and GRPO script. On the same base, CoEvoMed leads on all four benchmarks:
 
 | Same base: Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
@@ -64,13 +64,13 @@ On 200 SLAKE questions, our annotations match native labels for capability at 97
 
 ## Response to Reviewer jcb6
 
-*Posted text: 4,137 / 5,000 characters (quotes excluded).*
+*Posted text: 4,194 / 5,000 characters (quotes excluded).*
 
 We thank the reviewer for the positive assessment and the precise suggestions.
 
 > **Weakness:** The ablation study does not sufficiently isolate the contributions of the individual components. Budget-matched comparisons with fixed principles and a fixed curriculum, principle evolution alone, and curriculum adaptation alone would help determine whether the gains come primarily from high-quality synthetic data or the proposed co-evolution mechanism.
 
-**W1 (Isolating the contributions of individual components).** These budget-matched ablations are in the main text (**Table 2**, Sec. 5.3), with full results in **App. D** (**Tables 7–8**). All settings start from the same R5 checkpoint and train one round with the same pipeline and budget. To remove principle evolution, we keep the original principles. To remove curriculum adaptation, we give the curriculum stale R2 or R3 feedback, so it allocates as if fixed at that earlier stage. Change on each benchmark:
+**W1 (Isolating the contributions of individual components).** The paper already contains these budget-matched ablations: **Table 2** (Sec. 5.3) in the main text, with full results in **App. D** (**Tables 7–8**); we will make them more prominent. All settings start from the same R5 checkpoint and train one round with the same pipeline and budget. To remove principle evolution, we keep the original principles. To remove curriculum adaptation, we give the curriculum stale R2 or R3 feedback, so it allocates as if fixed at that earlier stage. Change on each benchmark:
 
 | Setting | Principle evolution | Curriculum adaptation | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
@@ -110,13 +110,13 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 ## Response to Reviewer 2Nuw
 
-*Posted text: 4,914 / 5,000 characters (quotes excluded).*
+*Posted text: 4,971 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** **The experimental controls and mechanism analyses do not sufficiently establish the contribution of co-evolution.** The method combines teacher-generated supervision, data verification, principle revision, and adaptive curricula, but does not adequately isolate their effects or those of additional resources. Improvements are difficult to attribute to individual principles, and the relationship between principle-selection criteria and subsequent learning gains remains unvalidated. The substantial degradation of the raw-data training baseline also lacks sufficient explanation.
 
 > **Question 1:** Under the same teachers, data sources, and comparable budgets, could you separately establish the contributions of principle evolution and adaptive curricula, including PPO’s advantage over simpler allocation strategies? Could you also explain the raw-data baseline’s degradation and validate the relationship between principle-selection criteria and subsequent learning gains?
 
-**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** **Table 2** (Sec. 5.3) and **App. D** ablate each part with the same teachers, data sources, budget, and R5 checkpoint. Stale R2 or R3 feedback reproduces a curriculum fixed at an earlier stage. Change on each benchmark (**Tables 7–8**):
+**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** The paper already ablates both components with the same teachers, data sources, budget, and R5 checkpoint (**Table 2**, Sec. 5.3; **App. D**); we will make this more prominent. Stale R2 or R3 feedback reproduces a curriculum fixed at an earlier stage. Change on each benchmark (**Tables 7–8**):
 
 | Setting | Principle evolution | Adaptive curriculum | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
