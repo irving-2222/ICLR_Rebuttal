@@ -6,7 +6,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,974 / 5,000 characters (quotes excluded).*
+*Posted text: 4,991 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
@@ -29,7 +29,7 @@ No simpler process can substitute them: each one above lowers every score. We al
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
 
-**W2 (Organization).** The layout follows our contributions and scope. The main text gives each contribution with its evidence: co-evolution framework (Sec. 3), multi-agent system and curriculum policy (Sec. 4). The evaluation task composition is in Sec. 5.1; for space, main analyses use one VQA and one report task from it. The appendix covers all tasks and adds what reproduction needs: algorithm (**App. A**), settings (**App. B**), data and metrics (**App. C**), and full results (**App. D**).
+**W2 (Organization).** The layout follows our contributions and scope. The main text gives each contribution with its evidence: co-evolution framework (Sec. 3), multi-agent system and curriculum policy (Sec. 4). The evaluation task composition is in Sec. 5.1; for space, main analyses use one VQA and one report task from it. The appendix covers all tasks and what reproduction needs: algorithm (**App. A**), settings (**App. B**), data and metrics (**App. C**), and full results (**App. D**). Code is in the supplementary material.
 
 > **Weakness 3:** The method demonstrates reactive recovery from selected capability regressions, but does not establish prevention of catastrophic forgetting or stable balanced convergence. Later-round declines, reliance on R7 checkpoint selection, absence of retention ablations, and lack of standard continual-learning metrics leave the central retention claim only partially supported.
 
@@ -41,7 +41,7 @@ We selected R7 by a predefined criterion: the most balanced capability profile o
 
 > **Question 1:** For medVLSynther results, do you use the same base model to replicate their results?
 
-**Q1 (MedVLSynther base model).** Table 1 reports MedVLSynther's published results on Qwen2.5-VL-7B. To answer this, we retrained it on our base, Qwen3-VL-8B, with its released data and GRPO script. On the same base, CoEvoMed leads on all four benchmarks:
+**Q1 (MedVLSynther base model).** Table 1 reports MedVLSynther's published results on Qwen2.5-VL-7B. We retrained it on our base, Qwen3-VL-8B, with its released data and GRPO script. On the same base, CoEvoMed leads on all four benchmarks:
 
 | Same base: Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
@@ -56,7 +56,7 @@ We selected R7 by a predefined criterion: the most balanced capability profile o
 
 **Q3 (Capability taxonomy).** The dimensions are necessary because every CoEvoMed mechanism runs on the cells they define (Table 6). The profile is measured per cell (Eq. 1), the planner allocates the budget across cells (Eq. 7), each principle serves one cell and is revised when it stops improving (Sec. 4.3), and the selector retrieves evidence matching a cell's modality and anatomy (App. C.3). With the taxonomy fixed, stale diagnoses lower 11 of 12 scores (Table 7), so gains come from diagnosis, not relabeling.
 
-We built our categories on SLAKE's (Liu et al., 2021) by design: physicians annotated them, and SLAKE spans more modalities and body parts than earlier datasets. They describe what a question asks, not a dataset, so they fit every task: VQA-RAD and M3D-VQA use similar types (Lau et al., 2018; Fig. 9a).
+We built our categories on SLAKE's (Liu et al., 2021) by design: physicians annotated them, and SLAKE spans more modalities and body parts than earlier datasets. They describe what a question asks, not a dataset, so they fit all tasks: VQA-RAD and M3D-VQA use similar types (Lau et al., 2018; Fig. 9a).
 
 On 200 SLAKE questions, our annotations match native labels for capability at 97.5% (Cohen's κ = 0.958), modality at 100%, and body region at 96.5%. κ > 0.81 is "almost perfect" agreement (Landis & Koch, 1977). Table 6 will add the mapping.
 
