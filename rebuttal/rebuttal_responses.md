@@ -23,21 +23,21 @@
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
-| W1 | 多智能体是否必要 | — | 1,644 | 已重写（两部分；合并表；三项设计保障） |
+| W1 | 多智能体是否必要 | — | 1,639 | 已重写（两部分；合并表；三项设计保障） |
 | W2 | 论文组织 | — | 543 | 已重写（正文逻辑、附录对应、可复现） |
 | W3 | 遗忘与 R7 的选择 | — | 1,215 | 已重写 |
 | Q1 | MedVLSynther 复现 | — | 417 | 已重写 |
 | Q2 | 数据公开 | — | 137 | 已压缩 |
 | Q3 | 能力分类体系 | — | 1,021 | 已重写 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,987** | |
+| **合计** | | **≤ 5,000** | **4,982** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
 ### 英文正文（发布用）
 
 ```markdown
-**W1 (Necessity of the multi-agent framework).** Yes, all of these agents are needed, as the paper's ablations already show. **Sec. 5.2** compares with raw data, and **Table 2** ablates principle evolution and curriculum adaptation on VQA-RAD and MIMIC-CXR; for space, **App. D** gives full results (**Tables 7–9**). Below are changes on the four VQA benchmarks these tables share, all else fixed:
+**W1 (Necessity of the multi-agent framework).** All of these agents are needed, as the paper's ablations already show. **Sec. 5.2** compares with raw data, and **Table 2** ablates principle evolution and curriculum adaptation on VQA-RAD and MIMIC-CXR; for space, **App. D** gives full results (**Tables 7–9**). Below are changes on the four VQA benchmarks these tables share, all else fixed:
 
 | Without | From | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
 |---|---|---|---|---|---|
@@ -78,7 +78,7 @@ On 200 SLAKE questions, our annotations match native labels: capability 97.5% (C
 
 ### 中文译文（不发布）
 
-**W1（多智能体框架的必要性）** 是的，这些智能体都是需要的，论文中的消融实验已经说明了这一点。**第 5.2 节**与原始数据训练做了对比，**Table 2** 在 VQA-RAD 和 MIMIC-CXR 上对原则演化和课程自适应做了消融；受篇幅所限，完整结果放在**附录 D**（**Table 7–9**）。下表列出这几张表共有的四个 VQA 基准上的变化，其余设置均保持不变：
+**W1（多智能体框架的必要性）** 这些智能体都是需要的，论文中的消融实验已经说明了这一点。**第 5.2 节**与原始数据训练做了对比，**Table 2** 在 VQA-RAD 和 MIMIC-CXR 上对原则演化和课程自适应做了消融；受篇幅所限，完整结果放在**附录 D**（**Table 7–9**）。下表列出这几张表共有的四个 VQA 基准上的变化，其余设置均保持不变：
 
 | 去掉的功能 | 起点 | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
 |---|---|---|---|---|---|
@@ -118,7 +118,7 @@ On 200 SLAKE questions, our annotations match native labels: capability 97.5% (C
 
 ### 发布前待核对
 
-- [x] **W1 整体理顺逻辑（作者要求：整个回答读起来自然）**：(1) 第一句直接回答审稿人的问题："Yes, all of these agents are needed, as the paper's ablations already show."；(2) 接着说明证据在哪里：正文第 5.2 节（原始数据对比）和 Table 2（VQA-RAD、MIMIC-CXR 上消融原则演化和课程自适应），受篇幅所限完整结果在附录 D（Table 7–9）；(3) 表格按起点重新分组：基础模型起点的两行（原始数据、CoEvoMed）放在一起，R5 起点的四行（原始原则、R2 反馈、R3 反馈、CoEvoMed）放在一起，每组最后一行是 CoEvoMed 对照，数字未改；(4) 表后一段按这两组依次读表："From the base…" → 需要选择器、构建器、核验器；"From R5…" → 需要修订智能体；"…stale R2 or R3 feedback instead…" → 需要课程规划器；(5) 最后一句回答问题的后半句（能否用更简单的流程替代）："So no simpler process in the table can substitute the agents."
+- [x] **W1 整体理顺逻辑（作者要求：整个回答读起来自然）**：(1) 第一句直接回答审稿人的问题："All of these agents are needed, as the paper's ablations already show."（按作者要求去掉开头的 "Yes,"）；(2) 接着说明证据在哪里：正文第 5.2 节（原始数据对比）和 Table 2（VQA-RAD、MIMIC-CXR 上消融原则演化和课程自适应），受篇幅所限完整结果在附录 D（Table 7–9）；(3) 表格按起点重新分组：基础模型起点的两行（原始数据、CoEvoMed）放在一起，R5 起点的四行（原始原则、R2 反馈、R3 反馈、CoEvoMed）放在一起，每组最后一行是 CoEvoMed 对照，数字未改；(4) 表后一段按这两组依次读表："From the base…" → 需要选择器、构建器、核验器；"From R5…" → 需要修订智能体；"…stale R2 or R3 feedback instead…" → 需要课程规划器；(5) 最后一句回答问题的后半句（能否用更简单的流程替代）："So no simpler process in the table can substitute the agents."
 - [x] **W1 第二部分改为"读表 → 自然得出每个智能体都需要"（作者要求）**：不再分点、不再先讲设计。改为一段连贯的文字，按表格的行依次往下读，每读一行就得出一个"所以需要某智能体"的结论，三步层层递进：(1) 不用任何智能体（原始数据，约 70 万条、多于 CoEvoMed）四个分数全降，而 CoEvoMed 从同一基础模型全部提升 → 需要选择器、构建器、核验器；(2) 保留它们但不修订原则，R5 仍全降（原始原则在 R2 有帮助，Table 2 Panel B）→ 需要修订智能体；(3) 原则已修订但用过时的 R2/R3 反馈，再次全降，只有当前反馈提升 → 需要课程规划器。最后一句直接回答审稿人的原话 "Do we really need all of these agents or can we easily find another plausible agent process to substitute them"："We therefore do need all of these agents: no simpler process in the table substitutes them."。注意：选择器、构建器、核验器的必要性来自同一行（一起去掉），正文也是合在一句里说的，没有写成分别消融。
 - [x] **W1 第二部分与表格逐行对应（作者要求：与表格逻辑连贯）**：引导句先把表中各行和 "None: CoEvoMed" 两行联系起来（"Every removal lowers all four scores, while CoEvoMed from the same start raises them"）；三点的标题直接用表中 "Without" 一列的行名（All agents / Revision agent / Curriculum adaptation），每点依次写：这个智能体做什么 → 这一行去掉后是什么设置 → 实验说明为什么不行。实验依据不变：约 70 万条原始样本多于 CoEvoMed（正文第 5.2 节）；58.3% 的 2D 原始记录是图像描述（Figure 10）；原始原则 R2 有帮助、R5 降分（Table 2 Panel B）；过时反馈按较早学习者分配（Table 7）。
 - [x] **W1 第二部分：用实验说明框架设计和各智能体的必要性（作者要求）**：按框架的三个环节分三点，每点先用一句话说明该环节的智能体做什么（设计），再给出去掉它时的实验结果（必要性），不加文献和推理：(1) 构建：选择器、构建器、核验器（不同模型）→ 不使用任何智能体时原始数据（约 70 万条，多于 CoEvoMed，正文第 5.2 节）四个分数全降，58.3% 的 2D 原始记录是图像描述而不是问题（Figure 10）；(2) 原则修订：修订智能体 → 原始原则 R2 有帮助、R5 降分（Table 2 Panel B）；(3) 课程分配：课程规划器 → 过时的 R2/R3 反馈四个分数全降，当前反馈全部提升（Table 7）。三点顺序与表中各行一致。选择器、构建器、核验器只有"一起去掉"的实验，所以写作 "With no agents"，不写成分别去掉。
