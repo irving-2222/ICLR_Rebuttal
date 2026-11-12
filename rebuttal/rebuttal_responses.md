@@ -466,11 +466,11 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | — | — | 已改为在标题中注明 |
-| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,201 | 已改为分点格式 |
-| Q2 | 数据泄漏；R7 的选择 | — | 685 | 已定稿 |
-| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,109 | 已定稿 |
+| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,153 | 已改为分点格式 |
+| Q2 | 数据泄漏；R7 的选择 | — | 701 | 已定稿 |
+| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,164 | 已定稿 |
 | Q4 | 复杂推理基准 | — | 970 | 已定稿 |
-| **合计** | | **≤ 5,000** | **4,971** | |
+| **合计** | | **≤ 5,000** | **4,994** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
@@ -481,28 +481,28 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 ### 英文正文（发布用）
 
 ```markdown
-**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** The paper already ablates principle evolution and adaptive curricula from the same R5 checkpoint with the same teachers, data, and budget. Stale R2 or R3 feedback fixes the curriculum at an earlier stage. The main text tests them on VQA-RAD and MIMIC-CXR (**Table 2**, **Sec. 5.3**); for space, **App. D** covers all six benchmarks (**Tables 7–8**):
+**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** The paper already ablates both components with the same teachers, data sources, budget, and R5 checkpoint (**Table 2, Sec. 5.3; App. D**). Stale R2 or R3 feedback reproduces a curriculum fixed at an earlier stage. Change on each benchmark (**Tables 7–8**):
 
 | Setting | Principle evolution | Adaptive curriculum | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
-| Curriculum only | No | Yes | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
+| Curriculum only | No (original) | Yes | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
 | Principles only | Yes | No (stale R2) | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
 | Principles only | Yes | No (stale R3) | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
 | CoEvoMed | Yes | Yes | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-Removing principle evolution or the adaptive curriculum lowers most or all scores; only CoEvoMed improves all six.
+Removing either component lowers most or all scores; only both improve all six benchmarks.
 
-Unlike a greedy rule, PPO optimizes cumulative gain (**Eq. 5**), and its choices follow the learner's state. Across R1–R7: balanced, weakness-focused, retention-heavy, balanced, repair-heavy, repair-heavy, balanced. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (**Fig. 6**).
+Unlike a greedy rule, PPO optimizes cumulative gain (**Eq. 5**), and its choices follow the learner's state. Across R1–R7: balanced, weakness-focused, retention-heavy, balanced, repair-heavy, repair-heavy, balanced. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (**Fig. 6**). It then returned to balanced.
 
-The raw-data baseline degrades despite using more examples than CoEvoMed (**Table 9**): its sources are not task-aligned (58.3% of 2D records are figure descriptions; **Fig. 10**), not verified, not targeted, and not adapted. CoEvoMed's agents handle each; CoEvoMed reaches 91.60 on SLAKE.
+The raw-data baseline degrades because its sources (**App. D.3**) are not task-aligned (58.3% of 2D records are figure descriptions; **Fig. 10**), not verified, not targeted, and not adapted. CoEvoMed's agents handle each. CoEvoMed instead reaches 91.60 on SLAKE (**Table 9**).
 
-Principles chosen by our criteria do produce later learning gains. In **Table 8**, the chosen principles raise all six benchmarks, while the original, never-revised principles lower all six. This follows from how the criteria work (**Sec. 4.3; App. B**). A principle is replaced only when the validation cases it fixes no longer outnumber those it breaks, that is, when it stops helping the learner. A replacement is chosen only if a review confirms it targets the errors the learner still makes.
+Principles chosen by our criteria do produce later learning gains. In **Table 8**, from the same R5 checkpoint and budget, the chosen principles raise all six benchmarks, while the original, never-revised principles lower all six. This follows from how the criteria work (**Sec. 4.3; App. B**). A principle is replaced only when the validation cases it fixes no longer outnumber those it breaks, that is, when it stops helping the learner. A replacement is chosen only if a review confirms it targets the errors the learner still makes.
 
 **Q2 (Overlaps; R7).** We excluded patient-, study-, and image-level overlaps by design: support, validation, and test data are separate partitions (**Sec. 1; App. C.6**), enforced in our code. We screened all 11 2D and 5 3D sources against every external test at four levels: IDs (including study and case IDs), image paths, pixel hashes (exact and near-duplicate), and normalized text. All checks found zero overlap, including PubMedVision-IU vs. IU-Xray.
 
-R7 was selected by a predefined internal criterion: the most balanced capability profile on internal validation (**App. C.4**). External benchmark scores never feed back into training or checkpoint selection (**App. A, C.6**).
+R7 was selected by a predefined internal criterion: it has the most balanced capability profile on the internal validation sets (**App. C.4**). External benchmark scores never feed back into training or checkpoint selection (**App. A, C.6**).
 
-**Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).** We ran the full pipeline independently on four learners: Qwen3-VL (8B and 32B), Gemma 3 (4B), and InternVL3 (9B). Every run improves over its own base on every benchmark evaluated (16 of 16, +6.52 to +26.76). An effect that holds across families, architectures, and scales is not a single-run artifact.
+**Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).** We ran the full pipeline independently on four learners across three model families, architectures, and scales: Qwen3-VL (8B and 32B), Gemma 3 (4B), and InternVL3 (9B). Every run improves over its own base on every benchmark evaluated (16 of 16, +6.52 to +26.76). An effect that holds across families, architectures, and scales is not a single-run artifact.
 
 We considered CURE-4B, but IU-Xray is not a fair test for it. CURE is fine-tuned on MIMIC-CXR-derived data (Chest ImaGenome, MS-CXR) and PadChest-GR, and IU-Xray is outside its training and evaluation data. A zero-shot run confirms the domain shift: it scores 28.65 RaTEScore, below all 28 models in **Fig. 3**.
 
@@ -523,28 +523,28 @@ The results support generalization: CoEvoMed ranks first on all nine benchmarks 
 
 ### 中文译文（不发布）
 
-**Q1 与 W1（各部分的贡献、PPO、原始数据、选择标准）** 论文已经从同一个 R5 检查点出发，在相同的教师模型、数据和预算下，对原则演化和自适应课程做了消融。过时的 R2 或 R3 反馈把课程固定在较早的阶段。正文在 VQA-RAD 和 MIMIC-CXR 上检验了它们（**Table 2**，**第 5.3 节**）；受篇幅所限，**附录 D** 覆盖了全部六个基准（**Table 7–8**）：
+**Q1 与 W1（各部分的贡献、PPO、原始数据、选择标准）** 论文已经在相同的教师模型、数据来源、预算和 R5 检查点下，对这两个组件做了消融（正文 **Table 2**，**第 5.3 节**；**附录 D**）。过时的 R2 或 R3 反馈相当于一套在较早阶段就固定下来的课程。下表为每个基准上的变化（**Table 7–8**）：
 
 | 设置 | 原则演化 | 自适应课程 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
-| 只有自适应课程 | 否 | 是 | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
+| 只有自适应课程 | 否（原始原则） | 是 | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
 | 只有原则演化 | 是 | 否（过时的 R2 反馈） | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
 | 只有原则演化 | 是 | 否（过时的 R3 反馈） | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
 | CoEvoMed | 是 | 是 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-去掉原则演化或自适应课程，大部分或全部分数都会下降；只有 CoEvoMed 让六个基准全部提升。
+去掉任何一个组件，大部分或全部分数都会下降；只有两者都保留，六个基准才全部提升。
 
-与贪心规则不同，PPO 优化的是累计收益（**式 5**），它的选择会随学习者的状态变化。R1–R7 依次为：balanced、weakness-focused、retention-heavy、balanced、repair-heavy、repair-heavy、balanced。定位能力在 R4 退化后（60.27 → 56.16），它在 R5 和 R6 换成了 repair-heavy，定位能力随之回升到 59.36 和 62.10（**Figure 6**）。
+与贪心规则不同，PPO 优化的是累计收益（**式 5**），它的选择会随学习者的状态变化。R1–R7 依次为：balanced、weakness-focused、retention-heavy、balanced、repair-heavy、repair-heavy、balanced。定位能力在 R4 退化后（60.27 → 56.16），它在 R5 和 R6 换成了 repair-heavy，定位能力随之回升到 59.36 和 62.10（**Figure 6**）。之后它又回到了 balanced。
 
-原始数据基线用的样本比 CoEvoMed 还多，却出现了退化（**Table 9**）：这些数据与任务不对齐（2D 记录中 58.3% 是图像描述；**Figure 10**），没有经过核查，没有针对性，也不会自适应。CoEvoMed 的各个智能体分别处理这几点；CoEvoMed 在 SLAKE 上达到 91.60。
+原始数据基线之所以退化，是因为这些数据（**附录 D.3**）与任务不对齐（2D 记录中 58.3% 是图像描述；**Figure 10**），没有经过核查，没有针对性，也不会自适应。CoEvoMed 的各个智能体分别处理这几点。而 CoEvoMed 在 SLAKE 上达到 91.60（**Table 9**）。
 
-按我们的选择标准选出的原则，确实带来了后续的学习收益。在 **Table 8** 中，选出的原则让六个基准全部提升，而从未修订过的原始原则让六个基准全部下降。这是由选择标准的设计决定的（**第 4.3 节；附录 B**）。只有当一条原则修好的验证题不再多于它弄错的题，也就是它不再帮助学习者时，才会被替换。而新原则只有在审查确认它针对的是学习者仍在犯的错误时，才会被选中。
+按我们的选择标准选出的原则，确实带来了后续的学习收益。在 **Table 8** 中，从同一个 R5 检查点、相同预算出发，选出的原则让六个基准全部提升，而从未修订过的原始原则让六个基准全部下降。这是由选择标准的设计决定的（**第 4.3 节；附录 B**）。只有当一条原则修好的验证题不再多于它弄错的题，也就是它不再帮助学习者时，才会被替换。而新原则只有在审查确认它针对的是学习者仍在犯的错误时，才会被选中。
 
 **Q2（数据重叠；R7）** 我们在设计上就排除了患者、检查和图像层面的重叠：支持数据、验证数据和测试数据是相互独立的划分（**第 1 节；附录 C.6**），并在我们的代码中强制执行。我们把全部 11 个 2D 源数据和 5 个 3D 源数据与每一个外部测试集在四个层面上做了筛查：ID（包括检查 ID 和病例 ID）、图像路径、像素哈希（精确匹配和近似重复）以及归一化后的文本。所有检查发现的重叠均为零，包括 PubMedVision-IU 与 IU-Xray 之间。
 
 R7 是依据预先定义的内部标准选出的：它在内部验证集上的能力画像最均衡（**附录 C.4**）。外部基准的分数从不反馈到训练或检查点选择中（**附录 A、C.6**）。
 
-**Q3 与 W2（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）** 我们在四个学习者模型上独立运行了完整流程：Qwen3-VL（8B 和 32B）、Gemma 3（4B）和 InternVL3（9B）。每一次运行在所有评测基准上都超过了各自的基础模型（16 组比较全部提升，幅度为 +6.52 至 +26.76）。一个在不同模型家族、不同架构和不同规模上都成立的效果，不可能是某一次运行的偶然结果。
+**Q3 与 W2（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）** 我们在跨越三个模型家族、不同架构和规模的四个学习者模型上独立运行了完整流程：Qwen3-VL（8B 和 32B）、Gemma 3（4B）和 InternVL3（9B）。每一次运行在所有评测基准上都超过了各自的基础模型（16 组比较全部提升，幅度为 +6.52 至 +26.76）。一个在不同模型家族、不同架构和不同规模上都成立的效果，不可能是某一次运行的偶然结果。
 
 我们考虑过 CURE-4B，但 IU-Xray 对它来说不是公平的测试。CURE 是在 MIMIC-CXR 派生的数据（Chest ImaGenome、MS-CXR）以及 PadChest-GR 上微调的，而 IU-Xray 既不在它的训练数据中，也不在它的评测中。一次零样本测试证实了这种数据域差异：它的 RaTEScore 只有 28.65，低于 **Figure 3** 中全部 28 个模型。
 
@@ -564,9 +564,6 @@ MedXpertQA-MM 和 MMMU 都是在 2D 图像上通过选择题检验推理（MedXp
 
 ### 发布前待核对
 
-- [x] **Q1 不提数量（作者要求）**：W1 列了四个部分（teacher-generated supervision, data verification, principle revision, adaptive curricula），我们只消融了 Q1 问的原则演化和自适应课程。因此不出现 "both / either / two / four" 等数量词，也不特意点出教师监督和数据核验"保持不变"（那样反而提醒审稿人另外两项没有消融）。开头直接点名 Q1 问的两项，并沿用 Q1 自己的条件 "with the same teachers, data, and budget"；表后改为 "Removing principle evolution or the adaptive curriculum lowers most or all scores; only CoEvoMed improves all six."。保留：原始数据段 "despite using more examples than CoEvoMed"（回应 W1 的 additional resources；正文第 5.2 节、附录 D.3 约 70 万条原始样本多于 CoEvoMed）；Table 8 一句删去括号；Q3 删去重复的 "across three model families, architectures, and scales"；Q2 R7 一句与 pUjh 一致。恢复：PPO 的 R1–R7 动作序列和 "CoEvoMed reaches 91.60 on SLAKE"。
-- [x] **Q1 开头自查修正**："from the same R5 checkpoint, teachers, data, and budget" 改为 "from the same R5 checkpoint with the same teachers, data, and budget"（原句把教师模型、数据、预算都接在 "from" 后面，语法上不通）。为腾字数："only both improve all six benchmarks" 改为 "only both improve all six"（表头已列出六个基准）。
-- [x] **消融的正文与附录关系写清楚（作者要求）**：Q1 开头改为：正文在 VQA-RAD 和 MIMIC-CXR 上检验两个组件（Table 2，第 5.3 节），受篇幅所限，附录 D 覆盖全部六个基准（Table 7–8）。依据论文：正文第 5.3 节 "Mechanism comparisons use VQA-RAD and MIMIC-CXR; full results and experimental details appear in Appendix D"（Table 2 Panel A 为反馈来源即课程自适应，Panel B 为原始与演化原则）；第 5.2 节正文报告了与约 70 万条原始数据训练的对比，数字在附录 D.3（Table 9）；附录 D.1/D.2 的 Table 7/8 分别把 Panel A/B 扩展到六个基准。为腾字数：PPO 段删去 "It then returned to balanced."（R1–R7 序列最后一项已是 balanced）；表中 "No (original)" 改为 "No"（选择标准段已说明是原始原则）；原始数据段删去 "(App. D.3)"（保留 Table 9）并合并最后两句；"In Table 8, from the same R5 checkpoint and budget," 改为括号形式；"with the same teachers, data sources, budget, and R5 checkpoint" 改为 "from the same R5 checkpoint, teachers, data, and budget"。
 - [x] **正文和附录引用全部加粗（作者要求）**：英文和中文里所有 Sec./Eq./Fig./Table/App. 引用都已加粗，同一括号里连续的引用合并为一段加粗，例如 "(**Table 2, Sec. 5.3; App. D**)"。
 - [x] **Q2 修正指代**：之前删减后，"These scores never feed back into training or checkpoint selection" 中的 "These scores" 变成了指上一句的内部验证集分数；而课程规划器正是用内部验证集上的收益训练的，这句话因此成了错误陈述。改为 "External benchmark scores never feed back…"（中文："外部基准的分数从不反馈…"）。加粗加这处修改后 4,994 字符。
 - [x] **Q3 32B 不如 8B（用报告长度解释，作者提供数据）**：作者统计的平均词数：IU-Xray 参考报告 30.5、MIMIC-CXR 参考报告 53.4；CoEvoMed-8B 在 IU-Xray 上的输出 30.7、CoEvoMed-32B 为 40.1。解释：IU-Xray 参考报告短，8B 输出长度与之相当，32B 写得更详细，与短参考的匹配更差；MIMIC-CXR 参考报告更长，32B 高于 8B（64.33 对 63.62，Figure 3）。Hulu-Med、MedGemma 的反转例子保留。删去了"MIMIC 上 29 个模型中第一""8B 比 Hulu-Med-7B 高 6.62""同规模比 Hulu-Med-32B 高 2.68"（作者要求聚焦在"为什么"）。
