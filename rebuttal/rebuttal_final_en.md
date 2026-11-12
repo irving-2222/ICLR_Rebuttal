@@ -6,11 +6,11 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,926 / 5,000 characters (quotes excluded).*
+*Posted text: 4,992 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
-**W1 (Necessity of the multi-agent framework).** The paper already shows the agents are needed (**Table 2, Sec. 5.3; App. D, Tables 7–9**). Changes from a shared start, all else fixed:
+**W1 (Necessity of the multi-agent framework).** The main text already tests each agent: **Sec. 5.2** against raw data, and **Table 2** by ablating curriculum adaptation and principle evolution on VQA-RAD and MIMIC-CXR. For space, **App. D** gives full results below, all else fixed (**Tables 7–9**):
 
 | Without | From | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
 |---|---|---|---|---|---|
@@ -21,7 +21,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 | None: CoEvoMed | base | +25.72 | +26.76 | +13.82 | +26.63 |
 | None: CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
 
-No simpler process can substitute them: each one above lowers all four scores. We also separate roles by design (**App. B**):
+No simpler process substitutes them: each one above lowers all four scores. We also separate roles by design (**App. B**):
 
 1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., 2024). We therefore designed the verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) as different models.
 2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, as VLMs often do (Li et al., 2023). We therefore let it write only from selected facts.
@@ -29,7 +29,7 @@ No simpler process can substitute them: each one above lowers all four scores. W
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
 
-**W2 (Organization).** The layout follows our contributions and scope. The main text gives each contribution with evidence: co-evolution formulation (**Sec. 3**), multi-agent system and curriculum policy (**Sec. 4**). **Sec. 5.1** gives the evaluation task composition (four 2D VQA, two report, three 3D); for space, main analyses use one VQA and one report task. The appendix adds what reproduction needs: algorithm (**App. A**), settings (**App. B**), evaluation (**App. C**), and mechanism analyses (**App. D**). Code is in the supplementary material.
+**W2 (Organization).** The layout follows our contributions and scope. The main text presents each contribution: co-evolution formulation (**Sec. 3**), multi-agent system and curriculum policy (**Sec. 4**). **Sec. 5.1** gives the evaluation task composition (four 2D VQA, two report, three 3D); for space, main analyses use one VQA and one report task. The appendix adds what reproduction needs: algorithm (**App. A**), settings (**App. B**), evaluation (**App. C**), and mechanism analyses (**App. D**). Code is in the supplementary material.
 
 > **Weakness 3:** The method demonstrates reactive recovery from selected capability regressions, but does not establish prevention of catastrophic forgetting or stable balanced convergence. Later-round declines, reliance on R7 checkpoint selection, absence of retention ablations, and lack of standard continual-learning metrics leave the central retention claim only partially supported.
 
@@ -41,7 +41,7 @@ We chose R7 by a predefined criterion: the most balanced capability profile on i
 
 > **Question 1:** For medVLSynther results, do you use the same base model to replicate their results?
 
-**Q1 (MedVLSynther base model).** **Table 1** uses MedVLSynther's published results on Qwen2.5-VL-7B. We retrained it on our base, Qwen3-VL-8B, with its released data and GRPO script. CoEvoMed leads on all four:
+**Q1 (MedVLSynther base model).** **Table 1** uses MedVLSynther's published results on Qwen2.5-VL-7B. We retrained it on our Qwen3-VL-8B base with its released data and GRPO script. CoEvoMed leads on all four:
 
 | Same base: Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
@@ -58,19 +58,19 @@ We chose R7 by a predefined criterion: the most balanced capability profile on i
 
 We built our categories on SLAKE's (Liu et al., 2021): physicians annotated them, and SLAKE spans more modalities and body parts than prior datasets. They describe what a question asks, not a dataset, so they fit all tasks: VQA-RAD and M3D-VQA use similar types (Lau et al., 2018; **Fig. 9a**).
 
-On 200 SLAKE questions, our annotations match native labels: capability 97.5% (Cohen's κ = 0.958), modality 100%, body region 96.5%. κ > 0.81 is "almost perfect" agreement (Landis & Koch, 1977). **Table 6** will add the mapping.
+On 200 SLAKE questions, our annotations match native labels: capability 97.5% (Cohen's κ = 0.958), modality 100%, body region 96.5%. κ > 0.81 is "almost perfect" agreement (Landis & Koch, 1977).
 
 ---
 
 ## Response to Reviewer jcb6
 
-*Posted text: 4,184 / 5,000 characters (quotes excluded).*
+*Posted text: 4,322 / 5,000 characters (quotes excluded).*
 
 We thank the reviewer for the positive assessment and the precise suggestions.
 
 > **Weakness:** The ablation study does not sufficiently isolate the contributions of the individual components. Budget-matched comparisons with fixed principles and a fixed curriculum, principle evolution alone, and curriculum adaptation alone would help determine whether the gains come primarily from high-quality synthetic data or the proposed co-evolution mechanism.
 
-**W1 (Isolating the contributions of individual components).** The paper already contains these budget-matched ablations: **Table 2** (**Sec. 5.3**) in the main text, with full results in **App. D** (**Tables 7–8**). All settings start from the same R5 checkpoint and train one round with the same pipeline and budget. To remove principle evolution, we keep the original principles. To remove curriculum adaptation, we give the curriculum stale R2 or R3 feedback, so it allocates as if fixed at that earlier stage. Change on each benchmark:
+**W1 (Isolating the contributions of individual components).** The paper already contains these budget-matched ablations. The main text tests both components on VQA-RAD and MIMIC-CXR (**Table 2**, **Sec. 5.3**): Panel A for curriculum adaptation, Panel B for principle evolution. For space, **App. D** extends both to all six benchmarks (**Tables 7–8**). All settings start from the same R5 checkpoint and train one round with the same pipeline and budget. To remove principle evolution, we keep the original principles. To remove curriculum adaptation, we give the curriculum stale R2 or R3 feedback, so it allocates as if fixed at that earlier stage. Change on each benchmark:
 
 | Setting | Principle evolution | Curriculum adaptation | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
@@ -110,28 +110,28 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 ## Response to Reviewer 2Nuw
 
-*Posted text: 4,994 / 5,000 characters (quotes excluded).*
+*Posted text: 4,984 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** **The experimental controls and mechanism analyses do not sufficiently establish the contribution of co-evolution.** The method combines teacher-generated supervision, data verification, principle revision, and adaptive curricula, but does not adequately isolate their effects or those of additional resources. Improvements are difficult to attribute to individual principles, and the relationship between principle-selection criteria and subsequent learning gains remains unvalidated. The substantial degradation of the raw-data training baseline also lacks sufficient explanation.
 
 > **Question 1:** Under the same teachers, data sources, and comparable budgets, could you separately establish the contributions of principle evolution and adaptive curricula, including PPO’s advantage over simpler allocation strategies? Could you also explain the raw-data baseline’s degradation and validate the relationship between principle-selection criteria and subsequent learning gains?
 
-**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** The paper already ablates both components with the same teachers, data sources, budget, and R5 checkpoint (**Table 2, Sec. 5.3; App. D**). Stale R2 or R3 feedback reproduces a curriculum fixed at an earlier stage. Change on each benchmark (**Tables 7–8**):
+**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** The paper already ablates both components from the same R5 checkpoint, teachers, data, and budget. Stale R2 or R3 feedback reproduces a curriculum fixed at an earlier stage. The main text tests both on VQA-RAD and MIMIC-CXR (**Table 2**, **Sec. 5.3**); for space, **App. D** covers all six benchmarks (**Tables 7–8**):
 
 | Setting | Principle evolution | Adaptive curriculum | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
-| Curriculum only | No (original) | Yes | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
+| Curriculum only | No | Yes | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
 | Principles only | Yes | No (stale R2) | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
 | Principles only | Yes | No (stale R3) | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
 | CoEvoMed | Yes | Yes | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
 Removing either component lowers most or all scores; only both improve all six benchmarks.
 
-Unlike a greedy rule, PPO optimizes cumulative gain (**Eq. 5**), and its choices follow the learner's state. Across R1–R7: balanced, weakness-focused, retention-heavy, balanced, repair-heavy, repair-heavy, balanced. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (**Fig. 6**). It then returned to balanced.
+Unlike a greedy rule, PPO optimizes cumulative gain (**Eq. 5**), and its choices follow the learner's state. Across R1–R7: balanced, weakness-focused, retention-heavy, balanced, repair-heavy, repair-heavy, balanced. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (**Fig. 6**).
 
-The raw-data baseline degrades because its sources (**App. D.3**) are not task-aligned (58.3% of 2D records are figure descriptions; **Fig. 10**), not verified, not targeted, and not adapted. CoEvoMed's agents handle each. CoEvoMed instead reaches 91.60 on SLAKE (**Table 9**).
+The raw-data baseline degrades because its sources are not task-aligned (58.3% of 2D records are figure descriptions; **Fig. 10**), not verified, not targeted, and not adapted. CoEvoMed's agents handle each; CoEvoMed reaches 91.60 on SLAKE (**Table 9**).
 
-Principles chosen by our criteria do produce later learning gains. In **Table 8**, from the same R5 checkpoint and budget, the chosen principles raise all six benchmarks, while the original, never-revised principles lower all six. This follows from how the criteria work (**Sec. 4.3; App. B**). A principle is replaced only when the validation cases it fixes no longer outnumber those it breaks, that is, when it stops helping the learner. A replacement is chosen only if a review confirms it targets the errors the learner still makes.
+Principles chosen by our criteria do produce later learning gains. In **Table 8** (same R5 checkpoint and budget), the chosen principles raise all six benchmarks, while the original, never-revised principles lower all six. This follows from how the criteria work (**Sec. 4.3; App. B**). A principle is replaced only when the validation cases it fixes no longer outnumber those it breaks, that is, when it stops helping the learner. A replacement is chosen only if a review confirms it targets the errors the learner still makes.
 
 > **Question 2:** How are patient-, study-, and image-level overlaps excluded across support data, internal validation sets, and external tests, particularly between PubMedVision-IU and IU-Xray? Was R7 selected exclusively using a predefined internal validation criterion?
 
