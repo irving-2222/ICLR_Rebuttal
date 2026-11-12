@@ -6,7 +6,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,994 / 5,000 characters (quotes excluded).*
+*Posted text: 4,630 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
@@ -21,13 +21,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 | None: CoEvoMed | base | +25.72 | +26.76 | +13.82 | +26.63 |
 | None: CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
 
-Every removal lowers all four scores; no simpler process substitutes the agents.
-
-Without the agents, raw data lower every score: most raw 2D records are figure descriptions (58.3%; **Fig. 10**), so the model learns to describe, not answer. The constructor instead writes only from selected facts, avoiding the absent objects VLMs often describe (Li et al., 2023), and a different model verifies each against the image, since LLMs rarely self-correct (Huang et al., 2024).
-
-Without the revision agent, original principles help at R2 but hurt at R5 (**Table 2**, Panel B): principles must change as errors change.
-
-Without curriculum adaptation, stale feedback allocates by an earlier learner's needs. Frozen LLMs cannot learn allocation from validation gains, so the planner is a separate PPO policy (**Sec. 4.2**).
+No simpler process substitutes the agents: every removal lowers all four scores. Raw data lower them even with about 700,000 examples, more than CoEvoMed uses (**Sec. 5.2**; **App. D.3**). Original principles help at R2 but hurt at R5 (**Table 2**, Panel B), so principles must be revised as the learner advances. Stale R2 or R3 feedback lowers all four scores, and only current feedback raises them, so the curriculum must follow the current learner.
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
 
