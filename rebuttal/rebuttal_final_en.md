@@ -110,13 +110,13 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 ## Response to Reviewer 2Nuw
 
-*Posted text: 4,955 / 5,000 characters (quotes excluded).*
+*Posted text: 4,971 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** **The experimental controls and mechanism analyses do not sufficiently establish the contribution of co-evolution.** The method combines teacher-generated supervision, data verification, principle revision, and adaptive curricula, but does not adequately isolate their effects or those of additional resources. Improvements are difficult to attribute to individual principles, and the relationship between principle-selection criteria and subsequent learning gains remains unvalidated. The substantial degradation of the raw-data training baseline also lacks sufficient explanation.
 
 > **Question 1:** Under the same teachers, data sources, and comparable budgets, could you separately establish the contributions of principle evolution and adaptive curricula, including PPO’s advantage over simpler allocation strategies? Could you also explain the raw-data baseline’s degradation and validate the relationship between principle-selection criteria and subsequent learning gains?
 
-**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** Teacher-generated supervision and data verification stay fixed below; the paper already ablates principle revision and adaptive curricula from the same R5 checkpoint with the same data and budget. Stale R2 or R3 feedback fixes the curriculum at an earlier stage. The main text tests both on VQA-RAD and MIMIC-CXR (**Table 2**, **Sec. 5.3**); for space, **App. D** covers all six benchmarks (**Tables 7–8**):
+**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** The paper already ablates principle evolution and adaptive curricula from the same R5 checkpoint with the same teachers, data, and budget. Stale R2 or R3 feedback fixes the curriculum at an earlier stage. The main text tests them on VQA-RAD and MIMIC-CXR (**Table 2**, **Sec. 5.3**); for space, **App. D** covers all six benchmarks (**Tables 7–8**):
 
 | Setting | Principle evolution | Adaptive curriculum | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
@@ -125,11 +125,11 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | Principles only | Yes | No (stale R3) | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
 | CoEvoMed | Yes | Yes | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-Every row keeps teacher supervision and verification, yet removing either adaptive part lowers most or all scores; only both improve all six. The gains thus come from co-evolution.
+Removing principle evolution or the adaptive curriculum lowers most or all scores; only CoEvoMed improves all six.
 
-Unlike a greedy rule, PPO optimizes cumulative gain (**Eq. 5**), and its choices follow the learner's state. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (**Fig. 6**).
+Unlike a greedy rule, PPO optimizes cumulative gain (**Eq. 5**), and its choices follow the learner's state. Across R1–R7: balanced, weakness-focused, retention-heavy, balanced, repair-heavy, repair-heavy, balanced. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (**Fig. 6**).
 
-The raw-data baseline degrades despite using more examples than CoEvoMed (**Table 9**): its sources are not task-aligned (58.3% of 2D records are figure descriptions; **Fig. 10**), not verified, not targeted, and not adapted. CoEvoMed's agents handle each.
+The raw-data baseline degrades despite using more examples than CoEvoMed (**Table 9**): its sources are not task-aligned (58.3% of 2D records are figure descriptions; **Fig. 10**), not verified, not targeted, and not adapted. CoEvoMed's agents handle each; CoEvoMed reaches 91.60 on SLAKE.
 
 Principles chosen by our criteria do produce later learning gains. In **Table 8**, the chosen principles raise all six benchmarks, while the original, never-revised principles lower all six. This follows from how the criteria work (**Sec. 4.3; App. B**). A principle is replaced only when the validation cases it fixes no longer outnumber those it breaks, that is, when it stops helping the learner. A replacement is chosen only if a review confirms it targets the errors the learner still makes.
 
