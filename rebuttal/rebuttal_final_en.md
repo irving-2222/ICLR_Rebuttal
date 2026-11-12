@@ -6,7 +6,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,995 / 5,000 characters (quotes excluded).*
+*Posted text: 4,994 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
@@ -21,11 +21,13 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 | None: CoEvoMed | base | +25.72 | +26.76 | +13.82 | +26.63 |
 | None: CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
 
-No simpler process substitutes them: each one above lowers all four scores. We also separate roles by design (**App. B**):
+Every removal lowers all four scores; no simpler process substitutes the agents.
 
-1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., 2024). We therefore designed the verifier and constructor as different models.
-2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, as VLMs often do (Li et al., 2023). We therefore let it write only from selected facts.
-3. **Curriculum allocation.** If an LLM agent also set the budget, it could not learn, since LLM weights stay frozen. Curricula learned from learning progress match or beat hand-crafted ones (Matiisen et al., 2017). We therefore made the curriculum planner a separate policy trained by PPO on validation gains (**Sec. 4.2**).
+Without the agents, raw data lower every score: most raw 2D records are figure descriptions (58.3%; **Fig. 10**), so the model learns to describe, not answer. The constructor instead writes only from selected facts, avoiding the absent objects VLMs often describe (Li et al., 2023), and a different model verifies each against the image, since LLMs rarely self-correct (Huang et al., 2024).
+
+Without the revision agent, original principles help at R2 but hurt at R5 (**Table 2**, Panel B): principles must change as errors change.
+
+Without curriculum adaptation, stale feedback allocates by an earlier learner's needs. Frozen LLMs cannot learn allocation from validation gains, so the planner is a separate PPO policy (**Sec. 4.2**).
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
 
