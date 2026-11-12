@@ -6,24 +6,24 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,957 / 5,000 characters (quotes excluded).*
+*Posted text: 4,987 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
-**W1 (Necessity of the multi-agent framework).** The main text already tests the agents: **Sec. 5.2** against raw data, and **Table 2** by ablating curriculum adaptation and principle evolution on VQA-RAD and MIMIC-CXR. For space, **App. D** gives full results; below are the four VQA benchmarks shared by **Tables 7–9**, all else fixed:
+**W1 (Necessity of the multi-agent framework).** Yes, all of these agents are needed, as the paper's ablations already show. **Sec. 5.2** compares with raw data, and **Table 2** ablates principle evolution and curriculum adaptation on VQA-RAD and MIMIC-CXR; for space, **App. D** gives full results (**Tables 7–9**). Below are changes on the four VQA benchmarks these tables share, all else fixed:
 
 | Without | From | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
 |---|---|---|---|---|---|
 | All agents: raw data | base | −13.75 | −26.69 | −8.62 | −6.83 |
+| None: CoEvoMed | base | +25.72 | +26.76 | +13.82 | +26.63 |
 | Revision agent: original principles | R5 | −5.64 | −3.60 | −9.60 | −2.20 |
 | Curriculum adaptation: R2 feedback | R5 | −1.10 | −5.20 | −3.60 | −3.10 |
 | Curriculum adaptation: R3 feedback | R5 | −1.77 | −5.80 | −1.80 | −2.40 |
-| None: CoEvoMed | base | +25.72 | +26.76 | +13.82 | +26.63 |
 | None: CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
 
-Without any agent, raw data lower all four scores, even with about 700,000 examples, more than CoEvoMed uses (**Sec. 5.2**), while CoEvoMed raises all four from the same base. So the selector, constructor, and verifier are needed to turn raw records into verified questions. With them in place but principles unrevised, all four scores still drop at R5, although the original principles help at R2 (**Table 2**, Panel B). So the revision agent is needed to update principles as the learner advances. With revised principles but stale R2 or R3 feedback, all four drop again, and only current feedback raises them. So the curriculum planner is needed to allocate for the current learner.
+From the base, training on raw data with no agents lowers all four scores, even with about 700,000 examples, more than CoEvoMed uses, while CoEvoMed raises all four. The selector, constructor, and verifier are therefore needed to turn raw records into verified questions. From R5, keeping them but using the original principles again lowers all four, although these principles help at R2 (**Table 2**, Panel B). The revision agent is therefore needed to update principles as the learner advances. Giving the planner stale R2 or R3 feedback instead also lowers all four, while current feedback raises them. The curriculum planner is therefore needed to allocate for the current learner.
 
-We therefore do need all of these agents: no simpler process in the table substitutes them.
+So no simpler process in the table can substitute the agents.
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
 
