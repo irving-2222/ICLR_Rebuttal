@@ -23,14 +23,14 @@
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
-| W1 | 多智能体是否必要 | — | 1,639 | 已重写（两部分；合并表；三项设计保障） |
-| W2 | 论文组织 | — | 543 | 已重写（正文逻辑、附录对应、可复现） |
+| W1 | 多智能体是否必要 | — | 1,630 | 已重写（两部分；合并表；三项设计保障） |
+| W2 | 论文组织 | — | 504 | 已重写（正文逻辑、附录对应、可复现） |
 | W3 | 遗忘与 R7 的选择 | — | 1,215 | 已重写 |
 | Q1 | MedVLSynther 复现 | — | 417 | 已重写 |
-| Q2 | 数据公开 | — | 137 | 已压缩 |
-| Q3 | 能力分类体系 | — | 1,021 | 已重写 |
+| Q2 | 数据公开 | — | 214 | 已压缩 |
+| Q3 | 能力分类体系 | — | 998 | 已重写 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,982** | |
+| **合计** | | **≤ 5,000** | **4,988** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -50,9 +50,9 @@
 
 From the base, training on raw data with no agents lowers all four scores, even with about 700,000 examples, more than CoEvoMed uses, while CoEvoMed raises all four. The selector, constructor, and verifier are therefore needed to turn raw records into verified questions. From R5, keeping them but using the original principles again lowers all four, although these principles help at R2 (**Table 2**, Panel B). The revision agent is therefore needed to update principles as the learner advances. Giving the planner stale R2 or R3 feedback instead also lowers all four, while current feedback raises them. The curriculum planner is therefore needed to allocate for the current learner.
 
-So no simpler process in the table can substitute the agents.
+So no simpler process in the table substitutes them.
 
-**W2 (Organization).** The layout follows our contributions and scope. The main text presents each contribution: co-evolution formulation (**Sec. 3**), multi-agent system and curriculum policy (**Sec. 4**). **Sec. 5.1** gives the evaluation task composition (four 2D VQA, two report, three 3D); for space, main analyses use one VQA and one report task. The appendix adds what reproduction needs: algorithm (**App. A**), settings (**App. B**), evaluation (**App. C**), and mechanism analyses (**App. D**). Code is in the supplementary material.
+**W2 (Organization).** The layout follows our contributions and scope. The main text presents each contribution: co-evolution formulation (**Sec. 3**), multi-agent system and curriculum policy (**Sec. 4**). **Sec. 5.1** gives the evaluation task composition (four 2D VQA, two report, three 3D); for space, main analyses use one VQA and one report task. The appendix adds what reproduction needs: algorithm (**App. A**), settings (**App. B**), evaluation (**App. C**), and mechanism analyses (**App. D**).
 
 **W3 (Catastrophic forgetting and retention).** We respectfully note a misunderstanding: CoEvoMed builds on curriculum learning, not continual learning. Forgetting arises when tasks are learned in sequence and old data is dropped. It trains all tasks every round and replays earlier data (**Eq. 7; Sec. 3.3**), so continual-learning metrics do not apply. "Retention" is a share of the planner's budget (**Sec. 4.2**), ablated with it (**Table 7**).
 
@@ -67,13 +67,13 @@ We chose R7 by a predefined criterion: the most balanced capability profile on i
 | MedVLSynther recipe | 53.18 | 70.96 | 73.32 | 68.69 |
 | CoEvoMed-8B | **67.95** | **82.48** | **91.60** | **69.40** |
 
-**Q2 (Data release).** Yes. Upon acceptance, we will release the synthesized data and all principle versions under each source's license.
+**Q2 (Data release).** Yes, upon acceptance, with all principle versions and under each source's license. The data are also reproducible now: our code is in the supplement, and all sources are public (**Table 5**).
 
 **Q3 (Capability taxonomy).** The dimensions are necessary because every mechanism runs on the cells they define (**Table 6**). The profile is measured per cell (**Eq. 1**), the planner allocates budget across cells (**Eq. 7**), each principle serves one cell and is revised when it stops improving (**Sec. 4.3**), and the selector retrieves evidence matching a cell's modality and anatomy (**App. C.3**). With the taxonomy fixed, stale diagnoses lower 11 of 12 scores (**Table 7**), so gains come from diagnosis, not relabeling.
 
 We built our categories on SLAKE's (Liu et al., 2021): physicians annotated them, and SLAKE spans more modalities and body parts than prior datasets. They describe what a question asks, not a dataset, so they fit all tasks: VQA-RAD and M3D-VQA use similar types (Lau et al., 2018; **Fig. 9a**).
 
-On 200 SLAKE questions, our annotations match native labels: capability 97.5% (Cohen's κ = 0.958), modality 100%, body region 96.5%. κ > 0.81 is "almost perfect" agreement (Landis & Koch, 1977).
+On 200 SLAKE questions, our annotations match native labels: capability 97.5% (Cohen's κ = 0.958, "almost perfect"; Landis & Koch, 1977), modality 100%, body region 96.5%.
 ```
 
 ### 中文译文（不发布）
@@ -91,9 +91,9 @@ On 200 SLAKE questions, our annotations match native labels: capability 97.5% (C
 
 从基础模型出发，不使用任何智能体、直接用原始数据训练，四个分数全部下降，即使它用了约 70 万条样本，比 CoEvoMed 用的还多；而 CoEvoMed 让四个分数全部提升。因此，需要选择器、构建器和核验器把原始记录转成经过核验的问题。从 R5 出发，保留这些智能体、但改用原始原则，四个分数再次全部下降，尽管这些原则在 R2 时是有帮助的（**Table 2**，Panel B）。因此，需要修订智能体随着学习者的进步更新原则。如果改为给规划器过时的 R2 或 R3 反馈，四个分数同样全部下降，而当前反馈能让它们全部提升。因此，需要课程规划器按当前学习者的状态分配预算。
 
-所以，表中没有任何更简单的流程能够替代这些智能体。
+所以，表中没有任何更简单的流程能替代它们。
 
-**W2（论文组织）** 论文的排版与我们的贡献和研究范围是一致的。正文呈现每一项贡献：协同进化的问题形式化（**第 3 节**），多智能体系统与课程策略（**第 4 节**）。**第 5.1 节**给出了评估任务的组成（四个 2D VQA、两个报告生成、三个 3D 基准）；受篇幅所限，正文的分析各选用一个 VQA 任务和一个报告生成任务。附录补充复现所需的内容：算法（**附录 A**）、设置（**附录 B**）、评估（**附录 C**），以及机制分析实验（**附录 D**）。代码已作为补充材料提交。
+**W2（论文组织）** 论文的排版与我们的贡献和研究范围是一致的。正文呈现每一项贡献：协同进化的问题形式化（**第 3 节**），多智能体系统与课程策略（**第 4 节**）。**第 5.1 节**给出了评估任务的组成（四个 2D VQA、两个报告生成、三个 3D 基准）；受篇幅所限，正文的分析各选用一个 VQA 任务和一个报告生成任务。附录补充复现所需的内容：算法（**附录 A**）、设置（**附录 B**）、评估（**附录 C**），以及机制分析实验（**附录 D**）。
 
 **W3（灾难性遗忘与保留）** 我们想指出一个误解：CoEvoMed 是基于课程学习设计的，而不是持续学习。灾难性遗忘出现在按顺序学习各个任务、并丢弃旧数据的情况下。CoEvoMed 每一轮都同时训练所有任务，并回放之前的数据（**式 7；第 3.3 节**），因此持续学习的指标并不适用。"保留"是规划器预算中的一个份额（**第 4.2 节**），已随规划器一起做了消融（**Table 7**）。
 
@@ -108,16 +108,17 @@ On 200 SLAKE questions, our annotations match native labels: capability 97.5% (C
 | MedVLSynther 配方 | 53.18 | 70.96 | 73.32 | 68.69 |
 | CoEvoMed-8B | **67.95** | **82.48** | **91.60** | **69.40** |
 
-**Q2（数据公开）** 会公开。论文被接收后，我们将按各源数据的许可公开合成数据和全部版本的构建原则。
+**Q2（数据公开）** 会公开。论文被接收后，我们将按各源数据的许可公开合成数据和全部版本的构建原则。这些数据现在也可以复现：我们的代码已作为补充材料提交，所用的数据源也都是公开的，链接见 **Table 5**。
 
 **Q3（能力分类体系）** 这些维度是必要的，因为每一个机制都在它们划分出的能力单元上运行（**Table 6**）：能力画像按单元测量（**式 1**），规划器在各单元之间分配预算（**式 7**），每条原则对应一个单元、在该单元不再进步时被修订（**第 4.3 节**），选择器按单元的模态和解剖部位检索匹配的证据（**附录 C.3**）。在分类体系保持不变的情况下，使用过时的诊断会使 12 个分数中的 11 个下降（**Table 7**），因此收益来自诊断，而不是重新贴标签。
 
 我们以 SLAKE 的问题类别（Liu et al., 2021）为基础构建我们的类别：这些类别由医生标注，而且 SLAKE 覆盖的模态和身体部位比以往的数据集更多。这些类别描述的是问题在问什么，而不是某个数据集，因此适用于所有任务：VQA-RAD 和 M3D-VQA 也采用了类似的问题类型（Lau et al., 2018；**Figure 9a**）。
 
-在 200 道 SLAKE 题目上，我们的标注与原生标签的一致率为：能力类别 97.5%（Cohen's κ = 0.958），模态 100%，解剖部位 96.5%。κ > 0.81 即属于"几乎完全一致"（Landis & Koch, 1977）。
+在 200 道 SLAKE 题目上，我们的标注与原生标签的一致率为：能力类别 97.5%（Cohen's κ = 0.958，属于"几乎完全一致"；Landis & Koch, 1977），模态 100%，解剖部位 96.5%。
 
 ### 发布前待核对
 
+- [x] **Q2 补充可复现性（作者要求）**：除了承诺公开，再说明现在就能复现合成数据：代码已作为补充材料提交（MANIFEST.json 已核对补充材料与 code/CoEvoMed_ICLR2027 一致），所有数据源都是公开的，附录 C.3 的 Table 5 给出了全部 16 个支持数据源（11 个 2D、5 个 3D）的官方链接（"Table 5: Official resources for the support sources"）。措辞用 "reproducible"，不写"逐字相同"：智能体用的 deepseek-v4-flash、Qwen3.6-27B 温度为 0，但 API 模型的输出不保证完全一致。为腾字数：W2 删去 "Code is in the supplementary material."（已移到 Q2，与数据复现放在一起更贴题）；Q2 第一句改为 "Yes, upon acceptance, with all principle versions and under each source's license."；Q3 把 Landis & Koch 的解释并入 κ 的括号；W1 最后一句改为 "So no simpler process in the table substitutes them."
 - [x] **W1 整体理顺逻辑（作者要求：整个回答读起来自然）**：(1) 第一句直接回答审稿人的问题："All of these agents are needed, as the paper's ablations already show."（按作者要求去掉开头的 "Yes,"）；(2) 接着说明证据在哪里：正文第 5.2 节（原始数据对比）和 Table 2（VQA-RAD、MIMIC-CXR 上消融原则演化和课程自适应），受篇幅所限完整结果在附录 D（Table 7–9）；(3) 表格按起点重新分组：基础模型起点的两行（原始数据、CoEvoMed）放在一起，R5 起点的四行（原始原则、R2 反馈、R3 反馈、CoEvoMed）放在一起，每组最后一行是 CoEvoMed 对照，数字未改；(4) 表后一段按这两组依次读表："From the base…" → 需要选择器、构建器、核验器；"From R5…" → 需要修订智能体；"…stale R2 or R3 feedback instead…" → 需要课程规划器；(5) 最后一句回答问题的后半句（能否用更简单的流程替代）："So no simpler process in the table can substitute the agents."
 - [x] **W1 第二部分改为"读表 → 自然得出每个智能体都需要"（作者要求）**：不再分点、不再先讲设计。改为一段连贯的文字，按表格的行依次往下读，每读一行就得出一个"所以需要某智能体"的结论，三步层层递进：(1) 不用任何智能体（原始数据，约 70 万条、多于 CoEvoMed）四个分数全降，而 CoEvoMed 从同一基础模型全部提升 → 需要选择器、构建器、核验器；(2) 保留它们但不修订原则，R5 仍全降（原始原则在 R2 有帮助，Table 2 Panel B）→ 需要修订智能体；(3) 原则已修订但用过时的 R2/R3 反馈，再次全降，只有当前反馈提升 → 需要课程规划器。最后一句直接回答审稿人的原话 "Do we really need all of these agents or can we easily find another plausible agent process to substitute them"："We therefore do need all of these agents: no simpler process in the table substitutes them."。注意：选择器、构建器、核验器的必要性来自同一行（一起去掉），正文也是合在一句里说的，没有写成分别消融。
 - [x] **W1 第二部分与表格逐行对应（作者要求：与表格逻辑连贯）**：引导句先把表中各行和 "None: CoEvoMed" 两行联系起来（"Every removal lowers all four scores, while CoEvoMed from the same start raises them"）；三点的标题直接用表中 "Without" 一列的行名（All agents / Revision agent / Curriculum adaptation），每点依次写：这个智能体做什么 → 这一行去掉后是什么设置 → 实验说明为什么不行。实验依据不变：约 70 万条原始样本多于 CoEvoMed（正文第 5.2 节）；58.3% 的 2D 原始记录是图像描述（Figure 10）；原始原则 R2 有帮助、R5 降分（Table 2 Panel B）；过时反馈按较早学习者分配（Table 7）。

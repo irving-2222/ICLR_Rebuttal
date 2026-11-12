@@ -6,7 +6,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,982 / 5,000 characters (quotes excluded).*
+*Posted text: 4,988 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
@@ -23,11 +23,11 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 From the base, training on raw data with no agents lowers all four scores, even with about 700,000 examples, more than CoEvoMed uses, while CoEvoMed raises all four. The selector, constructor, and verifier are therefore needed to turn raw records into verified questions. From R5, keeping them but using the original principles again lowers all four, although these principles help at R2 (**Table 2**, Panel B). The revision agent is therefore needed to update principles as the learner advances. Giving the planner stale R2 or R3 feedback instead also lowers all four, while current feedback raises them. The curriculum planner is therefore needed to allocate for the current learner.
 
-So no simpler process in the table can substitute the agents.
+So no simpler process in the table substitutes them.
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
 
-**W2 (Organization).** The layout follows our contributions and scope. The main text presents each contribution: co-evolution formulation (**Sec. 3**), multi-agent system and curriculum policy (**Sec. 4**). **Sec. 5.1** gives the evaluation task composition (four 2D VQA, two report, three 3D); for space, main analyses use one VQA and one report task. The appendix adds what reproduction needs: algorithm (**App. A**), settings (**App. B**), evaluation (**App. C**), and mechanism analyses (**App. D**). Code is in the supplementary material.
+**W2 (Organization).** The layout follows our contributions and scope. The main text presents each contribution: co-evolution formulation (**Sec. 3**), multi-agent system and curriculum policy (**Sec. 4**). **Sec. 5.1** gives the evaluation task composition (four 2D VQA, two report, three 3D); for space, main analyses use one VQA and one report task. The appendix adds what reproduction needs: algorithm (**App. A**), settings (**App. B**), evaluation (**App. C**), and mechanism analyses (**App. D**).
 
 > **Weakness 3:** The method demonstrates reactive recovery from selected capability regressions, but does not establish prevention of catastrophic forgetting or stable balanced convergence. Later-round declines, reliance on R7 checkpoint selection, absence of retention ablations, and lack of standard continual-learning metrics leave the central retention claim only partially supported.
 
@@ -48,7 +48,7 @@ We chose R7 by a predefined criterion: the most balanced capability profile on i
 
 > **Question 2:** Would you consider to publicate the data generated in your evolving pipeline?
 
-**Q2 (Data release).** Yes. Upon acceptance, we will release the synthesized data and all principle versions under each source's license.
+**Q2 (Data release).** Yes, upon acceptance, with all principle versions and under each source's license. The data are also reproducible now: our code is in the supplement, and all sources are public (**Table 5**).
 
 > **Question 3:** CoEvoMed relies on a hand-designed capability taxonomy to construct validation cells and guide curriculum allocation, but the paper does not justify why these dimensions and categories are necessary. Some datasets, such as SLAKE, already provide question-type annotations that overlap with categories such as organ recognition, abnormality detection, and localization. The authors should report this mapping, validate the generated annotations, and compare the proposed taxonomy against native dataset labels. Otherwise, it remains unclear whether the gains come from meaningful capability diagnosis or an arbitrary relabeling of existing task categories.
 
@@ -56,7 +56,7 @@ We chose R7 by a predefined criterion: the most balanced capability profile on i
 
 We built our categories on SLAKE's (Liu et al., 2021): physicians annotated them, and SLAKE spans more modalities and body parts than prior datasets. They describe what a question asks, not a dataset, so they fit all tasks: VQA-RAD and M3D-VQA use similar types (Lau et al., 2018; **Fig. 9a**).
 
-On 200 SLAKE questions, our annotations match native labels: capability 97.5% (Cohen's κ = 0.958), modality 100%, body region 96.5%. κ > 0.81 is "almost perfect" agreement (Landis & Koch, 1977).
+On 200 SLAKE questions, our annotations match native labels: capability 97.5% (Cohen's κ = 0.958, "almost perfect"; Landis & Koch, 1977), modality 100%, body region 96.5%.
 
 ---
 
