@@ -6,11 +6,11 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,992 / 5,000 characters (quotes excluded).*
+*Posted text: 4,995 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
-**W1 (Necessity of the multi-agent framework).** The main text already tests each agent: **Sec. 5.2** against raw data, and **Table 2** by ablating curriculum adaptation and principle evolution on VQA-RAD and MIMIC-CXR. For space, **App. D** gives full results below, all else fixed (**Tables 7–9**):
+**W1 (Necessity of the multi-agent framework).** The main text already tests the agents: **Sec. 5.2** against raw data, and **Table 2** by ablating curriculum adaptation and principle evolution on VQA-RAD and MIMIC-CXR. For space, **App. D** gives full results; below are the four VQA benchmarks shared by **Tables 7–9**, all else fixed:
 
 | Without | From | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
 |---|---|---|---|---|---|
@@ -23,7 +23,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 No simpler process substitutes them: each one above lowers all four scores. We also separate roles by design (**App. B**):
 
-1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., 2024). We therefore designed the verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) as different models.
+1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., 2024). We therefore designed the verifier and constructor as different models.
 2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, as VLMs often do (Li et al., 2023). We therefore let it write only from selected facts.
 3. **Curriculum allocation.** If an LLM agent also set the budget, it could not learn, since LLM weights stay frozen. Curricula learned from learning progress match or beat hand-crafted ones (Matiisen et al., 2017). We therefore made the curriculum planner a separate policy trained by PPO on validation gains (**Sec. 4.2**).
 
@@ -64,13 +64,13 @@ On 200 SLAKE questions, our annotations match native labels: capability 97.5% (C
 
 ## Response to Reviewer jcb6
 
-*Posted text: 4,322 / 5,000 characters (quotes excluded).*
+*Posted text: 4,330 / 5,000 characters (quotes excluded).*
 
 We thank the reviewer for the positive assessment and the precise suggestions.
 
 > **Weakness:** The ablation study does not sufficiently isolate the contributions of the individual components. Budget-matched comparisons with fixed principles and a fixed curriculum, principle evolution alone, and curriculum adaptation alone would help determine whether the gains come primarily from high-quality synthetic data or the proposed co-evolution mechanism.
 
-**W1 (Isolating the contributions of individual components).** The paper already contains these budget-matched ablations. The main text tests both components on VQA-RAD and MIMIC-CXR (**Table 2**, **Sec. 5.3**): Panel A for curriculum adaptation, Panel B for principle evolution. For space, **App. D** extends both to all six benchmarks (**Tables 7–8**). All settings start from the same R5 checkpoint and train one round with the same pipeline and budget. To remove principle evolution, we keep the original principles. To remove curriculum adaptation, we give the curriculum stale R2 or R3 feedback, so it allocates as if fixed at that earlier stage. Change on each benchmark:
+**W1 (Isolating the contributions of individual components).** The paper already contains budget-matched ablations of both components. The main text tests them on VQA-RAD and MIMIC-CXR (**Table 2**, **Sec. 5.3**): Panel A for curriculum adaptation, Panel B for principle evolution. For space, **App. D** extends both to all six benchmarks (**Tables 7–8**). All settings below start from the same R5 checkpoint and train one round with the same pipeline and budget. To remove principle evolution, we keep the original principles. To remove curriculum adaptation, we give the curriculum stale R2 or R3 feedback, so it allocates as if fixed at that earlier stage. Change on each benchmark:
 
 | Setting | Principle evolution | Curriculum adaptation | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
@@ -110,13 +110,13 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 ## Response to Reviewer 2Nuw
 
-*Posted text: 4,984 / 5,000 characters (quotes excluded).*
+*Posted text: 4,986 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** **The experimental controls and mechanism analyses do not sufficiently establish the contribution of co-evolution.** The method combines teacher-generated supervision, data verification, principle revision, and adaptive curricula, but does not adequately isolate their effects or those of additional resources. Improvements are difficult to attribute to individual principles, and the relationship between principle-selection criteria and subsequent learning gains remains unvalidated. The substantial degradation of the raw-data training baseline also lacks sufficient explanation.
 
 > **Question 1:** Under the same teachers, data sources, and comparable budgets, could you separately establish the contributions of principle evolution and adaptive curricula, including PPO’s advantage over simpler allocation strategies? Could you also explain the raw-data baseline’s degradation and validate the relationship between principle-selection criteria and subsequent learning gains?
 
-**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** The paper already ablates both components from the same R5 checkpoint, teachers, data, and budget. Stale R2 or R3 feedback reproduces a curriculum fixed at an earlier stage. The main text tests both on VQA-RAD and MIMIC-CXR (**Table 2**, **Sec. 5.3**); for space, **App. D** covers all six benchmarks (**Tables 7–8**):
+**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** The paper already ablates both components from the same R5 checkpoint with the same teachers, data, and budget. Stale R2 or R3 feedback reproduces a curriculum fixed at an earlier stage. The main text tests both on VQA-RAD and MIMIC-CXR (**Table 2**, **Sec. 5.3**); for space, **App. D** covers all six benchmarks (**Tables 7–8**):
 
 | Setting | Principle evolution | Adaptive curriculum | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
@@ -125,7 +125,7 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | Principles only | Yes | No (stale R3) | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
 | CoEvoMed | Yes | Yes | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-Removing either component lowers most or all scores; only both improve all six benchmarks.
+Removing either component lowers most or all scores; only both improve all six.
 
 Unlike a greedy rule, PPO optimizes cumulative gain (**Eq. 5**), and its choices follow the learner's state. Across R1–R7: balanced, weakness-focused, retention-heavy, balanced, repair-heavy, repair-heavy, balanced. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (**Fig. 6**).
 

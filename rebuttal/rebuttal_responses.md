@@ -23,21 +23,21 @@
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
-| W1 | 多智能体是否必要 | — | 1,649 | 已重写（两部分；合并表；三项设计保障） |
+| W1 | 多智能体是否必要 | — | 1,652 | 已重写（两部分；合并表；三项设计保障） |
 | W2 | 论文组织 | — | 543 | 已重写（正文逻辑、附录对应、可复现） |
 | W3 | 遗忘与 R7 的选择 | — | 1,215 | 已重写 |
 | Q1 | MedVLSynther 复现 | — | 417 | 已重写 |
 | Q2 | 数据公开 | — | 137 | 已压缩 |
 | Q3 | 能力分类体系 | — | 1,021 | 已重写 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,992** | |
+| **合计** | | **≤ 5,000** | **4,995** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
 ### 英文正文（发布用）
 
 ```markdown
-**W1 (Necessity of the multi-agent framework).** The main text already tests each agent: **Sec. 5.2** against raw data, and **Table 2** by ablating curriculum adaptation and principle evolution on VQA-RAD and MIMIC-CXR. For space, **App. D** gives full results below, all else fixed (**Tables 7–9**):
+**W1 (Necessity of the multi-agent framework).** The main text already tests the agents: **Sec. 5.2** against raw data, and **Table 2** by ablating curriculum adaptation and principle evolution on VQA-RAD and MIMIC-CXR. For space, **App. D** gives full results; below are the four VQA benchmarks shared by **Tables 7–9**, all else fixed:
 
 | Without | From | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
 |---|---|---|---|---|---|
@@ -50,7 +50,7 @@
 
 No simpler process substitutes them: each one above lowers all four scores. We also separate roles by design (**App. B**):
 
-1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., 2024). We therefore designed the verifier (Qwen3.6-27B) and constructor (deepseek-v4-flash) as different models.
+1. **Independent checking.** LLMs rarely self-correct without external feedback (Huang et al., 2024). We therefore designed the verifier and constructor as different models.
 2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, as VLMs often do (Li et al., 2023). We therefore let it write only from selected facts.
 3. **Curriculum allocation.** If an LLM agent also set the budget, it could not learn, since LLM weights stay frozen. Curricula learned from learning progress match or beat hand-crafted ones (Matiisen et al., 2017). We therefore made the curriculum planner a separate policy trained by PPO on validation gains (**Sec. 4.2**).
 
@@ -80,7 +80,7 @@ On 200 SLAKE questions, our annotations match native labels: capability 97.5% (C
 
 ### 中文译文（不发布）
 
-**W1（多智能体框架的必要性）** 正文已经检验了每个智能体的作用：**第 5.2 节**与直接用原始数据训练做了对比，**Table 2** 在 VQA-RAD 和 MIMIC-CXR 上对课程自适应和原则演化做了消融。受篇幅所限，**附录 D** 给出了完整结果，即下表（相对同一起点的变化，其余设置均保持不变；**Table 7–9**）：
+**W1（多智能体框架的必要性）** 正文已经检验了这些智能体的作用：**第 5.2 节**与直接用原始数据训练做了对比，**Table 2** 在 VQA-RAD 和 MIMIC-CXR 上对课程自适应和原则演化做了消融。受篇幅所限，**附录 D** 给出了完整结果；下表列出 **Table 7–9** 共有的四个 VQA 基准上相对同一起点的变化，其余设置均保持不变：
 
 | 去掉的功能 | 起点 | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
 |---|---|---|---|---|---|
@@ -93,7 +93,7 @@ On 200 SLAKE questions, our annotations match native labels: capability 97.5% (C
 
 没有更简单的流程能替代它们：上表中每一种更简单的流程都会让四个基准的分数全部下降。此外，我们有意把这些角色分开设计（**附录 B**）：
 
-1. **独立核查。** 大语言模型在没有外部反馈时很难自我纠正（Huang et al., 2024）。因此，我们把核验器（Qwen3.6-27B）和构建器（deepseek-v4-flash）设计为不同的模型。
+1. **独立核查。** 大语言模型在没有外部反馈时很难自我纠正（Huang et al., 2024）。因此，我们把核验器和构建器设计为不同的模型。
 2. **基于证据的构建。** 如果构建器直接看图撰写，它可能会像视觉语言模型常见的那样，描述图像中并不存在的物体（Li et al., 2023）。因此，我们让构建器只根据选出的事实撰写。
 3. **课程分配。** 如果由某个大语言模型智能体同时负责分配预算，这种分配就无法学习，因为大语言模型的权重是冻结的。根据学习进度学到的课程能够达到甚至超过人工设计的课程（Matiisen et al., 2017）。因此，我们把课程规划器单独设计为一个策略网络，用 PPO 依据验证集上的收益来训练（**第 4.2 节**）。
 
@@ -122,6 +122,7 @@ On 200 SLAKE questions, our annotations match native labels: capability 97.5% (C
 
 ### 发布前待核对
 
+- [x] **W1 开头自查修正**：(1) "tests each agent" 改为 "tests the agents"：正文只单独消融了课程自适应和原则演化，原始数据对比检验的是整体，说"每个智能体"会显得夸大（选择器、构建器、核验器没有单独消融）。(2) 上一版写 "Table 2 ... on VQA-RAD and MIMIC-CXR"，接着说 "App. D gives full results below"，但下表只有四个 VQA 基准、没有 MIMIC-CXR，读起来前后不一致。改为 "below are the four VQA benchmarks shared by Tables 7–9"：原始数据对比（Table 9）只测了四个 VQA 基准，所以表中只列各行共有的四个。为腾字数：W1 第 1 点删去两个模型名 "(Qwen3.6-27B)"、"(deepseek-v4-flash)"（前一句已引用附录 B，模型名在附录 B 中）。
 - [x] **消融的正文与附录关系写清楚（作者要求）**：不再笼统地并列引用，而是说明逻辑：正文已经检验了每个组件（第 5.2 节对比原始数据；Table 2 在 VQA-RAD、MIMIC-CXR 上消融课程自适应和原则演化），受篇幅所限，附录 D 给出完整结果。依据论文：正文第 5.3 节 "Mechanism comparisons use VQA-RAD and MIMIC-CXR; full results and experimental details appear in Appendix D"（Table 2 Panel A 为反馈来源即课程自适应，Panel B 为原始与演化原则）；第 5.2 节正文报告了与约 70 万条原始数据训练的对比，数字在附录 D.3（Table 9）；附录 D.1/D.2 的 Table 7/8 分别把 Panel A/B 扩展到六个基准。为腾字数：Q3 删去修改稿承诺 "Table 6 will add the mapping."（与"先不提修改稿"一致）；W2 "gives each contribution with evidence" 改为 "presents each contribution"；Q1 "on our base, Qwen3-VL-8B," 改为 "on our Qwen3-VL-8B base"；W1 "can substitute" 改为 "substitutes"；W1 引导句中 "Changes from a shared start" 并入 "full results below, all else fixed"（表中"From"一列已标明起点）。
 - [x] **W2 附录 D 改称"机制分析"（作者要求）**："full ablations (App. D)" 改为 "mechanism analyses (App. D)"（中文"机制分析实验"）。依据：正文第 5.3 节标题为 "Learning Dynamics and Mechanism Analysis"，附录 D 是它的完整版（"full results and experimental details appear in Appendix D"）；附录 D 标题为 "Curriculum Interventions and Component Controls"。论文中 Table 2 的标题仍是 "Mechanism ablations"，所以 W1 以及 jcb6、2Nuw 把这些实验称为消融，与这里不矛盾。
 - [x] **W3 R7 段最后一句改为"不依赖 R7 的选择"（作者要求）**：原句 "CoEvoMed is a general evolution mechanism: its final checkpoint is not a fixed round but follows the limit of the data pool." 隐含"数据池更大，最优轮次会更晚"的预测，可能引来补做数据规模消融的追问，时间上来不及。改为一句直接的总结 "Our results therefore do not rely on the choice of R7."（中文"因此，我们的结果并不依赖于对 R7 的选择。"），回应审稿人的 "reliance on R7 checkpoint selection"。按作者要求，不再提测试集分数，也不提"六个基准用同一个检查点"。下面 W3 选择 R7 一段的旧条目中引用的原句已被取代。
@@ -331,16 +332,16 @@ On 200 SLAKE questions, our annotations match native labels: capability 97.5% (C
 | 条目 | 内容 | 当前 | 状态 |
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
-| W1 | 在预算匹配下分离各组件 | 2,057 | 已改为论文格式的合并表（Table 7–8） |
+| W1 | 在预算匹配下分离各组件 | 2,065 | 已改为论文格式的合并表（Table 7–8） |
 | Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,183 | 已改为分段，展示论文 Table 8 的 R5 部分 |
-| **合计** | | **4,322** | ≤ 5,000 |
+| **合计** | | **4,330** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
 ```markdown
 We thank the reviewer for the positive assessment and the precise suggestions.
 
-**W1 (Isolating the contributions of individual components).** The paper already contains these budget-matched ablations. The main text tests both components on VQA-RAD and MIMIC-CXR (**Table 2**, **Sec. 5.3**): Panel A for curriculum adaptation, Panel B for principle evolution. For space, **App. D** extends both to all six benchmarks (**Tables 7–8**). All settings start from the same R5 checkpoint and train one round with the same pipeline and budget. To remove principle evolution, we keep the original principles. To remove curriculum adaptation, we give the curriculum stale R2 or R3 feedback, so it allocates as if fixed at that earlier stage. Change on each benchmark:
+**W1 (Isolating the contributions of individual components).** The paper already contains budget-matched ablations of both components. The main text tests them on VQA-RAD and MIMIC-CXR (**Table 2**, **Sec. 5.3**): Panel A for curriculum adaptation, Panel B for principle evolution. For space, **App. D** extends both to all six benchmarks (**Tables 7–8**). All settings below start from the same R5 checkpoint and train one round with the same pipeline and budget. To remove principle evolution, we keep the original principles. To remove curriculum adaptation, we give the curriculum stale R2 or R3 feedback, so it allocates as if fixed at that earlier stage. Change on each benchmark:
 
 | Setting | Principle evolution | Curriculum adaptation | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
@@ -379,7 +380,7 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 我们感谢审稿人的积极评价和具体建议。
 
-**W1（分离各个组件的贡献）** 论文中已经包含这些预算匹配的消融实验。正文在 VQA-RAD 和 MIMIC-CXR 上检验了这两个组件（**Table 2**，**第 5.3 节**）：Panel A 对应课程自适应，Panel B 对应原则演化。受篇幅所限，**附录 D** 把两者扩展到全部六个基准（**Table 7–8**）。所有设置都从同一个 R5 检查点出发，用相同的流程和预算训练一轮。去掉原则演化时，我们保留原始原则；去掉课程自适应时，我们把过时的 R2 或 R3 反馈交给课程，使它按固定在那个较早阶段的方式分配预算。下表为每个基准上的变化：
+**W1（分离各个组件的贡献）** 论文中已经包含针对这两个组件的预算匹配消融实验。正文在 VQA-RAD 和 MIMIC-CXR 上检验了它们（**Table 2**，**第 5.3 节**）：Panel A 对应课程自适应，Panel B 对应原则演化。受篇幅所限，**附录 D** 把两者扩展到全部六个基准（**Table 7–8**）。下表中的所有设置都从同一个 R5 检查点出发，用相同的流程和预算训练一轮。去掉原则演化时，我们保留原始原则；去掉课程自适应时，我们把过时的 R2 或 R3 反馈交给课程，使它按固定在那个较早阶段的方式分配预算。下表为每个基准上的变化：
 
 | 设置 | 原则演化 | 课程自适应 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
@@ -415,6 +416,7 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 ### 发布前待核对
 
+- [x] **W1 开头自查修正**：(1) "these budget-matched ablations" 改为 "budget-matched ablations of both components"：审稿人要的四种设置中"两者都固定"没有实测（最后一段用上界推理），说"这些消融都有"与最后一段不一致。(2) "All settings start from the same R5 checkpoint" 改为 "All settings below start…"：前一句提到的 Table 2 Panel B 还包含 R2 起点的设置，只有下表的设置都从 R5 出发。
 - [x] **消融的正文与附录关系写清楚（作者要求）**：W1 开头改为：正文在 VQA-RAD 和 MIMIC-CXR 上检验两个组件（Table 2：Panel A 对应课程自适应，Panel B 对应原则演化），受篇幅所限，附录 D 扩展到全部六个基准（Table 7–8）。依据论文：正文第 5.3 节 "Mechanism comparisons use VQA-RAD and MIMIC-CXR; full results and experimental details appear in Appendix D"（Table 2 Panel A 为反馈来源即课程自适应，Panel B 为原始与演化原则）；第 5.2 节正文报告了与约 70 万条原始数据训练的对比，数字在附录 D.3（Table 9）；附录 D.1/D.2 的 Table 7/8 分别把 Panel A/B 扩展到六个基准。
 - [x] **正文和附录引用全部加粗（作者要求）**：英文和中文里所有 Sec./Fig./Table/App./Section 引用都已加粗，同一括号里连续的引用合并为一段加粗，例如 "(**Fig. 10; App. C.3**)"。加粗后 4,184 字符，无需删减。
 - [x] **反馈消融即课程自适应消融（作者确认）**：实验 1 从同一 R5 检查点出发，只把驱动课程的反馈换成 R2/R3 的旧反馈，课程机制照常运行但看到的是过去的学习者，因此切断了"自适应"。正文补一句：固定课程是在较早状态下定下的，把旧反馈给 R5 学习者正是复现这种情况。注意：附录 D.1 写明替换的反馈同时用于课程分配和监督构建，审稿人若追问可如实说明。
@@ -464,11 +466,11 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | — | — | 已改为在标题中注明 |
-| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,143 | 已改为分点格式 |
+| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,145 | 已改为分点格式 |
 | Q2 | 数据泄漏；R7 的选择 | — | 701 | 已定稿 |
 | Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,164 | 已定稿 |
 | Q4 | 复杂推理基准 | — | 970 | 已定稿 |
-| **合计** | | **≤ 5,000** | **4,984** | |
+| **合计** | | **≤ 5,000** | **4,986** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
@@ -479,7 +481,7 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 ### 英文正文（发布用）
 
 ```markdown
-**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** The paper already ablates both components from the same R5 checkpoint, teachers, data, and budget. Stale R2 or R3 feedback reproduces a curriculum fixed at an earlier stage. The main text tests both on VQA-RAD and MIMIC-CXR (**Table 2**, **Sec. 5.3**); for space, **App. D** covers all six benchmarks (**Tables 7–8**):
+**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** The paper already ablates both components from the same R5 checkpoint with the same teachers, data, and budget. Stale R2 or R3 feedback reproduces a curriculum fixed at an earlier stage. The main text tests both on VQA-RAD and MIMIC-CXR (**Table 2**, **Sec. 5.3**); for space, **App. D** covers all six benchmarks (**Tables 7–8**):
 
 | Setting | Principle evolution | Adaptive curriculum | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
@@ -488,7 +490,7 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 | Principles only | Yes | No (stale R3) | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
 | CoEvoMed | Yes | Yes | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-Removing either component lowers most or all scores; only both improve all six benchmarks.
+Removing either component lowers most or all scores; only both improve all six.
 
 Unlike a greedy rule, PPO optimizes cumulative gain (**Eq. 5**), and its choices follow the learner's state. Across R1–R7: balanced, weakness-focused, retention-heavy, balanced, repair-heavy, repair-heavy, balanced. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (**Fig. 6**).
 
@@ -562,6 +564,7 @@ MedXpertQA-MM 和 MMMU 都是在 2D 图像上通过选择题检验推理（MedXp
 
 ### 发布前待核对
 
+- [x] **Q1 开头自查修正**："from the same R5 checkpoint, teachers, data, and budget" 改为 "from the same R5 checkpoint with the same teachers, data, and budget"（原句把教师模型、数据、预算都接在 "from" 后面，语法上不通）。为腾字数："only both improve all six benchmarks" 改为 "only both improve all six"（表头已列出六个基准）。
 - [x] **消融的正文与附录关系写清楚（作者要求）**：Q1 开头改为：正文在 VQA-RAD 和 MIMIC-CXR 上检验两个组件（Table 2，第 5.3 节），受篇幅所限，附录 D 覆盖全部六个基准（Table 7–8）。依据论文：正文第 5.3 节 "Mechanism comparisons use VQA-RAD and MIMIC-CXR; full results and experimental details appear in Appendix D"（Table 2 Panel A 为反馈来源即课程自适应，Panel B 为原始与演化原则）；第 5.2 节正文报告了与约 70 万条原始数据训练的对比，数字在附录 D.3（Table 9）；附录 D.1/D.2 的 Table 7/8 分别把 Panel A/B 扩展到六个基准。为腾字数：PPO 段删去 "It then returned to balanced."（R1–R7 序列最后一项已是 balanced）；表中 "No (original)" 改为 "No"（选择标准段已说明是原始原则）；原始数据段删去 "(App. D.3)"（保留 Table 9）并合并最后两句；"In Table 8, from the same R5 checkpoint and budget," 改为括号形式；"with the same teachers, data sources, budget, and R5 checkpoint" 改为 "from the same R5 checkpoint, teachers, data, and budget"。
 - [x] **正文和附录引用全部加粗（作者要求）**：英文和中文里所有 Sec./Eq./Fig./Table/App. 引用都已加粗，同一括号里连续的引用合并为一段加粗，例如 "(**Table 2, Sec. 5.3; App. D**)"。
 - [x] **Q2 修正指代**：之前删减后，"These scores never feed back into training or checkpoint selection" 中的 "These scores" 变成了指上一句的内部验证集分数；而课程规划器正是用内部验证集上的收益训练的，这句话因此成了错误陈述。改为 "External benchmark scores never feed back…"（中文："外部基准的分数从不反馈…"）。加粗加这处修改后 4,994 字符。
