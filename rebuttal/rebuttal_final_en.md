@@ -6,7 +6,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,967 / 5,000 characters (quotes excluded).*
+*Posted text: 4,957 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
@@ -21,13 +21,9 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 | None: CoEvoMed | base | +25.72 | +26.76 | +13.82 | +26.63 |
 | None: CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
 
-Every removal lowers all four scores, while CoEvoMed from the same start raises them:
+Without any agent, raw data lower all four scores, even with about 700,000 examples, more than CoEvoMed uses (**Sec. 5.2**), while CoEvoMed raises all four from the same base. So the selector, constructor, and verifier are needed to turn raw records into verified questions. With them in place but principles unrevised, all four scores still drop at R5, although the original principles help at R2 (**Table 2**, Panel B). So the revision agent is needed to update principles as the learner advances. With revised principles but stale R2 or R3 feedback, all four drop again, and only current feedback raises them. So the curriculum planner is needed to allocate for the current learner.
 
-1. **All agents.** The selector, constructor, and verifier turn evidence into verified questions. Without any agent, the model trains on raw records, 58.3% of which are figure descriptions (**Fig. 10**), and falls below its base despite about 700,000 examples, more than CoEvoMed uses (**Sec. 5.2**).
-2. **Revision agent.** It updates construction principles as the learner's errors change. Without it, R5 keeps the original principles, which help at R2 (**Table 2**, Panel B) but hurt at R5.
-3. **Curriculum adaptation.** The planner allocates the budget from current validation feedback. Given stale R2 or R3 feedback, it allocates for an earlier learner.
-
-No simpler process substitutes the agents.
+We therefore do need all of these agents: no simpler process in the table substitutes them.
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
 

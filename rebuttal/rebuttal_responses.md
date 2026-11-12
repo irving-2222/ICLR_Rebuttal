@@ -23,14 +23,14 @@
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
-| W1 | 多智能体是否必要 | — | 1,624 | 已重写（两部分；合并表；三项设计保障） |
+| W1 | 多智能体是否必要 | — | 1,614 | 已重写（两部分；合并表；三项设计保障） |
 | W2 | 论文组织 | — | 543 | 已重写（正文逻辑、附录对应、可复现） |
 | W3 | 遗忘与 R7 的选择 | — | 1,215 | 已重写 |
 | Q1 | MedVLSynther 复现 | — | 417 | 已重写 |
 | Q2 | 数据公开 | — | 137 | 已压缩 |
 | Q3 | 能力分类体系 | — | 1,021 | 已重写 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,967** | |
+| **合计** | | **≤ 5,000** | **4,957** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -48,13 +48,9 @@
 | None: CoEvoMed | base | +25.72 | +26.76 | +13.82 | +26.63 |
 | None: CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
 
-Every removal lowers all four scores, while CoEvoMed from the same start raises them:
+Without any agent, raw data lower all four scores, even with about 700,000 examples, more than CoEvoMed uses (**Sec. 5.2**), while CoEvoMed raises all four from the same base. So the selector, constructor, and verifier are needed to turn raw records into verified questions. With them in place but principles unrevised, all four scores still drop at R5, although the original principles help at R2 (**Table 2**, Panel B). So the revision agent is needed to update principles as the learner advances. With revised principles but stale R2 or R3 feedback, all four drop again, and only current feedback raises them. So the curriculum planner is needed to allocate for the current learner.
 
-1. **All agents.** The selector, constructor, and verifier turn evidence into verified questions. Without any agent, the model trains on raw records, 58.3% of which are figure descriptions (**Fig. 10**), and falls below its base despite about 700,000 examples, more than CoEvoMed uses (**Sec. 5.2**).
-2. **Revision agent.** It updates construction principles as the learner's errors change. Without it, R5 keeps the original principles, which help at R2 (**Table 2**, Panel B) but hurt at R5.
-3. **Curriculum adaptation.** The planner allocates the budget from current validation feedback. Given stale R2 or R3 feedback, it allocates for an earlier learner.
-
-No simpler process substitutes the agents.
+We therefore do need all of these agents: no simpler process in the table substitutes them.
 
 **W2 (Organization).** The layout follows our contributions and scope. The main text presents each contribution: co-evolution formulation (**Sec. 3**), multi-agent system and curriculum policy (**Sec. 4**). **Sec. 5.1** gives the evaluation task composition (four 2D VQA, two report, three 3D); for space, main analyses use one VQA and one report task. The appendix adds what reproduction needs: algorithm (**App. A**), settings (**App. B**), evaluation (**App. C**), and mechanism analyses (**App. D**). Code is in the supplementary material.
 
@@ -93,13 +89,9 @@ On 200 SLAKE questions, our annotations match native labels: capability 97.5% (C
 | 无：CoEvoMed | 基础模型 | +25.72 | +26.76 | +13.82 | +26.63 |
 | 无：CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
 
-每一种去掉的设置都会让四个基准的分数全部下降，而从同一起点出发的 CoEvoMed 则让它们全部提升：
+不使用任何智能体时，即使用了约 70 万条样本，比 CoEvoMed 用的还多，原始数据训练仍让四个基准的分数全部下降（**第 5.2 节**），而 CoEvoMed 从同一个基础模型出发，让四个分数全部提升。因此，需要选择器、构建器和核验器把原始记录转成经过核验的问题。保留它们、但不修订原则时，四个分数在 R5 仍然全部下降，尽管原始原则在 R2 时是有帮助的（**Table 2**，Panel B）。因此，需要修订智能体随着学习者的进步更新原则。用修订后的原则、但把反馈换成过时的 R2 或 R3 反馈时，四个分数再次全部下降，只有当前反馈能让它们提升。因此，需要课程规划器按当前学习者的状态分配预算。
 
-1. **全部智能体。** 选择器、构建器和核验器把证据转成经过核验的问题。不使用任何智能体时，模型直接在原始记录上训练，其中 58.3% 是图像描述（**Figure 10**）；即使用了约 70 万条样本，比 CoEvoMed 用的还多，分数仍低于基础模型（**第 5.2 节**）。
-2. **修订智能体。** 它随学习者错误的变化更新构建原则。没有它，R5 只能沿用原始原则；这些原则在 R2 时有帮助（**Table 2**，Panel B），到 R5 却会降低分数。
-3. **课程自适应。** 课程规划器根据当前的验证反馈分配预算。给它过时的 R2 或 R3 反馈，它就会按较早阶段的学习者来分配。
-
-没有更简单的流程能替代这些智能体。
+所以，这些智能体我们确实都需要：表中没有任何更简单的流程能替代它们。
 
 **W2（论文组织）** 论文的排版与我们的贡献和研究范围是一致的。正文呈现每一项贡献：协同进化的问题形式化（**第 3 节**），多智能体系统与课程策略（**第 4 节**）。**第 5.1 节**给出了评估任务的组成（四个 2D VQA、两个报告生成、三个 3D 基准）；受篇幅所限，正文的分析各选用一个 VQA 任务和一个报告生成任务。附录补充复现所需的内容：算法（**附录 A**）、设置（**附录 B**）、评估（**附录 C**），以及机制分析实验（**附录 D**）。代码已作为补充材料提交。
 
@@ -126,6 +118,7 @@ On 200 SLAKE questions, our annotations match native labels: capability 97.5% (C
 
 ### 发布前待核对
 
+- [x] **W1 第二部分改为"读表 → 自然得出每个智能体都需要"（作者要求）**：不再分点、不再先讲设计。改为一段连贯的文字，按表格的行依次往下读，每读一行就得出一个"所以需要某智能体"的结论，三步层层递进：(1) 不用任何智能体（原始数据，约 70 万条、多于 CoEvoMed）四个分数全降，而 CoEvoMed 从同一基础模型全部提升 → 需要选择器、构建器、核验器；(2) 保留它们但不修订原则，R5 仍全降（原始原则在 R2 有帮助，Table 2 Panel B）→ 需要修订智能体；(3) 原则已修订但用过时的 R2/R3 反馈，再次全降，只有当前反馈提升 → 需要课程规划器。最后一句直接回答审稿人的原话 "Do we really need all of these agents or can we easily find another plausible agent process to substitute them"："We therefore do need all of these agents: no simpler process in the table substitutes them."。注意：选择器、构建器、核验器的必要性来自同一行（一起去掉），正文也是合在一句里说的，没有写成分别消融。
 - [x] **W1 第二部分与表格逐行对应（作者要求：与表格逻辑连贯）**：引导句先把表中各行和 "None: CoEvoMed" 两行联系起来（"Every removal lowers all four scores, while CoEvoMed from the same start raises them"）；三点的标题直接用表中 "Without" 一列的行名（All agents / Revision agent / Curriculum adaptation），每点依次写：这个智能体做什么 → 这一行去掉后是什么设置 → 实验说明为什么不行。实验依据不变：约 70 万条原始样本多于 CoEvoMed（正文第 5.2 节）；58.3% 的 2D 原始记录是图像描述（Figure 10）；原始原则 R2 有帮助、R5 降分（Table 2 Panel B）；过时反馈按较早学习者分配（Table 7）。
 - [x] **W1 第二部分：用实验说明框架设计和各智能体的必要性（作者要求）**：按框架的三个环节分三点，每点先用一句话说明该环节的智能体做什么（设计），再给出去掉它时的实验结果（必要性），不加文献和推理：(1) 构建：选择器、构建器、核验器（不同模型）→ 不使用任何智能体时原始数据（约 70 万条，多于 CoEvoMed，正文第 5.2 节）四个分数全降，58.3% 的 2D 原始记录是图像描述而不是问题（Figure 10）；(2) 原则修订：修订智能体 → 原始原则 R2 有帮助、R5 降分（Table 2 Panel B）；(3) 课程分配：课程规划器 → 过时的 R2/R3 反馈四个分数全降，当前反馈全部提升（Table 7）。三点顺序与表中各行一致。选择器、构建器、核验器只有"一起去掉"的实验，所以写作 "With no agents"，不写成分别去掉。
 - [x] **W1 第二部分只用实验说话（作者要求）**：删去分析性内容和文献（Li et al., 2023；Huang et al., 2024；权重冻结的论证），改为一段，只陈述表格之外的实验事实：原始数据用了约 70 万条样本、多于 CoEvoMed，仍然降分（正文第 5.2 节 "approximately 700,000 raw examples ... while using fewer training examples"；附录 D.3）；原始原则在 R2 有帮助、到 R5 降分（Table 2 Panel B：R2 时 VQA-RAD +1.78、MIMIC-CXR +3.04；R5 时 −5.64、−6.44）；过时的 R2/R3 反馈让四个分数全降，只有当前反馈提升（Table 7）。每句只接一个简短结论。Huang et al., 2024 和 Li et al., 2023 两条文献已不再出现在 pUjh 回复中。
