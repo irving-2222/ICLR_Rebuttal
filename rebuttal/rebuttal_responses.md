@@ -24,13 +24,13 @@
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
 | W1 | 多智能体是否必要 | — | 1,536 | 已重写（两部分；合并表；三项设计保障） |
-| W2 | 论文组织 | — | 550 | 已重写（正文逻辑、附录对应、可复现） |
+| W2 | 论文组织 | — | 554 | 已重写（正文逻辑、附录对应、可复现） |
 | W3 | 遗忘与 R7 的选择 | — | 1,215 | 已重写 |
 | Q1 | MedVLSynther 复现 | — | 419 | 已重写 |
 | Q2 | 数据公开 | — | 137 | 已压缩 |
 | Q3 | 能力分类体系 | — | 1,055 | 已重写 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,922** | |
+| **合计** | | **≤ 5,000** | **4,926** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -54,7 +54,7 @@ No simpler process can substitute them: each one above lowers all four scores. W
 2. **Grounded construction.** If the constructor wrote from the image, it could describe absent objects, as VLMs often do (Li et al., 2023). We therefore let it write only from selected facts.
 3. **Curriculum allocation.** If an LLM agent also set the budget, it could not learn, since LLM weights stay frozen. Curricula learned from learning progress match or beat hand-crafted ones (Matiisen et al., 2017). We therefore made the curriculum planner a separate policy trained by PPO on validation gains (**Sec. 4.2**).
 
-**W2 (Organization).** The layout follows our contributions and scope. The main text gives each contribution with evidence: co-evolution formulation (**Sec. 3**), multi-agent system and curriculum policy (**Sec. 4**). **Sec. 5.1** gives the evaluation task composition (four 2D VQA, two report, three 3D); for space, main analyses use one VQA and one report task. The appendix adds what reproduction needs: algorithm (**App. A**), settings (**App. B**), evaluation (**App. C**), and full ablations (**App. D**). Code is in the supplementary material.
+**W2 (Organization).** The layout follows our contributions and scope. The main text gives each contribution with evidence: co-evolution formulation (**Sec. 3**), multi-agent system and curriculum policy (**Sec. 4**). **Sec. 5.1** gives the evaluation task composition (four 2D VQA, two report, three 3D); for space, main analyses use one VQA and one report task. The appendix adds what reproduction needs: algorithm (**App. A**), settings (**App. B**), evaluation (**App. C**), and mechanism analyses (**App. D**). Code is in the supplementary material.
 
 **W3 (Catastrophic forgetting and retention).** We respectfully note a misunderstanding: CoEvoMed builds on curriculum learning, not continual learning. Forgetting arises when tasks are learned in sequence and old data is dropped. It trains all tasks every round and replays earlier data (**Eq. 7; Sec. 3.3**), so continual-learning metrics do not apply. "Retention" is a share of the planner's budget (**Sec. 4.2**), ablated with it (**Table 7**).
 
@@ -97,7 +97,7 @@ On 200 SLAKE questions, our annotations match native labels: capability 97.5% (C
 2. **基于证据的构建。** 如果构建器直接看图撰写，它可能会像视觉语言模型常见的那样，描述图像中并不存在的物体（Li et al., 2023）。因此，我们让构建器只根据选出的事实撰写。
 3. **课程分配。** 如果由某个大语言模型智能体同时负责分配预算，这种分配就无法学习，因为大语言模型的权重是冻结的。根据学习进度学到的课程能够达到甚至超过人工设计的课程（Matiisen et al., 2017）。因此，我们把课程规划器单独设计为一个策略网络，用 PPO 依据验证集上的收益来训练（**第 4.2 节**）。
 
-**W2（论文组织）** 论文的排版与我们的贡献和研究范围是一致的。正文给出每一项贡献及其证据：协同进化的问题形式化（**第 3 节**），多智能体系统与课程策略（**第 4 节**）。**第 5.1 节**给出了评估任务的组成（四个 2D VQA、两个报告生成、三个 3D 基准）；受篇幅所限，正文的分析各选用一个 VQA 任务和一个报告生成任务。附录补充复现所需的内容：算法（**附录 A**）、设置（**附录 B**）、评估（**附录 C**），以及完整的消融实验（**附录 D**）。代码已作为补充材料提交。
+**W2（论文组织）** 论文的排版与我们的贡献和研究范围是一致的。正文给出每一项贡献及其证据：协同进化的问题形式化（**第 3 节**），多智能体系统与课程策略（**第 4 节**）。**第 5.1 节**给出了评估任务的组成（四个 2D VQA、两个报告生成、三个 3D 基准）；受篇幅所限，正文的分析各选用一个 VQA 任务和一个报告生成任务。附录补充复现所需的内容：算法（**附录 A**）、设置（**附录 B**）、评估（**附录 C**），以及机制分析实验（**附录 D**）。代码已作为补充材料提交。
 
 **W3（灾难性遗忘与保留）** 我们想指出一个误解：CoEvoMed 是基于课程学习设计的，而不是持续学习。灾难性遗忘出现在按顺序学习各个任务、并丢弃旧数据的情况下。CoEvoMed 每一轮都同时训练所有任务，并回放之前的数据（**式 7；第 3.3 节**），因此持续学习的指标并不适用。"保留"是规划器预算中的一个份额（**第 4.2 节**），已随规划器一起做了消融（**Table 7**）。
 
@@ -122,6 +122,7 @@ On 200 SLAKE questions, our annotations match native labels: capability 97.5% (C
 
 ### 发布前待核对
 
+- [x] **W2 附录 D 改称"机制分析"（作者要求）**："full ablations (App. D)" 改为 "mechanism analyses (App. D)"（中文"机制分析实验"）。依据：正文第 5.3 节标题为 "Learning Dynamics and Mechanism Analysis"，附录 D 是它的完整版（"full results and experimental details appear in Appendix D"）；附录 D 标题为 "Curriculum Interventions and Component Controls"。论文中 Table 2 的标题仍是 "Mechanism ablations"，所以 W1 以及 jcb6、2Nuw 把这些实验称为消融，与这里不矛盾。
 - [x] **W3 R7 段最后一句改为"不依赖 R7 的选择"（作者要求）**：原句 "CoEvoMed is a general evolution mechanism: its final checkpoint is not a fixed round but follows the limit of the data pool." 隐含"数据池更大，最优轮次会更晚"的预测，可能引来补做数据规模消融的追问，时间上来不及。改为一句直接的总结 "Our results therefore do not rely on the choice of R7."（中文"因此，我们的结果并不依赖于对 R7 的选择。"），回应审稿人的 "reliance on R7 checkpoint selection"。按作者要求，不再提测试集分数，也不提"六个基准用同一个检查点"。下面 W3 选择 R7 一段的旧条目中引用的原句已被取代。
 - [x] **与另外两份回复统一（交叉核对后修改）**：(1) W1 表中两行 "Curriculum planner: R2/R3 feedback" 改为 "Curriculum adaptation: R2/R3 feedback"（中文"课程自适应"）。论文中这个实验是 "Feedback–learner alignment"（正文第 5.3 节 Table 2 Panel A；附录 D.1）：规划器照常运行，只是用 R2/R3 的旧反馈，被切断的是对当前学习者的适应，而不是规划器本身。改后与 jcb6、2Nuw 的 "curriculum adaptation" 写法及审稿人用词一致；"Revision agent: original principles" 一行不变（原始原则正是没有修订智能体时的情形）。(2) "each one above lowers every score" 改为 "lowers all four scores"：表中四个 2D 基准确实全降，但 jcb6、2Nuw 的表显示同一 R2 反馈设置在 MIMIC-CXR 上为 +0.11，Q3 也写了 "11 of 12"，限定范围以免被认为挑选数据。(3) W2 "dataset counts (App. C)" 改为 "evaluation (App. C)"（中文"评估"）：附录 C 标题为 "Experimental Setup and Evaluation"，且 W3 和 2Nuw Q2 都引用附录 C.4 作为 R7 的选择依据，"数据集规模"概括不全（取代下面 W2 核对条目中"附录 C 给出数据集规模"的说法）。为腾字数：Q3 "every CoEvoMed mechanism" 改为 "every mechanism"。改后 4,992。
 - [x] **正文和附录引用全部加粗（作者要求）**：英文和中文里所有 Sec./Eq./Fig./Table/App. 引用（中文：第 X 节、式、Figure、Table、附录）都已加粗；同一括号里连续的引用合并为一段加粗，例如 "(**Table 2, Sec. 5.3; App. D, Tables 7–9**)"。每处加粗多 4 个字符，加粗后为 5,010，为此删减：Q1 "On the same base, CoEvoMed leads on all four benchmarks:" 改为 "CoEvoMed leads on all four:"（表头已写明同一基础模型 Qwen3-VL-8B）；Q3 一致率句改为 "match native labels: capability 97.5% (Cohen's κ = 0.958), modality 100%, body region 96.5%."；W3 "The later-round declines come from the data, not from our mechanisms." 改为 "Later-round declines come from the data, not our mechanisms."；W3 "exactly when new evidence runs out" 改为 "just as new evidence runs out"；Q3 "allocates the budget" 改为 "allocates budget"，"earlier datasets" 改为 "prior datasets"；W1 "separate the roles" 改为 "separate roles"。删减后 4,995。
