@@ -25,12 +25,12 @@
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
 | W1 | 多智能体是否必要 | — | 1,536 | 已重写（两部分；合并表；三项设计保障） |
 | W2 | 论文组织 | — | 550 | 已重写（正文逻辑、附录对应、可复现） |
-| W3 | 遗忘与 R7 的选择 | — | 1,285 | 已重写 |
+| W3 | 遗忘与 R7 的选择 | — | 1,282 | 已重写 |
 | Q1 | MedVLSynther 复现 | — | 419 | 已重写 |
 | Q2 | 数据公开 | — | 137 | 已压缩 |
 | Q3 | 能力分类体系 | — | 1,055 | 已重写 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,992** | |
+| **合计** | | **≤ 5,000** | **4,989** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -60,7 +60,7 @@ No simpler process can substitute them: each one above lowers all four scores. W
 
 Later-round declines come from the data, not our mechanisms. The support pool is fixed (359,355 facts, **App. C.3**), and logs show 95% of it is used by R7. After that, few examples contain new evidence (18.0% at R8, 2.2% at R10), so later rounds mostly retrain on seen evidence. Scores peak at R7–R8, just as new evidence runs out; self-training on finite data does the same (Chen et al., 2024; Singh et al., 2024). At R10, **Fig. 7** benchmarks remain within 3 points of their peaks and over 12 above R1.
 
-We chose R7 by a predefined criterion: the most balanced capability profile on internal validation (**App. C.4**). R7 is where new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (**App. C.5**). CoEvoMed is a general evolution mechanism: its final checkpoint is not a fixed round but follows the limit of the data pool.
+We chose R7 by a predefined criterion: the most balanced capability profile on internal validation (**App. C.4**). R7 is where new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (**App. C.5**). Our results therefore do not rely on R7 selection: no test score enters it, and one checkpoint serves all six benchmarks.
 
 **Q1 (MedVLSynther base model).** **Table 1** uses MedVLSynther's published results on Qwen2.5-VL-7B. We retrained it on our base, Qwen3-VL-8B, with its released data and GRPO script. CoEvoMed leads on all four:
 
@@ -103,7 +103,7 @@ On 200 SLAKE questions, our annotations match native labels: capability 97.5% (C
 
 后期轮次的下降源于数据，而不是我们的机制。支持数据池是固定的（359,355 条事实，**附录 C.3**），训练日志显示到 R7 已用掉其中的 95%。此后，含有新证据的样本越来越少（R8 为 18.0%，R10 为 2.2%），后续轮次主要是在已经见过的证据上反复训练。分数恰好在新证据用尽的 R7–R8 达到峰值；在有限数据上的自训练也是如此（Chen et al., 2024；Singh et al., 2024）。到 R10，**Figure 7** 中的基准仍在各自峰值 3 分以内，并比 R1 高出 12 分以上。
 
-我们按预先定义的标准选定 R7：它在内部验证上的能力画像最均衡（**附录 C.4**）。R7 正是新证据用尽的那一轮，而 InternVL3-9B 的峰值出现在第 4–6 轮（**附录 C.5**）。CoEvoMed 是一个通用的进化机制：最终检查点不是固定的某一轮，而是取决于所用数据池的上限。
+我们按预先定义的标准选定 R7：它在内部验证上的能力画像最均衡（**附录 C.4**）。R7 正是新证据用尽的那一轮，而 InternVL3-9B 的峰值出现在第 4–6 轮（**附录 C.5**）。因此，我们的结果并不依赖于对 R7 的选择：选择过程不使用任何测试分数，六个基准用的也是同一个检查点。
 
 **Q1（MedVLSynther 的基础模型）** **Table 1** 中 MedVLSynther 的结果是其论文在 Qwen2.5-VL-7B 上发表的数字。我们用它公开的数据和 GRPO 训练脚本，在我们的基础模型 Qwen3-VL-8B 上重新训练了它。CoEvoMed 在四个基准上全部领先：
 
@@ -122,6 +122,7 @@ On 200 SLAKE questions, our annotations match native labels: capability 97.5% (C
 
 ### 发布前待核对
 
+- [x] **W3 R7 段最后一句改为"不依赖 R7 的选择"（作者要求）**：原句 "CoEvoMed is a general evolution mechanism: its final checkpoint is not a fixed round but follows the limit of the data pool." 隐含"数据池更大，最优轮次会更晚"的预测，可能引来补做数据规模消融的追问，时间上来不及。改为 "Our results therefore do not rely on R7 selection: no test score enters it, and one checkpoint serves all six benchmarks."，直接回应审稿人的 "reliance on R7 checkpoint selection"。依据：附录训练流程说明 "all six main 8B results use R7 (Appendix C.4). External benchmark results do not guide adaptation."；与 2Nuw Q2 "External benchmark scores never feed back into training or checkpoint selection" 一致。"one checkpoint serves all six benchmarks" 说明没有按基准分别挑轮次（PathVQA 的 R8 略高于 R7，但仍统一用 R7）。下面 W3 选择 R7 一段的旧条目中引用的原句已被取代。
 - [x] **与另外两份回复统一（交叉核对后修改）**：(1) W1 表中两行 "Curriculum planner: R2/R3 feedback" 改为 "Curriculum adaptation: R2/R3 feedback"（中文"课程自适应"）。论文中这个实验是 "Feedback–learner alignment"（正文第 5.3 节 Table 2 Panel A；附录 D.1）：规划器照常运行，只是用 R2/R3 的旧反馈，被切断的是对当前学习者的适应，而不是规划器本身。改后与 jcb6、2Nuw 的 "curriculum adaptation" 写法及审稿人用词一致；"Revision agent: original principles" 一行不变（原始原则正是没有修订智能体时的情形）。(2) "each one above lowers every score" 改为 "lowers all four scores"：表中四个 2D 基准确实全降，但 jcb6、2Nuw 的表显示同一 R2 反馈设置在 MIMIC-CXR 上为 +0.11，Q3 也写了 "11 of 12"，限定范围以免被认为挑选数据。(3) W2 "dataset counts (App. C)" 改为 "evaluation (App. C)"（中文"评估"）：附录 C 标题为 "Experimental Setup and Evaluation"，且 W3 和 2Nuw Q2 都引用附录 C.4 作为 R7 的选择依据，"数据集规模"概括不全（取代下面 W2 核对条目中"附录 C 给出数据集规模"的说法）。为腾字数：Q3 "every CoEvoMed mechanism" 改为 "every mechanism"。改后 4,992。
 - [x] **正文和附录引用全部加粗（作者要求）**：英文和中文里所有 Sec./Eq./Fig./Table/App. 引用（中文：第 X 节、式、Figure、Table、附录）都已加粗；同一括号里连续的引用合并为一段加粗，例如 "(**Table 2, Sec. 5.3; App. D, Tables 7–9**)"。每处加粗多 4 个字符，加粗后为 5,010，为此删减：Q1 "On the same base, CoEvoMed leads on all four benchmarks:" 改为 "CoEvoMed leads on all four:"（表头已写明同一基础模型 Qwen3-VL-8B）；Q3 一致率句改为 "match native labels: capability 97.5% (Cohen's κ = 0.958), modality 100%, body region 96.5%."；W3 "The later-round declines come from the data, not from our mechanisms." 改为 "Later-round declines come from the data, not our mechanisms."；W3 "exactly when new evidence runs out" 改为 "just as new evidence runs out"；Q3 "allocates the budget" 改为 "allocates budget"，"earlier datasets" 改为 "prior datasets"；W1 "separate the roles" 改为 "separate roles"。删减后 4,995。
 - [x] **消融在正文（作者确认）**：正文第 5.3 节 Table 2（"Mechanism ablations"）给出两组消融：Panel A 为反馈来源（R2/R3/R5 反馈，对应课程规划器/课程自适应），Panel B 为原始与演化原则（R2、R5，对应原则演化），指标为 VQA-RAD 和 MIMIC-CXR；附录 D 的 Table 7–9 是六个基准的完整结果和原始数据对照。三份回复的消融部分都先指向正文 Table 2，再指向附录 D。
