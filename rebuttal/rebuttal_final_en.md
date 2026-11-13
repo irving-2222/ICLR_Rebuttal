@@ -6,7 +6,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,991 / 5,000 characters (quotes excluded).*
+*Posted text: 4,992 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
@@ -34,7 +34,7 @@ No simpler process in the table substitutes them.
 
 Later-round declines come from the data, not our mechanisms. The support pool is fixed (359,355 facts, **App. C.3**), and logs show 95% of it is used by R7. After that, few examples contain new evidence (18.0% at R8, 2.2% at R10), so later rounds mostly retrain on seen evidence. Scores peak at R7–R8, just as new evidence runs out; self-training on finite data does the same (Chen et al., 2024; Singh et al., 2024). At R10, **Fig. 7** benchmarks remain within 3 points of their peaks and over 12 above R1.
 
-We chose R7 on internal validation only, as the round with the most balanced capability profile (**App. C.4**). R7 is where new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (**App. C.5**). Our results therefore do not rely on the choice of R7.
+We chose R7 on internal validation only: it has the highest equal-weight mean of QA and report scores (**App. C.4**). R7 is where new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (**App. C.5**). Our results therefore do not rely on the choice of R7.
 
 > **Question 1:** For medVLSynther results, do you use the same base model to replicate their results?
 
@@ -48,7 +48,7 @@ We chose R7 on internal validation only, as the round with the most balanced cap
 
 > **Question 2:** Would you consider to publicate the data generated in your evolving pipeline?
 
-**Q2 (Data release).** Yes, upon acceptance, with all principle versions and under each source's license. The data are also reproducible now: our code is in the supplement, and all sources are public (**Table 5**).
+**Q2 (Data release).** Yes, upon acceptance, with all principle versions and under each source's license. The data are reproducible now: our code is in the supplement, and all sources are public (**Table 5**).
 
 > **Question 3:** CoEvoMed relies on a hand-designed capability taxonomy to construct validation cells and guide curriculum allocation, but the paper does not justify why these dimensions and categories are necessary. Some datasets, such as SLAKE, already provide question-type annotations that overlap with categories such as organ recognition, abnormality detection, and localization. The authors should report this mapping, validate the generated annotations, and compare the proposed taxonomy against native dataset labels. Otherwise, it remains unclear whether the gains come from meaningful capability diagnosis or an arbitrary relabeling of existing task categories.
 
@@ -106,7 +106,7 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 ## Response to Reviewer 2Nuw
 
-*Posted text: 4,984 / 5,000 characters (quotes excluded).*
+*Posted text: 4,983 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** **The experimental controls and mechanism analyses do not sufficiently establish the contribution of co-evolution.** The method combines teacher-generated supervision, data verification, principle revision, and adaptive curricula, but does not adequately isolate their effects or those of additional resources. Improvements are difficult to attribute to individual principles, and the relationship between principle-selection criteria and subsequent learning gains remains unvalidated. The substantial degradation of the raw-data training baseline also lacks sufficient explanation.
 
@@ -133,13 +133,13 @@ Principles chosen by our criteria do produce later learning gains. In our logs, 
 
 **Q2 (Overlaps; R7).** We excluded patient-, study-, and image-level overlaps by design: support, validation, and test data are separate partitions (**Sec. 1; App. C.6**), enforced in our code. We screened all 11 2D and 5 3D sources against every external test at four levels: IDs (including study, case, and PMC article IDs), image paths, pixel hashes (exact and near-duplicate), and normalized text. All checks found zero overlap, including PubMedVision-IU vs. IU-Xray.
 
-R7 was selected on internal validation only, as the round with the most balanced capability profile (**App. C.4**). External benchmark scores never feed back into training or checkpoint selection (**App. A, C.6**).
+R7 was selected on internal validation only: it has the highest equal-weight mean of QA and report scores, whose per-round change is the planner's reward (**App. C.4**). External benchmark scores never feed back into training or checkpoint selection (**App. A, C.6**).
 
 > **Weakness 2:** **Evaluation coverage and statistical reliability remain limited.** The 2D VQA evaluation lacks expert-level, complex medical reasoning tasks, and independent repeated runs or confidence intervals are not clearly reported. On IU-Xray, the 8B model improves over the strongest baseline by only 0.92 RaTEScore points, while the 32B model performs worse than the 8B model. The stability of the gains and benefits of scaling therefore remain unclear.
 
 > **Question 3:** How many independent runs underlie the main results, and could you provide standard deviations and paired confidence intervals? Additionally, why is CURE-4B absent from the IU-Xray comparison, and why does the 32B model underperform the 8B model on this dataset?
 
-**Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).** We ran the full pipeline independently on four learners across three model families, architectures, and scales: Qwen3-VL (8B and 32B), Gemma 3 (4B), and InternVL3 (9B). Every run improves over its own base on every benchmark evaluated (16 of 16, +6.52 to +26.76). An effect that holds across families, architectures, and scales is not a single-run artifact.
+**Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).** We ran the full pipeline independently on four learners: Qwen3-VL (8B and 32B), Gemma 3 (4B), and InternVL3 (9B). Every run improves over its own base on every benchmark evaluated (16 of 16, +6.52 to +26.76). An effect that holds across families, architectures, and scales is not a single-run artifact.
 
 We considered CURE-4B, but IU-Xray is out of domain for it. CURE is fine-tuned on MIMIC-CXR-derived data (Chest ImaGenome, MS-CXR) and PadChest-GR, and IU-Xray is outside its training and evaluation data. A zero-shot run confirms the domain shift: it scores 28.65 RaTEScore, below all 28 models in **Fig. 3**.
 
