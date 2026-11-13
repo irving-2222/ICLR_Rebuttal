@@ -6,11 +6,11 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,968 / 5,000 characters (quotes excluded).*
+*Posted text: 4,991 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
-**W1 (Necessity of the multi-agent framework).** All of these agents are needed, as the paper's ablations already show. **Sec. 5.2** compares with raw data, and **Table 2** ablates principle evolution and curriculum adaptation on VQA-RAD and MIMIC-CXR; for space, **App. D** gives full results (**Tables 7–9**). Below are the four VQA benchmarks they share, plus a new uniform-allocation run, all else fixed:
+**W1 (Necessity of the multi-agent framework).** All of these agents are needed, as the paper's ablations already show. **Sec. 5.2** compares with raw data, and **Table 2** ablates principle evolution and curriculum adaptation on VQA-RAD and MIMIC-CXR; for space, **App. D** gives full results (**Tables 7–9**). Below are the four VQA benchmarks they share, plus a new uniform run, all else fixed:
 
 | Without | From | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
 |---|---|---|---|---|---|
@@ -22,7 +22,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 From the base, training on raw data with no agents lowers all four scores, even with about 700,000 examples, more than CoEvoMed uses, while CoEvoMed raises all four. Together, the selector, constructor, and verifier are therefore needed to turn raw records into verified questions. From R5, keeping them but using the original principles again lowers all four, although these principles help at R2 (**Table 2**, Panel B). The revision agent is therefore needed to update principles as the learner advances. Replacing the planner with a uniform split across capability cells still gains, but less than CoEvoMed on all four. The curriculum planner is therefore needed to allocate for the current learner.
 
-So no simpler process in the table substitutes them.
+No simpler process in the table substitutes them.
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
 
@@ -30,11 +30,11 @@ So no simpler process in the table substitutes them.
 
 > **Weakness 3:** The method demonstrates reactive recovery from selected capability regressions, but does not establish prevention of catastrophic forgetting or stable balanced convergence. Later-round declines, reliance on R7 checkpoint selection, absence of retention ablations, and lack of standard continual-learning metrics leave the central retention claim only partially supported.
 
-**W3 (Catastrophic forgetting and retention).** CoEvoMed builds on curriculum learning, not continual learning. Forgetting arises when tasks are learned in sequence and old data is dropped. It trains all tasks every round and replays earlier data (**Eq. 7; Sec. 3.3**), so continual-learning metrics do not apply. "Retention" is a share of the planner's budget (**Sec. 4.2**), so the uniform-allocation run in W1 also removes it, and gains less.
+**W3 (Catastrophic forgetting and retention).** CoEvoMed builds on curriculum learning, not continual learning. Forgetting arises when tasks are learned in sequence and old data is dropped. It trains all tasks every round and replays earlier data (**Eq. 7; Sec. 3.3**), so continual-learning metrics do not apply. "Retention" is a share of the planner's budget (**Sec. 4.2**), so the uniform run in W1 also removes it, and gains less.
 
 Later-round declines come from the data, not our mechanisms. The support pool is fixed (359,355 facts, **App. C.3**), and logs show 95% of it is used by R7. After that, few examples contain new evidence (18.0% at R8, 2.2% at R10), so later rounds mostly retrain on seen evidence. Scores peak at R7–R8, just as new evidence runs out; self-training on finite data does the same (Chen et al., 2024; Singh et al., 2024). At R10, **Fig. 7** benchmarks remain within 3 points of their peaks and over 12 above R1.
 
-We chose R7 by a predefined criterion: the most balanced capability profile on internal validation (**App. C.4**). R7 is where new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (**App. C.5**). Our results therefore do not rely on the choice of R7.
+We chose R7 on internal validation only, as the round with the most balanced capability profile (**App. C.4**). R7 is where new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (**App. C.5**). Our results therefore do not rely on the choice of R7.
 
 > **Question 1:** For medVLSynther results, do you use the same base model to replicate their results?
 
@@ -52,7 +52,7 @@ We chose R7 by a predefined criterion: the most balanced capability profile on i
 
 > **Question 3:** CoEvoMed relies on a hand-designed capability taxonomy to construct validation cells and guide curriculum allocation, but the paper does not justify why these dimensions and categories are necessary. Some datasets, such as SLAKE, already provide question-type annotations that overlap with categories such as organ recognition, abnormality detection, and localization. The authors should report this mapping, validate the generated annotations, and compare the proposed taxonomy against native dataset labels. Otherwise, it remains unclear whether the gains come from meaningful capability diagnosis or an arbitrary relabeling of existing task categories.
 
-**Q3 (Capability taxonomy).** The dimensions are necessary because every mechanism runs on the cells they define (**Table 6**). The profile is measured per cell (**Eq. 1**), the planner allocates budget across cells (**Eq. 7**), each principle serves one cell and is revised when it stops improving (**Sec. 4.3**), and the selector retrieves evidence matching a cell's modality and anatomy (**App. C.3**). With the taxonomy fixed, stale diagnoses lower 11 of 12 scores (**Table 7**), so gains come from diagnosis, not relabeling.
+**Q3 (Capability taxonomy).** The dimensions are necessary because every mechanism runs on the cells they define (**Table 6**). The profile is measured per cell (**Eq. 1**), the planner allocates budget across cells (**Eq. 7**), each principle serves one cell and is revised when it stops improving (**Sec. 4.3**), and the selector retrieves evidence matching a cell's modality and anatomy (**App. C.3**). With the cells fixed, a uniform split gains less than current diagnoses (W1) and stale ones lower 11 of 12 scores (**Table 7**), so gains come from diagnosis, not relabeling.
 
 We built our categories on SLAKE's (Liu et al., 2021): physicians annotated them, and SLAKE spans more modalities and body parts than prior datasets. They describe what a question asks, not a dataset, so they fit all tasks: VQA-RAD and M3D-VQA use similar types (Lau et al., 2018; **Fig. 9a**).
 
@@ -106,7 +106,7 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 ## Response to Reviewer 2Nuw
 
-*Posted text: 4,979 / 5,000 characters (quotes excluded).*
+*Posted text: 4,951 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** **The experimental controls and mechanism analyses do not sufficiently establish the contribution of co-evolution.** The method combines teacher-generated supervision, data verification, principle revision, and adaptive curricula, but does not adequately isolate their effects or those of additional resources. Improvements are difficult to attribute to individual principles, and the relationship between principle-selection criteria and subsequent learning gains remains unvalidated. The substantial degradation of the raw-data training baseline also lacks sufficient explanation.
 
@@ -131,9 +131,9 @@ Principles chosen by our criteria do produce later learning gains. In **Table 8*
 
 > **Question 2:** How are patient-, study-, and image-level overlaps excluded across support data, internal validation sets, and external tests, particularly between PubMedVision-IU and IU-Xray? Was R7 selected exclusively using a predefined internal validation criterion?
 
-**Q2 (Overlaps; R7).** We excluded patient-, study-, and image-level overlaps by design: support, validation, and test data are separate partitions (**Sec. 1; App. C.6**), enforced in our code. We screened all 11 2D and 5 3D sources against every external test at four levels: IDs (including study and case IDs), image paths, pixel hashes (exact and near-duplicate), and normalized text. All checks found zero overlap, including PubMedVision-IU vs. IU-Xray.
+**Q2 (Overlaps; R7).** We excluded patient-, study-, and image-level overlaps by design: support, validation, and test data are separate partitions (**Sec. 1; App. C.6**), enforced in our code. We screened all 11 2D and 5 3D sources against every external test at four levels: IDs (including study, case, and PMC article IDs), image paths, pixel hashes (exact and near-duplicate), and normalized text. All checks found zero overlap, including PubMedVision-IU vs. IU-Xray.
 
-R7 was selected by a predefined internal criterion: it has the most balanced capability profile on the internal validation sets (**App. C.4**). External benchmark scores never feed back into training or checkpoint selection (**App. A, C.6**).
+R7 was selected on internal validation only, as the round with the most balanced capability profile (**App. C.4**). External benchmark scores never feed back into training or checkpoint selection (**App. A, C.6**).
 
 > **Weakness 2:** **Evaluation coverage and statistical reliability remain limited.** The 2D VQA evaluation lacks expert-level, complex medical reasoning tasks, and independent repeated runs or confidence intervals are not clearly reported. On IU-Xray, the 8B model improves over the strongest baseline by only 0.92 RaTEScore points, while the 32B model performs worse than the 8B model. The stability of the gains and benefits of scaling therefore remain unclear.
 
@@ -149,14 +149,16 @@ The reversal also occurs for other models on IU-Xray: Hulu-Med (7B 67.30 vs. 32B
 
 > **Question 4:** Why were complex reasoning benchmarks such as MedXpertQA-MM or the Health & Medicine portion of MMMU not included? How do the existing results support generalization to complex medical reasoning?
 
-**Q4 & W2 (Complex reasoning).** We chose benchmarks that test medical reasoning in clinical form, which is harder than multiple choice on 2D images:
+**Q4 & W2 (Complex reasoning).** We chose benchmarks that span the data clinical reasoning works on, from 2D images to 3D volumes and from short answers to full reports:
 
-| What the model must do | Benchmarks |
+| Data | Benchmarks |
 |---|---|
-| Write full reports | MIMIC-CXR, IU-Xray (chest X-ray); AMOS-MM (multi-organ 3D CT) |
-| Reason over 3D volumes | M3D-VQA (five question types over 64 slices); 3D-RAD (open-ended, including measuring diameter, size, and thickness) |
-| Answer varied 2D questions | VQA-RAD (clinician-authored), SLAKE (knowledge-based), PathVQA (pathology), PMC-VQA (literature figures) |
+| Chest X-ray | MIMIC-CXR, IU-Xray (full reports) |
+| CT, MRI, X-ray | VQA-RAD (clinician-authored), SLAKE (knowledge-based) |
+| Pathology | PathVQA |
+| Literature figures | PMC-VQA (multiple choice) |
+| 3D CT volumes | M3D-VQA (five question types over 64 slices), 3D-RAD (open-ended, including measurements), AMOS-MM (multi-organ reports) |
 
-MedXpertQA-MM and MMMU test reasoning through multiple choice on 2D images (all of MedXpertQA-MM, 94% of MMMU). Our suite already covers this format (PMC-VQA, M3D-VQA) and adds the harder tasks above.
+MedXpertQA-MM and MMMU test reasoning through multiple choice on 2D images (all of MedXpertQA-MM, 94% of MMMU). Our suite already covers this format (PMC-VQA, M3D-VQA) and adds open-ended tasks across these data.
 
 The results support generalization: CoEvoMed ranks first on all nine benchmarks (**Table 1; Figs. 3–4**). On 3D-RAD Medical Computation, it leads the next-best model by +8.6 BLEU-1 (**Fig. 9b**).
