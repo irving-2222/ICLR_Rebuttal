@@ -23,14 +23,14 @@
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
-| W1 | 多智能体是否必要 | — | 1,581 | 已重写（两部分；合并表；三项设计保障） |
+| W1 | 多智能体是否必要 | — | 1,591 | 已重写（两部分；合并表；三项设计保障） |
 | W2 | 论文组织 | — | 504 | 已重写（正文逻辑、附录对应、可复现） |
-| W3 | 遗忘与 R7 的选择 | — | 1,215 | 已重写 |
+| W3 | 遗忘与 R7 的选择 | — | 1,212 | 已重写 |
 | Q1 | MedVLSynther 复现 | — | 446 | 已重写 |
 | Q2 | 数据公开 | — | 214 | 已压缩 |
 | Q3 | 能力分类体系 | — | 991 | 已重写 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,961** | |
+| **合计** | | **≤ 5,000** | **4,968** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -47,13 +47,13 @@
 | Curriculum planner: uniform allocation | R5 | +1.55 | +0.09 | +0.12 | +0.81 |
 | None: CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
 
-From the base, training on raw data with no agents lowers all four scores, even with about 700,000 examples, more than CoEvoMed uses, while CoEvoMed raises all four. The selector, constructor, and verifier are therefore needed to turn raw records into verified questions. From R5, keeping them but using the original principles again lowers all four, although these principles help at R2 (**Table 2**, Panel B). The revision agent is therefore needed to update principles as the learner advances. Replacing the planner with a uniform split across capability cells still gains, but less than CoEvoMed on all four. The curriculum planner is therefore needed to allocate for the current learner.
+From the base, training on raw data with no agents lowers all four scores, even with about 700,000 examples, more than CoEvoMed uses, while CoEvoMed raises all four. Together, the selector, constructor, and verifier are therefore needed to turn raw records into verified questions. From R5, keeping them but using the original principles again lowers all four, although these principles help at R2 (**Table 2**, Panel B). The revision agent is therefore needed to update principles as the learner advances. Replacing the planner with a uniform split across capability cells still gains, but less than CoEvoMed on all four. The curriculum planner is therefore needed to allocate for the current learner.
 
 So no simpler process in the table substitutes them.
 
 **W2 (Organization).** The layout follows our contributions and scope. The main text presents each contribution: co-evolution formulation (**Sec. 3**), multi-agent system and curriculum policy (**Sec. 4**). **Sec. 5.1** gives the evaluation task composition (four 2D VQA, two report, three 3D); for space, main analyses use one VQA and one report task. The appendix adds what reproduction needs: algorithm (**App. A**), settings (**App. B**), evaluation (**App. C**), and mechanism analyses (**App. D**).
 
-**W3 (Catastrophic forgetting and retention).** We respectfully note a misunderstanding: CoEvoMed builds on curriculum learning, not continual learning. Forgetting arises when tasks are learned in sequence and old data is dropped. It trains all tasks every round and replays earlier data (**Eq. 7; Sec. 3.3**), so continual-learning metrics do not apply. "Retention" is a share of the planner's budget (**Sec. 4.2**), ablated with it (**Table 7**).
+**W3 (Catastrophic forgetting and retention).** CoEvoMed builds on curriculum learning, not continual learning. Forgetting arises when tasks are learned in sequence and old data is dropped. It trains all tasks every round and replays earlier data (**Eq. 7; Sec. 3.3**), so continual-learning metrics do not apply. "Retention" is a share of the planner's budget (**Sec. 4.2**), so the uniform-allocation run in W1 also removes it, and gains less.
 
 Later-round declines come from the data, not our mechanisms. The support pool is fixed (359,355 facts, **App. C.3**), and logs show 95% of it is used by R7. After that, few examples contain new evidence (18.0% at R8, 2.2% at R10), so later rounds mostly retrain on seen evidence. Scores peak at R7–R8, just as new evidence runs out; self-training on finite data does the same (Chen et al., 2024; Singh et al., 2024). At R10, **Fig. 7** benchmarks remain within 3 points of their peaks and over 12 above R1.
 
@@ -88,13 +88,13 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 | 课程规划器：均匀分配 | R5 | +1.55 | +0.09 | +0.12 | +0.81 |
 | 无：CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
 
-从基础模型出发，不使用任何智能体、直接用原始数据训练，四个分数全部下降，即使它用了约 70 万条样本，比 CoEvoMed 用的还多；而 CoEvoMed 让四个分数全部提升。因此，需要选择器、构建器和核验器把原始记录转成经过核验的问题。从 R5 出发，保留这些智能体、但改用原始原则，四个分数再次全部下降，尽管这些原则在 R2 时是有帮助的（**Table 2**，Panel B）。因此，需要修订智能体随着学习者的进步更新原则。如果去掉规划器、改为在各能力单元之间平均分配预算，四个分数虽然仍有提升，但都低于 CoEvoMed。因此，需要课程规划器按当前学习者的状态分配预算。
+从基础模型出发，不使用任何智能体、直接用原始数据训练，四个分数全部下降，即使它用了约 70 万条样本，比 CoEvoMed 用的还多；而 CoEvoMed 让四个分数全部提升。因此，需要选择器、构建器和核验器共同把原始记录转成经过核验的问题。从 R5 出发，保留这些智能体、但改用原始原则，四个分数再次全部下降，尽管这些原则在 R2 时是有帮助的（**Table 2**，Panel B）。因此，需要修订智能体随着学习者的进步更新原则。如果去掉规划器、改为在各能力单元之间平均分配预算，四个分数虽然仍有提升，但都低于 CoEvoMed。因此，需要课程规划器按当前学习者的状态分配预算。
 
 所以，表中没有任何更简单的流程能替代它们。
 
 **W2（论文组织）** 论文的排版与我们的贡献和研究范围是一致的。正文呈现每一项贡献：协同进化的问题形式化（**第 3 节**），多智能体系统与课程策略（**第 4 节**）。**第 5.1 节**给出了评估任务的组成（四个 2D VQA、两个报告生成、三个 3D 基准）；受篇幅所限，正文的分析各选用一个 VQA 任务和一个报告生成任务。附录补充复现所需的内容：算法（**附录 A**）、设置（**附录 B**）、评估（**附录 C**），以及机制分析实验（**附录 D**）。
 
-**W3（灾难性遗忘与保留）** 我们想指出一个误解：CoEvoMed 是基于课程学习设计的，而不是持续学习。灾难性遗忘出现在按顺序学习各个任务、并丢弃旧数据的情况下。CoEvoMed 每一轮都同时训练所有任务，并回放之前的数据（**式 7；第 3.3 节**），因此持续学习的指标并不适用。"保留"是规划器预算中的一个份额（**第 4.2 节**），已随规划器一起做了消融（**Table 7**）。
+**W3（灾难性遗忘与保留）** CoEvoMed 是基于课程学习设计的，而不是持续学习。灾难性遗忘出现在按顺序学习各个任务、并丢弃旧数据的情况下。CoEvoMed 每一轮都同时训练所有任务，并回放之前的数据（**式 7；第 3.3 节**），因此持续学习的指标并不适用。"保留"是规划器预算中的一个份额（**第 4.2 节**），因此 W1 中的均匀分配实验也去掉了它，而这时的收益更小。
 
 后期轮次的下降源于数据，而不是我们的机制。支持数据池是固定的（359,355 条事实，**附录 C.3**），训练日志显示到 R7 已用掉其中的 95%。此后，含有新证据的样本越来越少（R8 为 18.0%，R10 为 2.2%），后续轮次主要是在已经见过的证据上反复训练。分数恰好在新证据用尽的 R7–R8 达到峰值；在有限数据上的自训练也是如此（Chen et al., 2024；Singh et al., 2024）。到 R10，**Figure 7** 中的基准仍在各自峰值 3 分以内，并比 R1 高出 12 分以上。
 
@@ -118,6 +118,7 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 
 ### 发布前待核对
 
+- [x] **按 AI 模拟审稿意见修改（作者确认）**：(1) W1 "The selector, constructor, and verifier are therefore needed" 前加 "Together,"：这三个智能体只在原始数据一行中被一起去掉，如实表明是作为整体检验的；(2) W3 "ablated with it (Table 7)" 改为 "so the uniform-allocation run in W1 also removes it, and gains less"：Table 7 没有单独关掉保留预算，而均匀分配实验同时去掉了保留预算，增益更小（四个基准都低于 CoEvoMed）；(6) W3 去掉 "We respectfully note a misunderstanding:"，直接写 "CoEvoMed builds on curriculum learning, not continual learning."（两份 AI 意见认为"误解"一词偏冲，论文自己的贡献点也写了 retention）。作者决定不改：W3 "Later-round declines come from the data, not our mechanisms."、W3 R7 一段。
 - [x] **W1 课程规划器一行改用均匀分配（新增实验）**：新增实验（作者提供，均在最终测试集上测得）：从 R5 出发、同样预算训练一轮；去掉课程自适应 = 在各能力单元之间平均分配预算，构建器仍用 R5 的当前反馈。(1) 演化原则 + 均匀分配（只有原则演化）：VQA-RAD 75.17（339/451）+1.55、SLAKE 89.07（945/1061）+0.09、PMC-VQA 64.72（21,636/33,430）+0.12、PathVQA 66.62（4,504/6,761）+0.81、MIMIC-CXR 60.94 +1.94、IU-Xray 62.22 +0.59；(2) 原始原则 + 均匀分配（两者都固定）：67.41（304/451）−6.21、84.45（896/1061）−4.52、54.12（18,092/33,430）−10.48、62.96（4,257/6,761）−2.84、51.35 −7.65、56.88 −4.75。变化值按答对题数相对 R5（332/451、944/1061、21,595/33,430、4,449/6,761）计算，已逐项核对。与 Table 8 的 C、D 一起比较时只比较变化值。结论：PPO 在两种原则下、六个基准上都高于均匀分配（原始原则下 +0.57 到 +1.21，演化原则下 +0.32 到 +1.07）；均匀分配下演化原则比原始原则高 +3.65 到 +10.60；两者都固定时六个基准全部最低。表中两行过时反馈（R2、R3）换成一行 "Curriculum planner: uniform allocation"（+1.55、+0.09、+0.12、+0.81），正文改为"去掉规划器、改为在各能力单元之间平均分配，四个分数仍有提升但都低于 CoEvoMed"。原来"过时反馈全降"的说法在有了均匀分配对照后已不准确（均匀分配是上升的），故替换。
 - [x] **Q1 表格加上原文发表的一行（作者要求）**：表格改为三行：MedVLSynther-7B（原文发表，Qwen2.5-VL-7B；论文 Table 1：PMC-VQA 55.43、VQA-RAD 77.57、SLAKE 72.36、PathVQA 65.56）、MedVLSynther（我们在 Qwen3-VL-8B 上重新训练：53.18、70.96、73.32、68.69）、CoEvoMed-8B（67.95、82.48、91.60、69.40）。列顺序与论文 Table 1 一致（Qwen3-VL-8B 基础模型一行 54.13、56.76、64.84、42.77 已核对）。CoEvoMed 四项都高于两个版本，所以结论写作 "CoEvoMed leads both"。注意：在 Qwen3-VL-8B 上重训的 MedVLSynther，PMC-VQA 和 VQA-RAD 低于其原文发表的数字，SLAKE 和 PathVQA 更高；审稿人若问，可如实说明是按其公开数据和脚本复现的结果。为腾字数：W1 "Below are changes on the four VQA benchmarks these tables share" 改为 "Below are the four VQA benchmarks they share"（数字带正负号，已能看出是变化）；Q3 "our annotations match native labels" 改为 "our labels match native ones"。
 - [x] **Q2 补充可复现性（作者要求）**：除了承诺公开，再说明现在就能复现合成数据：代码已作为补充材料提交（MANIFEST.json 已核对补充材料与 code/CoEvoMed_ICLR2027 一致），所有数据源都是公开的，附录 C.3 的 Table 5 给出了全部 16 个支持数据源（11 个 2D、5 个 3D）的官方链接（"Table 5: Official resources for the support sources"）。措辞用 "reproducible"，不写"逐字相同"：智能体用的 deepseek-v4-flash、Qwen3.6-27B 温度为 0，但 API 模型的输出不保证完全一致。为腾字数：W2 删去 "Code is in the supplementary material."（已移到 Q2，与数据复现放在一起更贴题）；Q2 第一句改为 "Yes, upon acceptance, with all principle versions and under each source's license."；Q3 把 Landis & Koch 的解释并入 κ 的括号；W1 最后一句改为 "So no simpler process in the table substitutes them."
@@ -470,9 +471,9 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | — | — | 已改为在标题中注明 |
 | Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,137 | 已改为分点格式 |
 | Q2 | 数据泄漏；R7 的选择 | — | 701 | 已定稿 |
-| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,164 | 已定稿 |
+| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,165 | 已定稿 |
 | Q4 | 复杂推理基准 | — | 970 | 已定稿 |
-| **合计** | | **≤ 5,000** | **4,978** | |
+| **合计** | | **≤ 5,000** | **4,979** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
@@ -506,9 +507,9 @@ R7 was selected by a predefined internal criterion: it has the most balanced cap
 
 **Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).** We ran the full pipeline independently on four learners across three model families, architectures, and scales: Qwen3-VL (8B and 32B), Gemma 3 (4B), and InternVL3 (9B). Every run improves over its own base on every benchmark evaluated (16 of 16, +6.52 to +26.76). An effect that holds across families, architectures, and scales is not a single-run artifact.
 
-We considered CURE-4B, but IU-Xray is not a fair test for it. CURE is fine-tuned on MIMIC-CXR-derived data (Chest ImaGenome, MS-CXR) and PadChest-GR, and IU-Xray is outside its training and evaluation data. A zero-shot run confirms the domain shift: it scores 28.65 RaTEScore, below all 28 models in **Fig. 3**.
+We considered CURE-4B, but IU-Xray is out of domain for it. CURE is fine-tuned on MIMIC-CXR-derived data (Chest ImaGenome, MS-CXR) and PadChest-GR, and IU-Xray is outside its training and evaluation data. A zero-shot run confirms the domain shift: it scores 28.65 RaTEScore, below all 28 models in **Fig. 3**.
 
-The reversal is a property of IU-Xray: Hulu-Med (7B 67.30 vs. 32B 62.40) and MedGemma (4B 60.50 vs. 27B 59.00) show it too. IU-Xray references are short (30.5 words on average, versus 53.4 for MIMIC-CXR). CoEvoMed-8B matches this length (30.7 words), while 32B writes more detailed reports (40.1 words) that match the short references less well. On MIMIC-CXR, whose reports are longer, 32B does beat 8B (64.33 vs. 63.62; **Fig. 3**).
+The reversal also occurs for other models on IU-Xray: Hulu-Med (7B 67.30 vs. 32B 62.40) and MedGemma (4B 60.50 vs. 27B 59.00). IU-Xray references are short (30.5 words on average, versus 53.4 for MIMIC-CXR). CoEvoMed-8B matches this length (30.7 words), while 32B writes more detailed reports (40.1 words) that match the short references less well. On MIMIC-CXR, whose reports are longer, 32B does beat 8B (64.33 vs. 63.62; **Fig. 3**).
 
 **Q4 & W2 (Complex reasoning).** We chose benchmarks that test medical reasoning in clinical form, which is harder than multiple choice on 2D images:
 
@@ -548,9 +549,9 @@ R7 是依据预先定义的内部标准选出的：它在内部验证集上的�
 
 **Q3 与 W2（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）** 我们在跨越三个模型家族、不同架构和规模的四个学习者模型上独立运行了完整流程：Qwen3-VL（8B 和 32B）、Gemma 3（4B）和 InternVL3（9B）。每一次运行在所有评测基准上都超过了各自的基础模型（16 组比较全部提升，幅度为 +6.52 至 +26.76）。一个在不同模型家族、不同架构和不同规模上都成立的效果，不可能是某一次运行的偶然结果。
 
-我们考虑过 CURE-4B，但 IU-Xray 对它来说不是公平的测试。CURE 是在 MIMIC-CXR 派生的数据（Chest ImaGenome、MS-CXR）以及 PadChest-GR 上微调的，而 IU-Xray 既不在它的训练数据中，也不在它的评测中。一次零样本测试证实了这种数据域差异：它的 RaTEScore 只有 28.65，低于 **Figure 3** 中全部 28 个模型。
+我们考虑过 CURE-4B，但 IU-Xray 对它来说属于域外数据。CURE 是在 MIMIC-CXR 派生的数据（Chest ImaGenome、MS-CXR）以及 PadChest-GR 上微调的，而 IU-Xray 既不在它的训练数据中，也不在它的评测中。一次零样本测试证实了这种数据域差异：它的 RaTEScore 只有 28.65，低于 **Figure 3** 中全部 28 个模型。
 
-这种反转是 IU-Xray 数据集本身的特点：Hulu-Med（7B 67.30，32B 62.40）和 MedGemma（4B 60.50，27B 59.00）也是如此。IU-Xray 的参考报告很短（平均 30.5 个词，MIMIC-CXR 为 53.4 个词）。CoEvoMed-8B 生成报告的长度与之相当（30.7 个词），而 32B 写得更详细（40.1 个词），与这些简短的参考报告匹配得更差。在报告更长的 MIMIC-CXR 上，32B 确实高于 8B（64.33 对 63.62；**Figure 3**）。
+在 IU-Xray 上，其他模型也出现了同样的反转：Hulu-Med（7B 67.30，32B 62.40）和 MedGemma（4B 60.50，27B 59.00）。IU-Xray 的参考报告很短（平均 30.5 个词，MIMIC-CXR 为 53.4 个词）。CoEvoMed-8B 生成报告的长度与之相当（30.7 个词），而 32B 写得更详细（40.1 个词），与这些简短的参考报告匹配得更差。在报告更长的 MIMIC-CXR 上，32B 确实高于 8B（64.33 对 63.62；**Figure 3**）。
 
 **Q4 与 W2（复杂推理）** 我们选择的基准是在临床实际的形式下检验医学推理，这比 2D 图像上的选择题更难：
 
@@ -566,6 +567,7 @@ MedXpertQA-MM 和 MMMU 都是在 2D 图像上通过选择题检验推理（MedXp
 
 ### 发布前待核对
 
+- [x] **按 AI 模拟审稿意见修改（作者确认）**：(8) Q3 "The reversal is a property of IU-Xray: … show it too." 改为 "The reversal also occurs for other models on IU-Xray: …"（其他模型也反转，不足以证明是数据集固有属性）；(9) Q3 "IU-Xray is not a fair test for it" 改为 "IU-Xray is out of domain for it"（"不在训练数据中"本身不足以成为排除基线的理由，零样本 28.65 照常报告）。作者确认：ID 层面的重叠检查包含 PMCID（回应 PMC-VQA 由 PMC-OA 构建、而 PMC-OA 在支持池中的疑问）。
 - [x] **Q1 回答"PPO 对比更简单的分配策略"（新增实验）**：新增实验（作者提供，均在最终测试集上测得）：从 R5 出发、同样预算训练一轮；去掉课程自适应 = 在各能力单元之间平均分配预算，构建器仍用 R5 的当前反馈。(1) 演化原则 + 均匀分配（只有原则演化）：VQA-RAD 75.17（339/451）+1.55、SLAKE 89.07（945/1061）+0.09、PMC-VQA 64.72（21,636/33,430）+0.12、PathVQA 66.62（4,504/6,761）+0.81、MIMIC-CXR 60.94 +1.94、IU-Xray 62.22 +0.59；(2) 原始原则 + 均匀分配（两者都固定）：67.41（304/451）−6.21、84.45（896/1061）−4.52、54.12（18,092/33,430）−10.48、62.96（4,257/6,761）−2.84、51.35 −7.65、56.88 −4.75。变化值按答对题数相对 R5（332/451、944/1061、21,595/33,430、4,449/6,761）计算，已逐项核对。与 Table 8 的 C、D 一起比较时只比较变化值。结论：PPO 在两种原则下、六个基准上都高于均匀分配（原始原则下 +0.57 到 +1.21，演化原则下 +0.32 到 +1.07）；均匀分配下演化原则比原始原则高 +3.65 到 +10.60；两者都固定时六个基准全部最低。表格中过时反馈两行换成"都不保留（新增）"和"只有原则演化（新增，均匀分配）"两行；表后改为 "Principle evolution drives most of the gain, and PPO beats uniform allocation on all six benchmarks with either principle set."。为腾字数：删去 "Unlike a greedy rule,"（没有做贪心对照，避免被追问）和 "It then returned to balanced."（R1–R7 序列最后一项已是 balanced）。行名用 "Neither" 而不用 "Both fixed"，避免数量词。
 - [x] **正文和附录引用全部加粗（作者要求）**：英文和中文里所有 Sec./Eq./Fig./Table/App. 引用都已加粗，同一括号里连续的引用合并为一段加粗，例如 "(**Table 2, Sec. 5.3; App. D**)"。
 - [x] **Q2 修正指代**：之前删减后，"These scores never feed back into training or checkpoint selection" 中的 "These scores" 变成了指上一句的内部验证集分数；而课程规划器正是用内部验证集上的收益训练的，这句话因此成了错误陈述。改为 "External benchmark scores never feed back…"（中文："外部基准的分数从不反馈…"）。加粗加这处修改后 4,994 字符。
