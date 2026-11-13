@@ -23,32 +23,31 @@
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
-| W1 | 多智能体是否必要 | — | 1,611 | 已重写（两部分；合并表；三项设计保障） |
+| W1 | 多智能体是否必要 | — | 1,581 | 已重写（两部分；合并表；三项设计保障） |
 | W2 | 论文组织 | — | 504 | 已重写（正文逻辑、附录对应、可复现） |
 | W3 | 遗忘与 R7 的选择 | — | 1,215 | 已重写 |
 | Q1 | MedVLSynther 复现 | — | 446 | 已重写 |
 | Q2 | 数据公开 | — | 214 | 已压缩 |
 | Q3 | 能力分类体系 | — | 991 | 已重写 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,991** | |
+| **合计** | | **≤ 5,000** | **4,961** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
 ### 英文正文（发布用）
 
 ```markdown
-**W1 (Necessity of the multi-agent framework).** All of these agents are needed, as the paper's ablations already show. **Sec. 5.2** compares with raw data, and **Table 2** ablates principle evolution and curriculum adaptation on VQA-RAD and MIMIC-CXR; for space, **App. D** gives full results (**Tables 7–9**). Below are the four VQA benchmarks they share, all else fixed:
+**W1 (Necessity of the multi-agent framework).** All of these agents are needed, as the paper's ablations already show. **Sec. 5.2** compares with raw data, and **Table 2** ablates principle evolution and curriculum adaptation on VQA-RAD and MIMIC-CXR; for space, **App. D** gives full results (**Tables 7–9**). Below are the four VQA benchmarks they share, plus a new uniform-allocation run, all else fixed:
 
 | Without | From | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
 |---|---|---|---|---|---|
 | All agents: raw data | base | −13.75 | −26.69 | −8.62 | −6.83 |
 | None: CoEvoMed | base | +25.72 | +26.76 | +13.82 | +26.63 |
 | Revision agent: original principles | R5 | −5.64 | −3.60 | −9.60 | −2.20 |
-| Curriculum adaptation: R2 feedback | R5 | −1.10 | −5.20 | −3.60 | −3.10 |
-| Curriculum adaptation: R3 feedback | R5 | −1.77 | −5.80 | −1.80 | −2.40 |
+| Curriculum planner: uniform allocation | R5 | +1.55 | +0.09 | +0.12 | +0.81 |
 | None: CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
 
-From the base, training on raw data with no agents lowers all four scores, even with about 700,000 examples, more than CoEvoMed uses, while CoEvoMed raises all four. The selector, constructor, and verifier are therefore needed to turn raw records into verified questions. From R5, keeping them but using the original principles again lowers all four, although these principles help at R2 (**Table 2**, Panel B). The revision agent is therefore needed to update principles as the learner advances. Giving the planner stale R2 or R3 feedback instead also lowers all four, while current feedback raises them. The curriculum planner is therefore needed to allocate for the current learner.
+From the base, training on raw data with no agents lowers all four scores, even with about 700,000 examples, more than CoEvoMed uses, while CoEvoMed raises all four. The selector, constructor, and verifier are therefore needed to turn raw records into verified questions. From R5, keeping them but using the original principles again lowers all four, although these principles help at R2 (**Table 2**, Panel B). The revision agent is therefore needed to update principles as the learner advances. Replacing the planner with a uniform split across capability cells still gains, but less than CoEvoMed on all four. The curriculum planner is therefore needed to allocate for the current learner.
 
 So no simpler process in the table substitutes them.
 
@@ -79,18 +78,17 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 
 ### 中文译文（不发布）
 
-**W1（多智能体框架的必要性）** 这些智能体都是需要的，论文中的消融实验已经说明了这一点。**第 5.2 节**与原始数据训练做了对比，**Table 2** 在 VQA-RAD 和 MIMIC-CXR 上对原则演化和课程自适应做了消融；受篇幅所限，完整结果放在**附录 D**（**Table 7–9**）。下表列出这几张表共有的四个 VQA 基准上的变化，其余设置均保持不变：
+**W1（多智能体框架的必要性）** 这些智能体都是需要的，论文中的消融实验已经说明了这一点。**第 5.2 节**与原始数据训练做了对比，**Table 2** 在 VQA-RAD 和 MIMIC-CXR 上对原则演化和课程自适应做了消融；受篇幅所限，完整结果放在**附录 D**（**Table 7–9**）。下表列出这几张表共有的四个 VQA 基准上的变化，并加入一次新的均匀分配实验，其余设置均保持不变：
 
 | 去掉的功能 | 起点 | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
 |---|---|---|---|---|---|
 | 全部智能体：原始数据 | 基础模型 | −13.75 | −26.69 | −8.62 | −6.83 |
 | 无：CoEvoMed | 基础模型 | +25.72 | +26.76 | +13.82 | +26.63 |
 | 修订智能体：原始原则 | R5 | −5.64 | −3.60 | −9.60 | −2.20 |
-| 课程自适应：R2 反馈 | R5 | −1.10 | −5.20 | −3.60 | −3.10 |
-| 课程自适应：R3 反馈 | R5 | −1.77 | −5.80 | −1.80 | −2.40 |
+| 课程规划器：均匀分配 | R5 | +1.55 | +0.09 | +0.12 | +0.81 |
 | 无：CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
 
-从基础模型出发，不使用任何智能体、直接用原始数据训练，四个分数全部下降，即使它用了约 70 万条样本，比 CoEvoMed 用的还多；而 CoEvoMed 让四个分数全部提升。因此，需要选择器、构建器和核验器把原始记录转成经过核验的问题。从 R5 出发，保留这些智能体、但改用原始原则，四个分数再次全部下降，尽管这些原则在 R2 时是有帮助的（**Table 2**，Panel B）。因此，需要修订智能体随着学习者的进步更新原则。如果改为给规划器过时的 R2 或 R3 反馈，四个分数同样全部下降，而当前反馈能让它们全部提升。因此，需要课程规划器按当前学习者的状态分配预算。
+从基础模型出发，不使用任何智能体、直接用原始数据训练，四个分数全部下降，即使它用了约 70 万条样本，比 CoEvoMed 用的还多；而 CoEvoMed 让四个分数全部提升。因此，需要选择器、构建器和核验器把原始记录转成经过核验的问题。从 R5 出发，保留这些智能体、但改用原始原则，四个分数再次全部下降，尽管这些原则在 R2 时是有帮助的（**Table 2**，Panel B）。因此，需要修订智能体随着学习者的进步更新原则。如果去掉规划器、改为在各能力单元之间平均分配预算，四个分数虽然仍有提升，但都低于 CoEvoMed。因此，需要课程规划器按当前学习者的状态分配预算。
 
 所以，表中没有任何更简单的流程能替代它们。
 
@@ -120,6 +118,7 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 
 ### 发布前待核对
 
+- [x] **W1 课程规划器一行改用均匀分配（新增实验）**：新增实验（作者提供，均在最终测试集上测得）：从 R5 出发、同样预算训练一轮；去掉课程自适应 = 在各能力单元之间平均分配预算，构建器仍用 R5 的当前反馈。(1) 演化原则 + 均匀分配（只有原则演化）：VQA-RAD 75.17（339/451）+1.55、SLAKE 89.07（945/1061）+0.09、PMC-VQA 64.72（21,636/33,430）+0.12、PathVQA 66.62（4,504/6,761）+0.81、MIMIC-CXR 60.94 +1.94、IU-Xray 62.22 +0.59；(2) 原始原则 + 均匀分配（两者都固定）：67.41（304/451）−6.21、84.45（896/1061）−4.52、54.12（18,092/33,430）−10.48、62.96（4,257/6,761）−2.84、51.35 −7.65、56.88 −4.75。变化值按答对题数相对 R5（332/451、944/1061、21,595/33,430、4,449/6,761）计算，已逐项核对。与 Table 8 的 C、D 一起比较时只比较变化值。结论：PPO 在两种原则下、六个基准上都高于均匀分配（原始原则下 +0.57 到 +1.21，演化原则下 +0.32 到 +1.07）；均匀分配下演化原则比原始原则高 +3.65 到 +10.60；两者都固定时六个基准全部最低。表中两行过时反馈（R2、R3）换成一行 "Curriculum planner: uniform allocation"（+1.55、+0.09、+0.12、+0.81），正文改为"去掉规划器、改为在各能力单元之间平均分配，四个分数仍有提升但都低于 CoEvoMed"。原来"过时反馈全降"的说法在有了均匀分配对照后已不准确（均匀分配是上升的），故替换。
 - [x] **Q1 表格加上原文发表的一行（作者要求）**：表格改为三行：MedVLSynther-7B（原文发表，Qwen2.5-VL-7B；论文 Table 1：PMC-VQA 55.43、VQA-RAD 77.57、SLAKE 72.36、PathVQA 65.56）、MedVLSynther（我们在 Qwen3-VL-8B 上重新训练：53.18、70.96、73.32、68.69）、CoEvoMed-8B（67.95、82.48、91.60、69.40）。列顺序与论文 Table 1 一致（Qwen3-VL-8B 基础模型一行 54.13、56.76、64.84、42.77 已核对）。CoEvoMed 四项都高于两个版本，所以结论写作 "CoEvoMed leads both"。注意：在 Qwen3-VL-8B 上重训的 MedVLSynther，PMC-VQA 和 VQA-RAD 低于其原文发表的数字，SLAKE 和 PathVQA 更高；审稿人若问，可如实说明是按其公开数据和脚本复现的结果。为腾字数：W1 "Below are changes on the four VQA benchmarks these tables share" 改为 "Below are the four VQA benchmarks they share"（数字带正负号，已能看出是变化）；Q3 "our annotations match native labels" 改为 "our labels match native ones"。
 - [x] **Q2 补充可复现性（作者要求）**：除了承诺公开，再说明现在就能复现合成数据：代码已作为补充材料提交（MANIFEST.json 已核对补充材料与 code/CoEvoMed_ICLR2027 一致），所有数据源都是公开的，附录 C.3 的 Table 5 给出了全部 16 个支持数据源（11 个 2D、5 个 3D）的官方链接（"Table 5: Official resources for the support sources"）。措辞用 "reproducible"，不写"逐字相同"：智能体用的 deepseek-v4-flash、Qwen3.6-27B 温度为 0，但 API 模型的输出不保证完全一致。为腾字数：W2 删去 "Code is in the supplementary material."（已移到 Q2，与数据复现放在一起更贴题）；Q2 第一句改为 "Yes, upon acceptance, with all principle versions and under each source's license."；Q3 把 Landis & Koch 的解释并入 κ 的括号；W1 最后一句改为 "So no simpler process in the table substitutes them."
 - [x] **W1 整体理顺逻辑（作者要求：整个回答读起来自然）**：(1) 第一句直接回答审稿人的问题："All of these agents are needed, as the paper's ablations already show."（按作者要求去掉开头的 "Yes,"）；(2) 接着说明证据在哪里：正文第 5.2 节（原始数据对比）和 Table 2（VQA-RAD、MIMIC-CXR 上消融原则演化和课程自适应），受篇幅所限完整结果在附录 D（Table 7–9）；(3) 表格按起点重新分组：基础模型起点的两行（原始数据、CoEvoMed）放在一起，R5 起点的四行（原始原则、R2 反馈、R3 反馈、CoEvoMed）放在一起，每组最后一行是 CoEvoMed 对照，数字未改；(4) 表后一段按这两组依次读表："From the base…" → 需要选择器、构建器、核验器；"From R5…" → 需要修订智能体；"…stale R2 or R3 feedback instead…" → 需要课程规划器；(5) 最后一句回答问题的后半句（能否用更简单的流程替代）："So no simpler process in the table can substitute the agents."
@@ -338,29 +337,27 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 | 条目 | 内容 | 当前 | 状态 |
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
-| W1 | 在预算匹配下分离各组件 | 2,065 | 已改为论文格式的合并表（Table 7–8） |
+| W1 | 在预算匹配下分离各组件 | 2,041 | 已改为论文格式的合并表（Table 7–8） |
 | Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,183 | 已改为分段，展示论文 Table 8 的 R5 部分 |
-| **合计** | | **4,330** | ≤ 5,000 |
+| **合计** | | **4,306** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
 ```markdown
 We thank the reviewer for the positive assessment and the precise suggestions.
 
-**W1 (Isolating the contributions of individual components).** The paper already contains budget-matched ablations of both components. The main text tests them on VQA-RAD and MIMIC-CXR (**Table 2**, **Sec. 5.3**): Panel A for curriculum adaptation, Panel B for principle evolution. For space, **App. D** extends both to all six benchmarks (**Tables 7–8**). All settings below start from the same R5 checkpoint and train one round with the same pipeline and budget. To remove principle evolution, we keep the original principles. To remove curriculum adaptation, we give the curriculum stale R2 or R3 feedback, so it allocates as if fixed at that earlier stage. Change on each benchmark:
+**W1 (Isolating the contributions of individual components).** The paper already contains budget-matched ablations of both components. The main text tests them on VQA-RAD and MIMIC-CXR (**Table 2**, **Sec. 5.3**): Panel A for curriculum adaptation, Panel B for principle evolution. For space, **App. D** extends both to all six benchmarks (**Tables 7–8**). We have now run the two missing settings, so the table covers all four combinations. All settings start from the same R5 checkpoint and train one round with the same pipeline and budget. To remove principle evolution, we keep the original principles. To remove curriculum adaptation, we split the budget uniformly across capability cells, while construction still uses current feedback. Change on each benchmark:
 
 | Setting | Principle evolution | Curriculum adaptation | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
+| Both fixed (new) | No | No | −6.21 | −4.52 | −10.48 | −2.84 | −7.65 | −4.75 |
 | Curriculum only | No | Yes | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
-| Principles only | Yes | No (R2 feedback) | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
-| Principles only | Yes | No (R3 feedback) | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
+| Principles only (new) | Yes | No | +1.55 | +0.09 | +0.12 | +0.81 | +1.94 | +0.59 |
 | CoEvoMed | Yes | Yes | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-The table is an ablation of the two adaptive components. Removing principle evolution (first row) or curriculum adaptation (second and third rows) lowers most or all scores, while keeping both (CoEvoMed) improves all six benchmarks.
+Principle evolution drives most of the gain: with either curriculum, the original principles lower all six benchmarks, while the evolved principles raise all six. Curriculum adaptation adds a smaller but consistent gain: with either principle set, it beats uniform allocation on all six. Keeping both gives the largest gain on every benchmark.
 
-This also answers whether the gains come from high-quality synthetic data. Every row builds data with the same selector, constructor, and verifier, so every row trains on verified, high-quality synthetic data. If such data alone drove the gains, every row would improve. Only the row with both components does, so the gains come from co-evolution.
-
-For the setting the reviewer lists first, with both principles and curriculum fixed, the first row is an upper bound. That row keeps curriculum adaptation, yet all six scores drop at R5. Fixing the curriculum as well removes this last adaptive part, so it would do no better.
+This also answers whether the gains come from high-quality synthetic data. Every row builds data with the same selector, constructor, and verifier, yet the rows with fixed principles lower all six benchmarks. Fixed principles do help early: from R2, they raise all six (+1.78 to +3.90; **Table 8**). They stop helping once the learner advances, so sustained gains come from co-evolution, not from verified synthetic data alone.
 
 **Q1 (Raw-data degradation; fixed-principle reconstruction).** The raw data teach the wrong task. Most 2D records are figure descriptions (58.3%), and most others are labels or reports (**Fig. 10; App. C.3**). Trained on them without reconstruction (**App. D.3**), the model learns to describe or label images instead of answering questions. The drop is largest on SLAKE (−26.69), whose answers are short and direct. The raw data are also unverified, untargeted, and static. The table lists these four causes and the CoEvoMed component that addresses each:
 
@@ -386,20 +383,18 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 我们感谢审稿人的积极评价和具体建议。
 
-**W1（分离各个组件的贡献）** 论文中已经包含针对这两个组件的预算匹配消融实验。正文在 VQA-RAD 和 MIMIC-CXR 上检验了它们（**Table 2**，**第 5.3 节**）：Panel A 对应课程自适应，Panel B 对应原则演化。受篇幅所限，**附录 D** 把两者扩展到全部六个基准（**Table 7–8**）。下表中的所有设置都从同一个 R5 检查点出发，用相同的流程和预算训练一轮。去掉原则演化时，我们保留原始原则；去掉课程自适应时，我们把过时的 R2 或 R3 反馈交给课程，使它按固定在那个较早阶段的方式分配预算。下表为每个基准上的变化：
+**W1（分离各个组件的贡献）** 论文中已经包含针对这两个组件的预算匹配消融实验。正文在 VQA-RAD 和 MIMIC-CXR 上检验了它们（**Table 2**，**第 5.3 节**）：Panel A 对应课程自适应，Panel B 对应原则演化。受篇幅所限，**附录 D** 把两者扩展到全部六个基准（**Table 7–8**）。我们现在补跑了缺少的两种设置，因此下表覆盖了全部四种组合。所有设置都从同一个 R5 检查点出发，用相同的流程和预算训练一轮。去掉原则演化时，我们保留原始原则；去掉课程自适应时，我们在各能力单元之间平均分配预算，而构建仍使用当前的反馈。下表为每个基准上的变化：
 
 | 设置 | 原则演化 | 课程自适应 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
+| 两者都固定（新增） | 否 | 否 | −6.21 | −4.52 | −10.48 | −2.84 | −7.65 | −4.75 |
 | 只有课程自适应 | 否 | 是 | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
-| 只有原则演化 | 是 | 否（R2 反馈） | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
-| 只有原则演化 | 是 | 否（R3 反馈） | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
+| 只有原则演化（新增） | 是 | 否 | +1.55 | +0.09 | +0.12 | +0.81 | +1.94 | +0.59 |
 | CoEvoMed | 是 | 是 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-这张表是对两个自适应组件的消融。去掉原则演化（第一行）或去掉课程自适应（第二、三行），大部分或全部分数都会下降；两者都保留（CoEvoMed）时，六个基准全部提升。
+大部分收益来自原则演化：不论课程是否自适应，原始原则都让六个基准全部下降，演化后的原则都让六个基准全部提升。课程自适应带来的收益较小但很一致：不论用哪套原则，它在六个基准上都优于均匀分配。两者都保留时，每个基准上的收益都最大。
 
-这也回答了收益是否来自高质量的合成数据。表中每一行都用同样的选择器、构建器和核验器来构建数据，所以每一行训练用的都是经过核验的高质量合成数据。如果收益只来自这样的数据，每一行都应该提升；但只有两个组件都保留的那一行提升了，所以收益来自共同演化。
-
-审稿人列出的第一种设置是原则和课程都固定。对它来说，表中第一行就是上限：第一行还保留着课程自适应，六个分数在 R5 却已经全部下降。如果把课程也固定，连这最后一个自适应部分也没有了，所以它不会比第一行更好。
+这也回答了收益是否来自高质量的合成数据。表中每一行都用同样的选择器、构建器和核验器来构建数据，但使用固定原则的两行，六个基准全部下降。固定原则在早期确实有帮助：从 R2 出发，它们让六个基准全部提升（+1.78 到 +3.90；**Table 8**）。但学习者进步之后，它们就不再有帮助了，所以持续的收益来自协同进化，而不只是来自经过核验的合成数据。
 
 **Q1（原始数据退化的原因；固定原则重构的效果）** 原始数据教给模型的是错误的任务。2D 记录中 58.3% 是图像描述，其余大多是标签或报告（**Figure 10；附录 C.3**）。在不做重构的情况下用它们训练（**附录 D.3**），模型学会的是描述图像或给图像贴标签，而不是回答问题。答案简短直接的 SLAKE 因此下降最多（−26.69）。此外，原始数据也没有经过核验、没有针对性、不会自适应。下表列出这四个原因，以及 CoEvoMed 中处理每个原因的组件：
 
@@ -422,6 +417,7 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 ### 发布前待核对
 
+- [x] **W1 补齐 2×2（新增实验）**：新增实验（作者提供，均在最终测试集上测得）：从 R5 出发、同样预算训练一轮；去掉课程自适应 = 在各能力单元之间平均分配预算，构建器仍用 R5 的当前反馈。(1) 演化原则 + 均匀分配（只有原则演化）：VQA-RAD 75.17（339/451）+1.55、SLAKE 89.07（945/1061）+0.09、PMC-VQA 64.72（21,636/33,430）+0.12、PathVQA 66.62（4,504/6,761）+0.81、MIMIC-CXR 60.94 +1.94、IU-Xray 62.22 +0.59；(2) 原始原则 + 均匀分配（两者都固定）：67.41（304/451）−6.21、84.45（896/1061）−4.52、54.12（18,092/33,430）−10.48、62.96（4,257/6,761）−2.84、51.35 −7.65、56.88 −4.75。变化值按答对题数相对 R5（332/451、944/1061、21,595/33,430、4,449/6,761）计算，已逐项核对。与 Table 8 的 C、D 一起比较时只比较变化值。结论：PPO 在两种原则下、六个基准上都高于均匀分配（原始原则下 +0.57 到 +1.21，演化原则下 +0.32 到 +1.07）；均匀分配下演化原则比原始原则高 +3.65 到 +10.60；两者都固定时六个基准全部最低。表格改为四行：两者都固定（新增）、只有课程自适应（Table 8 C）、只有原则演化（新增，均匀分配）、CoEvoMed（Table 8 D）。删去过时反馈两行，以及原来"第一行是上界"的推理（三份 AI 意见都指出是循环论证，现在有实测数据替代）。"高质量合成数据"一段改用 R2/R5 反转（Table 8 A：R2 时原始原则六项全涨 +1.78 到 +3.90）说明固定原则早期有效、后期失效，回应"R5 时模型已训练过大量合成数据"的质疑。去掉课程自适应的方式改为均匀分配后，附录 D.1"旧反馈同时影响构建"的问题也不再影响这张表。
 - [x] **W1 开头自查修正**：(1) "these budget-matched ablations" 改为 "budget-matched ablations of both components"：审稿人要的四种设置中"两者都固定"没有实测（最后一段用上界推理），说"这些消融都有"与最后一段不一致。(2) "All settings start from the same R5 checkpoint" 改为 "All settings below start…"：前一句提到的 Table 2 Panel B 还包含 R2 起点的设置，只有下表的设置都从 R5 出发。
 - [x] **消融的正文与附录关系写清楚（作者要求）**：W1 开头改为：正文在 VQA-RAD 和 MIMIC-CXR 上检验两个组件（Table 2：Panel A 对应课程自适应，Panel B 对应原则演化），受篇幅所限，附录 D 扩展到全部六个基准（Table 7–8）。依据论文：正文第 5.3 节 "Mechanism comparisons use VQA-RAD and MIMIC-CXR; full results and experimental details appear in Appendix D"（Table 2 Panel A 为反馈来源即课程自适应，Panel B 为原始与演化原则）；第 5.2 节正文报告了与约 70 万条原始数据训练的对比，数字在附录 D.3（Table 9）；附录 D.1/D.2 的 Table 7/8 分别把 Panel A/B 扩展到六个基准。
 - [x] **正文和附录引用全部加粗（作者要求）**：英文和中文里所有 Sec./Fig./Table/App./Section 引用都已加粗，同一括号里连续的引用合并为一段加粗，例如 "(**Fig. 10; App. C.3**)"。加粗后 4,184 字符，无需删减。
@@ -472,11 +468,11 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | — | — | 已改为在标题中注明 |
-| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,153 | 已改为分点格式 |
+| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,137 | 已改为分点格式 |
 | Q2 | 数据泄漏；R7 的选择 | — | 701 | 已定稿 |
 | Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,164 | 已定稿 |
 | Q4 | 复杂推理基准 | — | 970 | 已定稿 |
-| **合计** | | **≤ 5,000** | **4,994** | |
+| **合计** | | **≤ 5,000** | **4,978** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
@@ -487,18 +483,18 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 ### 英文正文（发布用）
 
 ```markdown
-**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** The paper already ablates both components with the same teachers, data sources, budget, and R5 checkpoint (**Table 2, Sec. 5.3; App. D**). Stale R2 or R3 feedback reproduces a curriculum fixed at an earlier stage. Change on each benchmark (**Tables 7–8**):
+**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** The paper already ablates both components with the same teachers, data sources, budget, and R5 checkpoint (**Table 2, Sec. 5.3; App. D**). We add a uniform split across capability cells as the simpler curriculum. Change on each benchmark:
 
 | Setting | Principle evolution | Adaptive curriculum | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
+| Neither (new) | No (original) | No (uniform) | −6.21 | −4.52 | −10.48 | −2.84 | −7.65 | −4.75 |
 | Curriculum only | No (original) | Yes | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
-| Principles only | Yes | No (stale R2) | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
-| Principles only | Yes | No (stale R3) | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
+| Principles only (new) | Yes | No (uniform) | +1.55 | +0.09 | +0.12 | +0.81 | +1.94 | +0.59 |
 | CoEvoMed | Yes | Yes | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-Removing either component lowers most or all scores; only both improve all six benchmarks.
+Principle evolution drives most of the gain, and PPO beats uniform allocation on all six benchmarks with either principle set.
 
-Unlike a greedy rule, PPO optimizes cumulative gain (**Eq. 5**), and its choices follow the learner's state. Across R1–R7: balanced, weakness-focused, retention-heavy, balanced, repair-heavy, repair-heavy, balanced. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (**Fig. 6**). It then returned to balanced.
+PPO also optimizes cumulative gain (**Eq. 5**), and its choices follow the learner's state. Across R1–R7: balanced, weakness-focused, retention-heavy, balanced, repair-heavy, repair-heavy, balanced. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (**Fig. 6**).
 
 The raw-data baseline degrades because its sources (**App. D.3**) are not task-aligned (58.3% of 2D records are figure descriptions; **Fig. 10**), not verified, not targeted, and not adapted. CoEvoMed's agents handle each. CoEvoMed instead reaches 91.60 on SLAKE (**Table 9**).
 
@@ -529,18 +525,18 @@ The results support generalization: CoEvoMed ranks first on all nine benchmarks 
 
 ### 中文译文（不发布）
 
-**Q1 与 W1（各部分的贡献、PPO、原始数据、选择标准）** 论文已经在相同的教师模型、数据来源、预算和 R5 检查点下，对这两个组件做了消融（正文 **Table 2**，**第 5.3 节**；**附录 D**）。过时的 R2 或 R3 反馈相当于一套在较早阶段就固定下来的课程。下表为每个基准上的变化（**Table 7–8**）：
+**Q1 与 W1（各部分的贡献、PPO、原始数据、选择标准）** 论文已经在相同的教师模型、数据来源、预算和 R5 检查点下，对这两个组件做了消融（正文 **Table 2**，**第 5.3 节**；**附录 D**）。我们新增了一种更简单的课程作为对照：在各能力单元之间平均分配预算。下表为每个基准上的变化：
 
 | 设置 | 原则演化 | 自适应课程 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
+| 都不保留（新增） | 否（原始原则） | 否（均匀分配） | −6.21 | −4.52 | −10.48 | −2.84 | −7.65 | −4.75 |
 | 只有自适应课程 | 否（原始原则） | 是 | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
-| 只有原则演化 | 是 | 否（过时的 R2 反馈） | −1.10 | −5.20 | −3.60 | −3.10 | +0.11 | −3.02 |
-| 只有原则演化 | 是 | 否（过时的 R3 反馈） | −1.77 | −5.80 | −1.80 | −2.40 | −0.84 | −4.04 |
+| 只有原则演化（新增） | 是 | 否（均匀分配） | +1.55 | +0.09 | +0.12 | +0.81 | +1.94 | +0.59 |
 | CoEvoMed | 是 | 是 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-去掉任何一个组件，大部分或全部分数都会下降；只有两者都保留，六个基准才全部提升。
+大部分收益来自原则演化；而不论用哪套原则，PPO 在六个基准上都优于均匀分配。
 
-与贪心规则不同，PPO 优化的是累计收益（**式 5**），它的选择会随学习者的状态变化。R1–R7 依次为：balanced、weakness-focused、retention-heavy、balanced、repair-heavy、repair-heavy、balanced。定位能力在 R4 退化后（60.27 → 56.16），它在 R5 和 R6 换成了 repair-heavy，定位能力随之回升到 59.36 和 62.10（**Figure 6**）。之后它又回到了 balanced。
+PPO 优化的也是累计收益（**式 5**），它的选择会随学习者的状态变化。R1–R7 依次为：balanced、weakness-focused、retention-heavy、balanced、repair-heavy、repair-heavy、balanced。定位能力在 R4 退化后（60.27 → 56.16），它在 R5 和 R6 换成了 repair-heavy，定位能力随之回升到 59.36 和 62.10（**Figure 6**）。
 
 原始数据基线之所以退化，是因为这些数据（**附录 D.3**）与任务不对齐（2D 记录中 58.3% 是图像描述；**Figure 10**），没有经过核查，没有针对性，也不会自适应。CoEvoMed 的各个智能体分别处理这几点。而 CoEvoMed 在 SLAKE 上达到 91.60（**Table 9**）。
 
@@ -570,6 +566,7 @@ MedXpertQA-MM 和 MMMU 都是在 2D 图像上通过选择题检验推理（MedXp
 
 ### 发布前待核对
 
+- [x] **Q1 回答"PPO 对比更简单的分配策略"（新增实验）**：新增实验（作者提供，均在最终测试集上测得）：从 R5 出发、同样预算训练一轮；去掉课程自适应 = 在各能力单元之间平均分配预算，构建器仍用 R5 的当前反馈。(1) 演化原则 + 均匀分配（只有原则演化）：VQA-RAD 75.17（339/451）+1.55、SLAKE 89.07（945/1061）+0.09、PMC-VQA 64.72（21,636/33,430）+0.12、PathVQA 66.62（4,504/6,761）+0.81、MIMIC-CXR 60.94 +1.94、IU-Xray 62.22 +0.59；(2) 原始原则 + 均匀分配（两者都固定）：67.41（304/451）−6.21、84.45（896/1061）−4.52、54.12（18,092/33,430）−10.48、62.96（4,257/6,761）−2.84、51.35 −7.65、56.88 −4.75。变化值按答对题数相对 R5（332/451、944/1061、21,595/33,430、4,449/6,761）计算，已逐项核对。与 Table 8 的 C、D 一起比较时只比较变化值。结论：PPO 在两种原则下、六个基准上都高于均匀分配（原始原则下 +0.57 到 +1.21，演化原则下 +0.32 到 +1.07）；均匀分配下演化原则比原始原则高 +3.65 到 +10.60；两者都固定时六个基准全部最低。表格中过时反馈两行换成"都不保留（新增）"和"只有原则演化（新增，均匀分配）"两行；表后改为 "Principle evolution drives most of the gain, and PPO beats uniform allocation on all six benchmarks with either principle set."。为腾字数：删去 "Unlike a greedy rule,"（没有做贪心对照，避免被追问）和 "It then returned to balanced."（R1–R7 序列最后一项已是 balanced）。行名用 "Neither" 而不用 "Both fixed"，避免数量词。
 - [x] **正文和附录引用全部加粗（作者要求）**：英文和中文里所有 Sec./Eq./Fig./Table/App. 引用都已加粗，同一括号里连续的引用合并为一段加粗，例如 "(**Table 2, Sec. 5.3; App. D**)"。
 - [x] **Q2 修正指代**：之前删减后，"These scores never feed back into training or checkpoint selection" 中的 "These scores" 变成了指上一句的内部验证集分数；而课程规划器正是用内部验证集上的收益训练的，这句话因此成了错误陈述。改为 "External benchmark scores never feed back…"（中文："外部基准的分数从不反馈…"）。加粗加这处修改后 4,994 字符。
 - [x] **Q3 32B 不如 8B（用报告长度解释，作者提供数据）**：作者统计的平均词数：IU-Xray 参考报告 30.5、MIMIC-CXR 参考报告 53.4；CoEvoMed-8B 在 IU-Xray 上的输出 30.7、CoEvoMed-32B 为 40.1。解释：IU-Xray 参考报告短，8B 输出长度与之相当，32B 写得更详细，与短参考的匹配更差；MIMIC-CXR 参考报告更长，32B 高于 8B（64.33 对 63.62，Figure 3）。Hulu-Med、MedGemma 的反转例子保留。删去了"MIMIC 上 29 个模型中第一""8B 比 Hulu-Med-7B 高 6.62""同规模比 Hulu-Med-32B 高 2.68"（作者要求聚焦在"为什么"）。
