@@ -23,21 +23,21 @@
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
-| W1 | 多智能体是否必要 | — | 1,630 | 已重写（两部分；合并表；三项设计保障） |
+| W1 | 多智能体是否必要 | — | 1,611 | 已重写（两部分；合并表；三项设计保障） |
 | W2 | 论文组织 | — | 504 | 已重写（正文逻辑、附录对应、可复现） |
 | W3 | 遗忘与 R7 的选择 | — | 1,215 | 已重写 |
-| Q1 | MedVLSynther 复现 | — | 417 | 已重写 |
+| Q1 | MedVLSynther 复现 | — | 446 | 已重写 |
 | Q2 | 数据公开 | — | 214 | 已压缩 |
-| Q3 | 能力分类体系 | — | 998 | 已重写 |
+| Q3 | 能力分类体系 | — | 991 | 已重写 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,988** | |
+| **合计** | | **≤ 5,000** | **4,991** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
 ### 英文正文（发布用）
 
 ```markdown
-**W1 (Necessity of the multi-agent framework).** All of these agents are needed, as the paper's ablations already show. **Sec. 5.2** compares with raw data, and **Table 2** ablates principle evolution and curriculum adaptation on VQA-RAD and MIMIC-CXR; for space, **App. D** gives full results (**Tables 7–9**). Below are changes on the four VQA benchmarks these tables share, all else fixed:
+**W1 (Necessity of the multi-agent framework).** All of these agents are needed, as the paper's ablations already show. **Sec. 5.2** compares with raw data, and **Table 2** ablates principle evolution and curriculum adaptation on VQA-RAD and MIMIC-CXR; for space, **App. D** gives full results (**Tables 7–9**). Below are the four VQA benchmarks they share, all else fixed:
 
 | Without | From | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
 |---|---|---|---|---|---|
@@ -60,11 +60,12 @@ Later-round declines come from the data, not our mechanisms. The support pool is
 
 We chose R7 by a predefined criterion: the most balanced capability profile on internal validation (**App. C.4**). R7 is where new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (**App. C.5**). Our results therefore do not rely on the choice of R7.
 
-**Q1 (MedVLSynther base model).** **Table 1** uses MedVLSynther's published results on Qwen2.5-VL-7B. We retrained it on our Qwen3-VL-8B base with its released data and GRPO script. CoEvoMed leads on all four:
+**Q1 (MedVLSynther base model).** **Table 1** uses MedVLSynther's published Qwen2.5-VL-7B results. We retrained it on our Qwen3-VL-8B base with its released data and GRPO script. CoEvoMed leads both:
 
-| Same base: Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
+| Model | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
-| MedVLSynther recipe | 53.18 | 70.96 | 73.32 | 68.69 |
+| MedVLSynther-7B | 55.43 | 77.57 | 72.36 | 65.56 |
+| MedVLSynther (our base) | 53.18 | 70.96 | 73.32 | 68.69 |
 | CoEvoMed-8B | **67.95** | **82.48** | **91.60** | **69.40** |
 
 **Q2 (Data release).** Yes, upon acceptance, with all principle versions and under each source's license. The data are also reproducible now: our code is in the supplement, and all sources are public (**Table 5**).
@@ -73,7 +74,7 @@ We chose R7 by a predefined criterion: the most balanced capability profile on i
 
 We built our categories on SLAKE's (Liu et al., 2021): physicians annotated them, and SLAKE spans more modalities and body parts than prior datasets. They describe what a question asks, not a dataset, so they fit all tasks: VQA-RAD and M3D-VQA use similar types (Lau et al., 2018; **Fig. 9a**).
 
-On 200 SLAKE questions, our annotations match native labels: capability 97.5% (Cohen's κ = 0.958, "almost perfect"; Landis & Koch, 1977), modality 100%, body region 96.5%.
+On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's κ = 0.958, "almost perfect"; Landis & Koch, 1977), modality 100%, body region 96.5%.
 ```
 
 ### 中文译文（不发布）
@@ -101,11 +102,12 @@ On 200 SLAKE questions, our annotations match native labels: capability 97.5% (C
 
 我们按预先定义的标准选定 R7：它在内部验证上的能力画像最均衡（**附录 C.4**）。R7 正是新证据用尽的那一轮，而 InternVL3-9B 的峰值出现在第 4–6 轮（**附录 C.5**）。因此，我们的结果并不依赖于对 R7 的选择。
 
-**Q1（MedVLSynther 的基础模型）** **Table 1** 中 MedVLSynther 的结果是其论文在 Qwen2.5-VL-7B 上发表的数字。我们用它公开的数据和 GRPO 训练脚本，在我们的基础模型 Qwen3-VL-8B 上重新训练了它。CoEvoMed 在四个基准上全部领先：
+**Q1（MedVLSynther 的基础模型）** **Table 1** 中 MedVLSynther 的结果是其论文在 Qwen2.5-VL-7B 上发表的数字。我们用它公开的数据和 GRPO 训练脚本，在我们的基础模型 Qwen3-VL-8B 上重新训练了它。在四个基准上，CoEvoMed 都领先于这两个版本：
 
-| 相同基础模型：Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
+| 模型 | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
-| MedVLSynther 配方 | 53.18 | 70.96 | 73.32 | 68.69 |
+| MedVLSynther-7B（原文发表，Qwen2.5-VL-7B） | 55.43 | 77.57 | 72.36 | 65.56 |
+| MedVLSynther（我们的基础模型 Qwen3-VL-8B） | 53.18 | 70.96 | 73.32 | 68.69 |
 | CoEvoMed-8B | **67.95** | **82.48** | **91.60** | **69.40** |
 
 **Q2（数据公开）** 会公开。论文被接收后，我们将按各源数据的许可公开合成数据和全部版本的构建原则。这些数据现在也可以复现：我们的代码已作为补充材料提交，所用的数据源也都是公开的，链接见 **Table 5**。
@@ -118,6 +120,7 @@ On 200 SLAKE questions, our annotations match native labels: capability 97.5% (C
 
 ### 发布前待核对
 
+- [x] **Q1 表格加上原文发表的一行（作者要求）**：表格改为三行：MedVLSynther-7B（原文发表，Qwen2.5-VL-7B；论文 Table 1：PMC-VQA 55.43、VQA-RAD 77.57、SLAKE 72.36、PathVQA 65.56）、MedVLSynther（我们在 Qwen3-VL-8B 上重新训练：53.18、70.96、73.32、68.69）、CoEvoMed-8B（67.95、82.48、91.60、69.40）。列顺序与论文 Table 1 一致（Qwen3-VL-8B 基础模型一行 54.13、56.76、64.84、42.77 已核对）。CoEvoMed 四项都高于两个版本，所以结论写作 "CoEvoMed leads both"。注意：在 Qwen3-VL-8B 上重训的 MedVLSynther，PMC-VQA 和 VQA-RAD 低于其原文发表的数字，SLAKE 和 PathVQA 更高；审稿人若问，可如实说明是按其公开数据和脚本复现的结果。为腾字数：W1 "Below are changes on the four VQA benchmarks these tables share" 改为 "Below are the four VQA benchmarks they share"（数字带正负号，已能看出是变化）；Q3 "our annotations match native labels" 改为 "our labels match native ones"。
 - [x] **Q2 补充可复现性（作者要求）**：除了承诺公开，再说明现在就能复现合成数据：代码已作为补充材料提交（MANIFEST.json 已核对补充材料与 code/CoEvoMed_ICLR2027 一致），所有数据源都是公开的，附录 C.3 的 Table 5 给出了全部 16 个支持数据源（11 个 2D、5 个 3D）的官方链接（"Table 5: Official resources for the support sources"）。措辞用 "reproducible"，不写"逐字相同"：智能体用的 deepseek-v4-flash、Qwen3.6-27B 温度为 0，但 API 模型的输出不保证完全一致。为腾字数：W2 删去 "Code is in the supplementary material."（已移到 Q2，与数据复现放在一起更贴题）；Q2 第一句改为 "Yes, upon acceptance, with all principle versions and under each source's license."；Q3 把 Landis & Koch 的解释并入 κ 的括号；W1 最后一句改为 "So no simpler process in the table substitutes them."
 - [x] **W1 整体理顺逻辑（作者要求：整个回答读起来自然）**：(1) 第一句直接回答审稿人的问题："All of these agents are needed, as the paper's ablations already show."（按作者要求去掉开头的 "Yes,"）；(2) 接着说明证据在哪里：正文第 5.2 节（原始数据对比）和 Table 2（VQA-RAD、MIMIC-CXR 上消融原则演化和课程自适应），受篇幅所限完整结果在附录 D（Table 7–9）；(3) 表格按起点重新分组：基础模型起点的两行（原始数据、CoEvoMed）放在一起，R5 起点的四行（原始原则、R2 反馈、R3 反馈、CoEvoMed）放在一起，每组最后一行是 CoEvoMed 对照，数字未改；(4) 表后一段按这两组依次读表："From the base…" → 需要选择器、构建器、核验器；"From R5…" → 需要修订智能体；"…stale R2 or R3 feedback instead…" → 需要课程规划器；(5) 最后一句回答问题的后半句（能否用更简单的流程替代）："So no simpler process in the table can substitute the agents."
 - [x] **W1 第二部分改为"读表 → 自然得出每个智能体都需要"（作者要求）**：不再分点、不再先讲设计。改为一段连贯的文字，按表格的行依次往下读，每读一行就得出一个"所以需要某智能体"的结论，三步层层递进：(1) 不用任何智能体（原始数据，约 70 万条、多于 CoEvoMed）四个分数全降，而 CoEvoMed 从同一基础模型全部提升 → 需要选择器、构建器、核验器；(2) 保留它们但不修订原则，R5 仍全降（原始原则在 R2 有帮助，Table 2 Panel B）→ 需要修订智能体；(3) 原则已修订但用过时的 R2/R3 反馈，再次全降，只有当前反馈提升 → 需要课程规划器。最后一句直接回答审稿人的原话 "Do we really need all of these agents or can we easily find another plausible agent process to substitute them"："We therefore do need all of these agents: no simpler process in the table substitutes them."。注意：选择器、构建器、核验器的必要性来自同一行（一起去掉），正文也是合在一句里说的，没有写成分别消融。

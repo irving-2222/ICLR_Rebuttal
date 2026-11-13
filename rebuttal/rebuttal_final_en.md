@@ -6,11 +6,11 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,988 / 5,000 characters (quotes excluded).*
+*Posted text: 4,991 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
-**W1 (Necessity of the multi-agent framework).** All of these agents are needed, as the paper's ablations already show. **Sec. 5.2** compares with raw data, and **Table 2** ablates principle evolution and curriculum adaptation on VQA-RAD and MIMIC-CXR; for space, **App. D** gives full results (**Tables 7–9**). Below are changes on the four VQA benchmarks these tables share, all else fixed:
+**W1 (Necessity of the multi-agent framework).** All of these agents are needed, as the paper's ablations already show. **Sec. 5.2** compares with raw data, and **Table 2** ablates principle evolution and curriculum adaptation on VQA-RAD and MIMIC-CXR; for space, **App. D** gives full results (**Tables 7–9**). Below are the four VQA benchmarks they share, all else fixed:
 
 | Without | From | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
 |---|---|---|---|---|---|
@@ -39,11 +39,12 @@ We chose R7 by a predefined criterion: the most balanced capability profile on i
 
 > **Question 1:** For medVLSynther results, do you use the same base model to replicate their results?
 
-**Q1 (MedVLSynther base model).** **Table 1** uses MedVLSynther's published results on Qwen2.5-VL-7B. We retrained it on our Qwen3-VL-8B base with its released data and GRPO script. CoEvoMed leads on all four:
+**Q1 (MedVLSynther base model).** **Table 1** uses MedVLSynther's published Qwen2.5-VL-7B results. We retrained it on our Qwen3-VL-8B base with its released data and GRPO script. CoEvoMed leads both:
 
-| Same base: Qwen3-VL-8B | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
+| Model | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
-| MedVLSynther recipe | 53.18 | 70.96 | 73.32 | 68.69 |
+| MedVLSynther-7B | 55.43 | 77.57 | 72.36 | 65.56 |
+| MedVLSynther (our base) | 53.18 | 70.96 | 73.32 | 68.69 |
 | CoEvoMed-8B | **67.95** | **82.48** | **91.60** | **69.40** |
 
 > **Question 2:** Would you consider to publicate the data generated in your evolving pipeline?
@@ -56,7 +57,7 @@ We chose R7 by a predefined criterion: the most balanced capability profile on i
 
 We built our categories on SLAKE's (Liu et al., 2021): physicians annotated them, and SLAKE spans more modalities and body parts than prior datasets. They describe what a question asks, not a dataset, so they fit all tasks: VQA-RAD and M3D-VQA use similar types (Lau et al., 2018; **Fig. 9a**).
 
-On 200 SLAKE questions, our annotations match native labels: capability 97.5% (Cohen's κ = 0.958, "almost perfect"; Landis & Koch, 1977), modality 100%, body region 96.5%.
+On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's κ = 0.958, "almost perfect"; Landis & Koch, 1977), modality 100%, body region 96.5%.
 
 ---
 
