@@ -123,7 +123,7 @@
 
 大部分收益来自原则演化；而不论用哪套原则，PPO 在六个基准上都优于均匀分配。
 
-PPO 优化的也是累计收益（**式 5**），它的选择会随学习者的状态变化。R1–R7 依次为：balanced、weakness-focused、retention-heavy、balanced、repair-heavy、repair-heavy、balanced。定位能力在 R4 退化后（60.27 → 56.16），它在 R5 和 R6 换成了 repair-heavy，定位能力随之回升到 59.36 和 62.10（**Figure 6**）。
+此外，PPO 优化的是累计收益（**式 5**），它的选择会随学习者的状态变化。R1–R7 依次为：balanced、weakness-focused、retention-heavy、balanced、repair-heavy、repair-heavy、balanced。定位能力在 R4 退化后（60.27 → 56.16），它在 R5 和 R6 换成了 repair-heavy，定位能力随之回升到 59.36 和 62.10（**Figure 6**）。
 
 原始数据基线之所以退化，是因为这些数据（**附录 D.3**）与任务不对齐（2D 记录中 58.3% 是图像描述；**Figure 10**），没有经过核查，没有针对性，也不会自适应。CoEvoMed 的各个智能体分别处理这几点。而 CoEvoMed 在 SLAKE 上达到 91.60（**Table 9**）。
 
