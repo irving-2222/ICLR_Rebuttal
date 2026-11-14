@@ -106,7 +106,7 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 ## Response to Reviewer 2Nuw
 
-*Posted text: 4,998 / 5,000 characters (quotes excluded).*
+*Posted text: 4,991 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** **The experimental controls and mechanism analyses do not sufficiently establish the contribution of co-evolution.** The method combines teacher-generated supervision, data verification, principle revision, and adaptive curricula, but does not adequately isolate their effects or those of additional resources. Improvements are difficult to attribute to individual principles, and the relationship between principle-selection criteria and subsequent learning gains remains unvalidated. The substantial degradation of the raw-data training baseline also lacks sufficient explanation.
 
@@ -164,8 +164,8 @@ IU-Xray references are short (30.5 words; MIMIC-CXR 53.4). 8B matches them (30.7
 | CT, MRI, X-ray | VQA-RAD (clinician-authored), SLAKE (knowledge-based) |
 | Pathology | PathVQA |
 | Literature figures | PMC-VQA (multiple choice) |
-| 3D CT volumes | M3D-VQA (five question types over 64 slices), 3D-RAD (open-ended, including measurements), AMOS-MM (multi-organ reports) |
+| 3D CT volumes | M3D-VQA (64 slices), 3D-RAD (open-ended, with measurements), AMOS-MM (multi-organ reports) |
 
-MedXpertQA-MM and MMMU test reasoning through multiple choice on 2D images (all of MedXpertQA-MM, 94% of MMMU). Our suite already covers this format (PMC-VQA, M3D-VQA) and adds open-ended tasks across these data.
+On the MMMU Health & Medicine test set (1,752 questions, public answers, **App. C.1** protocol), CoEvoMed-8B scores 62.04, versus 49.66 for its base and 61.30 for MediX-R1-8B, a medical model on the same base. We will add it to the revision.
 
-The results support generalization: CoEvoMed ranks first on all nine benchmarks (**Table 1; Figs. 3–4**). On 3D-RAD Medical Computation, it leads the next-best model by +8.6 BLEU-1 (**Fig. 9b**).
+The results support generalization: CoEvoMed ranks first on all nine benchmarks (**Table 1; Figs. 3–4**). On 3D-RAD Medical Computation, it leads the next-best by +8.6 BLEU-1 (**Fig. 9b**).

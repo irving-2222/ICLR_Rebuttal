@@ -480,12 +480,12 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,178 | 已改为分点格式 |
 | Q2 | 数据泄漏；R7 的选择 | — | 741 | 已定稿 |
 | Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,117 | 已改写（解码种子均值±标准差、配对置信区间） |
-| Q4 | 复杂推理基准 | — | 956 | 已定稿 |
-| **合计** | | **≤ 5,000** | **4,998** | |
+| Q4 | 复杂推理基准 | — | 949 | 已定稿 |
+| **合计** | | **≤ 5,000** | **4,991** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
-字符空间：当前 4,998 字符（加入 Q3 的种子与置信区间表后），只剩 2 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
+字符空间：当前 4,991 字符（加入 Q3 的种子与置信区间表、Q4 的 MMMU 结果后），只剩 9 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
@@ -534,11 +534,11 @@ IU-Xray references are short (30.5 words; MIMIC-CXR 53.4). 8B matches them (30.7
 | CT, MRI, X-ray | VQA-RAD (clinician-authored), SLAKE (knowledge-based) |
 | Pathology | PathVQA |
 | Literature figures | PMC-VQA (multiple choice) |
-| 3D CT volumes | M3D-VQA (five question types over 64 slices), 3D-RAD (open-ended, including measurements), AMOS-MM (multi-organ reports) |
+| 3D CT volumes | M3D-VQA (64 slices), 3D-RAD (open-ended, with measurements), AMOS-MM (multi-organ reports) |
 
-MedXpertQA-MM and MMMU test reasoning through multiple choice on 2D images (all of MedXpertQA-MM, 94% of MMMU). Our suite already covers this format (PMC-VQA, M3D-VQA) and adds open-ended tasks across these data.
+On the MMMU Health & Medicine test set (1,752 questions, public answers, **App. C.1** protocol), CoEvoMed-8B scores 62.04, versus 49.66 for its base and 61.30 for MediX-R1-8B, a medical model on the same base. We will add it to the revision.
 
-The results support generalization: CoEvoMed ranks first on all nine benchmarks (**Table 1; Figs. 3–4**). On 3D-RAD Medical Computation, it leads the next-best model by +8.6 BLEU-1 (**Fig. 9b**).
+The results support generalization: CoEvoMed ranks first on all nine benchmarks (**Table 1; Figs. 3–4**). On 3D-RAD Medical Computation, it leads the next-best by +8.6 BLEU-1 (**Fig. 9b**).
 ```
 
 ### 中文译文（不发布）
@@ -585,14 +585,15 @@ IU-Xray 的参考报告较短，平均 30.5 词，MIMIC-CXR 为 53.4 词。8B �
 | CT、MRI、X 光 | VQA-RAD（临床医生撰写）、SLAKE（基于知识） |
 | 病理 | PathVQA |
 | 文献配图 | PMC-VQA（选择题） |
-| 3D CT 体数据 | M3D-VQA（在 64 张切片上回答五类问题）、3D-RAD（开放式问题，包括测量）、AMOS-MM（多器官报告） |
+| 3D CT 体数据 | M3D-VQA（64 张切片）、3D-RAD（开放式问题，含测量）、AMOS-MM（多器官报告） |
 
-MedXpertQA-MM 和 MMMU 都是在 2D 图像上通过选择题检验推理（MedXpertQA-MM 全部是选择题，MMMU 有 94% 是选择题）。我们的评测已经包含了这种形式（PMC-VQA、M3D-VQA），并且还在上述各类数据上加入了开放式任务。
+我们还评测了 MMMU Health & Medicine 测试集（1,752 题，使用已公开的答案，评测协议同**附录 C.1**）：CoEvoMed-8B 得分 62.04，其基础模型为 49.66，基于同一基础模型的医学推理模型 MediX-R1-8B 为 61.30。我们会把这一结果加入修订稿。
 
 现有结果支持泛化：CoEvoMed 在全部九个基准上都排名第一（**Table 1；Figure 3–4**）。在 3D-RAD 的医学计算任务上，它比第二名高出 BLEU-1 8.6（**Figure 9b**）。
 
 ### 发布前待核对
 
+- [x] **Q4 加入 MMMU Health & Medicine 实测结果（作者提供）**：测试集 1,752 题，用后来公开的答案在本地打分，三个模型同一协议（论文附录 C.1 的评测设置）。CoEvoMed-8B 62.04（1,087/1,752），MediX-R1-8B 61.30（1,074/1,752），Qwen3-VL-8B 49.66（870/1,752），已核对。替换了原来解释"为什么没测 MedXpertQA-MM 和 MMMU"的一句。注意：与 MediX-R1-8B 只差 13 题，正文不写"超过"；MedXpertQA-MM 仍未测，若被问到如实说明。可能被问：基础模型 49.66 偏低，建议备好其答案解析失败率。为腾字数：Q4 表中 M3D-VQA、3D-RAD 的括注缩短；"the next-best model" 改为 "the next-best"。
 - [x] **新增的均匀分配实验承诺加入修订稿（作者要求）**：Q1 改为 "We add a uniform split across capability cells as the simpler curriculum, to be added to the revision."。为腾字数（意思不变）："data sources" 改为 "data"；"CoEvoMed's agents handle each. CoEvoMed instead reaches" 改为 "…handle each, and it reaches"；"on all six benchmarks with either principle set" 改为 "on all six with either principle set"。
 - [x] **Q1 表格交代变化的基准**："Change on each benchmark:" 改为 "Change from R5 on each benchmark:"，与 pUjh 的写法保持一致。
 - [x] **Q2 R7 写出可复算的规则（AI 审稿意见第四条）**：R7 的选择规则（作者确认：当时就是按这条曲线选的）：每一轮在固定的 500 题内部验证面板上，Q_e = 四个问答任务（VQA-RAD、SLAKE、PMC-VQA、PathVQA）分数的平均，R_e = 两个报告任务（MIMIC-CXR、IU-Xray）综合分（0.5 ROUGE-L + 0.3 BLEU-4 + 0.2 METEOR）的平均，F_e = (Q_e + R_e)/2，R7 的 F_e 最高。代码依据：coevomed/feedback.py 第 31–35 行（每题分数）、第 82–83 行（奖励 = 0.5 × 问答任务 delta 平均 + 0.5 × 报告任务 delta 平均），所以每轮奖励正好等于 F_e − F_{e−1}，选 F_e 最高的一轮就是选累计验证收益最大的一轮，与规划器的优化目标（式 5）一致。每轮的任务分数存在 feedback.json（runner.py 第 186 行）。建议：从 R1–R10 的 feedback.json 算出逐轮 F_e 备用；审稿人若要逐轮数值，可直接给出。正文改为 "it has the highest equal-weight mean of QA and report scores, whose per-round change is the planner's reward"。为腾字数：Q3 第一句删去 "across three model families, architectures, and scales"（同段最后一句已有同样的话）。
