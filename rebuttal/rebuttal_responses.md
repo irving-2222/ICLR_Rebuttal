@@ -478,15 +478,15 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | — | — | 已改为在标题中注明 |
-| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,178 | 已改为分点格式 |
+| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,041 | 已改为分点格式；删去 R1–R7 动作序列，选择标准一句压缩 |
 | Q2 | 数据泄漏；R7 的选择 | — | 741 | 已定稿 |
-| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,125 | 已改写（采样解码三种子均值±标准差、配对置信区间；注明 Table 1 和 Figure 3 为贪心解码） |
-| Q4 | 复杂推理基准 | — | 949 | 已定稿 |
-| **合计** | | **≤ 5,000** | **4,999** | |
+| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,334 | 已改写（采样解码三种子均值±标准差；对同协议重测的 Hulu-Med-7B 做配对置信区间） |
+| Q4 | 复杂推理基准 | — | 865 | 已定稿；删去 3D-RAD 医学计算一句 |
+| **合计** | | **≤ 5,000** | **4,987** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
-字符空间：当前 4,999 字符（加入 Q3 的种子与置信区间表及贪心解码说明、Q4 的 MMMU 结果，并修正 Q3 的引用后），只剩 1 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
+字符空间：当前 4,987 字符（Q3 改为对同协议重测的 Hulu-Med-7B 做配对置信区间，并删去 Q1 动作序列、Q4 的 3D-RAD 一句后），剩 13 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
@@ -504,28 +504,29 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 
 Principle evolution drives most of the gain, and PPO beats uniform allocation on all six with either principle set.
 
-PPO also optimizes cumulative gain (**Eq. 5**), and its choices follow the learner's state. Across R1–R7: balanced, weakness-focused, retention-heavy, balanced, repair-heavy, repair-heavy, balanced. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (**Fig. 6**).
+PPO also optimizes cumulative gain (**Eq. 5**), and its choices follow the learner's state. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (**Fig. 6**).
 
 The raw-data baseline degrades because its sources (**App. D.3**) are not task-aligned (58.3% of 2D records are figure descriptions; **Fig. 10**), not verified, not targeted, and not adapted. CoEvoMed's agents handle each, and it reaches 91.60 on SLAKE (**Table 9**).
 
-Principles chosen by our criteria do produce later learning gains. In our logs, 12 of 15 accepted revisions turned their target cell's net repair (validation cases fixed minus broken) positive in the next window, versus 6 of 20 eligible principles kept unrevised. This follows from how the criteria work (**Sec. 4.3; App. B**). A principle is replaced only when the validation cases it fixes no longer outnumber those it breaks, that is, when it stops helping the learner. A replacement is chosen only if a review confirms it targets the errors the learner still makes.
+Principles chosen by our criteria do produce later learning gains. In our logs, 12 of 15 accepted revisions turned their target cell's net repair (validation cases fixed minus broken) positive in the next window, versus 6 of 20 eligible principles kept unrevised. By design (**Sec. 4.3; App. B**), a principle is replaced only when the validation cases it fixes no longer outnumber those it breaks, that is, when it stops helping the learner. A replacement is chosen only if a review confirms it targets the errors the learner still makes.
 
 **Q2 (Overlaps; R7).** We excluded patient-, study-, and image-level overlaps by design: support, validation, and test data are separate partitions (**Sec. 1; App. C.6**), enforced in our code. We screened all 11 2D and 5 3D sources against every external test at four levels: IDs (including study, case, and PMC article IDs), image paths, pixel hashes (exact and near-duplicate), and normalized text. All checks found zero overlap, including PubMedVision-IU vs. IU-Xray.
 
 R7 was selected on internal validation only: it has the highest equal-weight mean of QA and report scores, whose per-round change is the planner's reward (**App. C.4**). External benchmark scores never feed back into training or checkpoint selection (**App. A, C.6**).
 
-**Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).** Each of four learners (**Sec. 5.1; App. B**) was trained once, and all 16 comparisons beat the base. Table 1 and Fig. 3 use greedy decoding (**App. C.1**). For variance, we re-evaluated CoEvoMed-8B (R7) by sampling with three seeds, with 95% paired bootstrap CIs vs. Hulu-Med-7B (top baseline Qwen3.6-27B on MIMIC-CXR):
+**Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).** Each of four learners (**Sec. 5.1; App. B**) was trained once, and all 16 comparisons beat the base. Table 1 and Fig. 3 use greedy decoding (**App. C.1**); for the std, we re-evaluated CoEvoMed-8B (R7) by sampling with three seeds. Paired CIs compare the greedy run with Hulu-Med-7B, rerun with the same prompts and its own evaluation code (MIMIC-CXR: seed mean vs. top baseline Qwen3.6-27B):
 
 | | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
 | Mean±std | 82.63±1.26 | 91.74±0.71 | 67.64±0.32 | 69.17±0.36 | 63.31±0.83 | 68.53±0.74 |
-| Paired CI | [2.00, 7.32] | [3.11, 6.69] | [0.36, 1.33] | [2.65, 4.47] | [0.40, 2.37] | [−0.79, 3.26] |
+| Baseline | 72.5 | 84.8 | 61.4 | 58.5 | 61.92 | 66.06 |
+| 95% paired CI | [5.99, 14.19] | [4.52, 9.14] | [6.08, 7.02] | [9.76, 12.07] | [0.40, 2.37] | [1.15, 3.15] |
 
-Sampled means stay within one std of the greedy scores. The CI excludes zero except on IU-Xray, where 8B is on par with Hulu-Med-7B; the revision will say so.
+Sampled means stay within one std of the greedy scores, and every CI excludes zero. The rerun scores below Hulu-Med's published numbers, which Table 1 keeps, so its margins are conservative. On IU-Xray, the gain is 2.16 under the same protocol and 0.92 against the published 67.30.
 
 CURE-4B is out of domain (trained on MIMIC-CXR-derived data), scoring 28.65 zero-shot on IU-Xray, below every model in **Fig. 3**.
 
-IU-Xray references are short (30.5 words; MIMIC-CXR 53.4): 8B matches them (30.7), 32B writes longer ones (40.1). Hulu-Med and MedGemma also drop at larger sizes.
+IU-Xray references are short (30.5 words; MIMIC-CXR 53.4): 8B matches them (30.7), 32B writes longer ones (40.1).
 
 **Q4 & W2 (Complex reasoning).** We chose benchmarks that span the data clinical reasoning works on, from 2D images to 3D volumes and from short answers to full reports:
 
@@ -539,7 +540,7 @@ IU-Xray references are short (30.5 words; MIMIC-CXR 53.4): 8B matches them (30.7
 
 On the MMMU Health & Medicine test set (1,752 questions, public answers, **App. C.1** protocol), CoEvoMed-8B scores 62.04, versus 49.66 for its base and 61.30 for MediX-R1-8B, a medical model on the same base. We will add it to the revision.
 
-The results support generalization: CoEvoMed ranks first on all nine benchmarks (**Table 1; Figs. 3–4**). On 3D-RAD Medical Computation, it leads the next-best by +8.6 BLEU-1 (**Fig. 9b**).
+The results support generalization: CoEvoMed ranks first on all nine benchmarks (**Table 1; Figs. 3–4**).
 ```
 
 ### 中文译文（不发布）
@@ -555,28 +556,29 @@ The results support generalization: CoEvoMed ranks first on all nine benchmarks 
 
 大部分收益来自原则演化；而不论用哪套原则，PPO 在六个基准上都优于均匀分配。
 
-此外，PPO 优化的是累计收益（**式 5**），它的选择会随学习者的状态变化。R1–R7 依次为：balanced、weakness-focused、retention-heavy、balanced、repair-heavy、repair-heavy、balanced。定位能力在 R4 退化后（60.27 → 56.16），它在 R5 和 R6 换成了 repair-heavy，定位能力随之回升到 59.36 和 62.10（**Figure 6**）。
+此外，PPO 优化的是累计收益（**式 5**），它的选择会随学习者的状态变化。定位能力在 R4 退化后（60.27 → 56.16），它在 R5 和 R6 换成了 repair-heavy，定位能力随之回升到 59.36 和 62.10（**Figure 6**）。
 
 原始数据基线之所以退化，是因为这些数据（**附录 D.3**）与任务不对齐（2D 记录中 58.3% 是图像描述；**Figure 10**），没有经过核查，没有针对性，也不会自适应。CoEvoMed 的各个智能体分别处理这几点。而 CoEvoMed 在 SLAKE 上达到 91.60（**Table 9**）。
 
-按我们的选择标准选出的原则，确实带来了后续的学习收益。日志显示，15 次被接受的修订中，有 12 次让目标单元在下一个窗口的净修复（修好的验证题数减去弄错的题数）转为正数；而 20 条符合替换条件、但继续沿用旧版本的原则中，只有 6 条转正。这是由选择标准的设计决定的（**第 4.3 节；附录 B**）。只有当一条原则修好的验证题不再多于它弄错的题，也就是它不再帮助学习者时，才会被替换。而新原则只有在审查确认它针对的是学习者仍在犯的错误时，才会被选中。
+按我们的选择标准选出的原则，确实带来了后续的学习收益。日志显示，15 次被接受的修订中，有 12 次让目标单元在下一个窗口的净修复（修好的验证题数减去弄错的题数）转为正数；而 20 条符合替换条件、但继续沿用旧版本的原则中，只有 6 条转正。按设计（**第 4.3 节；附录 B**），只有当一条原则修好的验证题不再多于它弄错的题，也就是它不再帮助学习者时，才会被替换。而新原则只有在审查确认它针对的是学习者仍在犯的错误时，才会被选中。
 
 **Q2（数据重叠；R7）** 我们在设计上就排除了患者、检查和图像层面的重叠：支持数据、验证数据和测试数据是相互独立的划分（**第 1 节；附录 C.6**），并在我们的代码中强制执行。我们把全部 11 个 2D 源数据和 5 个 3D 源数据与每一个外部测试集在四个层面上做了筛查：ID（包括检查 ID、病例 ID 和 PMC 文章 ID）、图像路径、像素哈希（精确匹配和近似重复）以及归一化后的文本。所有检查发现的重叠均为零，包括 PubMedVision-IU 与 IU-Xray 之间。
 
 R7 只依据内部验证选出：它在问答和报告等权重的平均分上最高，而这个分数的逐轮变化正是规划器的奖励（**附录 C.4**）。外部基准的分数从不反馈到训练或检查点选择中（**附录 A、C.6**）。
 
-**Q3 与 W2（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）** 四个学习者模型（**第 5.1 节；附录 B**）都只训练了一次，全部 16 组比较都超过了基础模型。Table 1 和 Figure 3 采用贪心解码（**附录 C.1**）。为了估计波动，我们改用采样解码，以三个种子重新评测了 CoEvoMed-8B（R7），并给出相对 Hulu-Med-7B 的 95% 配对 bootstrap 置信区间（MIMIC-CXR 上对比该基准最强的基线 Qwen3.6-27B）：
+**Q3 与 W2（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）** 四个学习者模型（**第 5.1 节；附录 B**）都只训练了一次，全部 16 组比较都超过了基础模型。Table 1 和 Figure 3 采用贪心解码（**附录 C.1**）；标准差来自改用采样解码、以三个种子重新评测 CoEvoMed-8B（R7）的结果。配对置信区间比较的是贪心解码那次运行与 Hulu-Med-7B，后者由我们用相同的提示词和它自己的评测代码重新评测（MIMIC-CXR 上用三个种子的均值，对比该基准最强的基线 Qwen3.6-27B）：
 
 | | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
 | 均值±标准差 | 82.63±1.26 | 91.74±0.71 | 67.64±0.32 | 69.17±0.36 | 63.31±0.83 | 68.53±0.74 |
-| 配对置信区间 | [2.00, 7.32] | [3.11, 6.69] | [0.36, 1.33] | [2.65, 4.47] | [0.40, 2.37] | [−0.79, 3.26] |
+| 基线 | 72.5 | 84.8 | 61.4 | 58.5 | 61.92 | 66.06 |
+| 95% 配对置信区间 | [5.99, 14.19] | [4.52, 9.14] | [6.08, 7.02] | [9.76, 12.07] | [0.40, 2.37] | [1.15, 3.15] |
 
-采样结果的均值与贪心解码的分数相差都在一个标准差以内。除 IU-Xray 外，所有置信区间都不包含 0。在 IU-Xray 上，8B 与 Hulu-Med-7B 持平，修改稿中会如实写明。
+采样结果的均值与贪心解码的分数相差都在一个标准差以内，所有置信区间都不包含 0。重新评测得到的 Hulu-Med 分数低于其原论文发表的数字，而 Table 1 沿用的是发表的数字，因此论文中的领先幅度是保守的。在 IU-Xray 上，同一协议下领先 2.16，相对发表的 67.30 领先 0.92。
 
 CURE-4B 在 IU-Xray 上属于域外（它是在 MIMIC-CXR 衍生数据上训练的），零样本评测只得 28.65 分，低于 **Figure 3** 中的所有模型。
 
-IU-Xray 的参考报告较短（平均 30.5 词，MIMIC-CXR 为 53.4 词）：8B 生成的报告长度与之相当（30.7 词），32B 写得更长（40.1 词）。Hulu-Med 和 MedGemma 也都是更大的模型得分更低。
+IU-Xray 的参考报告较短（平均 30.5 词，MIMIC-CXR 为 53.4 词）：8B 生成的报告长度与之相当（30.7 词），32B 写得更长（40.1 词）。
 
 **Q4 与 W2（复杂推理）** 我们选择的基准覆盖了临床推理所面对的各类数据，从 2D 图像到 3D 体数据，从简短回答到完整报告：
 
@@ -590,7 +592,7 @@ IU-Xray 的参考报告较短（平均 30.5 词，MIMIC-CXR 为 53.4 词）：8B
 
 我们还评测了 MMMU Health & Medicine 测试集（1,752 题，使用已公开的答案，评测协议同**附录 C.1**）：CoEvoMed-8B 得分 62.04，其基础模型为 49.66，基于同一基础模型的医学推理模型 MediX-R1-8B 为 61.30。我们会把这一结果加入修订稿。
 
-现有结果支持泛化：CoEvoMed 在全部九个基准上都排名第一（**Table 1；Figure 3–4**）。在 3D-RAD 的医学计算任务上，它比第二名高出 BLEU-1 8.6（**Figure 9b**）。
+现有结果支持泛化：CoEvoMed 在全部九个基准上都排名第一（**Table 1；Figure 3–4**）。
 
 ### 发布前待核对
 
@@ -606,7 +608,8 @@ IU-Xray 的参考报告较短（平均 30.5 词，MIMIC-CXR 为 53.4 词）：8B
 - [x] **Q2 修正指代**：之前删减后，"These scores never feed back into training or checkpoint selection" 中的 "These scores" 变成了指上一句的内部验证集分数；而课程规划器正是用内部验证集上的收益训练的，这句话因此成了错误陈述。改为 "External benchmark scores never feed back…"（中文："外部基准的分数从不反馈…"）。加粗加这处修改后 4,994 字符。
 - [x] **Q3 32B 不如 8B（用报告长度解释，作者提供数据）**：作者统计的平均词数：IU-Xray 参考报告 30.5、MIMIC-CXR 参考报告 53.4；CoEvoMed-8B 在 IU-Xray 上的输出 30.7、CoEvoMed-32B 为 40.1。解释：IU-Xray 参考报告短，8B 输出长度与之相当，32B 写得更详细，与短参考的匹配更差；MIMIC-CXR 参考报告更长，32B 高于 8B（64.33 对 63.62，Figure 3）。Hulu-Med、MedGemma 的反转例子保留。删去了"MIMIC 上 29 个模型中第一""8B 比 Hulu-Med-7B 高 6.62""同规模比 Hulu-Med-32B 高 2.68"（作者要求聚焦在"为什么"）。
 - [x] **Q3 删去测试集置信区间（作者要求）**：原句 "These gains far exceed the test-set uncertainty (95% CI ±0.5 on PMC-VQA, ±1.7 on SLAKE)" 是单次评测的 Wilson 区间，不是审稿人要的"配对置信区间"，已删去。
-- [x] **Q3 配对置信区间（已填入）**：数字来自作者日志的第二版（第一版的置信区间中点与 Table 1 的分差对不上，IU-Xray 那一项中点约 3.19，不是审稿人点名的 0.92，已废弃，不得混用）。只换了评测时的解码种子，没有重新训练。验算：三个种子均值减去对比基线，等于各置信区间中点（VQA-RAD 4.63/4.66、SLAKE 4.94/4.90、PMC-VQA 0.84/0.85、PathVQA 3.57/3.56、MIMIC-CXR 1.39/1.39、IU-Xray 1.23/1.24）；均值与 Table 1 的差在 −0.31 到 +0.31 之间，都在一个标准差以内；由区间宽度反推出的两模型答案不一致比例（PMC-VQA 约 20%、PathVQA 约 15%、VQA-RAD 和 SLAKE 约 9%）合理。对比对象：四个 VQA 基准和 IU-Xray 是 Hulu-Med-7B（Table 1：66.80/78.00/86.80/65.60；Figure 3 IU-Xray 67.30）；MIMIC-CXR 的中点对应 61.92，Figure 3 显示这是 Qwen3.6-27B（该基准最强基线），正文因此单独注明。为放下表格，Q3 删去：四个模型名（改引第 5.1 节）、"+6.52 to +26.76"、CURE 训练数据中的 Chest ImaGenome/MS-CXR/PadChest-GR、Hulu-Med 和 MedGemma 的具体分数、MIMIC-CXR 上 32B 高于 8B 的数字（64.33 对 63.62，Figure 3）、"10,000 resamples"。审稿人追问时可在讨论阶段补回。
+- [x] **Q3 配对置信区间（第二版，已作废，不得使用）**：作废原因：论文 Table 1 和 Figure 3 中 Hulu-Med 的分数引自其原论文（Jiang et al., 2025），作者手上没有对应的逐题结果，而这组区间的中点恰好等于"采样均值 − 发表分数"，不可能是真正的配对 bootstrap。已由下方"Q3 配对置信区间改为对比同协议重测的 Hulu-Med-7B"一条取代。以下为原记录：数字来自作者日志的第二版（第一版的置信区间中点与 Table 1 的分差对不上，IU-Xray 那一项中点约 3.19，不是审稿人点名的 0.92，已废弃，不得混用）。只换了评测时的解码种子，没有重新训练。验算：三个种子均值减去对比基线，等于各置信区间中点（VQA-RAD 4.63/4.66、SLAKE 4.94/4.90、PMC-VQA 0.84/0.85、PathVQA 3.57/3.56、MIMIC-CXR 1.39/1.39、IU-Xray 1.23/1.24）；均值与 Table 1 的差在 −0.31 到 +0.31 之间，都在一个标准差以内；由区间宽度反推出的两模型答案不一致比例（PMC-VQA 约 20%、PathVQA 约 15%、VQA-RAD 和 SLAKE 约 9%）合理。对比对象：四个 VQA 基准和 IU-Xray 是 Hulu-Med-7B（Table 1：66.80/78.00/86.80/65.60；Figure 3 IU-Xray 67.30）；MIMIC-CXR 的中点对应 61.92，Figure 3 显示这是 Qwen3.6-27B（该基准最强基线），正文因此单独注明。为放下表格，Q3 删去：四个模型名（改引第 5.1 节）、"+6.52 to +26.76"、CURE 训练数据中的 Chest ImaGenome/MS-CXR/PadChest-GR、Hulu-Med 和 MedGemma 的具体分数、MIMIC-CXR 上 32B 高于 8B 的数字（64.33 对 63.62，Figure 3）、"10,000 resamples"。审稿人追问时可在讨论阶段补回。
+- [x] **Q3 配对置信区间改为对比同协议重测的 Hulu-Med-7B（作者提供，取代第二版）**：作者在 rebuttal 期间用与 CoEvoMed 相同的提示词、Hulu-Med 自己的评测代码（作者的全部评测都用这套代码）重测了 Hulu-Med-7B：VQA-RAD 72.5、SLAKE 84.8、PMC-VQA 61.4、PathVQA 58.5、IU-Xray RaTEScore 0.6606（另有 BLEU-4 0.1021、ROUGE-L 0.4331、CIDEr 0.1778、METEOR 0.3835、BLEU-1/2/3 0.4228/0.2826/0.1731）。95% 配对置信区间：VQA-RAD [5.99, 14.19]、SLAKE [4.52, 9.14]、PMC-VQA [6.08, 7.02]、PathVQA [9.76, 12.07]、IU-Xray [1.15, 3.15]。验算：中点等于"贪心解码分数（Table 1/Figure 3）− 重测分数"（SLAKE 6.80/6.83、PathVQA 10.90/10.92、PMC-VQA 6.55/6.55、IU-Xray 2.16/2.15、VQA-RAD 9.98/10.09），所以这五个区间是用贪心解码的那次运行算的；重测分数都能由整数题数得到（327/451、900/1061、3955/6761）；由区间宽度反推两模型答案不一致比例为 15–25%，合理。MIMIC-CXR 沿用作者自己算的 [0.40, 2.37]（对比 Qwen3.6-27B），其中点 1.39 = 三种子均值 63.31 − 61.92，口径是种子均值而不是贪心运行，正文已注明 "MIMIC-CXR: seed mean"。所有区间都不包含 0，IU-Xray 的结论由"持平"改为"同协议下领先 2.16，相对发表的 67.30 领先 0.92"。重测分数比发表分数低 1.24–7.1 分（VQA-RAD −5.5、SLAKE −2.0、PathVQA −7.1、PMC-VQA −5.4、IU-Xray −1.24）；正文只陈述事实并说明 Table 1 沿用发表分数、领先幅度因此是保守的，不推测原因。**讨论阶段可能被问到原因**：可核查公开权重是否与论文版本相同、原论文的测试划分（如 PMC-VQA 是否为 test-clean 子集）和解码设置。为腾字数：删去 Q1 的 R1–R7 动作序列（后面定位能力的例子保留）、Q1 "This follows from how the criteria work" 并入下一句（"By design (...)"）、Q4 末句 3D-RAD 医学计算 +8.6 BLEU-1、Q3 "Hulu-Med and MedGemma also drop at larger sizes"。改后 4,987。
 - [x] **Q3 修正两处引用（交叉核对后修改，作者同意）**：(1) 第 5.1 节只列出 Qwen3-VL-8B、Gemma-3-4B、InternVL3-9B 三个学习者，32B 写在附录 B（"Qwen3-VL-32B used for the 2D scaling experiments"），引用改为 "(Sec. 5.1; App. B)"；(2) MIMIC-CXR 和 IU-Xray 的分数在 Figure 3 而不在 Table 1，改为 "Table 1 and Fig. 3 use greedy decoding"，均值比较改为 "within one std of the greedy scores"。为腾字数：首句改为 "Each of four learners (...) was trained once, and ..."；"(Qwen3.6-27B, the top baseline, on MIMIC-CXR)" 改为 "(top baseline Qwen3.6-27B on MIMIC-CXR)"；CURE 一句 "below all 28 models" 改为 "below every model"。改后 4,999。
 - [x] **Q3 注明 Table 1 为贪心解码（作者要求）**：论文附录 C.1 写明 "Decoding is greedy."（p.19，第 1026 行），附录 C.4 也要求解码设置在比较前固定。三个种子的结果是 rebuttal 期间改用采样解码得到的（贪心解码换种子结果不变），正文因此写明 "Table 1 uses greedy decoding (App. C.1)" 和 "by sampling with three seeds"，并把均值比较改为 "Sampled means stay within one std of Table 1"，避免审稿人对照附录后认为设置前后矛盾。为腾字数："CIs of the gain over" 改为 "CIs vs."；"over Qwen3.6-27B" 去掉 "over"；CURE 一句改为分词结构；32B 一段合并为冒号句，删去末尾 "there"；首句改为 "across four learners (Sec. 5.1), all 16 comparisons beat the base"。
 - [x] **消融在正文、反馈消融即课程自适应消融**：同 jcb6；Q1 开头先指向正文 Table 2，并补一句 "Stale R2 or R3 feedback reproduces a curriculum fixed at an earlier stage."。为腾字数：选择标准一段把出处移到句末；Q2 删去 "and one checkpoint serves all six benchmarks"；Q3 删去 "with very short outputs"。
@@ -628,7 +631,7 @@ IU-Xray 的参考报告较短（平均 30.5 词，MIMIC-CXR 为 53.4 词）：8B
 - [ ] **Q2 患者层面**：报告的 ID 层面包含 study/case ID，正文据此写"IDs (including study and case IDs)"，没有单独声称做了患者 ID 匹配。如果审稿人追问患者层面，再说明哪些数据集提供患者 ID。
 - [ ] **Q2 代码描述核对**：正文对代码行为的描述（共享记录 ID、图像路径、RGB 哈希或 study ID 即拒绝启动；必须有原始划分来源；训练任务再次比对）来自提交的 `coevomed/data.py`（`validate_partitions`、`validate_evidence_identity`、`validate_exclusions`）。请确认正式实验用的是同一套检查逻辑。
 - [ ] **Q2 定稿时补进论文**：附录 C.3 目前只写了与验证集的重叠检查。定稿时补上与外部测试集的筛查、文本泄漏查询，以及外部基准只用于逐轮轨迹展示、不参与检查点选择这一点。
-- [ ] **Q3 独立运行的表述（已更新）**：正文明确写 "Each learner was trained once"，标准差只来自三个解码种子（训练好的 R7 模型固定），不能写成 "independent runs" 或训练种子。训练层面的证据仍是四个学习者模型的独立运行（16 组比较：8B 和 32B 各 6 组，Gemma、InternVL 各 2 组）。IU-Xray 的区间包含 0，正文承认持平并承诺在修改稿写明。**待作者确认**：(1) MIMIC-CXR 那次 bootstrap 确实是对 Qwen3.6-27B 跑的；(2) 采样的 temperature（及 top-p 等其他采样参数；字符已满，正文未写，审稿人问时要能回答）；(3) 配对 bootstrap 的 B 侧是自己跑出的逐题输出，重采样次数 10,000。
+- [ ] **Q3 独立运行的表述（已更新）**：正文明确写 "Each learner was trained once"，标准差只来自三个解码种子（训练好的 R7 模型固定），不能写成 "independent runs" 或训练种子。训练层面的证据仍是四个学习者模型的独立运行（16 组比较：8B 和 32B 各 6 组，Gemma、InternVL 各 2 组）。IU-Xray 对重测的 Hulu-Med-7B 区间不含 0，正文同时给出相对发表分数的 0.92。**待作者确认**：采样的 temperature 和 top-p（正文未写，审稿人问时要能回答）。已确认：配对置信区间的 Hulu-Med-7B 为作者同协议重测（见上方条目）；MIMIC-CXR 对比 Qwen3.6-27B 为作者自测。
 - [x] **Q3 置信区间（已被配对 bootstrap 取代）**：以下 Wilson 区间不再使用。原记录：正文用的 ±0.5（PMC-VQA）和 ±1.7（SLAKE）是根据 Table 1 准确率和 Table 3 样本数算出的 Wilson 95% 置信区间（PMC-VQA [67.45, 68.45]，SLAKE [89.78, 93.12]），不需要额外数据。如果之后跑了 Hulu-Med-7B 的推理，可以再补配对 bootstrap 置信区间，重点放在差距最小的 IU-Xray（+0.92）和 PMC-VQA（+1.15）上。
 - [ ] **Q3 CURE-4B**：正文理由：CURE 在 MIMIC-CXR 派生数据（Chest ImaGenome、MS-CXR）和 PadChest-GR 上微调；IU-Xray 不在其训练和评测数据中；零样本测试结果证实了数据域差异。CURE 在 IU-Xray 上的零样本结果：RaTEScore 0.2865（正文写作 28.65，与 Figure 3 的 ×100 口径一致），BLEU-4 0.0009，ROUGE-L 0.0905，CIDEr 0.0039，METEOR 0.0435；输出平均约 79 字符，大量 "No significant findings"，44% 的输出含 bbox，已按官方代码剥离后计算。Figure 3 IU-Xray 中 28 个模型的最低分为 42.00（BioMediX2-8B）。训练数据依据：CURE 官方仓库 README 与训练配置（datasets 仅 chest-imagenome、ms-cxr、padchest-gr）。已确认：28.65 与 Figure 3 使用同一套 RaTEScore 评测流程。
 - [ ] **Q3 32B 的说法**：正文把 32B 在 IU-Xray 上低于 8B 归因于基准本身（Hulu-Med 同样如此）。如果你知道其他原因，例如 32B 的训练轮数或预算不同，请告诉我，必要时补充。
@@ -717,7 +720,8 @@ IU-Xray 的参考报告较短（平均 30.5 词，MIMIC-CXR 为 53.4 词）：8B
 | Q3：每轮 24 张 A100 | 附录 B（p.17） |
 | Q3：16 组相对基础模型的提升全部为正（+6.52 至 +26.76）。8B：+13.82、+25.72、+26.76、+26.63、MIMIC +12.86、IU +17.94；32B：+12.96、+16.86、+20.73、+25.32、MIMIC +7.14、IU +6.52；Gemma：+22.39、+16.23；InternVL：+20.40、+13.28 | Table 1（p.6）；Figure 3（p.7，Qwen3-VL-8B MIMIC 50.76、IU 50.28；Qwen3-VL-32B MIMIC 57.19、IU 58.56）；Figure 5（p.9）；附录 C.5（p.24） |
 | Q3：置信区间半宽 ±0.5、±1.7（已不再使用） | 由 Table 1 准确率和 Table 3 样本数计算的 Wilson 区间 |
-| Q3：三个解码种子的均值±标准差与 95% 配对 bootstrap 置信区间 | 作者日志（第二版），评测 R7 固定模型；对比 Hulu-Med-7B（MIMIC-CXR 为 Qwen3.6-27B，Figure 3 p.7） |
+| Q3：三个解码种子的均值±标准差 | 作者日志，评测 R7 固定模型（采样解码） |
+| Q3：95% 配对 bootstrap 置信区间及 Hulu-Med-7B 重测分数 | 作者 rebuttal 期间同协议重测（相同提示词、Hulu-Med 评测代码）；CoEvoMed 侧为贪心解码运行，MIMIC-CXR 为种子均值对比 Qwen3.6-27B（Figure 3，p.7） |
 | Q2：支持数据、验证集、外部基准三者分离 | §1（p.2）；附录 C.6（p.25）"Feedback provenance and independence" |
 | Q2：代码在划分间重叠时拒绝启动；必须有 RGB 哈希和原始划分来源；训练任务再次比对 | 补充材料代码 `coevomed/data.py`：`validate_partitions`、`validate_evidence_identity`、`validate_exclusions`、`identity_tokens` |
 | Q2："preserves the joint capability profile of a single learner"；"including later performance declines" | 附录 C.4（p.24） |

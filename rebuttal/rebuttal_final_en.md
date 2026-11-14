@@ -106,7 +106,7 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 ## Response to Reviewer 2Nuw
 
-*Posted text: 4,999 / 5,000 characters (quotes excluded).*
+*Posted text: 4,987 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** **The experimental controls and mechanism analyses do not sufficiently establish the contribution of co-evolution.** The method combines teacher-generated supervision, data verification, principle revision, and adaptive curricula, but does not adequately isolate their effects or those of additional resources. Improvements are difficult to attribute to individual principles, and the relationship between principle-selection criteria and subsequent learning gains remains unvalidated. The substantial degradation of the raw-data training baseline also lacks sufficient explanation.
 
@@ -123,11 +123,11 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 Principle evolution drives most of the gain, and PPO beats uniform allocation on all six with either principle set.
 
-PPO also optimizes cumulative gain (**Eq. 5**), and its choices follow the learner's state. Across R1–R7: balanced, weakness-focused, retention-heavy, balanced, repair-heavy, repair-heavy, balanced. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (**Fig. 6**).
+PPO also optimizes cumulative gain (**Eq. 5**), and its choices follow the learner's state. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (**Fig. 6**).
 
 The raw-data baseline degrades because its sources (**App. D.3**) are not task-aligned (58.3% of 2D records are figure descriptions; **Fig. 10**), not verified, not targeted, and not adapted. CoEvoMed's agents handle each, and it reaches 91.60 on SLAKE (**Table 9**).
 
-Principles chosen by our criteria do produce later learning gains. In our logs, 12 of 15 accepted revisions turned their target cell's net repair (validation cases fixed minus broken) positive in the next window, versus 6 of 20 eligible principles kept unrevised. This follows from how the criteria work (**Sec. 4.3; App. B**). A principle is replaced only when the validation cases it fixes no longer outnumber those it breaks, that is, when it stops helping the learner. A replacement is chosen only if a review confirms it targets the errors the learner still makes.
+Principles chosen by our criteria do produce later learning gains. In our logs, 12 of 15 accepted revisions turned their target cell's net repair (validation cases fixed minus broken) positive in the next window, versus 6 of 20 eligible principles kept unrevised. By design (**Sec. 4.3; App. B**), a principle is replaced only when the validation cases it fixes no longer outnumber those it breaks, that is, when it stops helping the learner. A replacement is chosen only if a review confirms it targets the errors the learner still makes.
 
 > **Question 2:** How are patient-, study-, and image-level overlaps excluded across support data, internal validation sets, and external tests, particularly between PubMedVision-IU and IU-Xray? Was R7 selected exclusively using a predefined internal validation criterion?
 
@@ -139,18 +139,19 @@ R7 was selected on internal validation only: it has the highest equal-weight mea
 
 > **Question 3:** How many independent runs underlie the main results, and could you provide standard deviations and paired confidence intervals? Additionally, why is CURE-4B absent from the IU-Xray comparison, and why does the 32B model underperform the 8B model on this dataset?
 
-**Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).** Each of four learners (**Sec. 5.1; App. B**) was trained once, and all 16 comparisons beat the base. Table 1 and Fig. 3 use greedy decoding (**App. C.1**). For variance, we re-evaluated CoEvoMed-8B (R7) by sampling with three seeds, with 95% paired bootstrap CIs vs. Hulu-Med-7B (top baseline Qwen3.6-27B on MIMIC-CXR):
+**Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).** Each of four learners (**Sec. 5.1; App. B**) was trained once, and all 16 comparisons beat the base. Table 1 and Fig. 3 use greedy decoding (**App. C.1**); for the std, we re-evaluated CoEvoMed-8B (R7) by sampling with three seeds. Paired CIs compare the greedy run with Hulu-Med-7B, rerun with the same prompts and its own evaluation code (MIMIC-CXR: seed mean vs. top baseline Qwen3.6-27B):
 
 | | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
 | Mean±std | 82.63±1.26 | 91.74±0.71 | 67.64±0.32 | 69.17±0.36 | 63.31±0.83 | 68.53±0.74 |
-| Paired CI | [2.00, 7.32] | [3.11, 6.69] | [0.36, 1.33] | [2.65, 4.47] | [0.40, 2.37] | [−0.79, 3.26] |
+| Baseline | 72.5 | 84.8 | 61.4 | 58.5 | 61.92 | 66.06 |
+| 95% paired CI | [5.99, 14.19] | [4.52, 9.14] | [6.08, 7.02] | [9.76, 12.07] | [0.40, 2.37] | [1.15, 3.15] |
 
-Sampled means stay within one std of the greedy scores. The CI excludes zero except on IU-Xray, where 8B is on par with Hulu-Med-7B; the revision will say so.
+Sampled means stay within one std of the greedy scores, and every CI excludes zero. The rerun scores below Hulu-Med's published numbers, which Table 1 keeps, so its margins are conservative. On IU-Xray, the gain is 2.16 under the same protocol and 0.92 against the published 67.30.
 
 CURE-4B is out of domain (trained on MIMIC-CXR-derived data), scoring 28.65 zero-shot on IU-Xray, below every model in **Fig. 3**.
 
-IU-Xray references are short (30.5 words; MIMIC-CXR 53.4): 8B matches them (30.7), 32B writes longer ones (40.1). Hulu-Med and MedGemma also drop at larger sizes.
+IU-Xray references are short (30.5 words; MIMIC-CXR 53.4): 8B matches them (30.7), 32B writes longer ones (40.1).
 
 > **Weakness 2 (excerpt):** The 2D VQA evaluation lacks expert-level, complex medical reasoning tasks.
 
@@ -168,4 +169,4 @@ IU-Xray references are short (30.5 words; MIMIC-CXR 53.4): 8B matches them (30.7
 
 On the MMMU Health & Medicine test set (1,752 questions, public answers, **App. C.1** protocol), CoEvoMed-8B scores 62.04, versus 49.66 for its base and 61.30 for MediX-R1-8B, a medical model on the same base. We will add it to the revision.
 
-The results support generalization: CoEvoMed ranks first on all nine benchmarks (**Table 1; Figs. 3–4**). On 3D-RAD Medical Computation, it leads the next-best by +8.6 BLEU-1 (**Fig. 9b**).
+The results support generalization: CoEvoMed ranks first on all nine benchmarks (**Table 1; Figs. 3–4**).
