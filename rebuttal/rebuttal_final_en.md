@@ -106,7 +106,7 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 ## Response to Reviewer 2Nuw
 
-*Posted text: 4,991 / 5,000 characters (quotes excluded).*
+*Posted text: 4,988 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** **The experimental controls and mechanism analyses do not sufficiently establish the contribution of co-evolution.** The method combines teacher-generated supervision, data verification, principle revision, and adaptive curricula, but does not adequately isolate their effects or those of additional resources. Improvements are difficult to attribute to individual principles, and the relationship between principle-selection criteria and subsequent learning gains remains unvalidated. The substantial degradation of the raw-data training baseline also lacks sufficient explanation.
 
@@ -139,18 +139,18 @@ R7 was selected on internal validation only: it has the highest equal-weight mea
 
 > **Question 3:** How many independent runs underlie the main results, and could you provide standard deviations and paired confidence intervals? Additionally, why is CURE-4B absent from the IU-Xray comparison, and why does the 32B model underperform the 8B model on this dataset?
 
-**Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).** Each learner was trained once. Run independently on four learners (**Sec. 5.1**), the pipeline beats each base on all 16 comparisons. We re-evaluated CoEvoMed-8B (R7) with three decoding seeds, with 95% paired bootstrap CIs of the gain over Hulu-Med-7B (over Qwen3.6-27B, the top baseline, on MIMIC-CXR):
+**Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).** Each learner was trained once; across four learners (**Sec. 5.1**), all 16 comparisons beat the base. Table 1 uses greedy decoding (**App. C.1**). For variance, we re-evaluated CoEvoMed-8B (R7) by sampling with three seeds, with 95% paired bootstrap CIs vs. Hulu-Med-7B (Qwen3.6-27B, the top baseline, on MIMIC-CXR):
 
 | | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
 | Mean±std | 82.63±1.26 | 91.74±0.71 | 67.64±0.32 | 69.17±0.36 | 63.31±0.83 | 68.53±0.74 |
 | Paired CI | [2.00, 7.32] | [3.11, 6.69] | [0.36, 1.33] | [2.65, 4.47] | [0.40, 2.37] | [−0.79, 3.26] |
 
-Seed means stay within one std of Table 1. The CI excludes zero except on IU-Xray, where 8B is on par with Hulu-Med-7B; the revision will say so.
+Sampled means stay within one std of Table 1. The CI excludes zero except on IU-Xray, where 8B is on par with Hulu-Med-7B; the revision will say so.
 
-CURE-4B is out of domain on IU-Xray (trained on MIMIC-CXR-derived data): zero-shot, it scores 28.65, below all 28 models in **Fig. 3**.
+CURE-4B is out of domain (trained on MIMIC-CXR-derived data), scoring 28.65 zero-shot on IU-Xray, below all 28 models in **Fig. 3**.
 
-IU-Xray references are short (30.5 words; MIMIC-CXR 53.4). 8B matches them (30.7), while 32B writes longer reports (40.1). Hulu-Med and MedGemma also drop at larger sizes there.
+IU-Xray references are short (30.5 words; MIMIC-CXR 53.4): 8B matches them (30.7), 32B writes longer ones (40.1). Hulu-Med and MedGemma also drop at larger sizes.
 
 > **Weakness 2 (excerpt):** The 2D VQA evaluation lacks expert-level, complex medical reasoning tasks.
 

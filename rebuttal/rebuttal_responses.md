@@ -479,13 +479,13 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | — | — | 已改为在标题中注明 |
 | Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,178 | 已改为分点格式 |
 | Q2 | 数据泄漏；R7 的选择 | — | 741 | 已定稿 |
-| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,117 | 已改写（解码种子均值±标准差、配对置信区间） |
+| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,114 | 已改写（采样解码三种子均值±标准差、配对置信区间；注明 Table 1 为贪心解码） |
 | Q4 | 复杂推理基准 | — | 949 | 已定稿 |
-| **合计** | | **≤ 5,000** | **4,991** | |
+| **合计** | | **≤ 5,000** | **4,988** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
-字符空间：当前 4,991 字符（加入 Q3 的种子与置信区间表、Q4 的 MMMU 结果后），只剩 9 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
+字符空间：当前 4,988 字符（加入 Q3 的种子与置信区间表及贪心解码说明、Q4 的 MMMU 结果后），只剩 12 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
@@ -513,18 +513,18 @@ Principles chosen by our criteria do produce later learning gains. In our logs, 
 
 R7 was selected on internal validation only: it has the highest equal-weight mean of QA and report scores, whose per-round change is the planner's reward (**App. C.4**). External benchmark scores never feed back into training or checkpoint selection (**App. A, C.6**).
 
-**Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).** Each learner was trained once. Run independently on four learners (**Sec. 5.1**), the pipeline beats each base on all 16 comparisons. We re-evaluated CoEvoMed-8B (R7) with three decoding seeds, with 95% paired bootstrap CIs of the gain over Hulu-Med-7B (over Qwen3.6-27B, the top baseline, on MIMIC-CXR):
+**Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).** Each learner was trained once; across four learners (**Sec. 5.1**), all 16 comparisons beat the base. Table 1 uses greedy decoding (**App. C.1**). For variance, we re-evaluated CoEvoMed-8B (R7) by sampling with three seeds, with 95% paired bootstrap CIs vs. Hulu-Med-7B (Qwen3.6-27B, the top baseline, on MIMIC-CXR):
 
 | | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
 | Mean±std | 82.63±1.26 | 91.74±0.71 | 67.64±0.32 | 69.17±0.36 | 63.31±0.83 | 68.53±0.74 |
 | Paired CI | [2.00, 7.32] | [3.11, 6.69] | [0.36, 1.33] | [2.65, 4.47] | [0.40, 2.37] | [−0.79, 3.26] |
 
-Seed means stay within one std of Table 1. The CI excludes zero except on IU-Xray, where 8B is on par with Hulu-Med-7B; the revision will say so.
+Sampled means stay within one std of Table 1. The CI excludes zero except on IU-Xray, where 8B is on par with Hulu-Med-7B; the revision will say so.
 
-CURE-4B is out of domain on IU-Xray (trained on MIMIC-CXR-derived data): zero-shot, it scores 28.65, below all 28 models in **Fig. 3**.
+CURE-4B is out of domain (trained on MIMIC-CXR-derived data), scoring 28.65 zero-shot on IU-Xray, below all 28 models in **Fig. 3**.
 
-IU-Xray references are short (30.5 words; MIMIC-CXR 53.4). 8B matches them (30.7), while 32B writes longer reports (40.1). Hulu-Med and MedGemma also drop at larger sizes there.
+IU-Xray references are short (30.5 words; MIMIC-CXR 53.4): 8B matches them (30.7), 32B writes longer ones (40.1). Hulu-Med and MedGemma also drop at larger sizes.
 
 **Q4 & W2 (Complex reasoning).** We chose benchmarks that span the data clinical reasoning works on, from 2D images to 3D volumes and from short answers to full reports:
 
@@ -564,18 +564,18 @@ The results support generalization: CoEvoMed ranks first on all nine benchmarks 
 
 R7 只依据内部验证选出：它在问答和报告等权重的平均分上最高，而这个分数的逐轮变化正是规划器的奖励（**附录 C.4**）。外部基准的分数从不反馈到训练或检查点选择中（**附录 A、C.6**）。
 
-**Q3 与 W2（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）** 每个学习者模型都只训练了一次。我们在四个学习者模型上独立运行了完整流程（**第 5.1 节**），每次都在全部 16 组比较中超过各自的基础模型。我们用三个解码种子重新评测了 CoEvoMed-8B（R7），并用配对 bootstrap 计算了它相对 Hulu-Med-7B 提升幅度的 95% 置信区间。MIMIC-CXR 上的对比对象是该基准最强的基线 Qwen3.6-27B：
+**Q3 与 W2（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）** 每个学习者模型都只训练了一次；在四个学习者模型上（**第 5.1 节**），全部 16 组比较都超过了基础模型。Table 1 采用贪心解码（**附录 C.1**）。为了估计波动，我们改用采样解码，以三个种子重新评测了 CoEvoMed-8B（R7），并给出相对 Hulu-Med-7B 的 95% 配对 bootstrap 置信区间（MIMIC-CXR 上对比该基准最强的基线 Qwen3.6-27B）：
 
 | | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
 | 均值±标准差 | 82.63±1.26 | 91.74±0.71 | 67.64±0.32 | 69.17±0.36 | 63.31±0.83 | 68.53±0.74 |
 | 配对置信区间 | [2.00, 7.32] | [3.11, 6.69] | [0.36, 1.33] | [2.65, 4.47] | [0.40, 2.37] | [−0.79, 3.26] |
 
-三个种子的均值与 Table 1 的差距都在一个标准差以内。除 IU-Xray 外，所有置信区间都不包含 0。在 IU-Xray 上，8B 与 Hulu-Med-7B 持平，修改稿中会如实写明。
+采样结果的均值与 Table 1 的差距都在一个标准差以内。除 IU-Xray 外，所有置信区间都不包含 0。在 IU-Xray 上，8B 与 Hulu-Med-7B 持平，修改稿中会如实写明。
 
-IU-Xray 不在 CURE-4B 的适用领域内，因为它是在 MIMIC-CXR 衍生数据上训练的。零样本评测下它只得 28.65 分，低于 **Figure 3** 中全部 28 个模型。
+CURE-4B 在 IU-Xray 上属于域外（它是在 MIMIC-CXR 衍生数据上训练的），零样本评测只得 28.65 分，低于 **Figure 3** 中全部 28 个模型。
 
-IU-Xray 的参考报告较短，平均 30.5 词，MIMIC-CXR 为 53.4 词。8B 生成的报告长度与之相当（30.7 词），而 32B 写得更长（40.1 词）。在 IU-Xray 上，Hulu-Med 和 MedGemma 也都是更大的模型得分更低。
+IU-Xray 的参考报告较短（平均 30.5 词，MIMIC-CXR 为 53.4 词）：8B 生成的报告长度与之相当（30.7 词），32B 写得更长（40.1 词）。Hulu-Med 和 MedGemma 也都是更大的模型得分更低。
 
 **Q4 与 W2（复杂推理）** 我们选择的基准覆盖了临床推理所面对的各类数据，从 2D 图像到 3D 体数据，从简短回答到完整报告：
 
@@ -606,6 +606,7 @@ IU-Xray 的参考报告较短，平均 30.5 词，MIMIC-CXR 为 53.4 词。8B �
 - [x] **Q3 32B 不如 8B（用报告长度解释，作者提供数据）**：作者统计的平均词数：IU-Xray 参考报告 30.5、MIMIC-CXR 参考报告 53.4；CoEvoMed-8B 在 IU-Xray 上的输出 30.7、CoEvoMed-32B 为 40.1。解释：IU-Xray 参考报告短，8B 输出长度与之相当，32B 写得更详细，与短参考的匹配更差；MIMIC-CXR 参考报告更长，32B 高于 8B（64.33 对 63.62，Figure 3）。Hulu-Med、MedGemma 的反转例子保留。删去了"MIMIC 上 29 个模型中第一""8B 比 Hulu-Med-7B 高 6.62""同规模比 Hulu-Med-32B 高 2.68"（作者要求聚焦在"为什么"）。
 - [x] **Q3 删去测试集置信区间（作者要求）**：原句 "These gains far exceed the test-set uncertainty (95% CI ±0.5 on PMC-VQA, ±1.7 on SLAKE)" 是单次评测的 Wilson 区间，不是审稿人要的"配对置信区间"，已删去。
 - [x] **Q3 配对置信区间（已填入）**：数字来自作者日志的第二版（第一版的置信区间中点与 Table 1 的分差对不上，IU-Xray 那一项中点约 3.19，不是审稿人点名的 0.92，已废弃，不得混用）。只换了评测时的解码种子，没有重新训练。验算：三个种子均值减去对比基线，等于各置信区间中点（VQA-RAD 4.63/4.66、SLAKE 4.94/4.90、PMC-VQA 0.84/0.85、PathVQA 3.57/3.56、MIMIC-CXR 1.39/1.39、IU-Xray 1.23/1.24）；均值与 Table 1 的差在 −0.31 到 +0.31 之间，都在一个标准差以内；由区间宽度反推出的两模型答案不一致比例（PMC-VQA 约 20%、PathVQA 约 15%、VQA-RAD 和 SLAKE 约 9%）合理。对比对象：四个 VQA 基准和 IU-Xray 是 Hulu-Med-7B（Table 1：66.80/78.00/86.80/65.60；Figure 3 IU-Xray 67.30）；MIMIC-CXR 的中点对应 61.92，Figure 3 显示这是 Qwen3.6-27B（该基准最强基线），正文因此单独注明。为放下表格，Q3 删去：四个模型名（改引第 5.1 节）、"+6.52 to +26.76"、CURE 训练数据中的 Chest ImaGenome/MS-CXR/PadChest-GR、Hulu-Med 和 MedGemma 的具体分数、MIMIC-CXR 上 32B 高于 8B 的数字（64.33 对 63.62，Figure 3）、"10,000 resamples"。审稿人追问时可在讨论阶段补回。
+- [x] **Q3 注明 Table 1 为贪心解码（作者要求）**：论文附录 C.1 写明 "Decoding is greedy."（p.19，第 1026 行），附录 C.4 也要求解码设置在比较前固定。三个种子的结果是 rebuttal 期间改用采样解码得到的（贪心解码换种子结果不变），正文因此写明 "Table 1 uses greedy decoding (App. C.1)" 和 "by sampling with three seeds"，并把均值比较改为 "Sampled means stay within one std of Table 1"，避免审稿人对照附录后认为设置前后矛盾。为腾字数："CIs of the gain over" 改为 "CIs vs."；"over Qwen3.6-27B" 去掉 "over"；CURE 一句改为分词结构；32B 一段合并为冒号句，删去末尾 "there"；首句改为 "across four learners (Sec. 5.1), all 16 comparisons beat the base"。
 - [x] **消融在正文、反馈消融即课程自适应消融**：同 jcb6；Q1 开头先指向正文 Table 2，并补一句 "Stale R2 or R3 feedback reproduces a curriculum fixed at an earlier stage."。为腾字数：选择标准一段把出处移到句末；Q2 删去 "and one checkpoint serves all six benchmarks"；Q3 删去 "with very short outputs"。
 - [x] **Q1 选择标准与学习收益的联系（作者指出审稿人问的是"联系"而非流程）**：改为先给验证证据（Table 8：通过选择标准的演化原则 D 让六个基准全部提升，从未修订的原始原则 C 全部下降），再说明设计上的联系（修订由净修复 ≤ 0 触发；语义审查确认候选针对造成问题的错误）。可用产出率、配对覆盖率两个阈值属于质量筛查，与学习收益无直接关系，已从这一段删去。
 - [x] **Q1 日志证据（作者决定不写入）**：日志统计为 "Of the 15 accepted revisions with a subsequent evolution window, 12 turned their target cells' net repair positive in the next window; the remaining three were in sparse cells or showed delayed effects."。作者决定正文保持不变，不加这一句；如审稿人在讨论阶段追问"选择标准与后续收益的关系"，可以用这个数据回答（注意另外三次的解释和"回归均值"的可能质疑）。
@@ -625,7 +626,7 @@ IU-Xray 的参考报告较短，平均 30.5 词，MIMIC-CXR 为 53.4 词。8B �
 - [ ] **Q2 患者层面**：报告的 ID 层面包含 study/case ID，正文据此写"IDs (including study and case IDs)"，没有单独声称做了患者 ID 匹配。如果审稿人追问患者层面，再说明哪些数据集提供患者 ID。
 - [ ] **Q2 代码描述核对**：正文对代码行为的描述（共享记录 ID、图像路径、RGB 哈希或 study ID 即拒绝启动；必须有原始划分来源；训练任务再次比对）来自提交的 `coevomed/data.py`（`validate_partitions`、`validate_evidence_identity`、`validate_exclusions`）。请确认正式实验用的是同一套检查逻辑。
 - [ ] **Q2 定稿时补进论文**：附录 C.3 目前只写了与验证集的重叠检查。定稿时补上与外部测试集的筛查、文本泄漏查询，以及外部基准只用于逐轮轨迹展示、不参与检查点选择这一点。
-- [ ] **Q3 独立运行的表述（已更新）**：正文明确写 "Each learner was trained once"，标准差只来自三个解码种子（训练好的 R7 模型固定），不能写成 "independent runs" 或训练种子。训练层面的证据仍是四个学习者模型的独立运行（16 组比较：8B 和 32B 各 6 组，Gemma、InternVL 各 2 组）。IU-Xray 的区间包含 0，正文承认持平并承诺在修改稿写明。**待作者确认**：(1) MIMIC-CXR 那次 bootstrap 确实是对 Qwen3.6-27B 跑的；(2) 解码 temperature（字符已满，正文未写，审稿人问时要能回答）；(3) 配对 bootstrap 的 B 侧是自己跑出的逐题输出，重采样次数 10,000。
+- [ ] **Q3 独立运行的表述（已更新）**：正文明确写 "Each learner was trained once"，标准差只来自三个解码种子（训练好的 R7 模型固定），不能写成 "independent runs" 或训练种子。训练层面的证据仍是四个学习者模型的独立运行（16 组比较：8B 和 32B 各 6 组，Gemma、InternVL 各 2 组）。IU-Xray 的区间包含 0，正文承认持平并承诺在修改稿写明。**待作者确认**：(1) MIMIC-CXR 那次 bootstrap 确实是对 Qwen3.6-27B 跑的；(2) 采样的 temperature（及 top-p 等其他采样参数；字符已满，正文未写，审稿人问时要能回答）；(3) 配对 bootstrap 的 B 侧是自己跑出的逐题输出，重采样次数 10,000。
 - [x] **Q3 置信区间（已被配对 bootstrap 取代）**：以下 Wilson 区间不再使用。原记录：正文用的 ±0.5（PMC-VQA）和 ±1.7（SLAKE）是根据 Table 1 准确率和 Table 3 样本数算出的 Wilson 95% 置信区间（PMC-VQA [67.45, 68.45]，SLAKE [89.78, 93.12]），不需要额外数据。如果之后跑了 Hulu-Med-7B 的推理，可以再补配对 bootstrap 置信区间，重点放在差距最小的 IU-Xray（+0.92）和 PMC-VQA（+1.15）上。
 - [ ] **Q3 CURE-4B**：正文理由：CURE 在 MIMIC-CXR 派生数据（Chest ImaGenome、MS-CXR）和 PadChest-GR 上微调；IU-Xray 不在其训练和评测数据中；零样本测试结果证实了数据域差异。CURE 在 IU-Xray 上的零样本结果：RaTEScore 0.2865（正文写作 28.65，与 Figure 3 的 ×100 口径一致），BLEU-4 0.0009，ROUGE-L 0.0905，CIDEr 0.0039，METEOR 0.0435；输出平均约 79 字符，大量 "No significant findings"，44% 的输出含 bbox，已按官方代码剥离后计算。Figure 3 IU-Xray 中 28 个模型的最低分为 42.00（BioMediX2-8B）。训练数据依据：CURE 官方仓库 README 与训练配置（datasets 仅 chest-imagenome、ms-cxr、padchest-gr）。已确认：28.65 与 Figure 3 使用同一套 RaTEScore 评测流程。
 - [ ] **Q3 32B 的说法**：正文把 32B 在 IU-Xray 上低于 8B 归因于基准本身（Hulu-Med 同样如此）。如果你知道其他原因，例如 32B 的训练轮数或预算不同，请告诉我，必要时补充。
