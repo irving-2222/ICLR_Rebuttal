@@ -23,14 +23,14 @@
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
-| W1 | 多智能体是否必要 | — | 1,577 | 已重写（两部分；合并表；三项设计保障） |
+| W1 | 多智能体是否必要 | — | 1,516 | 已重写（两部分；合并表；三项设计保障） |
 | W2 | 论文组织 | — | 504 | 已重写（正文逻辑、附录对应、可复现） |
 | W3 | 遗忘与 R7 的选择 | — | 1,204 | 已重写 |
 | Q1 | MedVLSynther 复现 | — | 446 | 已重写 |
 | Q2 | 数据公开 | — | 209 | 已压缩 |
 | Q3 | 能力分类体系 | — | 1,042 | 已重写 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,992** | |
+| **合计** | | **≤ 5,000** | **4,931** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -47,7 +47,7 @@
 | Curriculum planner: uniform allocation | R5 | +1.55 | +0.09 | +0.12 | +0.81 |
 | None: CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
 
-From the base, training on raw data with no agents lowers all four scores, even with about 700,000 examples, more than CoEvoMed uses, while CoEvoMed raises all four. Together, the selector, constructor, and verifier are therefore needed to turn raw records into verified questions. From R5, keeping them but using the original principles again lowers all four, although these principles help at R2 (**Table 2**, Panel B). The revision agent is therefore needed to update principles as the learner advances. Replacing the planner with a uniform split across capability cells still gains, but less than CoEvoMed on all four. The curriculum planner is therefore needed to allocate for the current learner.
+From the base, training on raw data with no agents lowers all four scores, even with about 700,000 examples, more than CoEvoMed uses, while CoEvoMed raises all four. Together, the selector, constructor, and verifier are therefore needed to turn raw records into verified questions. From R5, keeping them but using the original principles again lowers all four. The revision agent is therefore needed to update principles as the learner advances. Replacing the planner with a uniform split across capability cells still gains, but less than CoEvoMed on all four. The curriculum planner is therefore needed to allocate for the current learner.
 
 No simpler process in the table substitutes them.
 
@@ -88,7 +88,7 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 | 课程规划器：均匀分配 | R5 | +1.55 | +0.09 | +0.12 | +0.81 |
 | 无：CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
 
-从基础模型出发，不使用任何智能体、直接用原始数据训练，四个分数全部下降，即使它用了约 70 万条样本，比 CoEvoMed 用的还多；而 CoEvoMed 让四个分数全部提升。因此，需要选择器、构建器和核验器共同把原始记录转成经过核验的问题。从 R5 出发，保留这些智能体、但改用原始原则，四个分数再次全部下降，尽管这些原则在 R2 时是有帮助的（**Table 2**，Panel B）。因此，需要修订智能体随着学习者的进步更新原则。如果去掉规划器、改为在各能力单元之间平均分配预算，四个分数虽然仍有提升，但都低于 CoEvoMed。因此，需要课程规划器按当前学习者的状态分配预算。
+从基础模型出发，不使用任何智能体、直接用原始数据训练，四个分数全部下降，即使它用了约 70 万条样本，比 CoEvoMed 用的还多；而 CoEvoMed 让四个分数全部提升。因此，需要选择器、构建器和核验器共同把原始记录转成经过核验的问题。从 R5 出发，保留这些智能体、但改用原始原则，四个分数再次全部下降。因此，需要修订智能体随着学习者的进步更新原则。如果去掉规划器、改为在各能力单元之间平均分配预算，四个分数虽然仍有提升，但都低于 CoEvoMed。因此，需要课程规划器按当前学习者的状态分配预算。
 
 表中没有任何更简单的流程能替代它们。
 
@@ -118,6 +118,7 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 
 ### 发布前待核对
 
+- [x] **W1 删去 "although these principles help at R2 (Table 2, Panel B)"（作者要求）**：W1 的表格只列了 R5 起点的结果，没有 R2 的数据，这个分句在表里找不到对应，删去后句子只陈述表中的结果。（jcb6 W1 里引用 R2 结果的那句不受影响，那里明确标了 Table 8。）
 - [x] **W3 R7 写出可复算的规则（AI 审稿意见第四条）**：R7 的选择规则（作者确认：当时就是按这条曲线选的）：每一轮在固定的 500 题内部验证面板上，Q_e = 四个问答任务（VQA-RAD、SLAKE、PMC-VQA、PathVQA）分数的平均，R_e = 两个报告任务（MIMIC-CXR、IU-Xray）综合分（0.5 ROUGE-L + 0.3 BLEU-4 + 0.2 METEOR）的平均，F_e = (Q_e + R_e)/2，R7 的 F_e 最高。代码依据：coevomed/feedback.py 第 31–35 行（每题分数）、第 82–83 行（奖励 = 0.5 × 问答任务 delta 平均 + 0.5 × 报告任务 delta 平均），所以每轮奖励正好等于 F_e − F_{e−1}，选 F_e 最高的一轮就是选累计验证收益最大的一轮，与规划器的优化目标（式 5）一致。每轮的任务分数存在 feedback.json（runner.py 第 186 行）。建议：从 R1–R10 的 feedback.json 算出逐轮 F_e 备用；审稿人若要逐轮数值，可直接给出。正文改为 "it has the highest equal-weight mean of QA and report scores"，不再用 "most balanced"。为腾字数：Q2 "The data are also reproducible now" 去掉 "also"。
 - [x] **Q3 用均匀分配加强"诊断而非重新贴标签"（作者确认）**：改为 "With the cells fixed, a uniform split gains less than current diagnoses (W1) and stale ones lower 11 of 12 scores (Table 7), so gains come from diagnosis, not relabeling."：同一套能力单元下，不按诊断分配（均匀分配）收益更小，按过时诊断分配则下降，两个方向都说明起作用的是诊断。**R7 去掉 "predefined"（作者说明 R7 是看验证曲线判断的）**：改为 "We chose R7 on internal validation only, as the round with the most balanced capability profile (App. C.4)."，避免审稿人追问"预先定义的标准"的公式。若被问到附录 C.4 中 "individual benchmark peaks occur at R7–R8 in Figure 7"：那是选定后对外部结果的描述，不是选择依据。为腾字数：W1 "uniform-allocation run" 改为 "uniform run"（W1 表前与 W3 两处）；W1 最后一句去掉 "So"。
 - [x] **按 AI 模拟审稿意见修改（作者确认）**：(1) W1 "The selector, constructor, and verifier are therefore needed" 前加 "Together,"：这三个智能体只在原始数据一行中被一起去掉，如实表明是作为整体检验的；(2) W3 "ablated with it (Table 7)" 改为 "so the uniform-allocation run in W1 also removes it, and gains less"：Table 7 没有单独关掉保留预算，而均匀分配实验同时去掉了保留预算，增益更小（四个基准都低于 CoEvoMed）；(6) W3 去掉 "We respectfully note a misunderstanding:"，直接写 "CoEvoMed builds on curriculum learning, not continual learning."（两份 AI 意见认为"误解"一词偏冲，论文自己的贡献点也写了 retention）。作者决定不改：W3 "Later-round declines come from the data, not our mechanisms."、W3 R7 一段。
