@@ -345,8 +345,8 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
 | W1 | 在预算匹配下分离各组件 | 2,098 | 已改为论文格式的合并表（Table 7–8） |
-| Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,183 | 已改为分段，展示论文 Table 8 的 R5 部分 |
-| **合计** | | **4,363** | ≤ 5,000 |
+| Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,262 | 已改为分段，展示论文 Table 8 的 R5 部分；数据构成表述已按附录 C.3 修正 |
+| **合计** | | **4,442** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
@@ -366,11 +366,11 @@ Principle evolution drives most of the gain: with either curriculum, the origina
 
 This also answers whether the gains come from high-quality synthetic data. Every row builds data with the same selector, constructor, and verifier, yet the rows with fixed principles lower all six benchmarks. Fixed principles do help early: from R2, they raise all six (+1.78 to +3.90; **Table 8**). They stop helping once the learner advances, so sustained gains come from co-evolution, not from verified synthetic data alone.
 
-**Q1 (Raw-data degradation; fixed-principle reconstruction).** The raw data teach the wrong task. Most 2D records are figure descriptions (58.3%), and most others are labels or reports (**Fig. 10; App. C.3**). Trained on them without reconstruction (**App. D.3**), the model learns to describe or label images instead of answering questions. The drop is largest on SLAKE (−26.69), whose answers are short and direct. The raw data are also unverified, untargeted, and static. The table lists these four causes and the CoEvoMed component that addresses each:
+**Q1 (Raw-data degradation; fixed-principle reconstruction).** Most of the raw data teach the wrong task. Most 2D records are figure descriptions (58.3%); the rest mix labels, reports, and question–answer pairs in other datasets' formats, such as OmniMedVQA (**Fig. 10; App. C.3**). Trained on them without reconstruction (**App. D.3**), the model mainly learns to describe images instead of answering the benchmark questions. The drop is largest on SLAKE (−26.69), whose answers are short and direct. The raw data are also unverified, untargeted, and static. The table lists these four causes and the CoEvoMed component that addresses each:
 
 | Property of the raw sources | Where CoEvoMed handles it |
 |---|---|
-| Not task-aligned: descriptions, labels, and reports instead of questions | Principles define question intent; the constructor turns evidence into supervision for the target capability (**Sections 3, 4.1**) |
+| Not task-aligned: mostly figure descriptions rather than questions | Principles define question intent; the constructor turns evidence into supervision for the target capability (**Sections 3, 4.1**) |
 | Not verified: image–text associations are never checked | The verifier checks factual consistency and visual dependence (**Section 4.1**) |
 | Not targeted: the mix follows source availability, not the learner's needs | The planner allocates a fixed budget to weak and regressing capabilities (**Section 4.2**) |
 | Not adaptive: supervision stays fixed while the learner changes | The revision agent updates principles from residual errors (**Section 4.3**) |
@@ -403,11 +403,11 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 这也回答了收益是否来自高质量的合成数据。表中每一行都用同样的选择器、构建器和核验器来构建数据，但使用固定原则的两行，六个基准全部下降。固定原则在早期确实有帮助：从 R2 出发，它们让六个基准全部提升（+1.78 到 +3.90；**Table 8**）。但学习者进步之后，它们就不再有帮助了，所以持续的收益来自协同进化，而不只是来自经过核验的合成数据。
 
-**Q1（原始数据退化的原因；固定原则重构的效果）** 原始数据教给模型的是错误的任务。2D 记录中 58.3% 是图像描述，其余大多是标签或报告（**Figure 10；附录 C.3**）。在不做重构的情况下用它们训练（**附录 D.3**），模型学会的是描述图像或给图像贴标签，而不是回答问题。答案简短直接的 SLAKE 因此下降最多（−26.69）。此外，原始数据也没有经过核验、没有针对性、不会自适应。下表列出这四个原因，以及 CoEvoMed 中处理每个原因的组件：
+**Q1（原始数据退化的原因；固定原则重构的效果）** 原始数据大多教给模型的是错误的任务。2D 记录中 58.3% 是图像描述，其余是标签、报告，以及沿用其他数据集格式的问答，例如 OmniMedVQA（**Figure 10；附录 C.3**）。在不做重构的情况下用它们训练（**附录 D.3**），模型主要学会的是描述图像，而不是回答评测基准的问题。答案简短直接的 SLAKE 因此下降最多（−26.69）。此外，原始数据也没有经过核验、没有针对性、不会自适应。下表列出这四个原因，以及 CoEvoMed 中处理每个原因的组件：
 
 | 原始数据的特点 | CoEvoMed 在哪里处理它 |
 |---|---|
-| 与任务不对齐：是图像描述、标签和报告，而不是问答 | 构建原则定义问题意图；构建器把证据转化为针对目标能力的监督数据（**第 3、4.1 节**） |
+| 与任务不对齐：大多是图像描述，而不是问答 | 构建原则定义问题意图；构建器把证据转化为针对目标能力的监督数据（**第 3、4.1 节**） |
 | 未经核查：图文关联从未被检查 | 核验器检查事实一致性和视觉依赖性（**第 4.1 节**） |
 | 没有针对性：数据构成取决于数据源里有什么，而不是学习者需要什么 | 规划器把固定预算分配给薄弱和退化的能力（**第 4.2 节**） |
 | 不会自适应：学习者在变化，监督却一成不变 | 修订智能体根据残余错误更新构建原则（**第 4.3 节**） |
@@ -434,7 +434,8 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 - [x] **W1 合并表（数字已核对；改为标准消融表格式）**：列为"设置 / 原则演化（是/否）/ 课程自适应（是/否）/ 六个基准"，列顺序同论文 Table 7–8。"只有课程自适应"一行是 Table 8 条件 C（R5，原始原则 + 当前反馈）；"只有原则演化"两行是 Table 7 的 R2 feedback 和 R3 feedback（R5 起点，演化后的原则 + 过时反馈）；"CoEvoMed"一行是 Table 8 条件 D，与 Table 7 的 R5 feedback 为同一次训练（附录 D.1）。R2 起点的条件 A 已删去（作者要求）。
 - [x] **W1 删去 R2 的说法（作者要求）**：删去"固定原则在 R2 有帮助、到 R5 有害"和"高质量合成数据推动早期进步，共同演化让进步持续"两句，避免审稿人去对比 Table 8 条件 A（R2 起点，平均 +3.09）与共同演化（R5 起点，平均 +1.50）。保留的两个平均差值均由论文数字算出：D − C 六个差值（8.26、4.29、10.12、3.33、9.21、5.39，见附录 D.2 正文）平均 6.77；Table 7 中当前反馈平均 +1.50，R2、R3 反馈平均 −2.65、−2.78，相减得 +4.15、+4.28。
 - [x] **不再给计算出的平均值（作者要求）**：W1 删去 "+6.77 on average" 和 "+4.15 to +4.28"，改为说明表格是对两个自适应组件的消融，以及所有行共用同一条核验流程、因此收益来自共同演化；Q1 最后一段删去 "+6.77 on average"，只保留论文 D.2 正文给出的逐项差值范围 +3.33 至 +10.12。
-- [x] **Q1 退化原因直接作答（作者要求）**：开头直接给出主因"原始数据教给模型的是错误的任务"：2D 记录 58.3% 是图像描述（PMC-OA 79,858 + Quilt 49,022 + ROCO 22,463，共 259,767 条，Figure 10），其余多为标签或报告；不经重构直接训练，模型学会描述或贴标签而不是回答，因此答案简短直接的 SLAKE 降得最多。"学会描述而不是回答"是依据数据构成的推断，论文没有输出长度分析；若审稿人追问，可补充对原始数据训练模型输出的统计。删去 "Routed through CoEvoMed, the same kinds of sources reach 91.60 with fewer examples"（不是原因）。
+- [x] **Q1 修正"其余大多是标签或报告"（交叉核对后修改，作者同意）**：原句 "most others are labels or reports" 与论文不符。Figure 10 / Table 5 中，OmniMedVQA（44,911 条，17.3%）本身是 VQA 数据集，LLaVA-Med（3.5%）是问答指令数据；附录 C.3 也写明 "Native question–answer pairs and classification labels are converted into factual statements"。改为 "the rest mix labels, reports, and question–answer pairs in other datasets' formats, such as OmniMedVQA"；首句改为 "Most of the raw data teach the wrong task"；结论改为 "mainly learns to describe images instead of answering the benchmark questions"；表格第一行改为 "mostly figure descriptions rather than questions"。58.3%（PMC-OA + Quilt-1M + ROCO = 151,343 / 259,767）不变。2Nuw Q1 只引用 58.3%，不受影响。**待作者确认**：附录 D.3 的原始数据基线约 70 万条，而 Figure 10 的支持数据池为 2D 259,767 + 3D 215,657 条；58.3% 描述的是支持数据池，需确认原始数据基线来自同样的来源、构成相近。
+- [x] **Q1 退化原因直接作答（作者要求）**：开头直接给出主因"原始数据教给模型的是错误的任务"：2D 记录 58.3% 是图像描述（PMC-OA 79,858 + Quilt 49,022 + ROCO 22,463，共 259,767 条，Figure 10），其余是标签、报告和沿用其他数据集格式的问答（见下方修正条目）；不经重构直接训练，模型主要学会描述图像而不是回答，因此答案简短直接的 SLAKE 降得最多。"学会描述而不是回答"是依据数据构成的推断，论文没有输出长度分析；若审稿人追问，可补充对原始数据训练模型输出的统计。删去 "Routed through CoEvoMed, the same kinds of sources reach 91.60 with fewer examples"（不是原因）。
 - [x] **Q1 重组（作者要求）**：按审稿人三个子问题的顺序作答：(1) 退化原因（四个特点及对应机制的表）；(2) 固定原则重构"早期有效、后期无效"，R2 只说明"六个基准全部提升（Table 8）"，不再列 +1.78 至 +3.90；(3) 预算匹配比较改为两行表：从 R5 出发，固定原则（Table 8 条件 C）与演化原则（条件 D），两行之差即原则演化的额外收益。删去 "+3.33 to +10.12" 和 "−2.2 to −9.6" 两个范围，数字都在表里。
 - [x] **Q1 直接展示 Table 8（作者要求）**：按论文格式列出 R2 / R5 参考值和条件 A–D（绝对分数与括号内的变化），数字与论文 Table 8 逐项一致。开头改为"固定原则确实能带来收益，但前提是与学习者阶段匹配"，替代"早期有效、后期无效"。B 行（R2 时演化原则在三个 VQA 基准上下降）按论文 D.2 的解释写成"优劣顺序在两个阶段反转，没有一套固定原则适用于所有阶段"（论文原文："the utility of construction principles varies with learner stage, supporting their continued revision"）。
 - [x] **Q1 只展示 Table 8 的 R5 部分（作者要求）**：表中只保留 R5 参考值、条件 C、条件 D；正文不再提 R2 和 Algorithm 1（作者要求删除）。
@@ -479,13 +480,13 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | — | — | 已改为在标题中注明 |
 | Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,178 | 已改为分点格式 |
 | Q2 | 数据泄漏；R7 的选择 | — | 741 | 已定稿 |
-| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,114 | 已改写（采样解码三种子均值±标准差、配对置信区间；注明 Table 1 为贪心解码） |
+| Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,125 | 已改写（采样解码三种子均值±标准差、配对置信区间；注明 Table 1 和 Figure 3 为贪心解码） |
 | Q4 | 复杂推理基准 | — | 949 | 已定稿 |
-| **合计** | | **≤ 5,000** | **4,988** | |
+| **合计** | | **≤ 5,000** | **4,999** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
-字符空间：当前 4,988 字符（加入 Q3 的种子与置信区间表及贪心解码说明、Q4 的 MMMU 结果后），只剩 12 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
+字符空间：当前 4,999 字符（加入 Q3 的种子与置信区间表及贪心解码说明、Q4 的 MMMU 结果，并修正 Q3 的引用后），只剩 1 字符余量。之后再改 2Nuw 任何地方，都需要同时删掉等量的字符。
 
 W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(1) 单独去掉核验器的影响；(2) 额外资源（教师模型调用量、成本）的影响，附录 F.3 写明这些都有记录；(3) 收益归到单条原则上的分析，可以利用附录 A 所说的"样本与原则版本相关联"的记录来做。
 
@@ -513,16 +514,16 @@ Principles chosen by our criteria do produce later learning gains. In our logs, 
 
 R7 was selected on internal validation only: it has the highest equal-weight mean of QA and report scores, whose per-round change is the planner's reward (**App. C.4**). External benchmark scores never feed back into training or checkpoint selection (**App. A, C.6**).
 
-**Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).** Each learner was trained once; across four learners (**Sec. 5.1**), all 16 comparisons beat the base. Table 1 uses greedy decoding (**App. C.1**). For variance, we re-evaluated CoEvoMed-8B (R7) by sampling with three seeds, with 95% paired bootstrap CIs vs. Hulu-Med-7B (Qwen3.6-27B, the top baseline, on MIMIC-CXR):
+**Q3 & W2 (Runs and intervals; CURE-4B; 32B on IU-Xray).** Each of four learners (**Sec. 5.1; App. B**) was trained once, and all 16 comparisons beat the base. Table 1 and Fig. 3 use greedy decoding (**App. C.1**). For variance, we re-evaluated CoEvoMed-8B (R7) by sampling with three seeds, with 95% paired bootstrap CIs vs. Hulu-Med-7B (top baseline Qwen3.6-27B on MIMIC-CXR):
 
 | | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
 | Mean±std | 82.63±1.26 | 91.74±0.71 | 67.64±0.32 | 69.17±0.36 | 63.31±0.83 | 68.53±0.74 |
 | Paired CI | [2.00, 7.32] | [3.11, 6.69] | [0.36, 1.33] | [2.65, 4.47] | [0.40, 2.37] | [−0.79, 3.26] |
 
-Sampled means stay within one std of Table 1. The CI excludes zero except on IU-Xray, where 8B is on par with Hulu-Med-7B; the revision will say so.
+Sampled means stay within one std of the greedy scores. The CI excludes zero except on IU-Xray, where 8B is on par with Hulu-Med-7B; the revision will say so.
 
-CURE-4B is out of domain (trained on MIMIC-CXR-derived data), scoring 28.65 zero-shot on IU-Xray, below all 28 models in **Fig. 3**.
+CURE-4B is out of domain (trained on MIMIC-CXR-derived data), scoring 28.65 zero-shot on IU-Xray, below every model in **Fig. 3**.
 
 IU-Xray references are short (30.5 words; MIMIC-CXR 53.4): 8B matches them (30.7), 32B writes longer ones (40.1). Hulu-Med and MedGemma also drop at larger sizes.
 
@@ -564,16 +565,16 @@ The results support generalization: CoEvoMed ranks first on all nine benchmarks 
 
 R7 只依据内部验证选出：它在问答和报告等权重的平均分上最高，而这个分数的逐轮变化正是规划器的奖励（**附录 C.4**）。外部基准的分数从不反馈到训练或检查点选择中（**附录 A、C.6**）。
 
-**Q3 与 W2（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）** 每个学习者模型都只训练了一次；在四个学习者模型上（**第 5.1 节**），全部 16 组比较都超过了基础模型。Table 1 采用贪心解码（**附录 C.1**）。为了估计波动，我们改用采样解码，以三个种子重新评测了 CoEvoMed-8B（R7），并给出相对 Hulu-Med-7B 的 95% 配对 bootstrap 置信区间（MIMIC-CXR 上对比该基准最强的基线 Qwen3.6-27B）：
+**Q3 与 W2（独立运行与置信区间；CURE-4B；32B 在 IU-Xray 上的表现）** 四个学习者模型（**第 5.1 节；附录 B**）都只训练了一次，全部 16 组比较都超过了基础模型。Table 1 和 Figure 3 采用贪心解码（**附录 C.1**）。为了估计波动，我们改用采样解码，以三个种子重新评测了 CoEvoMed-8B（R7），并给出相对 Hulu-Med-7B 的 95% 配对 bootstrap 置信区间（MIMIC-CXR 上对比该基准最强的基线 Qwen3.6-27B）：
 
 | | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
 | 均值±标准差 | 82.63±1.26 | 91.74±0.71 | 67.64±0.32 | 69.17±0.36 | 63.31±0.83 | 68.53±0.74 |
 | 配对置信区间 | [2.00, 7.32] | [3.11, 6.69] | [0.36, 1.33] | [2.65, 4.47] | [0.40, 2.37] | [−0.79, 3.26] |
 
-采样结果的均值与 Table 1 的差距都在一个标准差以内。除 IU-Xray 外，所有置信区间都不包含 0。在 IU-Xray 上，8B 与 Hulu-Med-7B 持平，修改稿中会如实写明。
+采样结果的均值与贪心解码的分数相差都在一个标准差以内。除 IU-Xray 外，所有置信区间都不包含 0。在 IU-Xray 上，8B 与 Hulu-Med-7B 持平，修改稿中会如实写明。
 
-CURE-4B 在 IU-Xray 上属于域外（它是在 MIMIC-CXR 衍生数据上训练的），零样本评测只得 28.65 分，低于 **Figure 3** 中全部 28 个模型。
+CURE-4B 在 IU-Xray 上属于域外（它是在 MIMIC-CXR 衍生数据上训练的），零样本评测只得 28.65 分，低于 **Figure 3** 中的所有模型。
 
 IU-Xray 的参考报告较短（平均 30.5 词，MIMIC-CXR 为 53.4 词）：8B 生成的报告长度与之相当（30.7 词），32B 写得更长（40.1 词）。Hulu-Med 和 MedGemma 也都是更大的模型得分更低。
 
@@ -606,6 +607,7 @@ IU-Xray 的参考报告较短（平均 30.5 词，MIMIC-CXR 为 53.4 词）：8B
 - [x] **Q3 32B 不如 8B（用报告长度解释，作者提供数据）**：作者统计的平均词数：IU-Xray 参考报告 30.5、MIMIC-CXR 参考报告 53.4；CoEvoMed-8B 在 IU-Xray 上的输出 30.7、CoEvoMed-32B 为 40.1。解释：IU-Xray 参考报告短，8B 输出长度与之相当，32B 写得更详细，与短参考的匹配更差；MIMIC-CXR 参考报告更长，32B 高于 8B（64.33 对 63.62，Figure 3）。Hulu-Med、MedGemma 的反转例子保留。删去了"MIMIC 上 29 个模型中第一""8B 比 Hulu-Med-7B 高 6.62""同规模比 Hulu-Med-32B 高 2.68"（作者要求聚焦在"为什么"）。
 - [x] **Q3 删去测试集置信区间（作者要求）**：原句 "These gains far exceed the test-set uncertainty (95% CI ±0.5 on PMC-VQA, ±1.7 on SLAKE)" 是单次评测的 Wilson 区间，不是审稿人要的"配对置信区间"，已删去。
 - [x] **Q3 配对置信区间（已填入）**：数字来自作者日志的第二版（第一版的置信区间中点与 Table 1 的分差对不上，IU-Xray 那一项中点约 3.19，不是审稿人点名的 0.92，已废弃，不得混用）。只换了评测时的解码种子，没有重新训练。验算：三个种子均值减去对比基线，等于各置信区间中点（VQA-RAD 4.63/4.66、SLAKE 4.94/4.90、PMC-VQA 0.84/0.85、PathVQA 3.57/3.56、MIMIC-CXR 1.39/1.39、IU-Xray 1.23/1.24）；均值与 Table 1 的差在 −0.31 到 +0.31 之间，都在一个标准差以内；由区间宽度反推出的两模型答案不一致比例（PMC-VQA 约 20%、PathVQA 约 15%、VQA-RAD 和 SLAKE 约 9%）合理。对比对象：四个 VQA 基准和 IU-Xray 是 Hulu-Med-7B（Table 1：66.80/78.00/86.80/65.60；Figure 3 IU-Xray 67.30）；MIMIC-CXR 的中点对应 61.92，Figure 3 显示这是 Qwen3.6-27B（该基准最强基线），正文因此单独注明。为放下表格，Q3 删去：四个模型名（改引第 5.1 节）、"+6.52 to +26.76"、CURE 训练数据中的 Chest ImaGenome/MS-CXR/PadChest-GR、Hulu-Med 和 MedGemma 的具体分数、MIMIC-CXR 上 32B 高于 8B 的数字（64.33 对 63.62，Figure 3）、"10,000 resamples"。审稿人追问时可在讨论阶段补回。
+- [x] **Q3 修正两处引用（交叉核对后修改，作者同意）**：(1) 第 5.1 节只列出 Qwen3-VL-8B、Gemma-3-4B、InternVL3-9B 三个学习者，32B 写在附录 B（"Qwen3-VL-32B used for the 2D scaling experiments"），引用改为 "(Sec. 5.1; App. B)"；(2) MIMIC-CXR 和 IU-Xray 的分数在 Figure 3 而不在 Table 1，改为 "Table 1 and Fig. 3 use greedy decoding"，均值比较改为 "within one std of the greedy scores"。为腾字数：首句改为 "Each of four learners (...) was trained once, and ..."；"(Qwen3.6-27B, the top baseline, on MIMIC-CXR)" 改为 "(top baseline Qwen3.6-27B on MIMIC-CXR)"；CURE 一句 "below all 28 models" 改为 "below every model"。改后 4,999。
 - [x] **Q3 注明 Table 1 为贪心解码（作者要求）**：论文附录 C.1 写明 "Decoding is greedy."（p.19，第 1026 行），附录 C.4 也要求解码设置在比较前固定。三个种子的结果是 rebuttal 期间改用采样解码得到的（贪心解码换种子结果不变），正文因此写明 "Table 1 uses greedy decoding (App. C.1)" 和 "by sampling with three seeds"，并把均值比较改为 "Sampled means stay within one std of Table 1"，避免审稿人对照附录后认为设置前后矛盾。为腾字数："CIs of the gain over" 改为 "CIs vs."；"over Qwen3.6-27B" 去掉 "over"；CURE 一句改为分词结构；32B 一段合并为冒号句，删去末尾 "there"；首句改为 "across four learners (Sec. 5.1), all 16 comparisons beat the base"。
 - [x] **消融在正文、反馈消融即课程自适应消融**：同 jcb6；Q1 开头先指向正文 Table 2，并补一句 "Stale R2 or R3 feedback reproduces a curriculum fixed at an earlier stage."。为腾字数：选择标准一段把出处移到句末；Q2 删去 "and one checkpoint serves all six benchmarks"；Q3 删去 "with very short outputs"。
 - [x] **Q1 选择标准与学习收益的联系（作者指出审稿人问的是"联系"而非流程）**：改为先给验证证据（Table 8：通过选择标准的演化原则 D 让六个基准全部提升，从未修订的原始原则 C 全部下降），再说明设计上的联系（修订由净修复 ≤ 0 触发；语义审查确认候选针对造成问题的错误）。可用产出率、配对覆盖率两个阈值属于质量筛查，与学习收益无直接关系，已从这一段删去。
