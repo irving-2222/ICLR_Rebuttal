@@ -23,14 +23,14 @@
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
-| W1 | 多智能体是否必要 | — | 1,577 | 已重写（两部分；合并表；三项设计保障） |
+| W1 | 多智能体是否必要 | — | 1,550 | 已重写（两部分；合并表；三项设计保障） |
 | W2 | 论文组织 | — | 504 | 已重写（正文逻辑、附录对应、可复现） |
 | W3 | 遗忘与 R7 的选择 | — | 1,204 | 已重写 |
 | Q1 | MedVLSynther 复现 | — | 446 | 已重写 |
 | Q2 | 数据公开 | — | 209 | 已压缩 |
-| Q3 | 能力分类体系 | — | 1,042 | 已重写 |
+| Q3 | 能力分类体系 | — | 1,070 | 已重写 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,992** | |
+| **合计** | | **≤ 5,000** | **4,993** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -47,7 +47,7 @@
 | Curriculum planner: uniform allocation | R5 | +1.55 | +0.09 | +0.12 | +0.81 |
 | None: CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
 
-From the base, training on raw data with no agents lowers all four scores, even with about 700,000 examples, more than CoEvoMed uses, while CoEvoMed raises all four. Together, the selector, constructor, and verifier are therefore needed to turn raw records into verified questions. From R5, keeping them but using the original principles again lowers all four. The revision agent is therefore needed to update principles as the learner advances. Replacing the planner with a uniform split across capability cells still gains, but less than CoEvoMed on all four. The curriculum planner is therefore needed to allocate for the current learner.
+From the base, training on raw data with no agents lowers all four, even with about 700,000 examples, more than CoEvoMed, while CoEvoMed raises all four. Together, the selector, constructor, and verifier are thus needed to turn raw records into verified questions. From R5, keeping them but using the original principles again lowers all four. The revision agent is thus needed to update principles as the learner advances. Replacing the planner with a uniform split across capability cells still gains, but less than CoEvoMed on all four. The curriculum planner is thus needed to allocate for the current learner.
 
 No simpler process in the table substitutes them.
 
@@ -69,11 +69,11 @@ We chose R7 on internal validation only: it has the highest equal-weight mean of
 
 **Q2 (Data release).** Yes, upon acceptance, with all principle versions and under each source's license. The data are reproducible now: our code is in the supplement, and all sources are public (**Table 5**).
 
-**Q3 (Capability taxonomy).** The dimensions are necessary because every mechanism runs on the cells they define (**Table 6**). The profile is measured per cell (**Eq. 1**), the planner allocates budget across cells (**Eq. 7**), each principle serves one cell and is revised when it stops improving (**Sec. 4.3**), and the selector retrieves evidence matching a cell's modality and anatomy (**App. C.3**). With the cells fixed, a uniform split gains less than current diagnoses (W1) and stale ones lower 11 of 12 scores (**Table 7**), so gains come from diagnosis, not relabeling.
+**Q3 (Capability taxonomy).** The dimensions are necessary because every mechanism runs on the cells they define (**Table 6**). The profile is measured per cell (**Eq. 1**), the planner allocates budget across cells (**Eq. 7**), each principle serves one cell and is revised when it stops improving (**Sec. 4.3**), and the selector retrieves evidence by a cell's modality and anatomy (**App. C.3**). With the cells fixed, a uniform split gains less than current diagnoses (W1) and stale ones lower 11 of 12 scores (**Table 7**), so gains come from diagnosis, not relabeling.
 
 We built our categories on SLAKE's (Liu et al., 2021): physicians annotated them, and SLAKE spans more modalities and body parts than prior datasets. They describe what a question asks, not a dataset, so they fit all tasks: VQA-RAD and M3D-VQA use similar types (Lau et al., 2018; **Fig. 9a**).
 
-On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's κ = 0.958, "almost perfect"; Landis & Koch, 1977), modality 100%, body region 96.5%.
+On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's κ = 0.958, "almost perfect"; Landis & Koch, 1977), modality 100%, body region 96.5%. We will add them to the revision.
 ```
 
 ### 中文译文（不发布）
@@ -114,10 +114,11 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 
 我们以 SLAKE 的问题类别（Liu et al., 2021）为基础构建我们的类别：这些类别由医生标注，而且 SLAKE 覆盖的模态和身体部位比以往的数据集更多。这些类别描述的是问题在问什么，而不是某个数据集，因此适用于所有任务：VQA-RAD 和 M3D-VQA 也采用了类似的问题类型（Lau et al., 2018；**Figure 9a**）。
 
-在 200 道 SLAKE 题目上，我们的标注与原生标签的一致率为：能力类别 97.5%（Cohen's κ = 0.958，属于"几乎完全一致"；Landis & Koch, 1977），模态 100%，解剖部位 96.5%。
+在 200 道 SLAKE 题目上，我们的标注与原生标签的一致率为：能力类别 97.5%（Cohen's κ = 0.958，属于"几乎完全一致"；Landis & Koch, 1977），模态 100%，解剖部位 96.5%。我们会把这些结果加入修订稿。
 
 ### 发布前待核对
 
+- [x] **Q3 承诺把一致性验证加入修订稿（作者要求）**：在 "…modality 100%, body region 96.5%." 后加 "We will add them to the revision."。审稿人 Q3 的要求是 "report this mapping, validate the generated annotations"，承诺写进修订稿是直接回应。为腾字数（意思不变）：W1 三处 "therefore" 改为 "thus"；"lowers all four scores" 改为 "lowers all four"；"more than CoEvoMed uses" 改为 "more than CoEvoMed"；Q3 "retrieves evidence matching a cell's" 改为 "retrieves evidence by a cell's"。
 - [x] **W1 表格交代加减号的基准（作者要求）**：表前一句改为 "Each row below gives the change from its starting checkpoint"，表头 "From" 改为 "Change from"，明确每行的正负值是相对该行起点检查点（Qwen3-VL-8B 基础模型或 R5 检查点）计算的。
 - [x] **W1 删去 "although these principles help at R2 (Table 2, Panel B)"（作者要求）**：W1 的表格只列了 R5 起点的结果，没有 R2 的数据，这个分句在表里找不到对应，删去后句子只陈述表中的结果。（jcb6 W1 里引用 R2 结果的那句不受影响，那里明确标了 Table 8。）
 - [x] **W3 R7 写出可复算的规则（AI 审稿意见第四条）**：R7 的选择规则（作者确认：当时就是按这条曲线选的）：每一轮在固定的 500 题内部验证面板上，Q_e = 四个问答任务（VQA-RAD、SLAKE、PMC-VQA、PathVQA）分数的平均，R_e = 两个报告任务（MIMIC-CXR、IU-Xray）综合分（0.5 ROUGE-L + 0.3 BLEU-4 + 0.2 METEOR）的平均，F_e = (Q_e + R_e)/2，R7 的 F_e 最高。代码依据：coevomed/feedback.py 第 31–35 行（每题分数）、第 82–83 行（奖励 = 0.5 × 问答任务 delta 平均 + 0.5 × 报告任务 delta 平均），所以每轮奖励正好等于 F_e − F_{e−1}，选 F_e 最高的一轮就是选累计验证收益最大的一轮，与规划器的优化目标（式 5）一致。每轮的任务分数存在 feedback.json（runner.py 第 186 行）。建议：从 R1–R10 的 feedback.json 算出逐轮 F_e 备用；审稿人若要逐轮数值，可直接给出。正文改为 "it has the highest equal-weight mean of QA and report scores"，不再用 "most balanced"。为腾字数：Q2 "The data are also reproducible now" 去掉 "also"。
