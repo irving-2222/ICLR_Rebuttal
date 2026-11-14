@@ -10,7 +10,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
-**W1 (Necessity of the multi-agent framework).** All of these agents are needed, as the paper's ablations already show. **Sec. 5.2** compares with raw data, and **Table 2** ablates principle evolution and curriculum adaptation on VQA-RAD and MIMIC-CXR; for space, **App. D** gives full results (**Tables 7–9**). Each row below gives the change from its starting checkpoint on the four VQA benchmarks they share, plus a new uniform run, all else fixed:
+**W1 (Necessity of the multi-agent framework).** All of these agents are needed, as the paper's ablations already show. **Sec. 5.2** compares with raw data, and **Table 2** ablates principle evolution and curriculum adaptation on VQA-RAD and MIMIC-CXR; for space, **App. D** gives full results (**Tables 7–9**). Each row below is the change from its starting checkpoint on the four VQA benchmarks they share, plus a new uniform run, all else fixed:
 
 | Without | Change from | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
 |---|---|---|---|---|---|
@@ -32,9 +32,9 @@ No simpler process in the table substitutes them.
 
 **W3 (Catastrophic forgetting and retention).** CoEvoMed builds on curriculum learning, not continual learning. Forgetting arises when tasks are learned in sequence and old data is dropped. It trains all tasks every round and replays earlier data (**Eq. 7; Sec. 3.3**), so continual-learning metrics do not apply. "Retention" is a share of the planner's budget (**Sec. 4.2**), so the uniform run in W1 also removes it, and gains less.
 
-Later-round declines come from the data, not our mechanisms. The support pool is fixed (359,355 facts, **App. C.3**), and logs show 95% of it is used by R7. After that, few examples contain new evidence (18.0% at R8, 2.2% at R10), so later rounds mostly retrain on seen evidence. Scores peak at R7–R8, just as new evidence runs out; self-training on finite data does the same (Chen et al., 2024; Singh et al., 2024). At R10, **Fig. 7** benchmarks remain within 3 points of their peaks and over 12 above R1.
+Later-round declines come from the data, not our mechanisms. The support pool is fixed (359,355 facts, **App. C.3**), and logs show 95% of it used by R7. After that, few examples contain new evidence (18.0% at R8, 2.2% at R10), so later rounds mostly reuse seen evidence. Scores peak at R7–R8, just as new evidence runs out; self-training on finite data does the same (Chen et al., 2024; Singh et al., 2024). At R10, **Fig. 7** benchmarks remain within 3 points of their peaks and over 12 above R1.
 
-We chose R7 on internal validation only: it has the highest equal-weight mean of QA and report scores (**App. C.4**). R7 is where new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (**App. C.5**). Our results therefore do not rely on the choice of R7.
+We chose R7 on internal validation only: it has the highest equal-weight mean of QA and report scores (**App. C.4**). R7 is where new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (**App. C.5**). Our results thus do not rely on the choice of R7.
 
 > **Question 1:** For medVLSynther results, do you use the same base model to replicate their results?
 
@@ -56,19 +56,19 @@ We chose R7 on internal validation only: it has the highest equal-weight mean of
 
 We built our categories on SLAKE's (Liu et al., 2021): physicians annotated them, and SLAKE spans more modalities and body parts than prior datasets. They describe what a question asks, not a dataset, so they fit all tasks: VQA-RAD and M3D-VQA use similar types (Lau et al., 2018; **Fig. 9a**).
 
-On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's κ = 0.958, "almost perfect"; Landis & Koch, 1977), modality 100%, body region 96.5%. We will add them to the revision.
+On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's κ = 0.958, "almost perfect"; Landis & Koch, 1977), modality 100%, body region 96.5%. We will add them and the new run to the revision.
 
 ---
 
 ## Response to Reviewer jcb6
 
-*Posted text: 4,329 / 5,000 characters (quotes excluded).*
+*Posted text: 4,363 / 5,000 characters (quotes excluded).*
 
 We thank the reviewer for the positive assessment and the precise suggestions.
 
 > **Weakness:** The ablation study does not sufficiently isolate the contributions of the individual components. Budget-matched comparisons with fixed principles and a fixed curriculum, principle evolution alone, and curriculum adaptation alone would help determine whether the gains come primarily from high-quality synthetic data or the proposed co-evolution mechanism.
 
-**W1 (Isolating the contributions of individual components).** The paper already contains budget-matched ablations of both components. The main text tests them on VQA-RAD and MIMIC-CXR (**Table 2**, **Sec. 5.3**): Panel A for curriculum adaptation, Panel B for principle evolution. For space, **App. D** extends both to all six benchmarks (**Tables 7–8**). We have now run the two missing settings, so the table covers all four combinations. All settings start from the same R5 checkpoint and train one round with the same pipeline and budget. To remove principle evolution, we keep the original principles. To remove curriculum adaptation, we split the budget uniformly across capability cells, while construction still uses current feedback. Change from the R5 checkpoint on each benchmark:
+**W1 (Isolating the contributions of individual components).** The paper already contains budget-matched ablations of both components. The main text tests them on VQA-RAD and MIMIC-CXR (**Table 2**, **Sec. 5.3**): Panel A for curriculum adaptation, Panel B for principle evolution. For space, **App. D** extends both to all six benchmarks (**Tables 7–8**). We have now run the two missing settings and will add them to the revision, so the table covers all four combinations. All settings start from the same R5 checkpoint and train one round with the same pipeline and budget. To remove principle evolution, we keep the original principles. To remove curriculum adaptation, we split the budget uniformly across capability cells, while construction still uses current feedback. Change from the R5 checkpoint on each benchmark:
 
 | Setting | Principle evolution | Curriculum adaptation | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
@@ -112,7 +112,7 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 > **Question 1:** Under the same teachers, data sources, and comparable budgets, could you separately establish the contributions of principle evolution and adaptive curricula, including PPO’s advantage over simpler allocation strategies? Could you also explain the raw-data baseline’s degradation and validate the relationship between principle-selection criteria and subsequent learning gains?
 
-**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** The paper already ablates both components with the same teachers, data sources, budget, and R5 checkpoint (**Table 2, Sec. 5.3; App. D**). We add a uniform split across capability cells as the simpler curriculum. Change from R5 on each benchmark:
+**Q1 & W1 (Contributions, PPO, raw data, selection criteria).** The paper already ablates both components with the same teachers, data, budget, and R5 checkpoint (**Table 2, Sec. 5.3; App. D**). We add a uniform split across capability cells as the simpler curriculum, to be added to the revision. Change from R5 on each benchmark:
 
 | Setting | Principle evolution | Adaptive curriculum | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|---|---|
@@ -121,11 +121,11 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | Principles only (new) | Yes | No (uniform) | +1.55 | +0.09 | +0.12 | +0.81 | +1.94 | +0.59 |
 | CoEvoMed | Yes | Yes | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-Principle evolution drives most of the gain, and PPO beats uniform allocation on all six benchmarks with either principle set.
+Principle evolution drives most of the gain, and PPO beats uniform allocation on all six with either principle set.
 
 PPO also optimizes cumulative gain (**Eq. 5**), and its choices follow the learner's state. Across R1–R7: balanced, weakness-focused, retention-heavy, balanced, repair-heavy, repair-heavy, balanced. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (**Fig. 6**).
 
-The raw-data baseline degrades because its sources (**App. D.3**) are not task-aligned (58.3% of 2D records are figure descriptions; **Fig. 10**), not verified, not targeted, and not adapted. CoEvoMed's agents handle each. CoEvoMed instead reaches 91.60 on SLAKE (**Table 9**).
+The raw-data baseline degrades because its sources (**App. D.3**) are not task-aligned (58.3% of 2D records are figure descriptions; **Fig. 10**), not verified, not targeted, and not adapted. CoEvoMed's agents handle each, and it reaches 91.60 on SLAKE (**Table 9**).
 
 Principles chosen by our criteria do produce later learning gains. In our logs, 12 of 15 accepted revisions turned their target cell's net repair (validation cases fixed minus broken) positive in the next window, versus 6 of 20 eligible principles kept unrevised. This follows from how the criteria work (**Sec. 4.3; App. B**). A principle is replaced only when the validation cases it fixes no longer outnumber those it breaks, that is, when it stops helping the learner. A replacement is chosen only if a review confirms it targets the errors the learner still makes.
 
