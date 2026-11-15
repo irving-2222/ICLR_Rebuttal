@@ -344,9 +344,9 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 | 条目 | 内容 | 当前 | 状态 |
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
-| W1 | 在预算匹配下分离各组件 | 2,537 | 已改为论文格式的合并表（Table 7–8） |
+| W1 | 在预算匹配下分离各组件 | 2,558 | 已改为论文格式的合并表（Table 7–8） |
 | Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,262 | 已改为分段，展示论文 Table 8 的 R5 部分；数据构成表述已按附录 C.3 修正 |
-| **合计** | | **4,881** | ≤ 5,000 |
+| **合计** | | **4,902** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
@@ -362,14 +362,14 @@ We thank the reviewer for the positive assessment and the precise suggestions.
 | Principles only (new) | Yes | No | +1.55 | +0.09 | +0.12 | +0.81 | +1.94 | +0.59 |
 | CoEvoMed | Yes | Yes | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-Principle evolution drives most of the gain: with either curriculum, the original principles lower all six benchmarks, while the evolved principles raise all six. Curriculum adaptation adds a smaller but consistent gain: with either principle set, it beats uniform allocation on all six. Keeping both gives the largest gain on every benchmark.
+Of the two components, principle evolution has the larger effect: with either curriculum, the original principles lower all six benchmarks, while the evolved principles raise all six. Curriculum adaptation adds a smaller but consistent gain: with either principle set, it beats uniform allocation on all six. Keeping both gives the largest gain on every benchmark.
 
 This also answers whether the gains come from high-quality synthetic data. That data is itself produced by our agents: without them, raw data lower all four VQA scores despite more examples (**Table 9**; report scores are new). We also ran fixed principles from the same base under the same total budget (new):
 
-| From the base, same budget | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
+| From the base | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
 | Raw data, no agents | 43.01 | 38.15 | 45.51 | 35.94 | 46.65 | 49.18 |
-| Fixed principles (new) | 74.72 | 88.88 | 61.49 | 62.46 | 62.27 | 61.31 |
+| Fixed principles (new, same budget) | 74.72 | 88.88 | 61.49 | 62.46 | 62.27 | 61.31 |
 | CoEvoMed | **82.48** | **91.60** | **67.95** | **69.40** | **63.62** | **68.22** |
 
 CoEvoMed is higher on all six benchmarks (+1.35 to +7.76). Fixed principles help early but hurt from R5 (**Table 8**), so co-evolution is what sustains the gains. We will add this run to the revision.
@@ -407,14 +407,14 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | 只有原则演化（新增） | 是 | 否 | +1.55 | +0.09 | +0.12 | +0.81 | +1.94 | +0.59 |
 | CoEvoMed | 是 | 是 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-大部分收益来自原则演化：不论课程是否自适应，原始原则都让六个基准全部下降，演化后的原则都让六个基准全部提升。课程自适应带来的收益较小但很一致：不论用哪套原则，它在六个基准上都优于均匀分配。两者都保留时，每个基准上的收益都最大。
+在这两个组件中，原则演化的作用更大：不论课程是否自适应，原始原则都让六个基准全部下降，演化后的原则都让六个基准全部提升。课程自适应带来的收益较小但很一致：不论用哪套原则，它在六个基准上都优于均匀分配。两者都保留时，每个基准上的收益都最大。
 
 这也回答了收益是否来自高质量的合成数据。这些数据本身就是由我们的智能体产生的：没有这些智能体，即使样本更多，原始数据也会让四个 VQA 分数全部下降（**Table 9**；报告生成的分数为新增结果）。我们还从同一个基础模型出发、在相同总预算下跑了固定原则的版本（新增）：
 
-| 从基础模型出发，相同预算 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
+| 从基础模型出发 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
 | 原始数据，不使用智能体 | 43.01 | 38.15 | 45.51 | 35.94 | 46.65 | 49.18 |
-| 固定原则（新增） | 74.72 | 88.88 | 61.49 | 62.46 | 62.27 | 61.31 |
+| 固定原则（新增，相同预算） | 74.72 | 88.88 | 61.49 | 62.46 | 62.27 | 61.31 |
 | CoEvoMed | **82.48** | **91.60** | **67.95** | **69.40** | **63.62** | **68.22** |
 
 CoEvoMed 在全部六个基准上都更高（+1.35 到 +7.76）。固定原则只在早期有帮助，到 R5 就开始降分（**Table 8**），因此让收益得以持续的是协同进化。我们会把这次实验加入修订稿。
@@ -440,6 +440,7 @@ CoEvoMed 在全部六个基准上都更高（+1.35 到 +7.76）。固定原则�
 
 ### 发布前待核对
 
+- [x] **交叉核对后修正两处（作者确认）**：(1) "Principle evolution drives most of the gain" 改为 "Of the two components, principle evolution has the larger effect"：原句容易被理解为整体结论，而"从基础模型出发"那张表显示固定原则版本已拿到大部分提升，二者矛盾；新说法只比较两个组件。(2) 对比表表头 "From the base, same budget" 改为 "From the base"，"same budget" 只标在固定原则一行：原始数据约 70 万条样本，并非相同预算，正文也写了 "despite more examples"。
 - [x] **W1 对比表补上原始数据的报告生成分数（作者提供）**：MIMIC-CXR 46.65、IU-Xray 49.18。论文 Table 9 只有四个 VQA 基准，这两个数是新结果，正文已注明 "report scores are new"；"lower every score" 相应改为 "lower all four VQA scores"，因为基础模型在两个报告基准上的分数没有写进这张表，不能说原始数据让报告分数也低于基础模型（如需这样说，要补上 Qwen3-VL-8B 在 MIMIC-CXR、IU-Xray 上的分数）。
 - [x] **W1 加入同起点、同总预算的固定原则基线（作者提供，作者已更正抄错的数字）**：从 Qwen3-VL-8B 基础模型出发、总预算相同、原则固定：VQA-RAD 74.72（337/451）、SLAKE 88.88（943/1061）、PMC-VQA 61.49（20,556/33,430）、PathVQA 62.46（4,223/6,761）、MIMIC-CXR 62.27、IU-Xray 61.31。CoEvoMed 高出 +7.76、+2.72、+6.46、+6.94、+1.35、+6.91。替换了原来 "sustained gains come from co-evolution, not from verified synthetic data alone" 一段：固定原则版本本身已有大幅提升，旧说法与新结果矛盾。新写法：合成数据本身由智能体产生（原始数据更多样本仍降分，Table 9）；同起点同预算下 CoEvoMed 六项全高；固定原则早期有效、R5 起降分（Table 8），所以协同进化让收益持续。待确认：该基线的课程设置（PPO 还是均匀分配）、轮数与每轮预算、所选检查点及选择规则；如被问到需如实说明。原始数据一行的样本量约 70 万，不是相同预算，表头"same budget"只针对固定原则与 CoEvoMed 两行。
 - [x] **新增的两组实验承诺加入修订稿（作者要求）**：W1 改为 "We have now run the two missing settings and will add them to the revision, so the table covers all four combinations."
@@ -496,11 +497,11 @@ CoEvoMed 在全部六个基准上都更高（+1.35 到 +7.76）。固定原则�
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 说明 Q1–Q4 同时回应 W1–W2 | — | — | 已改为在标题中注明 |
-| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,041 | 已改为分点格式；删去 R1–R7 动作序列，选择标准一句压缩 |
+| Q1 | 分别确立贡献、PPO、原始数据、选择标准 | — | 2,051 | 已改为分点格式；删去 R1–R7 动作序列，选择标准一句压缩 |
 | Q2 | 数据泄漏；R7 的选择 | — | 741 | 已定稿 |
 | Q3 | 独立运行次数与置信区间；CURE-4B；32B 不如 8B | — | 1,334 | 已改写（采样解码三种子均值±标准差；对同协议重测的 Hulu-Med-7B 做配对置信区间） |
 | Q4 | 复杂推理基准 | — | 865 | 已定稿；删去 3D-RAD 医学计算一句 |
-| **合计** | | **≤ 5,000** | **4,987** | |
+| **合计** | | **≤ 5,000** | **4,997** | |
 
 W1、W2 不单独回答（与 Q1–Q4 高度重合），改在对应问题的标题中注明（Q1 & W1、Q3 & W2、Q4 & W2），以替代原来的开头说明句、节省字符。
 
@@ -520,7 +521,7 @@ W1 中有三点 Q1 没有直接覆盖，如果 2Nuw 在讨论中追问再补：(
 | Principles only (new) | Yes | No (uniform) | +1.55 | +0.09 | +0.12 | +0.81 | +1.94 | +0.59 |
 | CoEvoMed | Yes | Yes | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-Principle evolution drives most of the gain, and PPO beats uniform allocation on all six with either principle set.
+Of the two, principle evolution has the larger effect, and PPO beats uniform allocation on all six with either principle set.
 
 PPO also optimizes cumulative gain (**Eq. 5**), and its choices follow the learner's state. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (**Fig. 6**).
 
@@ -572,7 +573,7 @@ The results support generalization: CoEvoMed ranks first on all nine benchmarks 
 | 只有原则演化（新增） | 是 | 否（均匀分配） | +1.55 | +0.09 | +0.12 | +0.81 | +1.94 | +0.59 |
 | CoEvoMed | 是 | 是 | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-大部分收益来自原则演化；而不论用哪套原则，PPO 在六个基准上都优于均匀分配。
+两者之中，原则演化的作用更大；而不论用哪套原则，PPO 在六个基准上都优于均匀分配。
 
 此外，PPO 优化的是累计收益（**式 5**），它的选择会随学习者的状态变化。定位能力在 R4 退化后（60.27 → 56.16），它在 R5 和 R6 换成了 repair-heavy，定位能力随之回升到 59.36 和 62.10（**Figure 6**）。
 
@@ -614,6 +615,7 @@ IU-Xray 的参考报告较短（平均 30.5 词，MIMIC-CXR 为 53.4 词）：8B
 
 ### 发布前待核对
 
+- [x] **交叉核对后修正（作者确认）**：Q1 "Principle evolution drives most of the gain" 改为 "Of the two, principle evolution has the larger effect"，与 jcb6 一致，避免与 jcb6 中"从基础模型出发"的固定原则对比表矛盾。
 - [x] **Q4 加入 MMMU Health & Medicine 实测结果（作者提供）**：测试集 1,752 题，用后来公开的答案在本地打分，三个模型同一协议（论文附录 C.1 的评测设置）。CoEvoMed-8B 62.04（1,087/1,752），MediX-R1-8B 61.30（1,074/1,752），Qwen3-VL-8B 49.66（870/1,752），已核对。替换了原来解释"为什么没测 MedXpertQA-MM 和 MMMU"的一句。注意：与 MediX-R1-8B 只差 13 题，正文不写"超过"；MedXpertQA-MM 仍未测，若被问到如实说明。可能被问：基础模型 49.66 偏低，建议备好其答案解析失败率。为腾字数：Q4 表中 M3D-VQA、3D-RAD 的括注缩短；"the next-best model" 改为 "the next-best"。
 - [x] **新增的均匀分配实验承诺加入修订稿（作者要求）**：Q1 改为 "We add a uniform split across capability cells as the simpler curriculum, to be added to the revision."。为腾字数（意思不变）："data sources" 改为 "data"；"CoEvoMed's agents handle each. CoEvoMed instead reaches" 改为 "…handle each, and it reaches"；"on all six benchmarks with either principle set" 改为 "on all six with either principle set"。
 - [x] **Q1 表格交代变化的基准**："Change on each benchmark:" 改为 "Change from R5 on each benchmark:"，与 pUjh 的写法保持一致。

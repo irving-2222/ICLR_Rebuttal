@@ -62,7 +62,7 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 
 ## Response to Reviewer jcb6
 
-*Posted text: 4,881 / 5,000 characters (quotes excluded).*
+*Posted text: 4,902 / 5,000 characters (quotes excluded).*
 
 We thank the reviewer for the positive assessment and the precise suggestions.
 
@@ -77,14 +77,14 @@ We thank the reviewer for the positive assessment and the precise suggestions.
 | Principles only (new) | Yes | No | +1.55 | +0.09 | +0.12 | +0.81 | +1.94 | +0.59 |
 | CoEvoMed | Yes | Yes | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-Principle evolution drives most of the gain: with either curriculum, the original principles lower all six benchmarks, while the evolved principles raise all six. Curriculum adaptation adds a smaller but consistent gain: with either principle set, it beats uniform allocation on all six. Keeping both gives the largest gain on every benchmark.
+Of the two components, principle evolution has the larger effect: with either curriculum, the original principles lower all six benchmarks, while the evolved principles raise all six. Curriculum adaptation adds a smaller but consistent gain: with either principle set, it beats uniform allocation on all six. Keeping both gives the largest gain on every benchmark.
 
 This also answers whether the gains come from high-quality synthetic data. That data is itself produced by our agents: without them, raw data lower all four VQA scores despite more examples (**Table 9**; report scores are new). We also ran fixed principles from the same base under the same total budget (new):
 
-| From the base, same budget | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
+| From the base | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
 | Raw data, no agents | 43.01 | 38.15 | 45.51 | 35.94 | 46.65 | 49.18 |
-| Fixed principles (new) | 74.72 | 88.88 | 61.49 | 62.46 | 62.27 | 61.31 |
+| Fixed principles (new, same budget) | 74.72 | 88.88 | 61.49 | 62.46 | 62.27 | 61.31 |
 | CoEvoMed | **82.48** | **91.60** | **67.95** | **69.40** | **63.62** | **68.22** |
 
 CoEvoMed is higher on all six benchmarks (+1.35 to +7.76). Fixed principles help early but hurt from R5 (**Table 8**), so co-evolution is what sustains the gains. We will add this run to the revision.
@@ -114,7 +114,7 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 ## Response to Reviewer 2Nuw
 
-*Posted text: 4,987 / 5,000 characters (quotes excluded).*
+*Posted text: 4,997 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** **The experimental controls and mechanism analyses do not sufficiently establish the contribution of co-evolution.** The method combines teacher-generated supervision, data verification, principle revision, and adaptive curricula, but does not adequately isolate their effects or those of additional resources. Improvements are difficult to attribute to individual principles, and the relationship between principle-selection criteria and subsequent learning gains remains unvalidated. The substantial degradation of the raw-data training baseline also lacks sufficient explanation.
 
@@ -129,7 +129,7 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 | Principles only (new) | Yes | No (uniform) | +1.55 | +0.09 | +0.12 | +0.81 | +1.94 | +0.59 |
 | CoEvoMed | Yes | Yes | **+2.62** | **+0.69** | **+0.52** | **+1.13** | **+2.77** | **+1.28** |
 
-Principle evolution drives most of the gain, and PPO beats uniform allocation on all six with either principle set.
+Of the two, principle evolution has the larger effect, and PPO beats uniform allocation on all six with either principle set.
 
 PPO also optimizes cumulative gain (**Eq. 5**), and its choices follow the learner's state. After localization regressed at R4 (60.27 → 56.16), it switched to repair-heavy for R5 and R6, and localization recovered to 59.36 and 62.10 (**Fig. 6**).
 
