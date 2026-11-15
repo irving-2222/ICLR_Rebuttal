@@ -62,7 +62,7 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 
 ## Response to Reviewer jcb6
 
-*Posted text: 4,842 / 5,000 characters (quotes excluded).*
+*Posted text: 4,881 / 5,000 characters (quotes excluded).*
 
 We thank the reviewer for the positive assessment and the precise suggestions.
 
@@ -79,11 +79,11 @@ We thank the reviewer for the positive assessment and the precise suggestions.
 
 Principle evolution drives most of the gain: with either curriculum, the original principles lower all six benchmarks, while the evolved principles raise all six. Curriculum adaptation adds a smaller but consistent gain: with either principle set, it beats uniform allocation on all six. Keeping both gives the largest gain on every benchmark.
 
-This also answers whether the gains come from high-quality synthetic data. That data is itself produced by our agents: without them, raw data lower every score despite more examples (**Table 9**). We also ran fixed principles from the same base under the same total budget (new):
+This also answers whether the gains come from high-quality synthetic data. That data is itself produced by our agents: without them, raw data lower all four VQA scores despite more examples (**Table 9**; report scores are new). We also ran fixed principles from the same base under the same total budget (new):
 
 | From the base, same budget | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
-| Raw data, no agents | 43.01 | 38.15 | 45.51 | 35.94 | — | — |
+| Raw data, no agents | 43.01 | 38.15 | 45.51 | 35.94 | 46.65 | 49.18 |
 | Fixed principles (new) | 74.72 | 88.88 | 61.49 | 62.46 | 62.27 | 61.31 |
 | CoEvoMed | **82.48** | **91.60** | **67.95** | **69.40** | **63.62** | **68.22** |
 

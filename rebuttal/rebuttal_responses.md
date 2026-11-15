@@ -344,9 +344,9 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 | 条目 | 内容 | 当前 | 状态 |
 |---|---|---:|---|
 | 开头 | 致谢 | 78 | 草稿完成 |
-| W1 | 在预算匹配下分离各组件 | 2,498 | 已改为论文格式的合并表（Table 7–8） |
+| W1 | 在预算匹配下分离各组件 | 2,537 | 已改为论文格式的合并表（Table 7–8） |
 | Q1 | 原始数据退化原因；固定原则重构是否也有效 | 2,262 | 已改为分段，展示论文 Table 8 的 R5 部分；数据构成表述已按附录 C.3 修正 |
-| **合计** | | **4,842** | ≤ 5,000 |
+| **合计** | | **4,881** | ≤ 5,000 |
 
 ### 英文正文（发布用）
 
@@ -364,11 +364,11 @@ We thank the reviewer for the positive assessment and the precise suggestions.
 
 Principle evolution drives most of the gain: with either curriculum, the original principles lower all six benchmarks, while the evolved principles raise all six. Curriculum adaptation adds a smaller but consistent gain: with either principle set, it beats uniform allocation on all six. Keeping both gives the largest gain on every benchmark.
 
-This also answers whether the gains come from high-quality synthetic data. That data is itself produced by our agents: without them, raw data lower every score despite more examples (**Table 9**). We also ran fixed principles from the same base under the same total budget (new):
+This also answers whether the gains come from high-quality synthetic data. That data is itself produced by our agents: without them, raw data lower all four VQA scores despite more examples (**Table 9**; report scores are new). We also ran fixed principles from the same base under the same total budget (new):
 
 | From the base, same budget | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
-| Raw data, no agents | 43.01 | 38.15 | 45.51 | 35.94 | — | — |
+| Raw data, no agents | 43.01 | 38.15 | 45.51 | 35.94 | 46.65 | 49.18 |
 | Fixed principles (new) | 74.72 | 88.88 | 61.49 | 62.46 | 62.27 | 61.31 |
 | CoEvoMed | **82.48** | **91.60** | **67.95** | **69.40** | **63.62** | **68.22** |
 
@@ -409,11 +409,11 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 大部分收益来自原则演化：不论课程是否自适应，原始原则都让六个基准全部下降，演化后的原则都让六个基准全部提升。课程自适应带来的收益较小但很一致：不论用哪套原则，它在六个基准上都优于均匀分配。两者都保留时，每个基准上的收益都最大。
 
-这也回答了收益是否来自高质量的合成数据。这些数据本身就是由我们的智能体产生的：没有这些智能体，即使样本更多，原始数据也会让所有分数下降（**Table 9**）。我们还从同一个基础模型出发、在相同总预算下跑了固定原则的版本（新增）：
+这也回答了收益是否来自高质量的合成数据。这些数据本身就是由我们的智能体产生的：没有这些智能体，即使样本更多，原始数据也会让四个 VQA 分数全部下降（**Table 9**；报告生成的分数为新增结果）。我们还从同一个基础模型出发、在相同总预算下跑了固定原则的版本（新增）：
 
 | 从基础模型出发，相同预算 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
-| 原始数据，不使用智能体 | 43.01 | 38.15 | 45.51 | 35.94 | — | — |
+| 原始数据，不使用智能体 | 43.01 | 38.15 | 45.51 | 35.94 | 46.65 | 49.18 |
 | 固定原则（新增） | 74.72 | 88.88 | 61.49 | 62.46 | 62.27 | 61.31 |
 | CoEvoMed | **82.48** | **91.60** | **67.95** | **69.40** | **63.62** | **68.22** |
 
@@ -440,6 +440,7 @@ CoEvoMed 在全部六个基准上都更高（+1.35 到 +7.76）。固定原则�
 
 ### 发布前待核对
 
+- [x] **W1 对比表补上原始数据的报告生成分数（作者提供）**：MIMIC-CXR 46.65、IU-Xray 49.18。论文 Table 9 只有四个 VQA 基准，这两个数是新结果，正文已注明 "report scores are new"；"lower every score" 相应改为 "lower all four VQA scores"，因为基础模型在两个报告基准上的分数没有写进这张表，不能说原始数据让报告分数也低于基础模型（如需这样说，要补上 Qwen3-VL-8B 在 MIMIC-CXR、IU-Xray 上的分数）。
 - [x] **W1 加入同起点、同总预算的固定原则基线（作者提供，作者已更正抄错的数字）**：从 Qwen3-VL-8B 基础模型出发、总预算相同、原则固定：VQA-RAD 74.72（337/451）、SLAKE 88.88（943/1061）、PMC-VQA 61.49（20,556/33,430）、PathVQA 62.46（4,223/6,761）、MIMIC-CXR 62.27、IU-Xray 61.31。CoEvoMed 高出 +7.76、+2.72、+6.46、+6.94、+1.35、+6.91。替换了原来 "sustained gains come from co-evolution, not from verified synthetic data alone" 一段：固定原则版本本身已有大幅提升，旧说法与新结果矛盾。新写法：合成数据本身由智能体产生（原始数据更多样本仍降分，Table 9）；同起点同预算下 CoEvoMed 六项全高；固定原则早期有效、R5 起降分（Table 8），所以协同进化让收益持续。待确认：该基线的课程设置（PPO 还是均匀分配）、轮数与每轮预算、所选检查点及选择规则；如被问到需如实说明。原始数据一行的样本量约 70 万，不是相同预算，表头"same budget"只针对固定原则与 CoEvoMed 两行。
 - [x] **新增的两组实验承诺加入修订稿（作者要求）**：W1 改为 "We have now run the two missing settings and will add them to the revision, so the table covers all four combinations."
 - [x] **W1 表格交代变化的基准**："Change on each benchmark:" 改为 "Change from the R5 checkpoint on each benchmark:"，与 pUjh 的写法保持一致。
