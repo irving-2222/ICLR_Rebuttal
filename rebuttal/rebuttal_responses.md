@@ -222,6 +222,40 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 | Gemma-3-4B VQA-RAD +22.39 | §5.3，p.8 |
 | InternVL3-9B VQA-RAD +20.40 | 附录 C.5，p.24 |
 
+### W3 补充方案（待作者跑数，未写入发布正文）
+
+两份 AI 模拟审稿对 W3 的主要意见：(1) 没有报告标准的遗忘指标，"continual-learning metrics do not apply" 像在回避；(2) 均匀分配不等于去掉保留机制，缺少针对保留的消融；(3) 后期下降的解释是事后解释（优先级低，暂不做）。
+
+**① 只用日志（不训练，必做）**：对主实验 8B 的运行目录（含 round_000 至 round_009，round_000 即 R1）运行 `python rebuttal/tools/retention_metrics.py <run_dir> --json w3.json`（细胞题数太少时加 `--min-cell 5`）。脚本只读 runner 已写出的 feedback.json、assignments.jsonl、result.json，"学会"的定义与 coevomed/feedback.py 一致（VQA 答对；报告 ROUGE-L ≥ 0.3），全部在内部验证面板上计算。输出：每轮遗忘率（上一轮会、这一轮不会 ÷ 上一轮会）和修复率；能力单元平均遗忘（Chaudhry et al., 2018：每个单元此前最好成绩 − 当前成绩，按题数加权，负值表示超过此前最好）；丢失题目下一轮重新学会的比例；同一轮内拿到/没拿到保留数据的单元的遗忘率。已用 coevomed.feedback.summary 生成的合成数据测试，结果与手算一致。
+
+**② 训练一轮（推荐，能直接证明保留机制的作用）**：从 R5 检查点出发、其余与 W1 消融相同，把保留份额设为 0：coevomed/policy.py 中 `REPAIR` 四个动作全部改为 1.0（compile_assignments 里 repair:retain 按 REPAIR[action] 切分）。注意：完整 CoEvoMed 在这一轮（条件 D）选的是 repair_heavy，即修复 80%、保留 20%，所以这个消融检验的是这 20%。需要的数：六个基准相对 R5 的变化；对该运行目录跑脚本得到的这一轮遗忘率，与主实验 round_005（即 D）对比。
+
+**W3 改写稿 A（有 ② 的结果）**，方括号为占位，按占位长度计 pUjh 合计 5,000：
+
+```markdown
+**W3 (Catastrophic forgetting and retention).** CoEvoMed builds on curriculum learning, not continual learning: it trains all tasks every round and replays earlier data (**Eq. 7; Sec. 3.3**). We still measured forgetting on validation cases (**Eq. 6**). Through R7, each round lost [2.1–4.8]% of learned cases and fixed [11.3–24.6]% of unlearned ones. Average cell-level forgetting (Chaudhry et al., 2018) is [1.23] points at R7 and [2.87] at R10.
+
+Retention is the planner's budget share for learned cells (**Sec. 4.2**). Zeroing it from R5 (as in W1) loses [6.4]% of learned cases instead of [3.9]% and gains less on all six benchmarks.
+
+Later-round declines come from the data, not our mechanisms. The support pool is fixed (359,355 facts, **App. C.3**), and 95% of it was used by R7; few later examples contain new evidence (18.0% at R8, 2.2% at R10). Scores peak at R7–R8, as new evidence runs out. At R10, **Fig. 7** benchmarks remain within 3 points of their peaks and over 12 above R1.
+
+We chose R7 on internal validation only: it has the highest equal-weight mean of QA and report scores (**App. C.4**). InternVL3-9B peaks at rounds 4–6 (**App. C.5**), so our results do not rely on R7.
+```
+
+**W3 改写稿 B（只有 ① 的结果）**：第二段换成同一轮内有/无保留数据的对比（相关性证据，因为保留数据按单元已学会的题数分配），按占位长度计合计 4,998：
+
+```markdown
+**W3 (Catastrophic forgetting and retention).** CoEvoMed builds on curriculum learning, not continual learning: it trains all tasks every round and replays earlier data (**Eq. 7; Sec. 3.3**). We still measured forgetting on validation cases (**Eq. 6**). Through R7, each round lost [2.1–4.8]% of learned cases and fixed [11.3–24.6]% of unlearned ones. Average cell-level forgetting (Chaudhry et al., 2018) is [1.23] points at R7 and [2.87] at R10.
+
+Retention is the planner's budget share for learned cells (**Sec. 4.2**). In each round, cells given retention data lost [3.1]% of their learned cases, versus [7.8]% for cells given none.
+
+Later-round declines come from the data, not our mechanisms. The support pool is fixed (359,355 facts, **App. C.3**), and 95% of it was used by R7; few later examples contain new evidence (18.0% at R8, 2.2% at R10). Scores peak at R7–R8, as new evidence runs out. At R10, **Fig. 7** benchmarks remain within 3 points of their peaks and over 12 above R1.
+
+We chose R7 on internal validation only: it has the highest equal-weight mean of QA and report scores (**App. C.4**). InternVL3-9B peaks at rounds 4–6 (**App. C.5**), so our results do not rely on R7.
+```
+
+两稿相对现稿的删改：删去 "Forgetting arises when tasks are learned in sequence and old data is dropped." 和 "so continual-learning metrics do not apply"（现在要报告遗忘指标）；删去 "so the uniform run in W1 also removes it, and gains less"（两份 AI 意见都不接受）；删去 Chen et al., 2024 和 Singh et al., 2024；R7 一段删去 "R7 is where new evidence runs out"（上一段已有 "Scores peak at R7–R8, as new evidence runs out"），末句合并。"Later-round declines come from the data, not our mechanisms." 按作者此前决定保留。
+
 ### W2 论据出处
 
 | 正文说法 | 出处（论文印刷页码） |
