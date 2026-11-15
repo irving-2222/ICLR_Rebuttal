@@ -44,7 +44,7 @@ We chose R7 on internal validation only: it has the highest equal-weight mean of
 | Model | PMC-VQA | VQA-RAD | SLAKE | PathVQA |
 |---|---|---|---|---|
 | MedVLSynther-7B | 55.43 | 77.57 | 72.36 | 65.56 |
-| MedVLSynther (our base) | 53.18 | 70.96 | 73.32 | 68.69 |
+| MedVLSynther (our base) | 53.18 | 70.95 | 73.33 | 68.69 |
 | CoEvoMed-8B | **67.95** | **82.48** | **91.60** | **69.40** |
 
 > **Question 2:** Would you consider to publicate the data generated in your evolving pipeline?
