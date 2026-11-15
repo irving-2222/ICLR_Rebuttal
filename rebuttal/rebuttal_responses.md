@@ -25,12 +25,12 @@
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
 | W1 | 多智能体是否必要 | — | 1,550 | 已重写（逐个智能体消融：选择器、核验器、修订、规划器、单智能体） |
 | W2 | 论文组织 | — | 504 | 已重写（正文逻辑、附录对应、可复现） |
-| W3 | 遗忘与 R7 的选择 | — | 1,191 | 已重写 |
+| W3 | 遗忘与 R7 的选择 | — | 1,146 | 已重写（加入遗忘指标和保留消融） |
 | Q1 | MedVLSynther 复现 | — | 446 | 已重写 |
 | Q2 | 数据公开 | — | 209 | 已压缩 |
 | Q3 | 能力分类体系 | — | 1,086 | 已重写 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,996** | |
+| **合计** | | **≤ 5,000** | **4,951** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -54,11 +54,13 @@ Replacing the selector, verifier, or revision agent turns the round's gain into 
 
 **W2 (Organization).** The layout follows our contributions and scope. The main text presents each contribution: co-evolution formulation (**Sec. 3**), multi-agent system and curriculum policy (**Sec. 4**). **Sec. 5.1** gives the evaluation task composition (four 2D VQA, two report, three 3D); for space, main analyses use one VQA and one report task. The appendix adds what reproduction needs: algorithm (**App. A**), settings (**App. B**), evaluation (**App. C**), and mechanism analyses (**App. D**).
 
-**W3 (Catastrophic forgetting and retention).** CoEvoMed builds on curriculum learning, not continual learning. Forgetting arises when tasks are learned in sequence and old data is dropped. It trains all tasks every round and replays earlier data (**Eq. 7; Sec. 3.3**), so continual-learning metrics do not apply. "Retention" is a share of the planner's budget (**Sec. 4.2**), so the uniform run in W1 also removes it, and gains less.
+**W3 (Catastrophic forgetting and retention).** CoEvoMed builds on curriculum learning, not continual learning: it trains all tasks every round and replays earlier data (**Eq. 7; Sec. 3.3**). We still measured forgetting on validation cases (**Eq. 6**). Through R7, each round lost 2.3–4.7% of learned cases and fixed 10.9–23.8% of unlearned ones. Average cell-level forgetting (Chaudhry et al., 2018) is 1.27 points at R7 and 2.84 at R10.
 
-Later-round declines come from the data, not our mechanisms. The support pool is fixed (359,355 facts, **App. C.3**), and logs show 95% of it used by R7. After that, few examples contain new evidence (18.0% at R8, 2.2% at R10), so later rounds mostly reuse seen evidence. Scores peak at R7–R8, just as new evidence runs out; self-training on finite data does the same (Chen et al., 2024; Singh et al., 2024). At R10, **Fig. 7** benchmarks remain within 3 points of their peaks and over 12 above R1.
+Retention is the planner's budget share for learned cells (**Sec. 4.2**). Zeroing it from R5 (as in W1) loses 6.9% of learned cases instead of 3.3%.
 
-We chose R7 on internal validation only: it has the highest equal-weight mean of QA and report scores (**App. C.4**). R7 is where new evidence runs out, and InternVL3-9B peaks at rounds 4–6 (**App. C.5**). Our results thus do not rely on the choice of R7.
+Later-round declines come from the data, not our mechanisms. The support pool is fixed (359,355 facts, **App. C.3**), and 95% of it was used by R7; few later examples contain new evidence (18.0% at R8, 2.2% at R10). Scores peak at R7–R8, as new evidence runs out. At R10, **Fig. 7** benchmarks remain within 3 points of their peaks and over 12 above R1.
+
+We chose R7 on internal validation only: it has the highest equal-weight mean of QA and report scores (**App. C.4**). InternVL3-9B peaks at rounds 4–6 (**App. C.5**), so our results do not rely on R7.
 
 **Q1 (MedVLSynther base model).** **Table 1** uses MedVLSynther's published Qwen2.5-VL-7B results. We retrained it on our Qwen3-VL-8B base with its released data and GRPO script. CoEvoMed leads both:
 
@@ -96,11 +98,13 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 
 **W2（论文组织）** 论文的排版与我们的贡献和研究范围是一致的。正文呈现每一项贡献：协同进化的问题形式化（**第 3 节**），多智能体系统与课程策略（**第 4 节**）。**第 5.1 节**给出了评估任务的组成（四个 2D VQA、两个报告生成、三个 3D 基准）；受篇幅所限，正文的分析各选用一个 VQA 任务和一个报告生成任务。附录补充复现所需的内容：算法（**附录 A**）、设置（**附录 B**）、评估（**附录 C**），以及机制分析实验（**附录 D**）。
 
-**W3（灾难性遗忘与保留）** CoEvoMed 是基于课程学习设计的，而不是持续学习。灾难性遗忘出现在按顺序学习各个任务、并丢弃旧数据的情况下。CoEvoMed 每一轮都同时训练所有任务，并回放之前的数据（**式 7；第 3.3 节**），因此持续学习的指标并不适用。"保留"是规划器预算中的一个份额（**第 4.2 节**），因此 W1 中的均匀分配实验也去掉了它，而这时的收益更小。
+**W3（灾难性遗忘与保留）** CoEvoMed 是基于课程学习设计的，而不是持续学习：它每一轮都同时训练所有任务，并回放之前的数据（**式 7；第 3.3 节**）。尽管如此，我们仍在验证集题目上测量了遗忘（**式 6**）。到 R7 为止，每一轮丢掉已学会题目的 2.3–4.7%，同时修复未学会题目的 10.9–23.8%。按能力单元计算的平均遗忘（Chaudhry et al., 2018）在 R7 为 1.27 分，在 R10 为 2.84 分。
 
-后期轮次的下降源于数据，而不是我们的机制。支持数据池是固定的（359,355 条事实，**附录 C.3**），训练日志显示到 R7 已用掉其中的 95%。此后，含有新证据的样本越来越少（R8 为 18.0%，R10 为 2.2%），后续轮次主要是在已经见过的证据上反复训练。分数恰好在新证据用尽的 R7–R8 达到峰值；在有限数据上的自训练也是如此（Chen et al., 2024；Singh et al., 2024）。到 R10，**Figure 7** 中的基准仍在各自峰值 3 分以内，并比 R1 高出 12 分以上。
+保留是规划器分给已学会能力单元的预算份额（**第 4.2 节**）。从 R5 出发把这个份额设为 0（设置同 W1），会丢掉 6.9% 的已学会题目，而完整 CoEvoMed 只丢掉 3.3%。
 
-我们只依据内部验证选定 R7：它在问答和报告等权重的平均分上最高（**附录 C.4**）。R7 正是新证据用尽的那一轮，而 InternVL3-9B 的峰值出现在第 4–6 轮（**附录 C.5**）。因此，我们的结果并不依赖于对 R7 的选择。
+后期轮次的下降源于数据，而不是我们的机制。支持数据池是固定的（359,355 条事实，**附录 C.3**），到 R7 已用掉其中的 95%；此后含有新证据的样本很少（R8 为 18.0%，R10 为 2.2%）。分数在 R7–R8 达到峰值，正是新证据用尽的时候。到 R10，**Figure 7** 中的基准仍在各自峰值 3 分以内，并比 R1 高出 12 分以上。
+
+我们只依据内部验证集选择 R7：它在问答和报告分数的等权平均上最高（**附录 C.4**）。InternVL3-9B 在第 4–6 轮达到峰值（**附录 C.5**），因此我们的结果并不依赖 R7 这一选择。
 
 **Q1（MedVLSynther 的基础模型）** **Table 1** 中 MedVLSynther 的结果是其论文在 Qwen2.5-VL-7B 上发表的数字。我们用它公开的数据和 GRPO 训练脚本，在我们的基础模型 Qwen3-VL-8B 上重新训练了它。在四个基准上，CoEvoMed 都领先于这两个版本：
 
@@ -120,6 +124,7 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 
 ### 发布前待核对
 
+- [x] **W3 加入遗忘指标和保留消融（作者提供数字）**：(1) 用 rebuttal/tools/retention_metrics.py 对主实验 8B 运行目录统计，均在内部验证面板上：R1–R7 每轮遗忘率 2.3–4.7%（上一轮会、这一轮不会 ÷ 上一轮会），修复率 10.9–23.8%；能力单元平均遗忘（Chaudhry et al., 2018）R7 为 1.27、R10 为 2.84。(2) 从 R5 出发、保留份额设为 0（coevomed/policy.py 的 REPAIR 全部为 1.0），其余同 W1：这一轮丢掉 6.9% 的已学会题目，完整 CoEvoMed 同一轮（条件 D，repair_heavy：修复 80%、保留 20%）丢掉 3.3%。核对：3.3% 在 2.3–4.7% 范围内（D 即 R6）；6.9% 高于正常轮次上限；R10 平均遗忘 2.84 与 "Fig. 7 benchmarks remain within 3 points of their peaks" 一致；每轮修复率都高于遗忘率。**作者要求删去"六个基准上的收益也都更小"**：该消融六个基准的分数未写入正文（若审稿人追问，需给出相对 R5 的六项变化）。删去：灾难性遗忘的定义句、"so continual-learning metrics do not apply"、"the uniform run in W1 also removes it, and gains less"、Chen et al., 2024 与 Singh et al., 2024、R7 一段的 "R7 is where new evidence runs out"。Chaudhry et al., 2018 不在论文参考文献中：Chaudhry, Dokania, Ajanthan, Torr, "Riemannian Walk for Incremental Learning: Understanding Forgetting and Intransigence", ECCV 2018（平均遗忘指标的出处）。
 - [x] **W1 改为逐个智能体消融（新增实验，作者提供）**：从 R5 出发、只改一处、训练一轮，与 Table 8 的 C、D 和均匀分配实验同一流程。作者给出的原始分数（VQA-RAD / SLAKE / PMC-VQA / PathVQA / MIMIC-CXR / IU-Xray）：选择器 → 随机证据 71.62 / 83.69 / 62.83 / 62.18 / 56.27 / 56.93；核验器 → 去掉 70.29 / 86.15 / 61.47 / 62.89 / 54.83 / 57.21；单智能体 63.19 / 77.38 / 57.86 / 58.42 / 51.07 / 52.13；修订 → 原始原则即 Table 8 的 C（67.97 / 85.40 / 55.00 / 63.60 / 52.56 / 57.52）。变化值与均匀分配一行同一算法，按答对题数相对 R5（332/451、944/1061、21,595/33,430、4,449/6,761）计算：VQA-RAD 323、317、285 题，SLAKE 888、914、821 题，PathVQA 4,204、4,252、3,950 题，已逐项核对；因此有几项与直接用百分比相减差 0.01–0.03（如选择器 SLAKE −5.28，直接相减为 −5.31）。均匀分配一行补上报告任务 MIMIC-CXR +1.94、IU-Xray +0.59（见下方均匀分配实验条目）。**设置定义（作者确认）**：随机证据 = 从支持池随机抽取，不按目标单元的模态和解剖部位检索，构建、核验和数据量不变；去掉核验器 = 构建出的样本不经检查全部进入训练；单智能体 = 一个 LLM 完成选证据、构建、检查和原则修订，分配沿用规划器。**构建器不做消融（作者要求）**：构建器写出每一条样本，无法去掉，正文用 "except the constructor, which writes every example" 交代。**结论核对**：去掉选择器、核验器或修订智能体，六项全部由升转降；均匀分配六项都有提升但都小于完整 CoEvoMed（+1.55<+2.62、+0.09<+0.69、+0.12<+0.52、+0.81<+1.13、+1.94<+2.77、+0.59<+1.28）；单智能体在 VQA-RAD、SLAKE、PathVQA、MIMIC-CXR、IU-Xray 五项降得最多，PMC-VQA 上原始原则一行（−9.60）降得更多：单智能体仍会修订原则，而 PMC-VQA 对原则最敏感（Table 8）。替换掉旧表的"从基础模型出发"两行和"None: CoEvoMed"标签（AI 模拟审稿把它误读为"从 R5 起不再使用 CoEvoMed"）；原始数据的结果改为正文一句（Table 9）。W3 "the uniform run in W1"、Q3 "(W1)" 的引用仍然成立。
 - [x] **新增的均匀分配实验也承诺加入修订稿（作者要求）**：Q3 末句改为 "We will add them and the new run to the revision."（一句同时覆盖 SLAKE 一致性结果和 W1 的新实验）。为腾字数（意思不变）：W1 "gives the change" 改为 "is the change"；W3 "therefore do not rely" 改为 "thus do not rely"、"is used by R7" 改为 "used by R7"、"retrain on seen evidence" 改为 "reuse seen evidence"。
 - [x] **Q3 承诺把一致性验证加入修订稿（作者要求）**：在 "…modality 100%, body region 96.5%." 后加 "We will add them to the revision."。审稿人 Q3 的要求是 "report this mapping, validate the generated annotations"，承诺写进修订稿是直接回应。为腾字数（意思不变）：W1 三处 "therefore" 改为 "thus"；"lowers all four scores" 改为 "lowers all four"；"more than CoEvoMed uses" 改为 "more than CoEvoMed"；Q3 "retrieves evidence matching a cell's" 改为 "retrieves evidence by a cell's"。
@@ -222,7 +227,7 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 | Gemma-3-4B VQA-RAD +22.39 | §5.3，p.8 |
 | InternVL3-9B VQA-RAD +20.40 | 附录 C.5，p.24 |
 
-### W3 补充方案（待作者跑数，未写入发布正文）
+### W3 补充方案（已用作者跑出的数写入发布正文，见"发布前待核对"）
 
 两份 AI 模拟审稿对 W3 的主要意见：(1) 没有报告标准的遗忘指标，"continual-learning metrics do not apply" 像在回避；(2) 均匀分配不等于去掉保留机制，缺少针对保留的消融；(3) 后期下降的解释是事后解释（优先级低，暂不做）。
 
@@ -281,6 +286,9 @@ We chose R7 on internal validation only: it has the highest equal-weight mean of
 | 按样本、按能力单元统计退化 | §4.1，p.5（式 6）；附录 C.4，p.24 |
 | 带符号的奖励保留退化 | §4.2，p.5（式 8 之后） |
 | R1→R6 五类全部高于 R1：异常检测 +4.33、器官识别 +0.88、定位 +1.83（R4 曾降到 56.16）、模态识别 +2.09、属性 +10.27 | Figure 6，p.9 |
+| 每轮遗忘率 2.3–4.7%、修复率 10.9–23.8%（R1–R7）；平均遗忘 R7 1.27、R10 2.84 | 作者日志，rebuttal/tools/retention_metrics.py 统计（内部验证面板） |
+| 保留份额设为 0：丢掉 6.9% 的已学会题目，完整 CoEvoMed（D）3.3% | 新增实验，作者提供 |
+| 平均遗忘指标的定义 | Chaudhry et al., "Riemannian Walk for Incremental Learning", ECCV 2018（外部文献，论文未引用） |
 | R10 距峰值：SLAKE −2.93、PathVQA 约 −2.2 至 −2.6（按图读数）、IU-Xray −2.39；R10 相对 R1：+21.47、+26.85、+12.77 | Figure 7，p.9 |
 | Hulu-Med-7B：SLAKE 86.80、PathVQA 65.60 | Table 1，p.6 |
 | 每轮混入回放数据 | §3.3，p.4；附录 B，p.17 |
