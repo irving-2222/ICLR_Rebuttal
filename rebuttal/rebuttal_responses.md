@@ -23,33 +23,34 @@
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
-| W1 | 多智能体是否必要 | — | 1,547 | 已重写（两部分；合并表；三项设计保障） |
+| W1 | 多智能体是否必要 | — | 1,550 | 已重写（逐个智能体消融：选择器、核验器、修订、规划器、单智能体） |
 | W2 | 论文组织 | — | 504 | 已重写（正文逻辑、附录对应、可复现） |
 | W3 | 遗忘与 R7 的选择 | — | 1,191 | 已重写 |
 | Q1 | MedVLSynther 复现 | — | 446 | 已重写 |
 | Q2 | 数据公开 | — | 209 | 已压缩 |
 | Q3 | 能力分类体系 | — | 1,086 | 已重写 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,993** | |
+| **合计** | | **≤ 5,000** | **4,996** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
 ### 英文正文（发布用）
 
 ```markdown
-**W1 (Necessity of the multi-agent framework).** All of these agents are needed, as the paper's ablations already show. **Sec. 5.2** compares with raw data, and **Table 2** ablates principle evolution and curriculum adaptation on VQA-RAD and MIMIC-CXR; for space, **App. D** gives full results (**Tables 7–9**). Each row below is the change from its starting checkpoint on the four VQA benchmarks they share, plus a new uniform run, all else fixed:
+**W1 (Necessity of the multi-agent framework).** We replaced each agent except the constructor, which writes every example. From the same R5 checkpoint, each row trains one round with one change, all else fixed; entries are changes from R5. Rows 1 and 4 are conditions D and C of **Table 8**.
 
-| Without | Change from | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
-|---|---|---|---|---|---|
-| All agents: raw data | base | −13.75 | −26.69 | −8.62 | −6.83 |
-| None: CoEvoMed | base | +25.72 | +26.76 | +13.82 | +26.63 |
-| Revision agent: original principles | R5 | −5.64 | −3.60 | −9.60 | −2.20 |
-| Curriculum planner: uniform allocation | R5 | +1.55 | +0.09 | +0.12 | +0.81 |
-| None: CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
+| From R5 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
+|---|---|---|---|---|---|---|
+| Full CoEvoMed | +2.62 | +0.69 | +0.52 | +1.13 | +2.77 | +1.28 |
+| Selector → random evidence | −2.00 | −5.28 | −1.77 | −3.62 | −2.73 | −4.70 |
+| Verifier → none | −3.33 | −2.83 | −3.13 | −2.91 | −4.17 | −4.42 |
+| Revision → original principles | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
+| Planner → uniform allocation | +1.55 | +0.09 | +0.12 | +0.81 | +1.94 | +0.59 |
+| Single agent | −10.42 | −11.59 | −6.74 | −7.38 | −7.93 | −9.50 |
 
-From the base, training on raw data with no agents lowers all four, even with about 700,000 examples, more than CoEvoMed, while CoEvoMed raises all four. Together, the selector, constructor, and verifier are thus needed to turn raw records into verified questions. From R5, keeping them but using the original principles again lowers all four. The revision agent is thus needed to update principles as the learner advances. Replacing the planner with a uniform split across capability cells still gains, but less than CoEvoMed on all four. The curriculum planner is thus needed to allocate for the current learner.
+Random evidence is drawn from the support pool, ignoring the target cell's modality and anatomy (**App. C.3**). Without the verifier, all constructed examples enter training. The single agent is one LLM that selects evidence, constructs and checks examples, and revises principles, under the same allocation.
 
-No simpler process in the table substitutes them.
+Replacing the selector, verifier, or revision agent turns the round's gain into a loss on all six benchmarks. A uniform planner still gains, but less on all six. The simplest substitute, a single agent, loses most on five of six. From the base, training on about 700,000 raw examples lowers all four VQA scores (**Table 9**). Each agent is thus needed; no simpler process we tested substitutes them.
 
 **W2 (Organization).** The layout follows our contributions and scope. The main text presents each contribution: co-evolution formulation (**Sec. 3**), multi-agent system and curriculum policy (**Sec. 4**). **Sec. 5.1** gives the evaluation task composition (four 2D VQA, two report, three 3D); for space, main analyses use one VQA and one report task. The appendix adds what reproduction needs: algorithm (**App. A**), settings (**App. B**), evaluation (**App. C**), and mechanism analyses (**App. D**).
 
@@ -78,19 +79,20 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 
 ### 中文译文（不发布）
 
-**W1（多智能体框架的必要性）** 这些智能体都是需要的，论文中的消融实验已经说明了这一点。**第 5.2 节**与原始数据训练做了对比，**Table 2** 在 VQA-RAD 和 MIMIC-CXR 上对原则演化和课程自适应做了消融；受篇幅所限，完整结果放在**附录 D**（**Table 7–9**）。下表每一行给出相对其起点检查点（基础模型或 R5）的分数变化，范围是这几张表共有的四个 VQA 基准，并加入一次新的均匀分配实验，其余设置均保持不变：
+**W1（多智能体框架的必要性）** 除构建器外，我们逐一替换了每个智能体；构建器负责写出每一条样本，无法去掉。每一行都从同一个 R5 检查点出发，只改一处、其余不变，训练一轮；表中是相对 R5 的变化。第 1 行和第 4 行即 **Table 8** 的条件 D 和 C。
 
-| 去掉的功能 | 变化的起点 | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
-|---|---|---|---|---|---|
-| 全部智能体：原始数据 | 基础模型 | −13.75 | −26.69 | −8.62 | −6.83 |
-| 无：CoEvoMed | 基础模型 | +25.72 | +26.76 | +13.82 | +26.63 |
-| 修订智能体：原始原则 | R5 | −5.64 | −3.60 | −9.60 | −2.20 |
-| 课程规划器：均匀分配 | R5 | +1.55 | +0.09 | +0.12 | +0.81 |
-| 无：CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
+| 从 R5 出发 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
+|---|---|---|---|---|---|---|
+| 完整 CoEvoMed | +2.62 | +0.69 | +0.52 | +1.13 | +2.77 | +1.28 |
+| 选择器 → 随机证据 | −2.00 | −5.28 | −1.77 | −3.62 | −2.73 | −4.70 |
+| 核验器 → 去掉 | −3.33 | −2.83 | −3.13 | −2.91 | −4.17 | −4.42 |
+| 修订智能体 → 原始原则 | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
+| 课程规划器 → 均匀分配 | +1.55 | +0.09 | +0.12 | +0.81 | +1.94 | +0.59 |
+| 单智能体 | −10.42 | −11.59 | −6.74 | −7.38 | −7.93 | −9.50 |
 
-从基础模型出发，不使用任何智能体、直接用原始数据训练，四个分数全部下降，即使它用了约 70 万条样本，比 CoEvoMed 用的还多；而 CoEvoMed 让四个分数全部提升。因此，需要选择器、构建器和核验器共同把原始记录转成经过核验的问题。从 R5 出发，保留这些智能体、但改用原始原则，四个分数再次全部下降。因此，需要修订智能体随着学习者的进步更新原则。如果去掉规划器、改为在各能力单元之间平均分配预算，四个分数虽然仍有提升，但都低于 CoEvoMed。因此，需要课程规划器按当前学习者的状态分配预算。
+随机证据从支持池中抽取，不考虑目标单元的模态和解剖部位（**附录 C.3**）。去掉核验器后，构建出的样本全部进入训练。单智能体由一个 LLM 完成选证据、构建和检查样本、修订原则，分配与完整系统相同。
 
-表中没有任何更简单的流程能替代它们。
+替换选择器、核验器或修订智能体，都会让这一轮在六个基准上从提升变成下降。均匀分配的规划器仍有提升，但六项都小于完整 CoEvoMed。最简单的替代方案单智能体，在六个基准中的五个上降得最多。从基础模型出发，用约 70 万条原始样本训练会让四个 VQA 分数全部下降（**Table 9**）。因此每个智能体都是必要的，我们测试过的更简单流程都无法替代它们。
 
 **W2（论文组织）** 论文的排版与我们的贡献和研究范围是一致的。正文呈现每一项贡献：协同进化的问题形式化（**第 3 节**），多智能体系统与课程策略（**第 4 节**）。**第 5.1 节**给出了评估任务的组成（四个 2D VQA、两个报告生成、三个 3D 基准）；受篇幅所限，正文的分析各选用一个 VQA 任务和一个报告生成任务。附录补充复现所需的内容：算法（**附录 A**）、设置（**附录 B**）、评估（**附录 C**），以及机制分析实验（**附录 D**）。
 
@@ -118,6 +120,7 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 
 ### 发布前待核对
 
+- [x] **W1 改为逐个智能体消融（新增实验，作者提供）**：从 R5 出发、只改一处、训练一轮，与 Table 8 的 C、D 和均匀分配实验同一流程。作者给出的原始分数（VQA-RAD / SLAKE / PMC-VQA / PathVQA / MIMIC-CXR / IU-Xray）：选择器 → 随机证据 71.62 / 83.69 / 62.83 / 62.18 / 56.27 / 56.93；核验器 → 去掉 70.29 / 86.15 / 61.47 / 62.89 / 54.83 / 57.21；单智能体 63.19 / 77.38 / 57.86 / 58.42 / 51.07 / 52.13；修订 → 原始原则即 Table 8 的 C（67.97 / 85.40 / 55.00 / 63.60 / 52.56 / 57.52）。变化值与均匀分配一行同一算法，按答对题数相对 R5（332/451、944/1061、21,595/33,430、4,449/6,761）计算：VQA-RAD 323、317、285 题，SLAKE 888、914、821 题，PathVQA 4,204、4,252、3,950 题，已逐项核对；因此有几项与直接用百分比相减差 0.01–0.03（如选择器 SLAKE −5.28，直接相减为 −5.31）。均匀分配一行补上报告任务 MIMIC-CXR +1.94、IU-Xray +0.59（见下方均匀分配实验条目）。**设置定义（作者确认）**：随机证据 = 从支持池随机抽取，不按目标单元的模态和解剖部位检索，构建、核验和数据量不变；去掉核验器 = 构建出的样本不经检查全部进入训练；单智能体 = 一个 LLM 完成选证据、构建、检查和原则修订，分配沿用规划器。**构建器不做消融（作者要求）**：构建器写出每一条样本，无法去掉，正文用 "except the constructor, which writes every example" 交代。**结论核对**：去掉选择器、核验器或修订智能体，六项全部由升转降；均匀分配六项都有提升但都小于完整 CoEvoMed（+1.55<+2.62、+0.09<+0.69、+0.12<+0.52、+0.81<+1.13、+1.94<+2.77、+0.59<+1.28）；单智能体在 VQA-RAD、SLAKE、PathVQA、MIMIC-CXR、IU-Xray 五项降得最多，PMC-VQA 上原始原则一行（−9.60）降得更多：单智能体仍会修订原则，而 PMC-VQA 对原则最敏感（Table 8）。替换掉旧表的"从基础模型出发"两行和"None: CoEvoMed"标签（AI 模拟审稿把它误读为"从 R5 起不再使用 CoEvoMed"）；原始数据的结果改为正文一句（Table 9）。W3 "the uniform run in W1"、Q3 "(W1)" 的引用仍然成立。
 - [x] **新增的均匀分配实验也承诺加入修订稿（作者要求）**：Q3 末句改为 "We will add them and the new run to the revision."（一句同时覆盖 SLAKE 一致性结果和 W1 的新实验）。为腾字数（意思不变）：W1 "gives the change" 改为 "is the change"；W3 "therefore do not rely" 改为 "thus do not rely"、"is used by R7" 改为 "used by R7"、"retrain on seen evidence" 改为 "reuse seen evidence"。
 - [x] **Q3 承诺把一致性验证加入修订稿（作者要求）**：在 "…modality 100%, body region 96.5%." 后加 "We will add them to the revision."。审稿人 Q3 的要求是 "report this mapping, validate the generated annotations"，承诺写进修订稿是直接回应。为腾字数（意思不变）：W1 三处 "therefore" 改为 "thus"；"lowers all four scores" 改为 "lowers all four"；"more than CoEvoMed uses" 改为 "more than CoEvoMed"；Q3 "retrieves evidence matching a cell's" 改为 "retrieves evidence by a cell's"。
 - [x] **W1 表格交代加减号的基准（作者要求）**：表前一句改为 "Each row below gives the change from its starting checkpoint"，表头 "From" 改为 "Change from"，明确每行的正负值是相对该行起点检查点（Qwen3-VL-8B 基础模型或 R5 检查点）计算的。
@@ -197,12 +200,15 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 - [ ] **Q3 选择 SLAKE 的理由（已写入，措辞请确认）**：Q3 第一点合并为一条，写了两条理由，均来自 SLAKE 摘要：(1) "comprehensive semantic labels annotated by experienced physicians"，正文写作 "physicians annotated them"；(2) "richer modalities and covers more human body parts than the currently available dataset"，正文写作 "spans more modalities and body parts than earlier datasets"。没有找到"经临床专家审核"的原文，所以没有写 "reviewed/validated by clinical experts"；如果你手上的 SLAKE 原文有这类表述，告诉我页码可以改。通用性的理由：类别描述的是"问题在问什么"，与数据集无关；VQA-RAD（Lau et al., 2018）和 M3D-VQA（Figure 9a 的五个类别）也采用类似的问题类型。为腾字数，W1 第 2 点删去 "the verifier checks the image"，W1 第二部分删去 "only the full one improves all"（表中 CoEvoMed 两行已经显示）。Q3 删去"新增三个类别、无原生标签数据按同一套类别标注"两句（作者要求，避免被质疑新增类别的准确性）；"adopted SLAKE's question categories" 改为 "built our categories on SLAKE's question categories"，因为 Table 6 的九个视觉能力类别中有三个（空间关系、比较、整体描述）不在 SLAKE 中，写"采用"会与 Table 6 不符。W2 删去 "that cites it"。W1 表中 CoEvoMed 两行的加粗已恢复。
 - [ ] **Q3 对应关系**：正文写了"把 SLAKE 细分的属性类型合并为一类，并新增空间关系、比较和整体描述三类"。请对照下方对应表确认，尤其是 SLAKE 的 Plane 和 Quantity 分别归到哪一类。
 - [ ] **Q1 奖励函数的说明（已为字符限制删去）**：正文不再提"奖励函数取自 MedVLThinker 代码"。如果审稿人追问复现细节，再补充这一点（详见下方"Q1 复现配置备忘"）。
-- [ ] **W1 可选补充**：如果核验器日志里有拒绝率，可以在 "independently checked" 之后加一句（约 75 字符），作为核验器单独起作用的正面证据：`The verifier rejects [X]% of constructed candidates, mainly for [reason].`
+- [ ] **W1 可选补充（已过时：W1 已改为逐个智能体消融，下面提到的 "independently checked" 已不在正文中）**：如果核验器日志里有拒绝率，可以在 "independently checked" 之后加一句（约 75 字符），作为核验器单独起作用的正面证据：`The verifier rejects [X]% of constructed candidates, mainly for [reason].`
 
 ### W1 数字出处
 
 | 正文数字 | 出处（论文印刷页码） |
 |---|---|
+| 选择器、核验器、单智能体三行（从 R5 训练一轮） | 新增实验，作者提供（原始分数和题数见"发布前待核对"第一条） |
+| 完整 CoEvoMed（D）与原始原则（C）两行 | Table 8，p.26 |
+| 均匀分配一行（含 MIMIC-CXR +1.94、IU-Xray +0.59） | 新增实验，作者提供（见均匀分配实验条目） |
 | SLAKE 64.84→38.15 / 91.60；四个 VQA 基准全部低于基础模型 | Table 9，p.26 |
 | R5 原始原则 −2.20 至 −9.60；修订后原则 +0.52 至 +2.77 | Table 8，p.26 |
 | R2 时原始原则在 6 个基准中的 5 个上更好（MIMIC-CXR 除外，相差 0.12） | Table 8，p.26 |

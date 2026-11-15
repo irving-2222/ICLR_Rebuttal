@@ -6,23 +6,24 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,993 / 5,000 characters (quotes excluded).*
+*Posted text: 4,996 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
-**W1 (Necessity of the multi-agent framework).** All of these agents are needed, as the paper's ablations already show. **Sec. 5.2** compares with raw data, and **Table 2** ablates principle evolution and curriculum adaptation on VQA-RAD and MIMIC-CXR; for space, **App. D** gives full results (**Tables 7–9**). Each row below is the change from its starting checkpoint on the four VQA benchmarks they share, plus a new uniform run, all else fixed:
+**W1 (Necessity of the multi-agent framework).** We replaced each agent except the constructor, which writes every example. From the same R5 checkpoint, each row trains one round with one change, all else fixed; entries are changes from R5. Rows 1 and 4 are conditions D and C of **Table 8**.
 
-| Without | Change from | VQA-RAD | SLAKE | PMC-VQA | PathVQA |
-|---|---|---|---|---|---|
-| All agents: raw data | base | −13.75 | −26.69 | −8.62 | −6.83 |
-| None: CoEvoMed | base | +25.72 | +26.76 | +13.82 | +26.63 |
-| Revision agent: original principles | R5 | −5.64 | −3.60 | −9.60 | −2.20 |
-| Curriculum planner: uniform allocation | R5 | +1.55 | +0.09 | +0.12 | +0.81 |
-| None: CoEvoMed | R5 | +2.62 | +0.69 | +0.52 | +1.13 |
+| From R5 | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
+|---|---|---|---|---|---|---|
+| Full CoEvoMed | +2.62 | +0.69 | +0.52 | +1.13 | +2.77 | +1.28 |
+| Selector → random evidence | −2.00 | −5.28 | −1.77 | −3.62 | −2.73 | −4.70 |
+| Verifier → none | −3.33 | −2.83 | −3.13 | −2.91 | −4.17 | −4.42 |
+| Revision → original principles | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
+| Planner → uniform allocation | +1.55 | +0.09 | +0.12 | +0.81 | +1.94 | +0.59 |
+| Single agent | −10.42 | −11.59 | −6.74 | −7.38 | −7.93 | −9.50 |
 
-From the base, training on raw data with no agents lowers all four, even with about 700,000 examples, more than CoEvoMed, while CoEvoMed raises all four. Together, the selector, constructor, and verifier are thus needed to turn raw records into verified questions. From R5, keeping them but using the original principles again lowers all four. The revision agent is thus needed to update principles as the learner advances. Replacing the planner with a uniform split across capability cells still gains, but less than CoEvoMed on all four. The curriculum planner is thus needed to allocate for the current learner.
+Random evidence is drawn from the support pool, ignoring the target cell's modality and anatomy (**App. C.3**). Without the verifier, all constructed examples enter training. The single agent is one LLM that selects evidence, constructs and checks examples, and revises principles, under the same allocation.
 
-No simpler process in the table substitutes them.
+Replacing the selector, verifier, or revision agent turns the round's gain into a loss on all six benchmarks. A uniform planner still gains, but less on all six. The simplest substitute, a single agent, loses most on five of six. From the base, training on about 700,000 raw examples lowers all four VQA scores (**Table 9**). Each agent is thus needed; no simpler process we tested substitutes them.
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
 
