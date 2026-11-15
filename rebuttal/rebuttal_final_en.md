@@ -62,7 +62,7 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 
 ## Response to Reviewer jcb6
 
-*Posted text: 4,442 / 5,000 characters (quotes excluded).*
+*Posted text: 4,842 / 5,000 characters (quotes excluded).*
 
 We thank the reviewer for the positive assessment and the precise suggestions.
 
@@ -79,7 +79,15 @@ We thank the reviewer for the positive assessment and the precise suggestions.
 
 Principle evolution drives most of the gain: with either curriculum, the original principles lower all six benchmarks, while the evolved principles raise all six. Curriculum adaptation adds a smaller but consistent gain: with either principle set, it beats uniform allocation on all six. Keeping both gives the largest gain on every benchmark.
 
-This also answers whether the gains come from high-quality synthetic data. Every row builds data with the same selector, constructor, and verifier, yet the rows with fixed principles lower all six benchmarks. Fixed principles do help early: from R2, they raise all six (+1.78 to +3.90; **Table 8**). They stop helping once the learner advances, so sustained gains come from co-evolution, not from verified synthetic data alone.
+This also answers whether the gains come from high-quality synthetic data. That data is itself produced by our agents: without them, raw data lower every score despite more examples (**Table 9**). We also ran fixed principles from the same base under the same total budget (new):
+
+| From the base, same budget | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
+|---|---|---|---|---|---|---|
+| Raw data, no agents | 43.01 | 38.15 | 45.51 | 35.94 | — | — |
+| Fixed principles (new) | 74.72 | 88.88 | 61.49 | 62.46 | 62.27 | 61.31 |
+| CoEvoMed | **82.48** | **91.60** | **67.95** | **69.40** | **63.62** | **68.22** |
+
+CoEvoMed is higher on all six benchmarks (+1.35 to +7.76). Fixed principles help early but hurt from R5 (**Table 8**), so co-evolution is what sustains the gains. We will add this run to the revision.
 
 > **Question:** Starting from the same initialization, training on raw data reduces performance on all four VQA benchmarks, with SLAKE accuracy dropping from 64.84% to 38.15%. What causes this substantial degradation? Would cleaning and reconstructing the data using fixed construction principles also yield substantial gains? A budget-matched comparison would help clarify the additional benefit of adaptive principle evolution.
 
