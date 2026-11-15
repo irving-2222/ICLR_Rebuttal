@@ -23,14 +23,14 @@
 | 条目 | 内容 | 预算 | 当前 | 状态 |
 |---|---|---:|---:|---|
 | 开头 | 致谢 | — | — | 不写（为字符限制） |
-| W1 | 多智能体是否必要 | — | 1,550 | 已重写（逐个智能体消融：选择器、核验器、修订、规划器、单智能体） |
+| W1 | 多智能体是否必要 | — | 1,543 | 已重写（逐个智能体消融：选择器、核验器、修订、规划器、单智能体） |
 | W2 | 论文组织 | — | 504 | 已重写（正文逻辑、附录对应、可复现） |
 | W3 | 遗忘与 R7 的选择 | — | 1,146 | 已重写（加入遗忘指标和保留消融） |
 | Q1 | MedVLSynther 复现 | — | 446 | 已重写 |
 | Q2 | 数据公开 | — | 209 | 已压缩 |
-| Q3 | 能力分类体系 | — | 1,086 | 已重写 |
+| Q3 | 能力分类体系 | — | 1,090 | 已重写 |
 | 结尾 | | — | — | 不写（为字符限制） |
-| **合计** | | **≤ 5,000** | **4,951** | |
+| **合计** | | **≤ 5,000** | **4,948** | |
 
 "当前"一栏只统计各条目正文；合计按代码块全文统计，包含条目之间的空行。
 
@@ -45,12 +45,12 @@
 | Selector → random evidence | −2.00 | −5.28 | −1.77 | −3.62 | −2.73 | −4.70 |
 | Verifier → none | −3.33 | −2.83 | −3.13 | −2.91 | −4.17 | −4.42 |
 | Revision → original principles | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
-| Planner → uniform allocation | +1.55 | +0.09 | +0.12 | +0.81 | +1.94 | +0.59 |
+| Allocation → uniform | +1.55 | +0.09 | +0.12 | +0.81 | +1.94 | +0.59 |
 | Single agent | −10.42 | −11.59 | −6.74 | −7.38 | −7.93 | −9.50 |
 
 Random evidence is drawn from the support pool, ignoring the target cell's modality and anatomy (**App. C.3**). Without the verifier, all constructed examples enter training. The single agent is one LLM that selects evidence, constructs and checks examples, and revises principles, under the same allocation.
 
-Replacing the selector, verifier, or revision agent turns the round's gain into a loss on all six benchmarks. A uniform planner still gains, but less on all six. The simplest substitute, a single agent, loses most on five of six. From the base, training on about 700,000 raw examples lowers all four VQA scores (**Table 9**). Each agent is thus needed; no simpler process we tested substitutes them.
+Replacing the selector, verifier, or revision agent turns the round's gain into a loss on all six benchmarks. Uniform allocation still gains, but less on all six. The simplest substitute, a single agent, loses most on five of six. From the base, training on about 700,000 raw examples lowers all four VQA scores (**Table 9**). Each agent is thus needed; no simpler process we tested substitutes them.
 
 **W2 (Organization).** The layout follows our contributions and scope. The main text presents each contribution: co-evolution formulation (**Sec. 3**), multi-agent system and curriculum policy (**Sec. 4**). **Sec. 5.1** gives the evaluation task composition (four 2D VQA, two report, three 3D); for space, main analyses use one VQA and one report task. The appendix adds what reproduction needs: algorithm (**App. A**), settings (**App. B**), evaluation (**App. C**), and mechanism analyses (**App. D**).
 
@@ -76,7 +76,7 @@ We chose R7 on internal validation only: it has the highest equal-weight mean of
 
 We built our categories on SLAKE's (Liu et al., 2021): physicians annotated them, and SLAKE spans more modalities and body parts than prior datasets. They describe what a question asks, not a dataset, so they fit all tasks: VQA-RAD and M3D-VQA use similar types (Lau et al., 2018; **Fig. 9a**).
 
-On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's κ = 0.958, "almost perfect"; Landis & Koch, 1977), modality 100%, body region 96.5%. We will add them and the new run to the revision.
+On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's κ = 0.958, "almost perfect"; Landis & Koch, 1977), modality 100%, body region 96.5%. We will add them and the new results to the revision.
 ```
 
 ### 中文译文（不发布）
@@ -89,12 +89,12 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 | 选择器 → 随机证据 | −2.00 | −5.28 | −1.77 | −3.62 | −2.73 | −4.70 |
 | 核验器 → 去掉 | −3.33 | −2.83 | −3.13 | −2.91 | −4.17 | −4.42 |
 | 修订智能体 → 原始原则 | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
-| 课程规划器 → 均匀分配 | +1.55 | +0.09 | +0.12 | +0.81 | +1.94 | +0.59 |
+| 预算分配 → 均匀 | +1.55 | +0.09 | +0.12 | +0.81 | +1.94 | +0.59 |
 | 单智能体 | −10.42 | −11.59 | −6.74 | −7.38 | −7.93 | −9.50 |
 
 随机证据从支持池中抽取，不考虑目标单元的模态和解剖部位（**附录 C.3**）。去掉核验器后，构建出的样本全部进入训练。单智能体由一个 LLM 完成选证据、构建和检查样本、修订原则，分配与完整系统相同。
 
-替换选择器、核验器或修订智能体，都会让这一轮在六个基准上从提升变成下降。均匀分配的规划器仍有提升，但六项都小于完整 CoEvoMed。最简单的替代方案单智能体，在六个基准中的五个上降得最多。从基础模型出发，用约 70 万条原始样本训练会让四个 VQA 分数全部下降（**Table 9**）。因此每个智能体都是必要的，我们测试过的更简单流程都无法替代它们。
+替换选择器、核验器或修订智能体，都会让这一轮在六个基准上从提升变成下降。均匀分配仍有提升，但六项都小于完整 CoEvoMed。最简单的替代方案单智能体，在六个基准中的五个上降得最多。从基础模型出发，用约 70 万条原始样本训练会让四个 VQA 分数全部下降（**Table 9**）。因此每个智能体都是必要的，我们测试过的更简单流程都无法替代它们。
 
 **W2（论文组织）** 论文的排版与我们的贡献和研究范围是一致的。正文呈现每一项贡献：协同进化的问题形式化（**第 3 节**），多智能体系统与课程策略（**第 4 节**）。**第 5.1 节**给出了评估任务的组成（四个 2D VQA、两个报告生成、三个 3D 基准）；受篇幅所限，正文的分析各选用一个 VQA 任务和一个报告生成任务。附录补充复现所需的内容：算法（**附录 A**）、设置（**附录 B**）、评估（**附录 C**），以及机制分析实验（**附录 D**）。
 
@@ -120,10 +120,11 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 
 我们以 SLAKE 的问题类别（Liu et al., 2021）为基础构建我们的类别：这些类别由医生标注，而且 SLAKE 覆盖的模态和身体部位比以往的数据集更多。这些类别描述的是问题在问什么，而不是某个数据集，因此适用于所有任务：VQA-RAD 和 M3D-VQA 也采用了类似的问题类型（Lau et al., 2018；**Figure 9a**）。
 
-在 200 道 SLAKE 题目上，我们的标注与原生标签的一致率为：能力类别 97.5%（Cohen's κ = 0.958，属于"几乎完全一致"；Landis & Koch, 1977），模态 100%，解剖部位 96.5%。我们会把这些结果和新增的均匀分配实验加入修订稿。
+在 200 道 SLAKE 题目上，我们的标注与原生标签的一致率为：能力类别 97.5%（Cohen's κ = 0.958，属于"几乎完全一致"；Landis & Koch, 1977），模态 100%，解剖部位 96.5%。我们会把这些结果和上述新增结果加入修订稿。
 
 ### 发布前待核对
 
+- [x] **三份回复交叉核对后的两处修改（作者确认）**：(1) Q3 末句 "the new run" 改为 "the new results"：pUjh 现在有多项新结果（选择器、核验器、单智能体、保留份额设为 0、均匀分配、遗忘统计），jcb6 和 2Nuw 都承诺把各自的新实验加入修订稿；中文改为"我们会把这些结果和上述新增结果加入修订稿"。(2) W1 表中 "Planner → uniform allocation" 改为 "Allocation → uniform"，表后 "A uniform planner still gains" 改为 "Uniform allocation still gains"：jcb6 W1 写明这次实验 "construction still uses current feedback"，而构建目标也由规划器给出（附录 B），实际只替换了规划器的分配部分；中文行名改为"预算分配 → 均匀"。其余交叉核对均一致：D、C、均匀分配、两者都固定的数字三份相同；R7 选择依据（pUjh W3、2Nuw Q2）；58.3%（jcb6 Q1、2Nuw Q1）；repair-heavy（2Nuw Q1）与保留消融；中英文数字逐个比对无差异。
 - [x] **W3 加入遗忘指标和保留消融（作者提供数字）**：(1) 用 rebuttal/tools/retention_metrics.py 对主实验 8B 运行目录统计，均在内部验证面板上：R1–R7 每轮遗忘率 2.3–4.7%（上一轮会、这一轮不会 ÷ 上一轮会），修复率 10.9–23.8%；能力单元平均遗忘（Chaudhry et al., 2018）R7 为 1.27、R10 为 2.84。(2) 从 R5 出发、保留份额设为 0（coevomed/policy.py 的 REPAIR 全部为 1.0），其余同 W1：这一轮丢掉 6.9% 的已学会题目，完整 CoEvoMed 同一轮（条件 D，repair_heavy：修复 80%、保留 20%）丢掉 3.3%。核对：3.3% 在 2.3–4.7% 范围内（D 即 R6）；6.9% 高于正常轮次上限；R10 平均遗忘 2.84 与 "Fig. 7 benchmarks remain within 3 points of their peaks" 一致；每轮修复率都高于遗忘率。**作者要求删去"六个基准上的收益也都更小"**：该消融六个基准的分数未写入正文（若审稿人追问，需给出相对 R5 的六项变化）。删去：灾难性遗忘的定义句、"so continual-learning metrics do not apply"、"the uniform run in W1 also removes it, and gains less"、Chen et al., 2024 与 Singh et al., 2024、R7 一段的 "R7 is where new evidence runs out"。Chaudhry et al., 2018 不在论文参考文献中：Chaudhry, Dokania, Ajanthan, Torr, "Riemannian Walk for Incremental Learning: Understanding Forgetting and Intransigence", ECCV 2018（平均遗忘指标的出处）。
 - [x] **W1 改为逐个智能体消融（新增实验，作者提供）**：从 R5 出发、只改一处、训练一轮，与 Table 8 的 C、D 和均匀分配实验同一流程。作者给出的原始分数（VQA-RAD / SLAKE / PMC-VQA / PathVQA / MIMIC-CXR / IU-Xray）：选择器 → 随机证据 71.62 / 83.69 / 62.83 / 62.18 / 56.27 / 56.93；核验器 → 去掉 70.29 / 86.15 / 61.47 / 62.89 / 54.83 / 57.21；单智能体 63.19 / 77.38 / 57.86 / 58.42 / 51.07 / 52.13；修订 → 原始原则即 Table 8 的 C（67.97 / 85.40 / 55.00 / 63.60 / 52.56 / 57.52）。变化值与均匀分配一行同一算法，按答对题数相对 R5（332/451、944/1061、21,595/33,430、4,449/6,761）计算：VQA-RAD 323、317、285 题，SLAKE 888、914、821 题，PathVQA 4,204、4,252、3,950 题，已逐项核对；因此有几项与直接用百分比相减差 0.01–0.03（如选择器 SLAKE −5.28，直接相减为 −5.31）。均匀分配一行补上报告任务 MIMIC-CXR +1.94、IU-Xray +0.59（见下方均匀分配实验条目）。**设置定义（作者确认）**：随机证据 = 从支持池随机抽取，不按目标单元的模态和解剖部位检索，构建、核验和数据量不变；去掉核验器 = 构建出的样本不经检查全部进入训练；单智能体 = 一个 LLM 完成选证据、构建、检查和原则修订，分配沿用规划器。**构建器不做消融（作者要求）**：构建器写出每一条样本，无法去掉，正文用 "except the constructor, which writes every example" 交代。**结论核对**：去掉选择器、核验器或修订智能体，六项全部由升转降；均匀分配六项都有提升但都小于完整 CoEvoMed（+1.55<+2.62、+0.09<+0.69、+0.12<+0.52、+0.81<+1.13、+1.94<+2.77、+0.59<+1.28）；单智能体在 VQA-RAD、SLAKE、PathVQA、MIMIC-CXR、IU-Xray 五项降得最多，PMC-VQA 上原始原则一行（−9.60）降得更多：单智能体仍会修订原则，而 PMC-VQA 对原则最敏感（Table 8）。替换掉旧表的"从基础模型出发"两行和"None: CoEvoMed"标签（AI 模拟审稿把它误读为"从 R5 起不再使用 CoEvoMed"）；原始数据的结果改为正文一句（Table 9）。W3 "the uniform run in W1"、Q3 "(W1)" 的引用仍然成立。
 - [x] **新增的均匀分配实验也承诺加入修订稿（作者要求）**：Q3 末句改为 "We will add them and the new run to the revision."（一句同时覆盖 SLAKE 一致性结果和 W1 的新实验）。为腾字数（意思不变）：W1 "gives the change" 改为 "is the change"；W3 "therefore do not rely" 改为 "thus do not rely"、"is used by R7" 改为 "used by R7"、"retrain on seen evidence" 改为 "reuse seen evidence"。

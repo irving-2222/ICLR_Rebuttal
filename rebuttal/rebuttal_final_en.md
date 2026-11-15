@@ -6,7 +6,7 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 
 ## Response to Reviewer pUjh
 
-*Posted text: 4,951 / 5,000 characters (quotes excluded).*
+*Posted text: 4,948 / 5,000 characters (quotes excluded).*
 
 > **Weakness 1:** To me, the multi-agent framework seems unecessary. The experiments do not validate all critical function of each "agent role". Do we reall y need all of these agents or can we easily find another plausible agent process to substitude them.
 
@@ -18,12 +18,12 @@ Reviewer comments are quoted (>) for reference only and are not part of the post
 | Selector → random evidence | −2.00 | −5.28 | −1.77 | −3.62 | −2.73 | −4.70 |
 | Verifier → none | −3.33 | −2.83 | −3.13 | −2.91 | −4.17 | −4.42 |
 | Revision → original principles | −5.64 | −3.60 | −9.60 | −2.20 | −6.44 | −4.11 |
-| Planner → uniform allocation | +1.55 | +0.09 | +0.12 | +0.81 | +1.94 | +0.59 |
+| Allocation → uniform | +1.55 | +0.09 | +0.12 | +0.81 | +1.94 | +0.59 |
 | Single agent | −10.42 | −11.59 | −6.74 | −7.38 | −7.93 | −9.50 |
 
 Random evidence is drawn from the support pool, ignoring the target cell's modality and anatomy (**App. C.3**). Without the verifier, all constructed examples enter training. The single agent is one LLM that selects evidence, constructs and checks examples, and revises principles, under the same allocation.
 
-Replacing the selector, verifier, or revision agent turns the round's gain into a loss on all six benchmarks. A uniform planner still gains, but less on all six. The simplest substitute, a single agent, loses most on five of six. From the base, training on about 700,000 raw examples lowers all four VQA scores (**Table 9**). Each agent is thus needed; no simpler process we tested substitutes them.
+Replacing the selector, verifier, or revision agent turns the round's gain into a loss on all six benchmarks. Uniform allocation still gains, but less on all six. The simplest substitute, a single agent, loses most on five of six. From the base, training on about 700,000 raw examples lowers all four VQA scores (**Table 9**). Each agent is thus needed; no simpler process we tested substitutes them.
 
 > **Weakness 2:** The organization of this paper is relative poor. The authors move most of the detail about the framework design into the appendix, including most important deisng such as evaluation task composition.
 
@@ -59,7 +59,7 @@ We chose R7 on internal validation only: it has the highest equal-weight mean of
 
 We built our categories on SLAKE's (Liu et al., 2021): physicians annotated them, and SLAKE spans more modalities and body parts than prior datasets. They describe what a question asks, not a dataset, so they fit all tasks: VQA-RAD and M3D-VQA use similar types (Lau et al., 2018; **Fig. 9a**).
 
-On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's κ = 0.958, "almost perfect"; Landis & Koch, 1977), modality 100%, body region 96.5%. We will add them and the new run to the revision.
+On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's κ = 0.958, "almost perfect"; Landis & Koch, 1977), modality 100%, body region 96.5%. We will add them and the new results to the revision.
 
 ---
 
