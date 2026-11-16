@@ -1,8 +1,16 @@
 # Paste-ready responses (English)
 
-Each block below is the full text of one Official Comment. Copy everything inside the block.
+For each reviewer, paste the title into the Title field and the comment block into the Comment field. The title is a separate field and does not count toward the 5,000-character limit.
 
-## Reviewer pUjh (4,948 / 5,000 characters)
+## Reviewer pUjh
+
+**Title** (96 characters):
+
+```text
+Response to Reviewer pUjh: per-agent ablations, forgetting measurements, and taxonomy validation
+```
+
+**Comment** (4,948 / 5,000 characters):
 
 ````markdown
 **W1 (Necessity of the multi-agent framework).** We replaced each agent except the constructor, which writes every example. From the same R5 checkpoint, each row trains one round with one change, all else fixed; entries are changes from R5. Rows 1 and 4 are conditions D and C of **Table 8**.
@@ -47,7 +55,15 @@ We built our categories on SLAKE's (Liu et al., 2021): physicians annotated them
 On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's κ = 0.958, "almost perfect"; Landis & Koch, 1977), modality 100%, body region 96.5%. We will add them and the new results to the revision.
 ````
 
-## Reviewer jcb6 (4,902 / 5,000 characters)
+## Reviewer jcb6
+
+**Title** (101 characters):
+
+```text
+Response to Reviewer jcb6: all four component combinations and a same-budget fixed-principle baseline
+```
+
+**Comment** (4,902 / 5,000 characters):
 
 ````markdown
 We thank the reviewer for the positive assessment and the precise suggestions.
@@ -93,7 +109,15 @@ Reconstruction with fixed principles cannot keep up with the learner. **Table 8*
 The fixed principles lower all six benchmarks (C), while the evolved principles raise all six (D). Fixed principles handle the first three properties above but not the fourth. The gap between D and C is the additional benefit of adaptive principle evolution.
 ````
 
-## Reviewer 2Nuw (4,983 / 5,000 characters)
+## Reviewer 2Nuw
+
+**Title** (104 characters):
+
+```text
+Response to Reviewer 2Nuw: component ablations, overlap screening, paired confidence intervals, and MMMU
+```
+
+**Comment** (4,983 / 5,000 characters):
 
 ````markdown
 **Q1 & W1 (Contributions, PPO, raw data, selection criteria).** The paper already ablates both components with the same teachers, data, budget, and R5 checkpoint (**Table 2, Sec. 5.3; App. D**). We add a uniform split across capability cells as the simpler curriculum, to be added to the revision. Change from R5 on each benchmark:
