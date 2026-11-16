@@ -4,10 +4,10 @@ For each reviewer, paste the title into the Title field and the comment block in
 
 ## Reviewer pUjh
 
-**Title** (96 characters):
+**Title** (103 characters):
 
 ```text
-Response to Reviewer pUjh: per-agent ablations, forgetting measurements, and taxonomy validation
+Thank you for the careful review: per-agent ablations, forgetting measurements, and taxonomy validation
 ```
 
 **Comment** (4,948 / 5,000 characters):
@@ -57,10 +57,10 @@ On 200 SLAKE questions, our labels match native ones: capability 97.5% (Cohen's 
 
 ## Reviewer jcb6
 
-**Title** (101 characters):
+**Title** (113 characters):
 
 ```text
-Response to Reviewer jcb6: all four component combinations and a same-budget fixed-principle baseline
+Thank you for the precise suggestions: all four component combinations and a same-budget fixed-principle baseline
 ```
 
 **Comment** (4,902 / 5,000 characters):
@@ -111,10 +111,10 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 
 ## Reviewer 2Nuw
 
-**Title** (104 characters):
+**Title** (115 characters):
 
 ```text
-Response to Reviewer 2Nuw: component ablations, overlap screening, paired confidence intervals, and MMMU
+Thank you for the thorough questions: component ablations, overlap screening, paired confidence intervals, and MMMU
 ```
 
 **Comment** (4,983 / 5,000 characters):

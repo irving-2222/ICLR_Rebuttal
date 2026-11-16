@@ -18,7 +18,7 @@
 
 评分 2（弱拒绝）· 信心 3 · 表述 1 · 信息价值 2 · 可靠性 2
 
-**评论标题**（填在 OpenReview 的 Title 栏，不计入 5,000 字符）：`Response to Reviewer pUjh: per-agent ablations, forgetting measurements, and taxonomy validation`
+**评论标题**（填在 OpenReview 的 Title 栏，不计入 5,000 字符）：`Thank you for the careful review: per-agent ablations, forgetting measurements, and taxonomy validation`
 
 ### 进度与字符预算
 
@@ -390,7 +390,7 @@ We chose R7 on internal validation only: it has the highest equal-weight mean of
 
 评分 3（弱接收）· 信心 3 · 表述 3 · 信息价值 2 · 可靠性 3
 
-**评论标题**（填在 OpenReview 的 Title 栏，不计入 5,000 字符）：`Response to Reviewer jcb6: all four component combinations and a same-budget fixed-principle baseline`
+**评论标题**（填在 OpenReview 的 Title 栏，不计入 5,000 字符）：`Thank you for the precise suggestions: all four component combinations and a same-budget fixed-principle baseline`
 
 ### 进度与字符预算
 
@@ -545,7 +545,7 @@ CoEvoMed 在全部六个基准上都更高（+1.35 到 +7.76）。固定原则�
 
 评分 2（弱拒绝）· 信心 4 · 表述 3 · 信息价值 2 · 可靠性 2
 
-**评论标题**（填在 OpenReview 的 Title 栏，不计入 5,000 字符）：`Response to Reviewer 2Nuw: component ablations, overlap screening, paired confidence intervals, and MMMU`
+**评论标题**（填在 OpenReview 的 Title 栏，不计入 5,000 字符）：`Thank you for the thorough questions: component ablations, overlap screening, paired confidence intervals, and MMMU`
 
 ### 进度与字符预算
 
