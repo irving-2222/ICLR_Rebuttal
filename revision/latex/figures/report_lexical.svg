@@ -1,0 +1,2185 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="626.4pt" height="480.96pt" viewBox="0 0 626.4 480.96" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-09-24T14:42:55.865022</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.8.0, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 480.96 
+L 626.4 480.96 
+L 626.4 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 128.412 419.76 
+L 331.992 419.76 
+L 331.992 39.6 
+L 128.412 39.6 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g clip-path="url(#pe60e53a2b2)">
+    <image xlink:href="data:image/png;base64,
+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" id="imagefb0c78c22e" transform="scale(1 -1) translate(0 -380.290909)" x="128.412" y="-39.469091" width="203.890909" height="380.290909"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1"/>
+     <g id="text_1">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="146.104642" y="429.728892" transform="rotate(-45 146.104642 429.728892)">METEOR</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2"/>
+     <g id="text_2">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="171.552142" y="429.728892" transform="rotate(-45 171.552142 429.728892)">BLEU-1</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3"/>
+     <g id="text_3">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="196.999642" y="429.728892" transform="rotate(-45 196.999642 429.728892)">BLEU-2</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4"/>
+     <g id="text_4">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="222.447142" y="429.728892" transform="rotate(-45 222.447142 429.728892)">BLEU-3</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_5"/>
+     <g id="text_5">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="247.894642" y="429.728892" transform="rotate(-45 247.894642 429.728892)">BLEU-4</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_6"/>
+     <g id="text_6">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="273.342142" y="429.728892" transform="rotate(-45 273.342142 429.728892)">ROUGE-1</text>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_7"/>
+     <g id="text_7">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="298.789642" y="429.728892" transform="rotate(-45 298.789642 429.728892)">ROUGE-2</text>
+     </g>
+    </g>
+    <g id="xtick_8">
+     <g id="line2d_8"/>
+     <g id="text_8">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="324.237142" y="429.728892" transform="rotate(-45 324.237142 429.728892)">ROUGE-L</text>
+     </g>
+    </g>
+    <g id="xtick_9">
+     <g id="line2d_9">
+      <path d="M 128.412 419.76 
+L 128.412 39.6 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10"/>
+    </g>
+    <g id="xtick_10">
+     <g id="line2d_11">
+      <path d="M 153.8595 419.76 
+L 153.8595 39.6 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_12"/>
+    </g>
+    <g id="xtick_11">
+     <g id="line2d_13">
+      <path d="M 179.307 419.76 
+L 179.307 39.6 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_14"/>
+    </g>
+    <g id="xtick_12">
+     <g id="line2d_15">
+      <path d="M 204.7545 419.76 
+L 204.7545 39.6 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_16"/>
+    </g>
+    <g id="xtick_13">
+     <g id="line2d_17">
+      <path d="M 230.202 419.76 
+L 230.202 39.6 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_18"/>
+    </g>
+    <g id="xtick_14">
+     <g id="line2d_19">
+      <path d="M 255.6495 419.76 
+L 255.6495 39.6 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_20"/>
+    </g>
+    <g id="xtick_15">
+     <g id="line2d_21">
+      <path d="M 281.097 419.76 
+L 281.097 39.6 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_22"/>
+    </g>
+    <g id="xtick_16">
+     <g id="line2d_23">
+      <path d="M 306.5445 419.76 
+L 306.5445 39.6 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_24"/>
+    </g>
+    <g id="xtick_17">
+     <g id="line2d_25">
+      <path d="M 331.992 419.76 
+L 331.992 39.6 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_26"/>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_27"/>
+     <g id="text_9">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="51.033538" transform="rotate(-0 123.412 51.033538)">CoEvoMed (32B)</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_28"/>
+     <g id="text_10">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="66.873537" transform="rotate(-0 123.412 66.873537)">CoEvoMed (8B)</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_29"/>
+     <g id="text_11">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="82.713538" transform="rotate(-0 123.412 82.713538)">Hulu-Med-32B</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_30"/>
+     <g id="text_12">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="98.553538" transform="rotate(-0 123.412 98.553538)">Hulu-Med-7B</text>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_31"/>
+     <g id="text_13">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="114.393538" transform="rotate(-0 123.412 114.393538)">BioMediX2-8B</text>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_32"/>
+     <g id="text_14">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="130.233538" transform="rotate(-0 123.412 130.233538)">Claude-Sonnet-4</text>
+     </g>
+    </g>
+    <g id="ytick_7">
+     <g id="line2d_33"/>
+     <g id="text_15">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="146.073537" transform="rotate(-0 123.412 146.073537)">GMAI-VL-7B</text>
+     </g>
+    </g>
+    <g id="ytick_8">
+     <g id="line2d_34"/>
+     <g id="text_16">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="161.913538" transform="rotate(-0 123.412 161.913538)">GPT-4o</text>
+     </g>
+    </g>
+    <g id="ytick_9">
+     <g id="line2d_35"/>
+     <g id="text_17">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="177.753537" transform="rotate(-0 123.412 177.753537)">GPT-5.6-sol</text>
+     </g>
+    </g>
+    <g id="ytick_10">
+     <g id="line2d_36"/>
+     <g id="text_18">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="193.593537" transform="rotate(-0 123.412 193.593537)">Gemini-2.5-Flash</text>
+     </g>
+    </g>
+    <g id="ytick_11">
+     <g id="line2d_37"/>
+     <g id="text_19">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="209.433537" transform="rotate(-0 123.412 209.433537)">HealthGPT-14B</text>
+     </g>
+    </g>
+    <g id="ytick_12">
+     <g id="line2d_38"/>
+     <g id="text_20">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="225.273538" transform="rotate(-0 123.412 225.273538)">HuatuoGPT-V-34B</text>
+     </g>
+    </g>
+    <g id="ytick_13">
+     <g id="line2d_39"/>
+     <g id="text_21">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="241.113538" transform="rotate(-0 123.412 241.113538)">InternVL3-14B</text>
+     </g>
+    </g>
+    <g id="ytick_14">
+     <g id="line2d_40"/>
+     <g id="text_22">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="256.953538" transform="rotate(-0 123.412 256.953538)">Kimi-K3</text>
+     </g>
+    </g>
+    <g id="ytick_15">
+     <g id="line2d_41"/>
+     <g id="text_23">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="272.793538" transform="rotate(-0 123.412 272.793538)">LLaVA-Med-7B</text>
+     </g>
+    </g>
+    <g id="ytick_16">
+     <g id="line2d_42"/>
+     <g id="text_24">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="288.633537" transform="rotate(-0 123.412 288.633537)">MedGemma-27B</text>
+     </g>
+    </g>
+    <g id="ytick_17">
+     <g id="line2d_43"/>
+     <g id="text_25">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="304.473538" transform="rotate(-0 123.412 304.473538)">MedGemma-4B-IT</text>
+     </g>
+    </g>
+    <g id="ytick_18">
+     <g id="line2d_44"/>
+     <g id="text_26">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="320.313538" transform="rotate(-0 123.412 320.313538)">MiniMax-M3</text>
+     </g>
+    </g>
+    <g id="ytick_19">
+     <g id="line2d_45"/>
+     <g id="text_27">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="336.153537" transform="rotate(-0 123.412 336.153537)">QoQMed-VL-7B</text>
+     </g>
+    </g>
+    <g id="ytick_20">
+     <g id="line2d_46"/>
+     <g id="text_28">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="351.993538" transform="rotate(-0 123.412 351.993538)">Qwen2.5-VL-7B</text>
+     </g>
+    </g>
+    <g id="ytick_21">
+     <g id="line2d_47"/>
+     <g id="text_29">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="367.833537" transform="rotate(-0 123.412 367.833537)">Qwen3-VL-32B</text>
+     </g>
+    </g>
+    <g id="ytick_22">
+     <g id="line2d_48"/>
+     <g id="text_30">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="383.673538" transform="rotate(-0 123.412 383.673538)">Qwen3.6-27B</text>
+     </g>
+    </g>
+    <g id="ytick_23">
+     <g id="line2d_49"/>
+     <g id="text_31">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="399.513537" transform="rotate(-0 123.412 399.513537)">Qwen3.8-27B</text>
+     </g>
+    </g>
+    <g id="ytick_24">
+     <g id="line2d_50"/>
+     <g id="text_32">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="123.412" y="415.353537" transform="rotate(-0 123.412 415.353537)">Qwen3.8-Max</text>
+     </g>
+    </g>
+    <g id="ytick_25">
+     <g id="line2d_51">
+      <path d="M 128.412 39.6 
+L 331.992 39.6 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_52"/>
+    </g>
+    <g id="ytick_26">
+     <g id="line2d_53">
+      <path d="M 128.412 55.44 
+L 331.992 55.44 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_54"/>
+    </g>
+    <g id="ytick_27">
+     <g id="line2d_55">
+      <path d="M 128.412 71.28 
+L 331.992 71.28 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_56"/>
+    </g>
+    <g id="ytick_28">
+     <g id="line2d_57">
+      <path d="M 128.412 87.12 
+L 331.992 87.12 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_58"/>
+    </g>
+    <g id="ytick_29">
+     <g id="line2d_59">
+      <path d="M 128.412 102.96 
+L 331.992 102.96 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_60"/>
+    </g>
+    <g id="ytick_30">
+     <g id="line2d_61">
+      <path d="M 128.412 118.8 
+L 331.992 118.8 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_62"/>
+    </g>
+    <g id="ytick_31">
+     <g id="line2d_63">
+      <path d="M 128.412 134.64 
+L 331.992 134.64 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_64"/>
+    </g>
+    <g id="ytick_32">
+     <g id="line2d_65">
+      <path d="M 128.412 150.48 
+L 331.992 150.48 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_66"/>
+    </g>
+    <g id="ytick_33">
+     <g id="line2d_67">
+      <path d="M 128.412 166.32 
+L 331.992 166.32 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_68"/>
+    </g>
+    <g id="ytick_34">
+     <g id="line2d_69">
+      <path d="M 128.412 182.16 
+L 331.992 182.16 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_70"/>
+    </g>
+    <g id="ytick_35">
+     <g id="line2d_71">
+      <path d="M 128.412 198 
+L 331.992 198 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_72"/>
+    </g>
+    <g id="ytick_36">
+     <g id="line2d_73">
+      <path d="M 128.412 213.84 
+L 331.992 213.84 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_74"/>
+    </g>
+    <g id="ytick_37">
+     <g id="line2d_75">
+      <path d="M 128.412 229.68 
+L 331.992 229.68 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_76"/>
+    </g>
+    <g id="ytick_38">
+     <g id="line2d_77">
+      <path d="M 128.412 245.52 
+L 331.992 245.52 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_78"/>
+    </g>
+    <g id="ytick_39">
+     <g id="line2d_79">
+      <path d="M 128.412 261.36 
+L 331.992 261.36 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_80"/>
+    </g>
+    <g id="ytick_40">
+     <g id="line2d_81">
+      <path d="M 128.412 277.2 
+L 331.992 277.2 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_82"/>
+    </g>
+    <g id="ytick_41">
+     <g id="line2d_83">
+      <path d="M 128.412 293.04 
+L 331.992 293.04 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_84"/>
+    </g>
+    <g id="ytick_42">
+     <g id="line2d_85">
+      <path d="M 128.412 308.88 
+L 331.992 308.88 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_86"/>
+    </g>
+    <g id="ytick_43">
+     <g id="line2d_87">
+      <path d="M 128.412 324.72 
+L 331.992 324.72 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_88"/>
+    </g>
+    <g id="ytick_44">
+     <g id="line2d_89">
+      <path d="M 128.412 340.56 
+L 331.992 340.56 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_90"/>
+    </g>
+    <g id="ytick_45">
+     <g id="line2d_91">
+      <path d="M 128.412 356.4 
+L 331.992 356.4 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_92"/>
+    </g>
+    <g id="ytick_46">
+     <g id="line2d_93">
+      <path d="M 128.412 372.24 
+L 331.992 372.24 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_94"/>
+    </g>
+    <g id="ytick_47">
+     <g id="line2d_95">
+      <path d="M 128.412 388.08 
+L 331.992 388.08 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_96"/>
+    </g>
+    <g id="ytick_48">
+     <g id="line2d_97">
+      <path d="M 128.412 403.92 
+L 331.992 403.92 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_98"/>
+    </g>
+    <g id="ytick_49">
+     <g id="line2d_99">
+      <path d="M 128.412 419.76 
+L 331.992 419.76 
+" clip-path="url(#pe60e53a2b2)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_100"/>
+    </g>
+   </g>
+   <g id="text_33">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="49.768834" transform="rotate(-0 141.13575 49.768834)">35.1</text>
+   </g>
+   <g id="text_34">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="49.768834" transform="rotate(-0 166.58325 49.768834)">29.5</text>
+   </g>
+   <g id="text_35">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="49.768834" transform="rotate(-0 192.03075 49.768834)">21.3</text>
+   </g>
+   <g id="text_36">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="49.768834" transform="rotate(-0 217.47825 49.768834)">16.6</text>
+   </g>
+   <g id="text_37">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="49.768834" transform="rotate(-0 242.92575 49.768834)">12.6</text>
+   </g>
+   <g id="text_38">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="49.768834" transform="rotate(-0 268.37325 49.768834)">44.1</text>
+   </g>
+   <g id="text_39">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="49.768834" transform="rotate(-0 293.82075 49.768834)">23.0</text>
+   </g>
+   <g id="text_40">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="49.768834" transform="rotate(-0 319.26825 49.768834)">36.9</text>
+   </g>
+   <g id="text_41">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="65.608834" transform="rotate(-0 141.13575 65.608834)">36.3</text>
+   </g>
+   <g id="text_42">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="65.608834" transform="rotate(-0 166.58325 65.608834)">34.2</text>
+   </g>
+   <g id="text_43">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="65.608834" transform="rotate(-0 192.03075 65.608834)">23.1</text>
+   </g>
+   <g id="text_44">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="65.608834" transform="rotate(-0 217.47825 65.608834)">17.4</text>
+   </g>
+   <g id="text_45">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="65.608834" transform="rotate(-0 242.92575 65.608834)">13.3</text>
+   </g>
+   <g id="text_46">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="65.608834" transform="rotate(-0 268.37325 65.608834)">45.2</text>
+   </g>
+   <g id="text_47">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="65.608834" transform="rotate(-0 293.82075 65.608834)">23.6</text>
+   </g>
+   <g id="text_48">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="65.608834" transform="rotate(-0 319.26825 65.608834)">37.6</text>
+   </g>
+   <g id="text_49">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="81.448834" transform="rotate(-0 141.13575 81.448834)">25.9</text>
+   </g>
+   <g id="text_50">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="81.448834" transform="rotate(-0 166.58325 81.448834)">28.5</text>
+   </g>
+   <g id="text_51">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="81.448834" transform="rotate(-0 192.03075 81.448834)">17.2</text>
+   </g>
+   <g id="text_52">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="81.448834" transform="rotate(-0 217.47825 81.448834)">10.8</text>
+   </g>
+   <g id="text_53">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="81.448834" transform="rotate(-0 242.92575 81.448834)">6.5</text>
+   </g>
+   <g id="text_54">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="81.448834" transform="rotate(-0 268.37325 81.448834)">36.4</text>
+   </g>
+   <g id="text_55">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="81.448834" transform="rotate(-0 293.82075 81.448834)">12.6</text>
+   </g>
+   <g id="text_56">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="81.448834" transform="rotate(-0 319.26825 81.448834)">34.4</text>
+   </g>
+   <g id="text_57">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="97.288834" transform="rotate(-0 141.13575 97.288834)">25.8</text>
+   </g>
+   <g id="text_58">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="97.288834" transform="rotate(-0 166.58325 97.288834)">28.5</text>
+   </g>
+   <g id="text_59">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="97.288834" transform="rotate(-0 192.03075 97.288834)">17.5</text>
+   </g>
+   <g id="text_60">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="97.288834" transform="rotate(-0 217.47825 97.288834)">11.2</text>
+   </g>
+   <g id="text_61">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="97.288834" transform="rotate(-0 242.92575 97.288834)">6.8</text>
+   </g>
+   <g id="text_62">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="97.288834" transform="rotate(-0 268.37325 97.288834)">35.9</text>
+   </g>
+   <g id="text_63">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="97.288834" transform="rotate(-0 293.82075 97.288834)">12.8</text>
+   </g>
+   <g id="text_64">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="97.288834" transform="rotate(-0 319.26825 97.288834)">34.2</text>
+   </g>
+   <g id="text_65">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="113.128834" transform="rotate(-0 141.13575 113.128834)">11.8</text>
+   </g>
+   <g id="text_66">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="113.128834" transform="rotate(-0 166.58325 113.128834)">15.9</text>
+   </g>
+   <g id="text_67">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="113.128834" transform="rotate(-0 192.03075 113.128834)">5.0</text>
+   </g>
+   <g id="text_68">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="113.128834" transform="rotate(-0 217.47825 113.128834)">0.5</text>
+   </g>
+   <g id="text_69">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="113.128834" transform="rotate(-0 242.92575 113.128834)">0.1</text>
+   </g>
+   <g id="text_70">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="113.128834" transform="rotate(-0 268.37325 113.128834)">18.6</text>
+   </g>
+   <g id="text_71">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="113.128834" transform="rotate(-0 293.82075 113.128834)">2.5</text>
+   </g>
+   <g id="text_72">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="113.128834" transform="rotate(-0 319.26825 113.128834)">17.3</text>
+   </g>
+   <g id="text_73">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="128.968834" transform="rotate(-0 141.13575 128.968834)">21.0</text>
+   </g>
+   <g id="text_74">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="128.968834" transform="rotate(-0 166.58325 128.968834)">22.5</text>
+   </g>
+   <g id="text_75">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="128.968834" transform="rotate(-0 192.03075 128.968834)">9.6</text>
+   </g>
+   <g id="text_76">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="128.968834" transform="rotate(-0 217.47825 128.968834)">3.3</text>
+   </g>
+   <g id="text_77">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="128.968834" transform="rotate(-0 242.92575 128.968834)">0.6</text>
+   </g>
+   <g id="text_78">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="128.968834" transform="rotate(-0 268.37325 128.968834)">22.7</text>
+   </g>
+   <g id="text_79">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="128.968834" transform="rotate(-0 293.82075 128.968834)">3.5</text>
+   </g>
+   <g id="text_80">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="128.968834" transform="rotate(-0 319.26825 128.968834)">21.3</text>
+   </g>
+   <g id="text_81">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="144.808834" transform="rotate(-0 141.13575 144.808834)">20.4</text>
+   </g>
+   <g id="text_82">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="144.808834" transform="rotate(-0 166.58325 144.808834)">19.6</text>
+   </g>
+   <g id="text_83">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="144.808834" transform="rotate(-0 192.03075 144.808834)">12.9</text>
+   </g>
+   <g id="text_84">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="144.808834" transform="rotate(-0 217.47825 144.808834)">9.0</text>
+   </g>
+   <g id="text_85">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="144.808834" transform="rotate(-0 242.92575 144.808834)">6.9</text>
+   </g>
+   <g id="text_86">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="144.808834" transform="rotate(-0 268.37325 144.808834)">31.2</text>
+   </g>
+   <g id="text_87">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="144.808834" transform="rotate(-0 293.82075 144.808834)">13.1</text>
+   </g>
+   <g id="text_88">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="144.808834" transform="rotate(-0 319.26825 144.808834)">30.2</text>
+   </g>
+   <g id="text_89">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="160.648834" transform="rotate(-0 141.13575 160.648834)">25.5</text>
+   </g>
+   <g id="text_90">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="160.648834" transform="rotate(-0 166.58325 160.648834)">23.6</text>
+   </g>
+   <g id="text_91">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="160.648834" transform="rotate(-0 192.03075 160.648834)">11.3</text>
+   </g>
+   <g id="text_92">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="160.648834" transform="rotate(-0 217.47825 160.648834)">5.2</text>
+   </g>
+   <g id="text_93">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="160.648834" transform="rotate(-0 242.92575 160.648834)">1.7</text>
+   </g>
+   <g id="text_94">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="160.648834" transform="rotate(-0 268.37325 160.648834)">25.9</text>
+   </g>
+   <g id="text_95">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="160.648834" transform="rotate(-0 293.82075 160.648834)">5.9</text>
+   </g>
+   <g id="text_96">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="160.648834" transform="rotate(-0 319.26825 160.648834)">24.4</text>
+   </g>
+   <g id="text_97">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="176.488834" transform="rotate(-0 141.13575 176.488834)">27.5</text>
+   </g>
+   <g id="text_98">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="176.488834" transform="rotate(-0 166.58325 176.488834)">30.1</text>
+   </g>
+   <g id="text_99">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="176.488834" transform="rotate(-0 192.03075 176.488834)">16.9</text>
+   </g>
+   <g id="text_100">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="176.488834" transform="rotate(-0 217.47825 176.488834)">9.9</text>
+   </g>
+   <g id="text_101">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="176.488834" transform="rotate(-0 242.92575 176.488834)">4.6</text>
+   </g>
+   <g id="text_102">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="176.488834" transform="rotate(-0 268.37325 176.488834)">35.9</text>
+   </g>
+   <g id="text_103">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="176.488834" transform="rotate(-0 293.82075 176.488834)">10.7</text>
+   </g>
+   <g id="text_104">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="176.488834" transform="rotate(-0 319.26825 176.488834)">34.5</text>
+   </g>
+   <g id="text_105">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="192.328834" transform="rotate(-0 141.13575 192.328834)">24.3</text>
+   </g>
+   <g id="text_106">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="192.328834" transform="rotate(-0 166.58325 192.328834)">24.7</text>
+   </g>
+   <g id="text_107">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="192.328834" transform="rotate(-0 192.03075 192.328834)">11.6</text>
+   </g>
+   <g id="text_108">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="192.328834" transform="rotate(-0 217.47825 192.328834)">4.9</text>
+   </g>
+   <g id="text_109">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="192.328834" transform="rotate(-0 242.92575 192.328834)">1.6</text>
+   </g>
+   <g id="text_110">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="192.328834" transform="rotate(-0 268.37325 192.328834)">26.7</text>
+   </g>
+   <g id="text_111">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="192.328834" transform="rotate(-0 293.82075 192.328834)">5.9</text>
+   </g>
+   <g id="text_112">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="192.328834" transform="rotate(-0 319.26825 192.328834)">25.2</text>
+   </g>
+   <g id="text_113">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="208.168834" transform="rotate(-0 141.13575 208.168834)">17.2</text>
+   </g>
+   <g id="text_114">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="208.168834" transform="rotate(-0 166.58325 208.168834)">20.5</text>
+   </g>
+   <g id="text_115">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="208.168834" transform="rotate(-0 192.03075 208.168834)">8.4</text>
+   </g>
+   <g id="text_116">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="208.168834" transform="rotate(-0 217.47825 208.168834)">1.8</text>
+   </g>
+   <g id="text_117">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="208.168834" transform="rotate(-0 242.92575 208.168834)">0.2</text>
+   </g>
+   <g id="text_118">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="208.168834" transform="rotate(-0 268.37325 208.168834)">20.5</text>
+   </g>
+   <g id="text_119">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="208.168834" transform="rotate(-0 293.82075 208.168834)">3.9</text>
+   </g>
+   <g id="text_120">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="208.168834" transform="rotate(-0 319.26825 208.168834)">19.3</text>
+   </g>
+   <g id="text_121">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="224.008834" transform="rotate(-0 141.13575 224.008834)">19.9</text>
+   </g>
+   <g id="text_122">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="224.008834" transform="rotate(-0 166.58325 224.008834)">22.5</text>
+   </g>
+   <g id="text_123">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="224.008834" transform="rotate(-0 192.03075 224.008834)">9.6</text>
+   </g>
+   <g id="text_124">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="224.008834" transform="rotate(-0 217.47825 224.008834)">3.5</text>
+   </g>
+   <g id="text_125">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="224.008834" transform="rotate(-0 242.92575 224.008834)">1.0</text>
+   </g>
+   <g id="text_126">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="224.008834" transform="rotate(-0 268.37325 224.008834)">23.1</text>
+   </g>
+   <g id="text_127">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="224.008834" transform="rotate(-0 293.82075 224.008834)">4.5</text>
+   </g>
+   <g id="text_128">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="224.008834" transform="rotate(-0 319.26825 224.008834)">21.6</text>
+   </g>
+   <g id="text_129">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="239.848834" transform="rotate(-0 141.13575 239.848834)">21.9</text>
+   </g>
+   <g id="text_130">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="239.848834" transform="rotate(-0 166.58325 239.848834)">22.3</text>
+   </g>
+   <g id="text_131">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="239.848834" transform="rotate(-0 192.03075 239.848834)">10.1</text>
+   </g>
+   <g id="text_132">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="239.848834" transform="rotate(-0 217.47825 239.848834)">4.3</text>
+   </g>
+   <g id="text_133">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="239.848834" transform="rotate(-0 242.92575 239.848834)">1.0</text>
+   </g>
+   <g id="text_134">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="239.848834" transform="rotate(-0 268.37325 239.848834)">22.6</text>
+   </g>
+   <g id="text_135">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="239.848834" transform="rotate(-0 293.82075 239.848834)">4.8</text>
+   </g>
+   <g id="text_136">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="239.848834" transform="rotate(-0 319.26825 239.848834)">21.0</text>
+   </g>
+   <g id="text_137">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="255.688834" transform="rotate(-0 141.13575 255.688834)">34.1</text>
+   </g>
+   <g id="text_138">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="255.688834" transform="rotate(-0 166.58325 255.688834)">28.8</text>
+   </g>
+   <g id="text_139">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="255.688834" transform="rotate(-0 192.03075 255.688834)">16.0</text>
+   </g>
+   <g id="text_140">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="255.688834" transform="rotate(-0 217.47825 255.688834)">9.1</text>
+   </g>
+   <g id="text_141">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="255.688834" transform="rotate(-0 242.92575 255.688834)">4.8</text>
+   </g>
+   <g id="text_142">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="255.688834" transform="rotate(-0 268.37325 255.688834)">34.1</text>
+   </g>
+   <g id="text_143">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="255.688834" transform="rotate(-0 293.82075 255.688834)">10.8</text>
+   </g>
+   <g id="text_144">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="255.688834" transform="rotate(-0 319.26825 255.688834)">32.5</text>
+   </g>
+   <g id="text_145">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="271.528834" transform="rotate(-0 141.13575 271.528834)">6.6</text>
+   </g>
+   <g id="text_146">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="271.528834" transform="rotate(-0 166.58325 271.528834)">4.2</text>
+   </g>
+   <g id="text_147">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="271.528834" transform="rotate(-0 192.03075 271.528834)">1.2</text>
+   </g>
+   <g id="text_148">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="271.528834" transform="rotate(-0 217.47825 271.528834)">0.0</text>
+   </g>
+   <g id="text_149">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="271.528834" transform="rotate(-0 242.92575 271.528834)">0.0</text>
+   </g>
+   <g id="text_150">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="271.528834" transform="rotate(-0 268.37325 271.528834)">15.0</text>
+   </g>
+   <g id="text_151">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="271.528834" transform="rotate(-0 293.82075 271.528834)">2.3</text>
+   </g>
+   <g id="text_152">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="271.528834" transform="rotate(-0 319.26825 271.528834)">13.8</text>
+   </g>
+   <g id="text_153">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="287.368834" transform="rotate(-0 141.13575 287.368834)">21.5</text>
+   </g>
+   <g id="text_154">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="287.368834" transform="rotate(-0 166.58325 287.368834)">20.7</text>
+   </g>
+   <g id="text_155">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="287.368834" transform="rotate(-0 192.03075 287.368834)">9.9</text>
+   </g>
+   <g id="text_156">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="287.368834" transform="rotate(-0 217.47825 287.368834)">4.3</text>
+   </g>
+   <g id="text_157">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="287.368834" transform="rotate(-0 242.92575 287.368834)">1.4</text>
+   </g>
+   <g id="text_158">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="287.368834" transform="rotate(-0 268.37325 287.368834)">23.2</text>
+   </g>
+   <g id="text_159">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="287.368834" transform="rotate(-0 293.82075 287.368834)">5.2</text>
+   </g>
+   <g id="text_160">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="287.368834" transform="rotate(-0 319.26825 287.368834)">21.9</text>
+   </g>
+   <g id="text_161">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="303.208834" transform="rotate(-0 141.13575 303.208834)">19.9</text>
+   </g>
+   <g id="text_162">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="303.208834" transform="rotate(-0 166.58325 303.208834)">24.7</text>
+   </g>
+   <g id="text_163">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="303.208834" transform="rotate(-0 192.03075 303.208834)">12.1</text>
+   </g>
+   <g id="text_164">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="303.208834" transform="rotate(-0 217.47825 303.208834)">5.3</text>
+   </g>
+   <g id="text_165">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="303.208834" transform="rotate(-0 242.92575 303.208834)">1.8</text>
+   </g>
+   <g id="text_166">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="303.208834" transform="rotate(-0 268.37325 303.208834)">26.1</text>
+   </g>
+   <g id="text_167">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="303.208834" transform="rotate(-0 293.82075 303.208834)">5.9</text>
+   </g>
+   <g id="text_168">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="303.208834" transform="rotate(-0 319.26825 303.208834)">24.4</text>
+   </g>
+   <g id="text_169">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="319.048834" transform="rotate(-0 141.13575 319.048834)">26.2</text>
+   </g>
+   <g id="text_170">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="319.048834" transform="rotate(-0 166.58325 319.048834)">15.3</text>
+   </g>
+   <g id="text_171">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="319.048834" transform="rotate(-0 192.03075 319.048834)">7.7</text>
+   </g>
+   <g id="text_172">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="319.048834" transform="rotate(-0 217.47825 319.048834)">3.8</text>
+   </g>
+   <g id="text_173">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="319.048834" transform="rotate(-0 242.92575 319.048834)">1.7</text>
+   </g>
+   <g id="text_174">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="319.048834" transform="rotate(-0 268.37325 319.048834)">23.0</text>
+   </g>
+   <g id="text_175">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="319.048834" transform="rotate(-0 293.82075 319.048834)">6.0</text>
+   </g>
+   <g id="text_176">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="319.048834" transform="rotate(-0 319.26825 319.048834)">21.6</text>
+   </g>
+   <g id="text_177">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="334.888834" transform="rotate(-0 141.13575 334.888834)">21.9</text>
+   </g>
+   <g id="text_178">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="334.888834" transform="rotate(-0 166.58325 334.888834)">12.2</text>
+   </g>
+   <g id="text_179">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="334.888834" transform="rotate(-0 192.03075 334.888834)">5.6</text>
+   </g>
+   <g id="text_180">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="334.888834" transform="rotate(-0 217.47825 334.888834)">2.2</text>
+   </g>
+   <g id="text_181">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="334.888834" transform="rotate(-0 242.92575 334.888834)">0.6</text>
+   </g>
+   <g id="text_182">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="334.888834" transform="rotate(-0 268.37325 334.888834)">18.5</text>
+   </g>
+   <g id="text_183">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="334.888834" transform="rotate(-0 293.82075 334.888834)">3.7</text>
+   </g>
+   <g id="text_184">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="334.888834" transform="rotate(-0 319.26825 334.888834)">17.4</text>
+   </g>
+   <g id="text_185">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="350.728834" transform="rotate(-0 141.13575 350.728834)">19.0</text>
+   </g>
+   <g id="text_186">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="350.728834" transform="rotate(-0 166.58325 350.728834)">21.4</text>
+   </g>
+   <g id="text_187">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="350.728834" transform="rotate(-0 192.03075 350.728834)">9.4</text>
+   </g>
+   <g id="text_188">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="350.728834" transform="rotate(-0 217.47825 350.728834)">3.4</text>
+   </g>
+   <g id="text_189">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="350.728834" transform="rotate(-0 242.92575 350.728834)">0.8</text>
+   </g>
+   <g id="text_190">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="350.728834" transform="rotate(-0 268.37325 350.728834)">24.2</text>
+   </g>
+   <g id="text_191">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="350.728834" transform="rotate(-0 293.82075 350.728834)">5.0</text>
+   </g>
+   <g id="text_192">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="350.728834" transform="rotate(-0 319.26825 350.728834)">22.6</text>
+   </g>
+   <g id="text_193">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="366.568834" transform="rotate(-0 141.13575 366.568834)">28.8</text>
+   </g>
+   <g id="text_194">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="366.568834" transform="rotate(-0 166.58325 366.568834)">19.5</text>
+   </g>
+   <g id="text_195">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="366.568834" transform="rotate(-0 192.03075 366.568834)">9.0</text>
+   </g>
+   <g id="text_196">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="366.568834" transform="rotate(-0 217.47825 366.568834)">4.3</text>
+   </g>
+   <g id="text_197">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="366.568834" transform="rotate(-0 242.92575 366.568834)">1.2</text>
+   </g>
+   <g id="text_198">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="366.568834" transform="rotate(-0 268.37325 366.568834)">26.5</text>
+   </g>
+   <g id="text_199">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="366.568834" transform="rotate(-0 293.82075 366.568834)">5.1</text>
+   </g>
+   <g id="text_200">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="366.568834" transform="rotate(-0 319.26825 366.568834)">24.9</text>
+   </g>
+   <g id="text_201">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="382.408834" transform="rotate(-0 141.13575 382.408834)">33.5</text>
+   </g>
+   <g id="text_202">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="382.408834" transform="rotate(-0 166.58325 382.408834)">29.8</text>
+   </g>
+   <g id="text_203">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="382.408834" transform="rotate(-0 192.03075 382.408834)">18.8</text>
+   </g>
+   <g id="text_204">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="382.408834" transform="rotate(-0 217.47825 382.408834)">12.2</text>
+   </g>
+   <g id="text_205">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="382.408834" transform="rotate(-0 242.92575 382.408834)">7.7</text>
+   </g>
+   <g id="text_206">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="382.408834" transform="rotate(-0 268.37325 382.408834)">37.5</text>
+   </g>
+   <g id="text_207">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="382.408834" transform="rotate(-0 293.82075 382.408834)">14.3</text>
+   </g>
+   <g id="text_208">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="382.408834" transform="rotate(-0 319.26825 382.408834)">35.7</text>
+   </g>
+   <g id="text_209">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="398.248834" transform="rotate(-0 141.13575 398.248834)">36.0</text>
+   </g>
+   <g id="text_210">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="398.248834" transform="rotate(-0 166.58325 398.248834)">35.7</text>
+   </g>
+   <g id="text_211">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="398.248834" transform="rotate(-0 192.03075 398.248834)">23.0</text>
+   </g>
+   <g id="text_212">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="398.248834" transform="rotate(-0 217.47825 398.248834)">15.8</text>
+   </g>
+   <g id="text_213">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="398.248834" transform="rotate(-0 242.92575 398.248834)">10.7</text>
+   </g>
+   <g id="text_214">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="398.248834" transform="rotate(-0 268.37325 398.248834)">42.9</text>
+   </g>
+   <g id="text_215">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="398.248834" transform="rotate(-0 293.82075 398.248834)">17.7</text>
+   </g>
+   <g id="text_216">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="398.248834" transform="rotate(-0 319.26825 398.248834)">41.1</text>
+   </g>
+   <g id="text_217">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="141.13575" y="414.088834" transform="rotate(-0 141.13575 414.088834)">35.8</text>
+   </g>
+   <g id="text_218">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="166.58325" y="414.088834" transform="rotate(-0 166.58325 414.088834)">22.9</text>
+   </g>
+   <g id="text_219">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="192.03075" y="414.088834" transform="rotate(-0 192.03075 414.088834)">13.3</text>
+   </g>
+   <g id="text_220">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="217.47825" y="414.088834" transform="rotate(-0 217.47825 414.088834)">8.1</text>
+   </g>
+   <g id="text_221">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="242.92575" y="414.088834" transform="rotate(-0 242.92575 414.088834)">4.9</text>
+   </g>
+   <g id="text_222">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="268.37325" y="414.088834" transform="rotate(-0 268.37325 414.088834)">30.6</text>
+   </g>
+   <g id="text_223">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="293.82075" y="414.088834" transform="rotate(-0 293.82075 414.088834)">9.8</text>
+   </g>
+   <g id="text_224">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="319.26825" y="414.088834" transform="rotate(-0 319.26825 414.088834)">29.2</text>
+   </g>
+   <g id="text_225">
+    <text style="font: 13.915px 'Times New Roman'; text-anchor: middle" x="230.202" y="32.6" transform="rotate(-0 230.202 32.6)">MIMIC-CXR</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_3">
+    <path d="M 355.7952 419.76 
+L 559.3752 419.76 
+L 559.3752 39.6 
+L 355.7952 39.6 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g clip-path="url(#pba4e9027e6)">
+    <image xlink:href="data:image/png;base64,
+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" id="imagef47b94f100" transform="scale(1 -1) translate(0 -380.290909)" x="355.7952" y="-39.469091" width="203.890909" height="380.290909"/>
+   </g>
+   <g id="matplotlib.axis_3">
+    <g id="xtick_18">
+     <g id="line2d_101"/>
+     <g id="text_226">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="373.487842" y="429.728892" transform="rotate(-45 373.487842 429.728892)">METEOR</text>
+     </g>
+    </g>
+    <g id="xtick_19">
+     <g id="line2d_102"/>
+     <g id="text_227">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="398.935342" y="429.728892" transform="rotate(-45 398.935342 429.728892)">BLEU-1</text>
+     </g>
+    </g>
+    <g id="xtick_20">
+     <g id="line2d_103"/>
+     <g id="text_228">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="424.382842" y="429.728892" transform="rotate(-45 424.382842 429.728892)">BLEU-2</text>
+     </g>
+    </g>
+    <g id="xtick_21">
+     <g id="line2d_104"/>
+     <g id="text_229">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="449.830342" y="429.728892" transform="rotate(-45 449.830342 429.728892)">BLEU-3</text>
+     </g>
+    </g>
+    <g id="xtick_22">
+     <g id="line2d_105"/>
+     <g id="text_230">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="475.277842" y="429.728892" transform="rotate(-45 475.277842 429.728892)">BLEU-4</text>
+     </g>
+    </g>
+    <g id="xtick_23">
+     <g id="line2d_106"/>
+     <g id="text_231">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="500.725342" y="429.728892" transform="rotate(-45 500.725342 429.728892)">ROUGE-1</text>
+     </g>
+    </g>
+    <g id="xtick_24">
+     <g id="line2d_107"/>
+     <g id="text_232">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="526.172842" y="429.728892" transform="rotate(-45 526.172842 429.728892)">ROUGE-2</text>
+     </g>
+    </g>
+    <g id="xtick_25">
+     <g id="line2d_108"/>
+     <g id="text_233">
+      <text style="font: 10.12px 'Times New Roman'; text-anchor: end" x="551.620342" y="429.728892" transform="rotate(-45 551.620342 429.728892)">ROUGE-L</text>
+     </g>
+    </g>
+    <g id="xtick_26">
+     <g id="line2d_109">
+      <path d="M 355.7952 419.76 
+L 355.7952 39.6 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_110"/>
+    </g>
+    <g id="xtick_27">
+     <g id="line2d_111">
+      <path d="M 381.2427 419.76 
+L 381.2427 39.6 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_112"/>
+    </g>
+    <g id="xtick_28">
+     <g id="line2d_113">
+      <path d="M 406.6902 419.76 
+L 406.6902 39.6 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_114"/>
+    </g>
+    <g id="xtick_29">
+     <g id="line2d_115">
+      <path d="M 432.1377 419.76 
+L 432.1377 39.6 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_116"/>
+    </g>
+    <g id="xtick_30">
+     <g id="line2d_117">
+      <path d="M 457.5852 419.76 
+L 457.5852 39.6 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_118"/>
+    </g>
+    <g id="xtick_31">
+     <g id="line2d_119">
+      <path d="M 483.0327 419.76 
+L 483.0327 39.6 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_120"/>
+    </g>
+    <g id="xtick_32">
+     <g id="line2d_121">
+      <path d="M 508.4802 419.76 
+L 508.4802 39.6 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_122"/>
+    </g>
+    <g id="xtick_33">
+     <g id="line2d_123">
+      <path d="M 533.9277 419.76 
+L 533.9277 39.6 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_124"/>
+    </g>
+    <g id="xtick_34">
+     <g id="line2d_125">
+      <path d="M 559.3752 419.76 
+L 559.3752 39.6 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_126"/>
+    </g>
+   </g>
+   <g id="matplotlib.axis_4">
+    <g id="ytick_50">
+     <g id="line2d_127"/>
+    </g>
+    <g id="ytick_51">
+     <g id="line2d_128"/>
+    </g>
+    <g id="ytick_52">
+     <g id="line2d_129"/>
+    </g>
+    <g id="ytick_53">
+     <g id="line2d_130"/>
+    </g>
+    <g id="ytick_54">
+     <g id="line2d_131"/>
+    </g>
+    <g id="ytick_55">
+     <g id="line2d_132"/>
+    </g>
+    <g id="ytick_56">
+     <g id="line2d_133"/>
+    </g>
+    <g id="ytick_57">
+     <g id="line2d_134"/>
+    </g>
+    <g id="ytick_58">
+     <g id="line2d_135"/>
+    </g>
+    <g id="ytick_59">
+     <g id="line2d_136"/>
+    </g>
+    <g id="ytick_60">
+     <g id="line2d_137"/>
+    </g>
+    <g id="ytick_61">
+     <g id="line2d_138"/>
+    </g>
+    <g id="ytick_62">
+     <g id="line2d_139"/>
+    </g>
+    <g id="ytick_63">
+     <g id="line2d_140"/>
+    </g>
+    <g id="ytick_64">
+     <g id="line2d_141"/>
+    </g>
+    <g id="ytick_65">
+     <g id="line2d_142"/>
+    </g>
+    <g id="ytick_66">
+     <g id="line2d_143"/>
+    </g>
+    <g id="ytick_67">
+     <g id="line2d_144"/>
+    </g>
+    <g id="ytick_68">
+     <g id="line2d_145"/>
+    </g>
+    <g id="ytick_69">
+     <g id="line2d_146"/>
+    </g>
+    <g id="ytick_70">
+     <g id="line2d_147"/>
+    </g>
+    <g id="ytick_71">
+     <g id="line2d_148"/>
+    </g>
+    <g id="ytick_72">
+     <g id="line2d_149"/>
+    </g>
+    <g id="ytick_73">
+     <g id="line2d_150"/>
+    </g>
+    <g id="ytick_74">
+     <g id="line2d_151">
+      <path d="M 355.7952 39.6 
+L 559.3752 39.6 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_152"/>
+    </g>
+    <g id="ytick_75">
+     <g id="line2d_153">
+      <path d="M 355.7952 55.44 
+L 559.3752 55.44 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_154"/>
+    </g>
+    <g id="ytick_76">
+     <g id="line2d_155">
+      <path d="M 355.7952 71.28 
+L 559.3752 71.28 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_156"/>
+    </g>
+    <g id="ytick_77">
+     <g id="line2d_157">
+      <path d="M 355.7952 87.12 
+L 559.3752 87.12 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_158"/>
+    </g>
+    <g id="ytick_78">
+     <g id="line2d_159">
+      <path d="M 355.7952 102.96 
+L 559.3752 102.96 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_160"/>
+    </g>
+    <g id="ytick_79">
+     <g id="line2d_161">
+      <path d="M 355.7952 118.8 
+L 559.3752 118.8 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_162"/>
+    </g>
+    <g id="ytick_80">
+     <g id="line2d_163">
+      <path d="M 355.7952 134.64 
+L 559.3752 134.64 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_164"/>
+    </g>
+    <g id="ytick_81">
+     <g id="line2d_165">
+      <path d="M 355.7952 150.48 
+L 559.3752 150.48 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_166"/>
+    </g>
+    <g id="ytick_82">
+     <g id="line2d_167">
+      <path d="M 355.7952 166.32 
+L 559.3752 166.32 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_168"/>
+    </g>
+    <g id="ytick_83">
+     <g id="line2d_169">
+      <path d="M 355.7952 182.16 
+L 559.3752 182.16 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_170"/>
+    </g>
+    <g id="ytick_84">
+     <g id="line2d_171">
+      <path d="M 355.7952 198 
+L 559.3752 198 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_172"/>
+    </g>
+    <g id="ytick_85">
+     <g id="line2d_173">
+      <path d="M 355.7952 213.84 
+L 559.3752 213.84 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_174"/>
+    </g>
+    <g id="ytick_86">
+     <g id="line2d_175">
+      <path d="M 355.7952 229.68 
+L 559.3752 229.68 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_176"/>
+    </g>
+    <g id="ytick_87">
+     <g id="line2d_177">
+      <path d="M 355.7952 245.52 
+L 559.3752 245.52 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_178"/>
+    </g>
+    <g id="ytick_88">
+     <g id="line2d_179">
+      <path d="M 355.7952 261.36 
+L 559.3752 261.36 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_180"/>
+    </g>
+    <g id="ytick_89">
+     <g id="line2d_181">
+      <path d="M 355.7952 277.2 
+L 559.3752 277.2 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_182"/>
+    </g>
+    <g id="ytick_90">
+     <g id="line2d_183">
+      <path d="M 355.7952 293.04 
+L 559.3752 293.04 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_184"/>
+    </g>
+    <g id="ytick_91">
+     <g id="line2d_185">
+      <path d="M 355.7952 308.88 
+L 559.3752 308.88 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_186"/>
+    </g>
+    <g id="ytick_92">
+     <g id="line2d_187">
+      <path d="M 355.7952 324.72 
+L 559.3752 324.72 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_188"/>
+    </g>
+    <g id="ytick_93">
+     <g id="line2d_189">
+      <path d="M 355.7952 340.56 
+L 559.3752 340.56 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_190"/>
+    </g>
+    <g id="ytick_94">
+     <g id="line2d_191">
+      <path d="M 355.7952 356.4 
+L 559.3752 356.4 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_192"/>
+    </g>
+    <g id="ytick_95">
+     <g id="line2d_193">
+      <path d="M 355.7952 372.24 
+L 559.3752 372.24 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_194"/>
+    </g>
+    <g id="ytick_96">
+     <g id="line2d_195">
+      <path d="M 355.7952 388.08 
+L 559.3752 388.08 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_196"/>
+    </g>
+    <g id="ytick_97">
+     <g id="line2d_197">
+      <path d="M 355.7952 403.92 
+L 559.3752 403.92 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_198"/>
+    </g>
+    <g id="ytick_98">
+     <g id="line2d_199">
+      <path d="M 355.7952 419.76 
+L 559.3752 419.76 
+" clip-path="url(#pba4e9027e6)" style="fill: none; stroke: #ffffff; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_200"/>
+    </g>
+   </g>
+   <g id="text_234">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="49.768834" transform="rotate(-0 368.51895 49.768834)">33.6</text>
+   </g>
+   <g id="text_235">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="49.768834" transform="rotate(-0 393.96645 49.768834)">35.5</text>
+   </g>
+   <g id="text_236">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="49.768834" transform="rotate(-0 419.41395 49.768834)">20.2</text>
+   </g>
+   <g id="text_237">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="49.768834" transform="rotate(-0 444.86145 49.768834)">12.1</text>
+   </g>
+   <g id="text_238">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="49.768834" transform="rotate(-0 470.30895 49.768834)">5.5</text>
+   </g>
+   <g id="text_239">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="49.768834" transform="rotate(-0 495.75645 49.768834)">44.7</text>
+   </g>
+   <g id="text_240">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="49.768834" transform="rotate(-0 521.20395 49.768834)">16.3</text>
+   </g>
+   <g id="text_241">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="49.768834" transform="rotate(-0 546.65145 49.768834)">35.1</text>
+   </g>
+   <g id="text_242">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="65.608834" transform="rotate(-0 368.51895 65.608834)">37.9</text>
+   </g>
+   <g id="text_243">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="65.608834" transform="rotate(-0 393.96645 65.608834)">38.4</text>
+   </g>
+   <g id="text_244">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="65.608834" transform="rotate(-0 419.41395 65.608834)">26.9</text>
+   </g>
+   <g id="text_245">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="65.608834" transform="rotate(-0 444.86145 65.608834)">19.7</text>
+   </g>
+   <g id="text_246">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="65.608834" transform="rotate(-0 470.30895 65.608834)">14.1</text>
+   </g>
+   <g id="text_247">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="65.608834" transform="rotate(-0 495.75645 65.608834)">47.6</text>
+   </g>
+   <g id="text_248">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="65.608834" transform="rotate(-0 521.20395 65.608834)">24.9</text>
+   </g>
+   <g id="text_249">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="65.608834" transform="rotate(-0 546.65145 65.608834)">38.9</text>
+   </g>
+   <g id="text_250">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="81.448834" transform="rotate(-0 368.51895 81.448834)">33.2</text>
+   </g>
+   <g id="text_251">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="81.448834" transform="rotate(-0 393.96645 81.448834)">37.0</text>
+   </g>
+   <g id="text_252">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="81.448834" transform="rotate(-0 419.41395 81.448834)">22.8</text>
+   </g>
+   <g id="text_253">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="81.448834" transform="rotate(-0 444.86145 81.448834)">14.7</text>
+   </g>
+   <g id="text_254">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="81.448834" transform="rotate(-0 470.30895 81.448834)">9.1</text>
+   </g>
+   <g id="text_255">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="81.448834" transform="rotate(-0 495.75645 81.448834)">40.8</text>
+   </g>
+   <g id="text_256">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="81.448834" transform="rotate(-0 521.20395 81.448834)">15.0</text>
+   </g>
+   <g id="text_257">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="81.448834" transform="rotate(-0 546.65145 81.448834)">37.9</text>
+   </g>
+   <g id="text_258">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="97.288834" transform="rotate(-0 368.51895 97.288834)">35.1</text>
+   </g>
+   <g id="text_259">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="97.288834" transform="rotate(-0 393.96645 97.288834)">39.4</text>
+   </g>
+   <g id="text_260">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="97.288834" transform="rotate(-0 419.41395 97.288834)">25.8</text>
+   </g>
+   <g id="text_261">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="97.288834" transform="rotate(-0 444.86145 97.288834)">16.9</text>
+   </g>
+   <g id="text_262">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="97.288834" transform="rotate(-0 470.30895 97.288834)">10.4</text>
+   </g>
+   <g id="text_263">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="97.288834" transform="rotate(-0 495.75645 97.288834)">42.4</text>
+   </g>
+   <g id="text_264">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="97.288834" transform="rotate(-0 521.20395 97.288834)">17.4</text>
+   </g>
+   <g id="text_265">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="97.288834" transform="rotate(-0 546.65145 97.288834)">39.7</text>
+   </g>
+   <g id="text_266">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="113.128834" transform="rotate(-0 368.51895 113.128834)">13.4</text>
+   </g>
+   <g id="text_267">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="113.128834" transform="rotate(-0 393.96645 113.128834)">9.4</text>
+   </g>
+   <g id="text_268">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="113.128834" transform="rotate(-0 419.41395 113.128834)">1.8</text>
+   </g>
+   <g id="text_269">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="113.128834" transform="rotate(-0 444.86145 113.128834)">0.2</text>
+   </g>
+   <g id="text_270">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="113.128834" transform="rotate(-0 470.30895 113.128834)">0.1</text>
+   </g>
+   <g id="text_271">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="113.128834" transform="rotate(-0 495.75645 113.128834)">10.0</text>
+   </g>
+   <g id="text_272">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="113.128834" transform="rotate(-0 521.20395 113.128834)">0.9</text>
+   </g>
+   <g id="text_273">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="113.128834" transform="rotate(-0 546.65145 113.128834)">9.6</text>
+   </g>
+   <g id="text_274">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="128.968834" transform="rotate(-0 368.51895 128.968834)">27.7</text>
+   </g>
+   <g id="text_275">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="128.968834" transform="rotate(-0 393.96645 128.968834)">17.4</text>
+   </g>
+   <g id="text_276">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="128.968834" transform="rotate(-0 419.41395 128.968834)">7.9</text>
+   </g>
+   <g id="text_277">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="128.968834" transform="rotate(-0 444.86145 128.968834)">3.1</text>
+   </g>
+   <g id="text_278">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="128.968834" transform="rotate(-0 470.30895 128.968834)">1.2</text>
+   </g>
+   <g id="text_279">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="128.968834" transform="rotate(-0 495.75645 128.968834)">23.5</text>
+   </g>
+   <g id="text_280">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="128.968834" transform="rotate(-0 521.20395 128.968834)">3.7</text>
+   </g>
+   <g id="text_281">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="128.968834" transform="rotate(-0 546.65145 128.968834)">21.7</text>
+   </g>
+   <g id="text_282">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="144.808834" transform="rotate(-0 368.51895 144.808834)">35.4</text>
+   </g>
+   <g id="text_283">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="144.808834" transform="rotate(-0 393.96645 144.808834)">37.5</text>
+   </g>
+   <g id="text_284">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="144.808834" transform="rotate(-0 419.41395 144.808834)">22.8</text>
+   </g>
+   <g id="text_285">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="144.808834" transform="rotate(-0 444.86145 144.808834)">14.4</text>
+   </g>
+   <g id="text_286">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="144.808834" transform="rotate(-0 470.30895 144.808834)">8.9</text>
+   </g>
+   <g id="text_287">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="144.808834" transform="rotate(-0 495.75645 144.808834)">47.2</text>
+   </g>
+   <g id="text_288">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="144.808834" transform="rotate(-0 521.20395 144.808834)">16.6</text>
+   </g>
+   <g id="text_289">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="144.808834" transform="rotate(-0 546.65145 144.808834)">44.2</text>
+   </g>
+   <g id="text_290">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="160.648834" transform="rotate(-0 368.51895 160.648834)">33.8</text>
+   </g>
+   <g id="text_291">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="160.648834" transform="rotate(-0 393.96645 160.648834)">18.8</text>
+   </g>
+   <g id="text_292">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="160.648834" transform="rotate(-0 419.41395 160.648834)">10.9</text>
+   </g>
+   <g id="text_293">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="160.648834" transform="rotate(-0 444.86145 160.648834)">6.2</text>
+   </g>
+   <g id="text_294">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="160.648834" transform="rotate(-0 470.30895 160.648834)">3.3</text>
+   </g>
+   <g id="text_295">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="160.648834" transform="rotate(-0 495.75645 160.648834)">27.9</text>
+   </g>
+   <g id="text_296">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="160.648834" transform="rotate(-0 521.20395 160.648834)">8.1</text>
+   </g>
+   <g id="text_297">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="160.648834" transform="rotate(-0 546.65145 160.648834)">26.1</text>
+   </g>
+   <g id="text_298">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="176.488834" transform="rotate(-0 368.51895 176.488834)">26.8</text>
+   </g>
+   <g id="text_299">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="176.488834" transform="rotate(-0 393.96645 176.488834)">30.1</text>
+   </g>
+   <g id="text_300">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="176.488834" transform="rotate(-0 419.41395 176.488834)">14.5</text>
+   </g>
+   <g id="text_301">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="176.488834" transform="rotate(-0 444.86145 176.488834)">7.7</text>
+   </g>
+   <g id="text_302">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="176.488834" transform="rotate(-0 470.30895 176.488834)">3.7</text>
+   </g>
+   <g id="text_303">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="176.488834" transform="rotate(-0 495.75645 176.488834)">34.5</text>
+   </g>
+   <g id="text_304">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="176.488834" transform="rotate(-0 521.20395 176.488834)">7.2</text>
+   </g>
+   <g id="text_305">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="176.488834" transform="rotate(-0 546.65145 176.488834)">31.8</text>
+   </g>
+   <g id="text_306">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="192.328834" transform="rotate(-0 368.51895 192.328834)">34.0</text>
+   </g>
+   <g id="text_307">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="192.328834" transform="rotate(-0 393.96645 192.328834)">22.9</text>
+   </g>
+   <g id="text_308">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="192.328834" transform="rotate(-0 419.41395 192.328834)">12.3</text>
+   </g>
+   <g id="text_309">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="192.328834" transform="rotate(-0 444.86145 192.328834)">6.5</text>
+   </g>
+   <g id="text_310">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="192.328834" transform="rotate(-0 470.30895 192.328834)">3.0</text>
+   </g>
+   <g id="text_311">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="192.328834" transform="rotate(-0 495.75645 192.328834)">30.5</text>
+   </g>
+   <g id="text_312">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="192.328834" transform="rotate(-0 521.20395 192.328834)">8.0</text>
+   </g>
+   <g id="text_313">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="192.328834" transform="rotate(-0 546.65145 192.328834)">28.3</text>
+   </g>
+   <g id="text_314">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="208.168834" transform="rotate(-0 368.51895 208.168834)">22.7</text>
+   </g>
+   <g id="text_315">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="208.168834" transform="rotate(-0 393.96645 208.168834)">12.6</text>
+   </g>
+   <g id="text_316">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="208.168834" transform="rotate(-0 419.41395 208.168834)">5.3</text>
+   </g>
+   <g id="text_317">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="208.168834" transform="rotate(-0 444.86145 208.168834)">2.2</text>
+   </g>
+   <g id="text_318">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="208.168834" transform="rotate(-0 470.30895 208.168834)">1.0</text>
+   </g>
+   <g id="text_319">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="208.168834" transform="rotate(-0 495.75645 208.168834)">20.7</text>
+   </g>
+   <g id="text_320">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="208.168834" transform="rotate(-0 521.20395 208.168834)">4.0</text>
+   </g>
+   <g id="text_321">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="208.168834" transform="rotate(-0 546.65145 208.168834)">19.3</text>
+   </g>
+   <g id="text_322">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="224.008834" transform="rotate(-0 368.51895 224.008834)">26.6</text>
+   </g>
+   <g id="text_323">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="224.008834" transform="rotate(-0 393.96645 224.008834)">13.1</text>
+   </g>
+   <g id="text_324">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="224.008834" transform="rotate(-0 419.41395 224.008834)">6.3</text>
+   </g>
+   <g id="text_325">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="224.008834" transform="rotate(-0 444.86145 224.008834)">3.1</text>
+   </g>
+   <g id="text_326">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="224.008834" transform="rotate(-0 470.30895 224.008834)">1.4</text>
+   </g>
+   <g id="text_327">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="224.008834" transform="rotate(-0 495.75645 224.008834)">23.2</text>
+   </g>
+   <g id="text_328">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="224.008834" transform="rotate(-0 521.20395 224.008834)">5.1</text>
+   </g>
+   <g id="text_329">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="224.008834" transform="rotate(-0 546.65145 224.008834)">22.1</text>
+   </g>
+   <g id="text_330">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="239.848834" transform="rotate(-0 368.51895 239.848834)">24.2</text>
+   </g>
+   <g id="text_331">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="239.848834" transform="rotate(-0 393.96645 239.848834)">10.0</text>
+   </g>
+   <g id="text_332">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="239.848834" transform="rotate(-0 419.41395 239.848834)">4.2</text>
+   </g>
+   <g id="text_333">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="239.848834" transform="rotate(-0 444.86145 239.848834)">1.7</text>
+   </g>
+   <g id="text_334">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="239.848834" transform="rotate(-0 470.30895 239.848834)">0.4</text>
+   </g>
+   <g id="text_335">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="239.848834" transform="rotate(-0 495.75645 239.848834)">16.6</text>
+   </g>
+   <g id="text_336">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="239.848834" transform="rotate(-0 521.20395 239.848834)">3.2</text>
+   </g>
+   <g id="text_337">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="239.848834" transform="rotate(-0 546.65145 239.848834)">15.8</text>
+   </g>
+   <g id="text_338">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="255.688834" transform="rotate(-0 368.51895 255.688834)">33.0</text>
+   </g>
+   <g id="text_339">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="255.688834" transform="rotate(-0 393.96645 255.688834)">21.6</text>
+   </g>
+   <g id="text_340">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="255.688834" transform="rotate(-0 419.41395 255.688834)">10.9</text>
+   </g>
+   <g id="text_341">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="255.688834" transform="rotate(-0 444.86145 255.688834)">5.4</text>
+   </g>
+   <g id="text_342">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="255.688834" transform="rotate(-0 470.30895 255.688834)">2.8</text>
+   </g>
+   <g id="text_343">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="255.688834" transform="rotate(-0 495.75645 255.688834)">30.3</text>
+   </g>
+   <g id="text_344">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="255.688834" transform="rotate(-0 521.20395 255.688834)">6.9</text>
+   </g>
+   <g id="text_345">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="255.688834" transform="rotate(-0 546.65145 255.688834)">28.4</text>
+   </g>
+   <g id="text_346">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="271.528834" transform="rotate(-0 368.51895 271.528834)">14.2</text>
+   </g>
+   <g id="text_347">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="271.528834" transform="rotate(-0 393.96645 271.528834)">11.6</text>
+   </g>
+   <g id="text_348">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="271.528834" transform="rotate(-0 419.41395 271.528834)">3.6</text>
+   </g>
+   <g id="text_349">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="271.528834" transform="rotate(-0 444.86145 271.528834)">0.3</text>
+   </g>
+   <g id="text_350">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="271.528834" transform="rotate(-0 470.30895 271.528834)">0.0</text>
+   </g>
+   <g id="text_351">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="271.528834" transform="rotate(-0 495.75645 271.528834)">14.0</text>
+   </g>
+   <g id="text_352">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="271.528834" transform="rotate(-0 521.20395 271.528834)">1.8</text>
+   </g>
+   <g id="text_353">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="271.528834" transform="rotate(-0 546.65145 271.528834)">13.1</text>
+   </g>
+   <g id="text_354">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="287.368834" transform="rotate(-0 368.51895 287.368834)">27.9</text>
+   </g>
+   <g id="text_355">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="287.368834" transform="rotate(-0 393.96645 287.368834)">18.2</text>
+   </g>
+   <g id="text_356">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="287.368834" transform="rotate(-0 419.41395 287.368834)">9.3</text>
+   </g>
+   <g id="text_357">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="287.368834" transform="rotate(-0 444.86145 287.368834)">4.7</text>
+   </g>
+   <g id="text_358">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="287.368834" transform="rotate(-0 470.30895 287.368834)">2.2</text>
+   </g>
+   <g id="text_359">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="287.368834" transform="rotate(-0 495.75645 287.368834)">26.1</text>
+   </g>
+   <g id="text_360">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="287.368834" transform="rotate(-0 521.20395 287.368834)">6.5</text>
+   </g>
+   <g id="text_361">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="287.368834" transform="rotate(-0 546.65145 287.368834)">24.7</text>
+   </g>
+   <g id="text_362">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="303.208834" transform="rotate(-0 368.51895 303.208834)">29.5</text>
+   </g>
+   <g id="text_363">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="303.208834" transform="rotate(-0 393.96645 303.208834)">25.4</text>
+   </g>
+   <g id="text_364">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="303.208834" transform="rotate(-0 419.41395 303.208834)">13.3</text>
+   </g>
+   <g id="text_365">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="303.208834" transform="rotate(-0 444.86145 303.208834)">6.7</text>
+   </g>
+   <g id="text_366">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="303.208834" transform="rotate(-0 470.30895 303.208834)">3.3</text>
+   </g>
+   <g id="text_367">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="303.208834" transform="rotate(-0 495.75645 303.208834)">30.2</text>
+   </g>
+   <g id="text_368">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="303.208834" transform="rotate(-0 521.20395 303.208834)">7.8</text>
+   </g>
+   <g id="text_369">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="303.208834" transform="rotate(-0 546.65145 303.208834)">28.4</text>
+   </g>
+   <g id="text_370">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="319.048834" transform="rotate(-0 368.51895 319.048834)">25.1</text>
+   </g>
+   <g id="text_371">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="319.048834" transform="rotate(-0 393.96645 319.048834)">10.8</text>
+   </g>
+   <g id="text_372">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="319.048834" transform="rotate(-0 419.41395 319.048834)">5.5</text>
+   </g>
+   <g id="text_373">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="319.048834" transform="rotate(-0 444.86145 319.048834)">2.7</text>
+   </g>
+   <g id="text_374">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="319.048834" transform="rotate(-0 470.30895 319.048834)">1.1</text>
+   </g>
+   <g id="text_375">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="319.048834" transform="rotate(-0 495.75645 319.048834)">19.9</text>
+   </g>
+   <g id="text_376">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="319.048834" transform="rotate(-0 521.20395 319.048834)">4.7</text>
+   </g>
+   <g id="text_377">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="319.048834" transform="rotate(-0 546.65145 319.048834)">18.7</text>
+   </g>
+   <g id="text_378">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="334.888834" transform="rotate(-0 368.51895 334.888834)">13.3</text>
+   </g>
+   <g id="text_379">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="334.888834" transform="rotate(-0 393.96645 334.888834)">3.4</text>
+   </g>
+   <g id="text_380">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="334.888834" transform="rotate(-0 419.41395 334.888834)">1.8</text>
+   </g>
+   <g id="text_381">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="334.888834" transform="rotate(-0 444.86145 334.888834)">0.9</text>
+   </g>
+   <g id="text_382">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="334.888834" transform="rotate(-0 470.30895 334.888834)">0.3</text>
+   </g>
+   <g id="text_383">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="334.888834" transform="rotate(-0 495.75645 334.888834)">13.7</text>
+   </g>
+   <g id="text_384">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="334.888834" transform="rotate(-0 521.20395 334.888834)">2.9</text>
+   </g>
+   <g id="text_385">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="334.888834" transform="rotate(-0 546.65145 334.888834)">13.2</text>
+   </g>
+   <g id="text_386">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="350.728834" transform="rotate(-0 368.51895 350.728834)">18.1</text>
+   </g>
+   <g id="text_387">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="350.728834" transform="rotate(-0 393.96645 350.728834)">5.7</text>
+   </g>
+   <g id="text_388">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="350.728834" transform="rotate(-0 419.41395 350.728834)">2.7</text>
+   </g>
+   <g id="text_389">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="350.728834" transform="rotate(-0 444.86145 350.728834)">1.1</text>
+   </g>
+   <g id="text_390">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="350.728834" transform="rotate(-0 470.30895 350.728834)">0.4</text>
+   </g>
+   <g id="text_391">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="350.728834" transform="rotate(-0 495.75645 350.728834)">15.8</text>
+   </g>
+   <g id="text_392">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="350.728834" transform="rotate(-0 521.20395 350.728834)">3.1</text>
+   </g>
+   <g id="text_393">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="350.728834" transform="rotate(-0 546.65145 350.728834)">15.4</text>
+   </g>
+   <g id="text_394">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="366.568834" transform="rotate(-0 368.51895 366.568834)">28.8</text>
+   </g>
+   <g id="text_395">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="366.568834" transform="rotate(-0 393.96645 366.568834)">15.0</text>
+   </g>
+   <g id="text_396">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="366.568834" transform="rotate(-0 419.41395 366.568834)">7.3</text>
+   </g>
+   <g id="text_397">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="366.568834" transform="rotate(-0 444.86145 366.568834)">3.4</text>
+   </g>
+   <g id="text_398">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="366.568834" transform="rotate(-0 470.30895 366.568834)">1.5</text>
+   </g>
+   <g id="text_399">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="366.568834" transform="rotate(-0 495.75645 366.568834)">25.1</text>
+   </g>
+   <g id="text_400">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="366.568834" transform="rotate(-0 521.20395 366.568834)">4.8</text>
+   </g>
+   <g id="text_401">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="366.568834" transform="rotate(-0 546.65145 366.568834)">23.9</text>
+   </g>
+   <g id="text_402">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="382.408834" transform="rotate(-0 368.51895 382.408834)">34.2</text>
+   </g>
+   <g id="text_403">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="382.408834" transform="rotate(-0 393.96645 382.408834)">30.1</text>
+   </g>
+   <g id="text_404">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="382.408834" transform="rotate(-0 419.41395 382.408834)">18.2</text>
+   </g>
+   <g id="text_405">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="382.408834" transform="rotate(-0 444.86145 382.408834)">11.0</text>
+   </g>
+   <g id="text_406">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="382.408834" transform="rotate(-0 470.30895 382.408834)">6.2</text>
+   </g>
+   <g id="text_407">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="382.408834" transform="rotate(-0 495.75645 382.408834)">36.3</text>
+   </g>
+   <g id="text_408">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="382.408834" transform="rotate(-0 521.20395 382.408834)">12.3</text>
+   </g>
+   <g id="text_409">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="382.408834" transform="rotate(-0 546.65145 382.408834)">34.4</text>
+   </g>
+   <g id="text_410">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="398.248834" transform="rotate(-0 368.51895 398.248834)">35.2</text>
+   </g>
+   <g id="text_411">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="398.248834" transform="rotate(-0 393.96645 398.248834)">31.3</text>
+   </g>
+   <g id="text_412">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="398.248834" transform="rotate(-0 419.41395 398.248834)">18.5</text>
+   </g>
+   <g id="text_413">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="398.248834" transform="rotate(-0 444.86145 398.248834)">11.0</text>
+   </g>
+   <g id="text_414">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="398.248834" transform="rotate(-0 470.30895 398.248834)">6.1</text>
+   </g>
+   <g id="text_415">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="398.248834" transform="rotate(-0 495.75645 398.248834)">37.5</text>
+   </g>
+   <g id="text_416">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="398.248834" transform="rotate(-0 521.20395 398.248834)">11.8</text>
+   </g>
+   <g id="text_417">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="398.248834" transform="rotate(-0 546.65145 398.248834)">35.3</text>
+   </g>
+   <g id="text_418">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="368.51895" y="414.088834" transform="rotate(-0 368.51895 414.088834)">32.3</text>
+   </g>
+   <g id="text_419">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="393.96645" y="414.088834" transform="rotate(-0 393.96645 414.088834)">16.2</text>
+   </g>
+   <g id="text_420">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="419.41395" y="414.088834" transform="rotate(-0 419.41395 414.088834)">9.0</text>
+   </g>
+   <g id="text_421">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="444.86145" y="414.088834" transform="rotate(-0 444.86145 414.088834)">4.8</text>
+   </g>
+   <g id="text_422">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="470.30895" y="414.088834" transform="rotate(-0 470.30895 414.088834)">2.5</text>
+   </g>
+   <g id="text_423">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="495.75645" y="414.088834" transform="rotate(-0 495.75645 414.088834)">26.3</text>
+   </g>
+   <g id="text_424">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="521.20395" y="414.088834" transform="rotate(-0 521.20395 414.088834)">6.7</text>
+   </g>
+   <g id="text_425">
+    <text style="fill: #263346; font: 9.361px 'Times New Roman'; text-anchor: middle" x="546.65145" y="414.088834" transform="rotate(-0 546.65145 414.088834)">24.8</text>
+   </g>
+   <g id="text_426">
+    <text style="font: 13.915px 'Times New Roman'; text-anchor: middle" x="457.5852" y="32.6" transform="rotate(-0 457.5852 32.6)">IU-Xray</text>
+   </g>
+  </g>
+  <g id="axes_3">
+   <g id="patch_4">
+    <path d="M 576.288 419.76 
+L 585.0576 419.76 
+L 585.0576 39.6 
+L 576.288 39.6 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <image xlink:href="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAABsAAASKCAYAAACvoRWgAAAF90lEQVR4nO3dUYrcWhYFUb3gzH/ATTd+9Az2RyBwKtYAdkDZRleqVPqf//7nf3+el/BW6P+KKXBmNsUUODObYgqcmU2xv+/HeH9eu04//QVxIO1MiilwZjbFFDgzm2IKfjZ2z/PepZrXSk8xCdbQopjiXvw3/fRn9jfenz3v4cXWU0yBM7MppsCZ2RRT4MxsiilwZjbFFPxs7DrrG3hedB2/DSgro2IKnJlNMQXOzKaYAmdmU0yBM7MpprjnxY+68FrpKSbBGloUU1z3ZwaUlVExBc7MppgCZ2ZTTIEz8/XY9fTbgLIyKqbAmdkUU+DMfD123Z8ZUFZGxRQ4M5tiCn42dh2/DSgro2IKfjZ2vRJm4Gdj1/HbgLIyKqbAmdkUU/Czsev4bUBZGRVT4MxsiilwZjbFFDgzm2KK6/7MgLIyKqbgZ2PXWd+AsjIqpsCZ2RRT4MxsiilwZr4eu35/ZuB50XXLZOBnY9fx24CyMiqmwJnZFFPgzGyKKXBmNsUUODObYgqcmU0xxfUfChlQVkbFFDgzm2IKnJlNMQXOzKaYAmdmU0yBM7Mpprg/fcuhAGNkVUyBM7MppsCZ2RRT4MxsiilwZjbFFDgzm2IKnhddn3Qx8Lzo+viaAWVlVEyBM7MppsCZ2RRT4MxsiilwZjbFFNfx24CyMiqm4Gdj9+fFf9W8VnqKSbCGFsUUODObYgqcmU0xBc+LruO3AWVlVEzBz8auX48YUFZGxRQ4M5tiCpyZTTEFzsymmAJnZlNMcd2fGVBWRsUU/Gzsuj8zoKyMiin42dj1NZgGlJVRMQU/G7uO3waUlVExBc7MppgCZ+brsev+zICyMiqmwJnZFFPws7Hr+G1AWRkVU+DMbIopcGY2xRQ4M1+PXbdMBpSVUTEFzszXY/f0nZsCjJFVMQXOzKaYAmdmU0yBM/P12HXWN6CsjIop+NnY9ajdgLIyKqbAmdkUU+DMbIopcGY2xRQ4M1+PXbdMBn42dh2/DSgro2IKfjZ2vRJmQFkZFVPgzGyKKXBmNsUUODNfj92Lnz15fvfHSDEDysqomAJnZlNMgTOzKabAmdkUU/C86HrUbkBZGRVT4MxsiilwZjbFFDgzm2IKnJlNMcV1lDOgrIyKKXBmNsUUODObYgqcma/Hriu1AWVlVEyBM7MppsCZ2RRT4MxsiilwZr4euz6dZEBZGRVT4MxsiilwZjbFFDgzm2KK66HL3/hK2D+vxXit9BSTYA0tiilwZjbFFDgzm2IKnhddpysDysqomAJnZlNMgTOzKabAmdkUU+DMbIoprqOcAWVlVEyBM7MppsCZ2RRT4Mx8PXZdqQ0oK6NiCpyZTTEFzsymmAJnZlNMgTOzKaa4jnIGlJVRMQXOzKaYAmdmU0yBM/P12HWlNqCsjIopcGY2xRQ4M5tiCpyZTTEFzsymmOJ6U9yAsjIqpsCZ2RRT4MxsiilwZr4eux66GFBWRsUUODObYgqcmU0xBc7MppgCZ+brset0ZUBZGRVT4MxsiilwZjbFFDgzm2KK61hgQFkZFVPgzGyKKfjZ2PU1mAaUlVExBT8bu05XBpSVUTEFzsymmAJnZlNMgTOzKabAmSn2ousoZ0BZGRVT4MxsiilwZjbFFDgzX49dV2oDysqomAJnZlNMgTOzKabAmdkUU+DMbIoprpe3DSgro2IKnJlNMQXOzKaYAmfm67HroYsBZWVUTIEzsymmwJnZFFPgzGyKKXBmNsUU11HOgLIyKqbAmdkUU+DMbIopcGa+Hruu1AaUlVExBc7MppgCZ2ZTTIEzsymmwJn5euw6XRlQVkbFFDgzm2IKnJlNMQXOzKaY4joWGFBWRsUUODObYgqcmU0xBc7M12PXVyoaeF50na4MKCujYgqcmU0xBc7MppgCZ2ZTTIEzsymmuF7eNqCsjIopcGY2xRQ4M5tiCpyZr8euhy4GlJVRMQXOzKaYAmdmU0yBM7MppsCZ2RRTXEc5A8rKqJgCZ2ZTTIEzsymmwJn5euy6UhtQVkbFFDgzm2IKnJnn47F/AegtXkhrRxEPAAAAAElFTkSuQmCC" id="image29e16a8719" transform="scale(1 -1) translate(0 -380.290909)" x="576.327273" y="-39.272727" width="8.836364" height="380.290909"/>
+   <g id="matplotlib.axis_5"/>
+   <g id="matplotlib.axis_6">
+    <g id="ytick_99">
+     <g id="line2d_201">
+      <defs>
+       <path id="m052ea210c8" d="M 0 0 
+L 2.5 0 
+" style="stroke: #4b5563; stroke-width: 0.6"/>
+      </defs>
+      <g>
+       <use xlink:href="#m052ea210c8" x="585.0576" y="419.76" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.6"/>
+      </g>
+     </g>
+     <g id="text_427">
+      <text style="fill: #4b5563; font: 10.12px 'Times New Roman'; text-anchor: start" x="590.5576" y="423.273537" transform="rotate(-0 590.5576 423.273537)">0.0</text>
+     </g>
+    </g>
+    <g id="ytick_100">
+     <g id="line2d_202">
+      <g>
+       <use xlink:href="#m052ea210c8" x="585.0576" y="343.728" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.6"/>
+      </g>
+     </g>
+     <g id="text_428">
+      <text style="fill: #4b5563; font: 10.12px 'Times New Roman'; text-anchor: start" x="590.5576" y="347.241537" transform="rotate(-0 590.5576 347.241537)">0.2</text>
+     </g>
+    </g>
+    <g id="ytick_101">
+     <g id="line2d_203">
+      <g>
+       <use xlink:href="#m052ea210c8" x="585.0576" y="267.696" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.6"/>
+      </g>
+     </g>
+     <g id="text_429">
+      <text style="fill: #4b5563; font: 10.12px 'Times New Roman'; text-anchor: start" x="590.5576" y="271.209538" transform="rotate(-0 590.5576 271.209538)">0.4</text>
+     </g>
+    </g>
+    <g id="ytick_102">
+     <g id="line2d_204">
+      <g>
+       <use xlink:href="#m052ea210c8" x="585.0576" y="191.664" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.6"/>
+      </g>
+     </g>
+     <g id="text_430">
+      <text style="fill: #4b5563; font: 10.12px 'Times New Roman'; text-anchor: start" x="590.5576" y="195.177537" transform="rotate(-0 590.5576 195.177537)">0.6</text>
+     </g>
+    </g>
+    <g id="ytick_103">
+     <g id="line2d_205">
+      <g>
+       <use xlink:href="#m052ea210c8" x="585.0576" y="115.632" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.6"/>
+      </g>
+     </g>
+     <g id="text_431">
+      <text style="fill: #4b5563; font: 10.12px 'Times New Roman'; text-anchor: start" x="590.5576" y="119.145537" transform="rotate(-0 590.5576 119.145537)">0.8</text>
+     </g>
+    </g>
+    <g id="ytick_104">
+     <g id="line2d_206">
+      <g>
+       <use xlink:href="#m052ea210c8" x="585.0576" y="39.6" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.6"/>
+      </g>
+     </g>
+     <g id="text_432">
+      <text style="fill: #4b5563; font: 10.12px 'Times New Roman'; text-anchor: start" x="590.5576" y="43.113538" transform="rotate(-0 590.5576 43.113538)">1.0</text>
+     </g>
+    </g>
+    <g id="text_433">
+     <text style="font: 10.12px 'Times New Roman'; text-anchor: middle" x="606.180525" y="229.68" transform="rotate(-270 606.180525 229.68)">Normalized score</text>
+    </g>
+   </g>
+   <g id="LineCollection_1"/>
+   <g id="patch_5">
+    <path d="M 576.288 419.76 
+L 580.6728 419.76 
+L 585.0576 419.76 
+L 585.0576 39.6 
+L 580.6728 39.6 
+L 576.288 39.6 
+L 576.288 419.76 
+z
+" style="fill: none; stroke: #7b8490; stroke-width: 0.6; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pe60e53a2b2">
+   <rect x="128.412" y="39.6" width="203.58" height="380.16"/>
+  </clipPath>
+  <clipPath id="pba4e9027e6">
+   <rect x="355.7952" y="39.6" width="203.58" height="380.16"/>
+  </clipPath>
+ </defs>
+</svg>

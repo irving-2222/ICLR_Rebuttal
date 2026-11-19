@@ -1,0 +1,55 @@
+\documentclass{article}
+\usepackage{iclr2027_conference,times}
+\usepackage{xeCJK}
+\setmainfont{texgyretermes-regular.otf}[BoldFont=texgyretermes-bold.otf,ItalicFont=texgyretermes-italic.otf,BoldItalicFont=texgyretermes-bolditalic.otf]
+\setsansfont{texgyreheros-regular.otf}[BoldFont=texgyreheros-bold.otf,ItalicFont=texgyreheros-italic.otf,BoldItalicFont=texgyreheros-bolditalic.otf]
+\setmonofont{texgyrecursor-regular.otf}[BoldFont=texgyrecursor-bold.otf,ItalicFont=texgyrecursor-italic.otf]
+\setCJKmainfont{FandolSong-Regular.otf}[BoldFont=FandolSong-Bold.otf,ItalicFont=FandolKai-Regular.otf,SmallCapsFont=FandolSong-Regular.otf]
+\setCJKsansfont{FandolHei-Regular.otf}[BoldFont=FandolHei-Bold.otf]
+\setCJKmonofont{FandolFang-Regular.otf}
+\input{paper_shared.tex}
+\title{CoEvoMed: Co-Evolving Supervision Principles and Medical Vision--Language Models}
+\hypersetup{pdftitle={CoEvoMed: Co-Evolving Supervision Principles and Medical Vision–Language Models}}
+\author{Anonymous Authors}
+% 中文阅读稿；保留官方匿名审稿样式，不启用 \iclrfinalcopy。
+\newcommand{\FigFeedback}{任务验证集 $\mathcal V$\\学习动态与课程需求}
+\newcommand{\FigPolicy}{课程适配\\修复、保持与弱点聚焦}
+\newcommand{\FigSynthesis}{多智能体协作\\证据约束的监督构造}
+\newcommand{\FigStudent}{学习者更新\\$M_e\longrightarrow M_{e+1}$}
+\newcommand{\FigStrategy}{监督构造原则\\学习响应驱动的演化}
+\newcommand{\FigRecord}{能力发展\\$\widehat{\boldsymbol\kappa}_e\longrightarrow\widehat{\boldsymbol\kappa}_{e+1}$}
+\newcommand{\FigExternal}{运行结束后外部测试\\$\mathcal B_{\mathrm{ext}}$}
+\newcommand{\FigVQA}{外部 VQA 基准}
+\newcommand{\FigReport}{外部描述／报告测试}
+\newcommand{\FigPending}{CoEvoMed 与静态合成\\实测数据：TBD}
+\newcommand{\FigCapability}{任务验证上的能力轨迹}
+\begin{document}
+\maketitle
+\begin{abstract}
+医学视觉语言模型训练需要训练监督能够适应学习者在不同任务上不断变化的能力。现有流程通常依赖反复的人工错误分析和面向任务的训练数据构建，使这一适应过程成本高昂。我们提出共演化框架 CoEvoMed，将医学视觉语言学习者与融合构造原则演化和课程分配的多智能体监督过程相耦合。这些可复用的原则明确问题意图，指导回答如何依据医学证据形成，并厘清训练样本中的概念区别。原则修订智能体根据学习者在不同任务上不断变化的能力更新这些原则，并通过比较基于相同医学证据生成的样本在事实一致性与任务契合度上的表现来指导修订。在各任务预算固定的条件下，课程分配根据学习者的能力表现与学习进展调整构造投入。借助 CoEvoMed，我们训练了一个同时支持 2D 与 3D 医学任务的 8B 模型。该模型在四项 2D VQA 基准上较 Hulu-Med-7B 提升 1.15--4.80 个百分点，在 MIMIC-CXR 与 IU-Xray 上取得更高的 RaTEScore，并在三维识别、问答与报告生成任务上表现出较强能力。32B 实验进一步支持了该框架的规模可扩展性。
+\end{abstract}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/evoforma_concept.pdf}
+\caption{CoEvoMed 的共演化机制。（a）学习响应引导原则演化。（b）多智能体过程连接监督构造、学习者更新与原则修订。}
+\label{fig:concept}
+\end{figure}
+\FloatBarrier
+\input{sections/introduction_related_cn.tex}
+\input{sections/body_cn.tex}
+\label{maintext:end}
+\clearpage
+\subsection*{AI 使用声明}
+我们使用 AI 工具辅助论文写作与语言润色。我们已审阅相关文本，并对论文最终内容负责。
+
+\subsection*{伦理声明}
+本研究围绕医学多模态学习方法展开，仅使用既有公开或授权数据，未新增患者招募或开展临床干预。相关风险包括缺乏证据支持的医学陈述、标注错误传播，以及源数据或模型偏差的放大。CoEvoMed 通过证据约束的监督构造与验证处理合成监督中的事实不一致问题。源数据的访问与衍生产物的再分发受原数据集的许可、访问条件及隐私要求约束。临床应用需要独立验证、跨患者群体评估及专业临床监督。
+
+\subsection*{可复现性声明}
+第~\ref{sec:problem}--\ref{sec:method}节给出问题建模与核心机制，附录~\ref{app:algorithm}提供训练伪代码。附录~\ref{app:implementation}记录学习者训练设置、课程规划器初始化、PPO 超参数、监督预算与任务构成、原则接受准则、智能体模型及硬件配置。附录~\ref{app:evaluation}统一说明二维与三维评测划分及输入、数据来源与链接、证据加工、任务验证集构建、评价指标、检查点选择及反馈与外部评价的独立性。附录~\ref{app:mechanisms}给出消融设置与完整结果，附录~\ref{app:formalization}给出形式化定义与累积增益推导。
+
+\bibliography{iclr2027_conference}
+\bibliographystyle{iclr2027_conference}
+\appendix
+\input{sections/appendix_cn.tex}
+\end{document}

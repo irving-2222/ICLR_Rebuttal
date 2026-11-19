@@ -1,0 +1,29 @@
+\paragraph{Volumetric benchmarks.}
+\label{app:datasets_3d}
+
+The volumetric evaluation comprises 18,883 entries across three complementary tasks: four-choice recognition in M3D-VQA, open-ended question answering in 3D-RAD, and report generation in AMOS-MM~\citep{bai2024m3d,gai2025threedrad,ji2024amosmm}. It includes all closed-ended questions in the local M3D-VQA test split, all open-ended questions in the local 3D-RAD test split, and all 400 AMOS-MM validation cases.
+
+\begin{table}[H]
+\centering\small
+\caption{Composition of the local 3D evaluation sets. Sequence counts are deduplicated by media path within each benchmark; they denote media files rather than unique patients. AMOS-MM uses its validation split for evaluation.}
+\label{tab:datasets_3d}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.10}
+\begin{tabularx}{\linewidth}{@{}llYrr@{}}
+\toprule
+Benchmark & Source split & Evaluated task & Entries & Sequences\\
+\midrule
+M3D-VQA & Test & Four-choice VQA & 13,791 & 2,000\\
+3D-RAD & Test & Open-ended VQA & 4,692 & 2,354\\
+AMOS-MM & Validation & Report generation & 400 & 400\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+M3D-VQA probes imaging plane, contrast phase, organ recognition, abnormality recognition, and anatomical localization. 3D-RAD covers anatomical and pathological observation, abnormality characteristics, location, type and diagnosis, and quantitative descriptions of diameter, size and thickness. AMOS-MM evaluates longer findings reports describing thoracic, abdominal, and pelvic structures. Its scoring reference is the \emph{findings} field, without concatenating the impression. Reference answers are reserved for scoring and excluded from inference inputs.
+
+\paragraph{Volumetric inputs and preprocessing.}
+The common input representation consists of 64 slices sampled uniformly along volume depth, with repeated sampling for shorter sequences. Slices are resized to a target longest side of 512 pixels and stored in spatial order (H.264 MP4, yuv420p, 16-pixel alignment, 1 fps). Native volumetric models retain their input adapters; Photon S2~\citep{fang2026photon} uses a volume reconstructed from 32 slices in our local evaluation. Decoding is greedy. The selected data contain unique entry IDs, nonempty references, and available media. Preprocessing excludes 109 unreadable image members from four M3D source sequences before sampling, retaining all associated questions.
+
+\paragraph{Volumetric metrics and aggregation.}
+M3D-VQA reports both overall accuracy across all questions and macro-averaged accuracy across five categories. Plane, Phase, and Organ each contain 2,000 questions; Abnormality and Location contain 4,831 and 2,960, respectively. For 3D-RAD, Anomaly Detection, Image Observation, and Medical Computation contain 2,666, 1,024, and 1,002 questions. Our evaluation uses corpus BLEU-1 with WMT~13a tokenization and no smoothing, and ROUGE-1 F1. Each task score averages its constituent subtask scores uniformly (four, two, and three subtasks, respectively). AMOS-MM uses RaTEScore, BLEU-1, ROUGE-L, and METEOR. All scores are scaled to 100. The summaries in Figure~\ref{fig:3d_main} use M3D-VQA macro-averaged accuracy across categories, the mean of the three 3D-RAD task ROUGE-1 scores, and AMOS-MM RaTEScore.

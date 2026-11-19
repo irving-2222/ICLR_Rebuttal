@@ -1,0 +1,837 @@
+{
+  "notes": {
+    "scope": "M3D-VQA Closed only; 3D-RAD Open only; AMOS-MM 400-report evaluation. Exclude Hulu-Med-14B and Hulu-Med-32B in 3D comparisons.",
+    "baseline_source": "Author-supplied screenshots, matching Hulu-Med v2 Figure 3(a,b), cached extracted PDF page 21. Model names retained from reference. Baseline BLEU/ROUGE implementation and aggregation alignment pending confirmation.",
+    "ours_source": [
+      "3D_result/m3d-vqa-closed.json:by_category.*.closed.accuracy",
+      "3D_result/3d-rad.json:benchmark_official.by_task",
+      "3D_result/amoss-mm.json"
+    ],
+    "model_size": "8B",
+    "backbone": "Qwen3-VL-8B",
+    "checkpoint": null,
+    "training_exposure_3d": "3D medical data included in training; confirmed by the user on 2026-09-19.",
+    "scale": "0-100",
+    "not_claimed": [
+      "zero-shot transfer",
+      "matched-budget baseline evaluation",
+      "same checkpoint as 2D"
+    ],
+    "baseline_sources": [
+      "Author-supplied reference panels matching Hulu-Med Figure 3(a,b)",
+      "3D_result/other_model.json.txt",
+      "3D_result/3d_other_model.json.txt"
+    ],
+    "protocol_exceptions": [
+      "所有模型均在相同 64 帧 mp4 评测 bundle 上运行，评分器一致，结果可直接比较。",
+      "Photon 3D-RAD（本机口径）输入为 32 层 npy → 364³ 近似（原始 CT-RATE valid 体积 gated 无法下载）；photon_official_3drad 为其官方输入下发布结果的同评分器参照。",
+      "Lingshu-7B/32B、M3D-LaMed-Phi-3-4B 仅在 AMOS-MM 上评测。",
+      "vividmed 因 Stage 2 在本环境输出乱码（结果无效）未纳入排行榜，详见 NEW_BASELINES_REPORT.md。",
+      "qwen3_vl_8b_verified 目录仅含 1 样本的验证运行，未纳入排行榜。"
+    ],
+    "model_label_mapping": {
+      "Med3DVLM-7B": "Med3DVLM-Qwen-2.5-7B",
+      "M3D-LaMed-4B": "M3D-LaMed-Phi-3-4B",
+      "Photon-3B-S1": "Photon-3B on M3D-VQA",
+      "Photon-3B-S2 (local)": "Photon-3B on 3D-RAD",
+      "Photon-3B-S2 (released)": "Photon-3B-S2 (official released predictions)"
+    }
+  },
+  "m3d": {
+    "categories": [
+      "Plane",
+      "Phase",
+      "Organ",
+      "Abnormality",
+      "Location"
+    ],
+    "total_samples": 13791,
+    "correct": 11048,
+    "overall_accuracy": 80.11021680806323,
+    "category_macro": 83.0562196288609,
+    "counts": [
+      2000,
+      2000,
+      2000,
+      4831,
+      2960
+    ],
+    "rows": [
+      {
+        "model": "RadFM",
+        "scores": [
+          19.6,
+          28.7,
+          16.8,
+          18.9,
+          14.9
+        ]
+      },
+      {
+        "model": "Qwen2.5VL-72B",
+        "scores": [
+          94.8,
+          50,
+          62.4,
+          62.5,
+          59.8
+        ]
+      },
+      {
+        "model": "Lingshu-32B",
+        "scores": [
+          93.8,
+          61.6,
+          60.9,
+          61.5,
+          57.6
+        ]
+      },
+      {
+        "model": "M3D-Llama2-7B",
+        "scores": [
+          98.8,
+          79.8,
+          74.8,
+          66.7,
+          58.9
+        ]
+      },
+      {
+        "model": "Hulu-Med-7B",
+        "scores": [
+          99,
+          88,
+          78.9,
+          70.7,
+          67.3
+        ]
+      },
+      {
+        "model": "Qwen3.5-9B",
+        "source_model": "Qwen3.5-9B",
+        "source": "3D_result/3d_other_model.json.txt",
+        "scores": [
+          96.5,
+          67.25,
+          59.5,
+          59.0561,
+          57.3311
+        ],
+        "overall_accuracy": 65.3687,
+        "correct": 9015,
+        "total_samples": 13791
+      },
+      {
+        "model": "Qwen3.6-27B",
+        "source_model": "Qwen3.6-27B",
+        "source": "3D_result/3d_other_model.json.txt",
+        "scores": [
+          96.45,
+          69.95,
+          63.74999999999999,
+          60.8363,
+          59.5608
+        ],
+        "overall_accuracy": 67.47149999999999,
+        "correct": 9305,
+        "total_samples": 13791
+      },
+      {
+        "model": "Qwen3.8-27B",
+        "source_model": "Qwen3.8-27B",
+        "source": "3D_result/3d_other_model.json.txt",
+        "scores": [
+          95.6,
+          36.55,
+          63.7,
+          57.9176,
+          56.3851
+        ],
+        "overall_accuracy": 60.793299999999995,
+        "correct": 8384,
+        "total_samples": 13791
+      },
+      {
+        "model": "Med3DVLM-7B",
+        "source_model": "Med3DVLM-Qwen-2.5-7B",
+        "source": "3D_result/3d_other_model.json.txt",
+        "scores": [
+          99.25,
+          90.64999999999999,
+          80,
+          73.2768,
+          66.9595
+        ],
+        "overall_accuracy": 79.1821,
+        "correct": 10920,
+        "total_samples": 13791
+      },
+      {
+        "model": "Photon-3B-S1",
+        "source_model": "Photon-3B",
+        "source": "3D_result/3d_other_model.json.txt",
+        "scores": [
+          51.5,
+          26.5,
+          42.8,
+          48.727,
+          48.648599999999995
+        ],
+        "overall_accuracy": 45.0294,
+        "correct": 6210,
+        "total_samples": 13791
+      },
+      {
+        "model": "EvoForma",
+        "scores": [
+          99.5,
+          91.9,
+          82.19999999999999,
+          73.87704409025046,
+          67.80405405405405
+        ]
+      }
+    ]
+  },
+  "rad": {
+    "tasks": [
+      "Anomaly Detection",
+      "Image Observation",
+      "Medical Computation"
+    ],
+    "metrics": [
+      "BLEU-1",
+      "ROUGE-1"
+    ],
+    "protocol": "3D-RAD released benchmark evaluator",
+    "aggregation": "unweighted mean of subtask scores",
+    "bleu": "corpus BLEU-1, WMT 13a tokenizer, no smoothing",
+    "rouge": "ROUGE-1 F1",
+    "counts": [
+      2666,
+      1024,
+      1002
+    ],
+    "rows": [
+      {
+        "model": "Qwen2.5VL-72B",
+        "scores": [
+          [
+            15.5,
+            25.2
+          ],
+          [
+            16.9,
+            27.3
+          ],
+          [
+            6.7,
+            11.6
+          ]
+        ]
+      },
+      {
+        "model": "M3D (Phi3-4B)",
+        "scores": [
+          [
+            16.3,
+            23.2
+          ],
+          [
+            15.1,
+            23.2
+          ],
+          [
+            2.5,
+            5.6
+          ]
+        ]
+      },
+      {
+        "model": "Lingshu-7B",
+        "scores": [
+          [
+            9.3,
+            21.6
+          ],
+          [
+            10.4,
+            22.2
+          ],
+          [
+            0.9,
+            8.4
+          ]
+        ]
+      },
+      {
+        "model": "M3D (Llama2-7B)",
+        "scores": [
+          [
+            10.7,
+            20.8
+          ],
+          [
+            9.1,
+            18.6
+          ],
+          [
+            15.9,
+            23.2
+          ]
+        ]
+      },
+      {
+        "model": "Lingshu-32B",
+        "scores": [
+          [
+            7.6,
+            16.1
+          ],
+          [
+            7.8,
+            16.3
+          ],
+          [
+            0.9,
+            4.8
+          ]
+        ]
+      },
+      {
+        "model": "Hulu-Med-7B",
+        "scores": [
+          [
+            23.4,
+            35.9
+          ],
+          [
+            23,
+            37.1
+          ],
+          [
+            23.5,
+            26
+          ]
+        ]
+      },
+      {
+        "model": "Qwen3.5-9B",
+        "source_model": "Qwen3.5-9B",
+        "source": "3D_result/3d_other_model.json.txt",
+        "scores": [
+          [
+            12.8481,
+            25.041200000000003
+          ],
+          [
+            14.0655,
+            24.180699999999998
+          ],
+          [
+            7.0533,
+            15.165799999999999
+          ]
+        ],
+        "input_protocol": "datasets/medical_3d_64slice_hulumed_test（64 帧 mp4 bundle；与 Hulu-Med Figure 3 同口径）"
+      },
+      {
+        "model": "Qwen3.6-27B",
+        "source_model": "Qwen3.6-27B",
+        "source": "3D_result/3d_other_model.json.txt",
+        "scores": [
+          [
+            22.4665,
+            29.6755
+          ],
+          [
+            23.0858,
+            30.764999999999997
+          ],
+          [
+            2.8944,
+            7.9888
+          ]
+        ],
+        "input_protocol": "datasets/medical_3d_64slice_hulumed_test（64 帧 mp4 bundle；与 Hulu-Med Figure 3 同口径）"
+      },
+      {
+        "model": "Qwen3.8-27B",
+        "source_model": "Qwen3.8-27B",
+        "source": "3D_result/3d_other_model.json.txt",
+        "scores": [
+          [
+            12.701200000000002,
+            26.6314
+          ],
+          [
+            14.6182,
+            30.0029
+          ],
+          [
+            13.084599999999998,
+            13.7705
+          ]
+        ],
+        "input_protocol": "datasets/medical_3d_64slice_hulumed_test（64 帧 mp4 bundle；与 Hulu-Med Figure 3 同口径）"
+      },
+      {
+        "model": "Med3DVLM-7B",
+        "source_model": "Med3DVLM-Qwen-2.5-7B",
+        "source": "3D_result/3d_other_model.json.txt",
+        "scores": [
+          [
+            0.6828,
+            6.2274
+          ],
+          [
+            0.7727999999999999,
+            5.7917000000000005
+          ],
+          [
+            0.1052,
+            0.45630000000000004
+          ]
+        ],
+        "input_protocol": "datasets/medical_3d_64slice_hulumed_test（64 帧 mp4 bundle；与 Hulu-Med Figure 3 同口径）"
+      },
+      {
+        "model": "Photon-3B-S2 (local)",
+        "source_model": "Photon-3B",
+        "source": "3D_result/3d_other_model.json.txt",
+        "scores": [
+          [
+            37.9349,
+            37.5757
+          ],
+          [
+            48.0937,
+            47.2624
+          ],
+          [
+            29.2211,
+            31.133499999999998
+          ]
+        ],
+        "input_protocol": "Local approximate volume input"
+      },
+      {
+        "model": "Photon-3B-S2 (released)",
+        "source_model": "Photon-3B-S2 (official released predictions)",
+        "source": "3D_result/3d_other_model.json.txt",
+        "scores": [
+          [
+            42.3271,
+            47.4902
+          ],
+          [
+            51.5909,
+            56.578700000000005
+          ],
+          [
+            37.744299999999996,
+            39.3333
+          ]
+        ],
+        "input_protocol": "Official released predictions using CT-RATE RAI input"
+      },
+      {
+        "model": "EvoForma",
+        "scores": [
+          [
+            38.598920892655144,
+            44.861418297635595
+          ],
+          [
+            52.35743368731845,
+            57.06338145688533
+          ],
+          [
+            37.834122102806546,
+            39.296621224399004
+          ]
+        ]
+      }
+    ],
+    "subtasks": [
+      {
+        "task": "Anomaly Detection",
+        "name": "Abnormality feature",
+        "samples": 800,
+        "scores": [
+          37.825788751714676,
+          43.78624847374847
+        ]
+      },
+      {
+        "task": "Anomaly Detection",
+        "name": "Abnormality position",
+        "samples": 768,
+        "scores": [
+          40.9016661221823,
+          46.33333841743768
+        ]
+      },
+      {
+        "task": "Anomaly Detection",
+        "name": "Abnormality type",
+        "samples": 794,
+        "scores": [
+          38.611491108071135,
+          45.76979974964862
+        ]
+      },
+      {
+        "task": "Anomaly Detection",
+        "name": "Diagnosis",
+        "samples": 304,
+        "scores": [
+          37.05673758865248,
+          43.55628654970761
+        ]
+      },
+      {
+        "task": "Image Observation",
+        "name": "Anatomical observation",
+        "samples": 142,
+        "scores": [
+          64.62450592885376,
+          69.28642562445378
+        ]
+      },
+      {
+        "task": "Image Observation",
+        "name": "Pathological observation",
+        "samples": 882,
+        "scores": [
+          40.09036144578314,
+          44.84033728931688
+        ]
+      },
+      {
+        "task": "Medical Computation",
+        "name": "Diameter",
+        "samples": 450,
+        "scores": [
+          38.06654373929991,
+          42.424338624338624
+        ]
+      },
+      {
+        "task": "Medical Computation",
+        "name": "Size",
+        "samples": 444,
+        "scores": [
+          41.95101065949393,
+          42.3482410982411
+        ]
+      },
+      {
+        "task": "Medical Computation",
+        "name": "Thickness",
+        "samples": 108,
+        "scores": [
+          33.4848119096258,
+          33.117283950617285
+        ]
+      }
+    ]
+  },
+  "amoss": {
+    "baseline_source": "Current author-supplied 3D_result/3d_other_model.json.txt takes precedence. Missing model evaluations supplemented from Hulu-Med Figure 3(c), PDF page 21; BLEU is BLEU-1 per the user's report of author confirmation on 2026-09-19.",
+    "baseline_dataset_label": "AMOS-MM (3D Medical Report Generation); manuscript uses AMOS-MM",
+    "baseline_rows": [
+      {
+        "model": "M3D-Llama3.1-8B",
+        "scores": {
+          "rate": 57,
+          "rougeL": 37.9,
+          "meteor": 35.5,
+          "bleu1": 26.4
+        },
+        "source": "Hulu-Med Figure 3(c), PDF page 21; published missing-model supplement"
+      },
+      {
+        "model": "M3D-Mistralv0.3-7B",
+        "scores": {
+          "rate": 56.9,
+          "rougeL": 37.4,
+          "meteor": 34.6,
+          "bleu1": 25.8
+        },
+        "source": "Hulu-Med Figure 3(c), PDF page 21; published missing-model supplement"
+      },
+      {
+        "model": "Qwen2.5VL-32B",
+        "scores": {
+          "rate": 52.9,
+          "rougeL": 19.1,
+          "meteor": 21.1,
+          "bleu1": 24.6
+        },
+        "source": "Hulu-Med Figure 3(c), PDF page 21; published missing-model supplement"
+      },
+      {
+        "model": "Qwen3.6-27B",
+        "source_model": "Qwen3.6-27B",
+        "total_samples": 400,
+        "scores": {
+          "rate": 46.4386,
+          "bleu4": 1.0933,
+          "rougeL": 18.8824,
+          "meteor": 13.156,
+          "bleu1": 15.49
+        },
+        "source": "3D_result/3d_other_model.json.txt",
+        "empty_responses": 0,
+        "all_metrics": {
+          "total_samples": 400,
+          "bleu1": 0.15493,
+          "bleu2": 0.077392,
+          "bleu3": 0.029912,
+          "bleu4": 0.010933,
+          "rouge1": 0.204303,
+          "rouge2": 0.042615,
+          "rougeL": 0.188824,
+          "meteor": 0.13156,
+          "rate": 0.464386,
+          "exact_match": 0.221987,
+          "empty_responses": 0
+        },
+        "previous_record": {
+          "model": "Qwen3.6-27B",
+          "total_samples": 400,
+          "scores": {
+            "rate": 46.44,
+            "bleu4": 1.09,
+            "rougeL": 18.88,
+            "meteor": 13.16
+          },
+          "source": "eval_results_3d/qwen3_6_27b/AMOS-MM/metrics.json"
+        }
+      },
+      {
+        "model": "Hulu-Med-7B",
+        "total_samples": 400,
+        "scores": {
+          "rate": 64.35,
+          "bleu4": 11.3,
+          "rougeL": 37.49,
+          "meteor": 30.51,
+          "bleu1": 35.84
+        },
+        "source": "eval_results_3d/hulumed_7b/AMOS-MM/metrics.json"
+      },
+      {
+        "model": "Qwen3.5-9B",
+        "source_model": "Qwen3.5-9B",
+        "total_samples": 400,
+        "scores": {
+          "rate": 53.67849999999999,
+          "bleu4": 2.2396,
+          "rougeL": 21.396,
+          "meteor": 20.0425,
+          "bleu1": 29.26
+        },
+        "source": "3D_result/3d_other_model.json.txt",
+        "empty_responses": 0,
+        "all_metrics": {
+          "total_samples": 400,
+          "bleu1": 0.292602,
+          "bleu2": 0.146625,
+          "bleu3": 0.058022,
+          "bleu4": 0.022396,
+          "rouge1": 0.234424,
+          "rouge2": 0.059431,
+          "rougeL": 0.21396,
+          "meteor": 0.200425,
+          "rate": 0.536785,
+          "exact_match": 0.153847,
+          "empty_responses": 0
+        },
+        "previous_record": {
+          "model": "Qwen3.5-9B [A]",
+          "total_samples": 400,
+          "scores": {
+            "rate": 48.48,
+            "bleu4": 0.46,
+            "rougeL": 15.16,
+            "meteor": 19.52
+          },
+          "source": "eval_results_3d/qwen3_5_9b/AMOS-MM/metrics.json",
+          "source_file": "3D_result/other_model.json.txt"
+        },
+        "author_confirmation": "2026-09-17: newer summary supersedes old Qwen3.5-9B AMOS-MM scores."
+      },
+      {
+        "model": "Qwen3.8-27B",
+        "source_model": "Qwen3.8-27B",
+        "total_samples": 400,
+        "scores": {
+          "rate": 50.0193,
+          "bleu4": 0.9462999999999999,
+          "rougeL": 18.929499999999997,
+          "meteor": 16.3367,
+          "bleu1": 23.06
+        },
+        "source": "3D_result/3d_other_model.json.txt",
+        "empty_responses": 0,
+        "all_metrics": {
+          "total_samples": 400,
+          "bleu1": 0.230606,
+          "bleu2": 0.109926,
+          "bleu3": 0.035454,
+          "bleu4": 0.009463,
+          "rouge1": 0.207402,
+          "rouge2": 0.045038,
+          "rougeL": 0.189295,
+          "meteor": 0.163367,
+          "rate": 0.500193,
+          "exact_match": 0.173993,
+          "empty_responses": 0
+        }
+      },
+      {
+        "model": "Med3DVLM-7B",
+        "source_model": "Med3DVLM-Qwen-2.5-7B",
+        "total_samples": 400,
+        "scores": {
+          "rate": 42.8367,
+          "bleu4": 0.5255,
+          "rougeL": 15.6553,
+          "meteor": 10.337200000000001,
+          "bleu1": 11.63
+        },
+        "source": "3D_result/3d_other_model.json.txt",
+        "empty_responses": 0,
+        "all_metrics": {
+          "total_samples": 400,
+          "bleu1": 0.116267,
+          "bleu2": 0.054984,
+          "bleu3": 0.019415,
+          "bleu4": 0.005255,
+          "rouge1": 0.165824,
+          "rouge2": 0.034807,
+          "rougeL": 0.156553,
+          "meteor": 0.103372,
+          "rate": 0.428367,
+          "exact_match": 0.16809,
+          "empty_responses": 0
+        }
+      },
+      {
+        "model": "Lingshu-7B",
+        "source_model": "Lingshu-7B",
+        "total_samples": 400,
+        "scores": {
+          "rate": 50.749599999999994,
+          "bleu4": 1.5890000000000002,
+          "rougeL": 19.889000000000003,
+          "meteor": 17.7529,
+          "bleu1": 24.43
+        },
+        "source": "3D_result/3d_other_model.json.txt",
+        "empty_responses": 0,
+        "all_metrics": {
+          "total_samples": 400,
+          "bleu1": 0.24425,
+          "bleu2": 0.121276,
+          "bleu3": 0.044335,
+          "bleu4": 0.01589,
+          "rouge1": 0.218918,
+          "rouge2": 0.052137,
+          "rougeL": 0.19889,
+          "meteor": 0.177529,
+          "rate": 0.507496,
+          "exact_match": 0.163568,
+          "empty_responses": 0
+        }
+      },
+      {
+        "model": "Lingshu-32B",
+        "source_model": "Lingshu-32B",
+        "total_samples": 400,
+        "scores": {
+          "rate": 45.2187,
+          "bleu4": 1.0253999999999999,
+          "rougeL": 17.4294,
+          "meteor": 16.7518,
+          "bleu1": 24.45
+        },
+        "source": "3D_result/3d_other_model.json.txt",
+        "empty_responses": 0,
+        "all_metrics": {
+          "total_samples": 400,
+          "bleu1": 0.244459,
+          "bleu2": 0.115553,
+          "bleu3": 0.03705,
+          "bleu4": 0.010254,
+          "rouge1": 0.190554,
+          "rouge2": 0.04316,
+          "rougeL": 0.174294,
+          "meteor": 0.167518,
+          "rate": 0.452187,
+          "exact_match": 0.13792,
+          "empty_responses": 0
+        }
+      },
+      {
+        "model": "M3D-LaMed-4B",
+        "source_model": "M3D-LaMed-Phi-3-4B",
+        "total_samples": 400,
+        "scores": {
+          "rate": 38.998,
+          "bleu4": 0.0979,
+          "rougeL": 12.5719,
+          "meteor": 5.8666,
+          "bleu1": 4.32
+        },
+        "source": "3D_result/3d_other_model.json.txt",
+        "empty_responses": 9,
+        "all_metrics": {
+          "total_samples": 400,
+          "bleu1": 0.043188,
+          "bleu2": 0.019089,
+          "bleu3": 0.00423,
+          "bleu4": 0.000979,
+          "rouge1": 0.134598,
+          "rouge2": 0.024021,
+          "rougeL": 0.125719,
+          "meteor": 0.058666,
+          "rate": 0.38998,
+          "exact_match": 0.217637,
+          "empty_responses": 9
+        }
+      }
+    ],
+    "status": "reported",
+    "source": "3D_result/amoss-mm.json",
+    "metric_note": "rate=RaTEScore per 3D_result/other_model.json.txt; scores scaled by 100; raw field names retained",
+    "total_samples": 400,
+    "expected_samples": 400,
+    "empty_responses": 0,
+    "official_complete": true,
+    "scores": {
+      "bleu1": 39.298818571556296,
+      "bleu2": 27.02178307670155,
+      "bleu3": 18.31904816172576,
+      "bleu4": 12.851437620197542,
+      "rouge1": 41.01870448239145,
+      "rouge2": 19.443403707696643,
+      "rougeL": 40.39651334928745,
+      "meteor": 31.90507025800026,
+      "precision": 64.34786555768174,
+      "recall": 62.28254830403864,
+      "f1": 63.31067359258723,
+      "exact_match": 29.423296388694936,
+      "rate": 66.96703507576163
+    },
+    "display_metrics": [
+      "RaTEScore",
+      "BLEU-1",
+      "ROUGE-L",
+      "METEOR"
+    ]
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "source": "2D_result/other_model.json",
+  "normalization": "Inserted missing opening brace after models and closing outer brace only; source file unchanged.",
+  "subsequent_corrections": [
+    {
+      "model": "Qwen3.8-27B",
+      "benchmark": "MIMIC-CXR",
+      "metric": "RaTEScore (x100)",
+      "previous_import": 63.8239,
+      "current_author_summary": 61.82,
+      "decision": "2026-09-17: adopt current author-edited summary for the manuscript. The normalized JSON preserves the historical initial import."
+    }
+  ],
+  "issues": [
+    {
+      "model": "Qwen3.8-Max",
+      "benchmark": "VQA-RAD",
+      "status": "resolved_by_author_confirmation",
+      "reported": 76.8137,
+      "computed_from_counts": 83.81374722838137,
+      "confirmed_accuracy_percent": 76.81,
+      "decision": "Author explicitly confirmed 76.81% on 2026-09-17. Use this value in the manuscript; historical aggregate/count discrepancy remains recorded here, without treating the counts as reconciled."
+    },
+    {
+      "model": "GPT-5.6-sol",
+      "benchmark": "PMC-VQA",
+      "n": 27440,
+      "successful_samples": 27399,
+      "decision": "Author confirms full-dataset evaluation. Keep reported accuracy without manuscript markers; retain original count fields here without claiming numerical reconciliation.",
+      "status": "scope_confirmed_by_author_historical_counts_retained"
+    },
+    {
+      "model": "Qwen3.8-Max",
+      "benchmark": "PMC-VQA",
+      "n": 31626,
+      "successful_samples": 31624,
+      "decision": "Author confirms full-dataset evaluation. Keep reported accuracy without manuscript markers; retain original count fields here without claiming numerical reconciliation.",
+      "status": "scope_confirmed_by_author_historical_counts_retained"
+    }
+  ],
+  "evaluation_scope_confirmation": {
+    "date": "2026-09-17",
+    "source": "Author confirmation in conversation",
+    "scope": "Full-dataset evaluation for newly supplied 2D baseline results",
+    "manuscript_action": "Remove partial-evaluation and count-reconciliation superscripts and table footnote; retain all reported scores.",
+    "historical_counts": "Raw count discrepancies retained below for provenance; no inferred sample counts or denominators are substituted."
+  }
+}

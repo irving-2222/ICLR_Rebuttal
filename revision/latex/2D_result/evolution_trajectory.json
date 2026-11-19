@@ -1,0 +1,68 @@
+{
+  "model": "EvoForma-8B",
+  "x_axis": "Completed training rounds",
+  "source": "Latest author-provided ten-round table; checkpoint mapping confirmed by author.",
+  "metrics": {
+    "SLAKE": "Accuracy (%)",
+    "PathVQA": "Accuracy (%)",
+    "IU-Xray": "RaTEScore (x100)"
+  },
+  "completed_rounds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "scores": {
+    "SLAKE": [
+      67.2,
+      81.6,
+      87.8,
+      88,
+      89,
+      89.69,
+      91.6,
+      90.78,
+      90.61,
+      88.67
+    ],
+    "PathVQA": [
+      40.4,
+      62,
+      64.6,
+      68.6,
+      65.8,
+      66.93,
+      69.4,
+      69.75,
+      68.88,
+      67.25
+    ],
+    "IU-Xray": [
+      53.06,
+      52.87,
+      59.6,
+      60.16,
+      61.63,
+      62.91,
+      68.22,
+      67.71,
+      67.48,
+      65.83
+    ]
+  },
+  "main_results_checkpoint_completed_rounds": 7,
+  "ablation_2_start_checkpoints": {
+    "A": 2,
+    "B": 2,
+    "C": 5,
+    "D": 5
+  },
+  "checkpoint_selection_protocol": "Author-confirmed on 2026-09-20: R7 was selected for the best overall balance across tasks among the ten recorded training rounds; all six main 2D results use this shared checkpoint."
+}

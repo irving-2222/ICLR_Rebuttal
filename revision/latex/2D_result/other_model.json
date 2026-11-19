@@ -1,0 +1,104 @@
+{
+  "说明": "Accuracy 单位为 %；VQA open 文本指标保留 0–1 原值；报告指标乘以 100 展示，CIDEr 保留原值。n 为评测样本数。",
+  "models": {
+    "MedVLSynther-7B": {
+      "source": "Huang et al., ICLR 2026, Table 6; https://arxiv.org/html/2510.25867",
+      "PMC-VQA": {"Accuracy (%)":55.43},
+      "VQA-RAD": {"Accuracy (%)":77.57},
+      "SLAKE": {"Accuracy (%)":72.36},
+      "PathVQA": {"Accuracy (%)":65.56}
+    },
+    "CURE-4B": {
+      "source": "Messina et al., CVPR 2026, Tables 5 and 16; https://arxiv.org/html/2601.15408v2",
+      "configuration": "AGRG-29 + GRG",
+      "MIMIC-CXR": {"RaTEScore":59.70}
+    },
+    "Qwen3.8-27B": {
+      "PMC-VQA": {"Accuracy (%)":60.33,"n":33430},
+      "VQA-RAD": {"Accuracy (%)":68.51,"n":451},
+      "SLAKE": {"Accuracy (%)":73.93,"n":2094},
+      "PathVQA": {"Accuracy (%)":45.11,"n":6719},
+      "MIMIC-CXR": {"RaTEScore":61.82,"BLEU-1":35.67,"BLEU-2":23.05,"BLEU-3":15.75,"BLEU-4":10.67,"ROUGE-1":42.9,"ROUGE-2":17.68,"ROUGE-L":41.08,"METEOR":36.03,"CIDEr":0.124283},
+      "IU-Xray": {"RaTEScore":62.37,"BLEU-1":31.27,"BLEU-2":18.47,"BLEU-3":11.01,"BLEU-4":6.1,"ROUGE-1":37.54,"ROUGE-2":11.77,"ROUGE-L":35.31,"METEOR":35.21,"CIDEr":0.063347}
+    },
+    "GMAI-VL": {
+      "PMC-VQA": {"Accuracy (%)":56.09,"n":33430},
+      "VQA-RAD": {"Accuracy (%)":57.21,"n":451},
+      "SLAKE": {"Accuracy (%)":59.69,"n":2094},
+      "PathVQA": {"Accuracy (%)":39.05,"n":6719},
+      "MIMIC-CXR": {"RaTEScore":58.3,"BLEU-1":19.55,"BLEU-2":12.91,"BLEU-3":9.04,"BLEU-4":6.91,"ROUGE-1":31.23,"ROUGE-2":13.14,"ROUGE-L":30.24,"METEOR":20.44,"CIDEr":0.1538},
+      "IU-Xray": {"RaTEScore":59.08,"BLEU-1":37.49,"BLEU-2":22.82,"BLEU-3":14.41,"BLEU-4":8.85,"ROUGE-1":47.24,"ROUGE-2":16.61,"ROUGE-L":44.25,"METEOR":35.39,"CIDEr":0.242014}
+    },
+    "GPT-5.6-sol": {
+      "PMC-VQA": {"Accuracy (%)":58.89,"n":27440},
+      "VQA-RAD": {"Accuracy (%)":67.18,"n":451},
+      "SLAKE": {"Accuracy (%)":69.15,"n":2094},
+      "PathVQA": {"Accuracy (%)":44.72,"n":6652},
+      "MIMIC-CXR": {"RaTEScore":57.87,"BLEU-1":30.06,"BLEU-2":16.9,"BLEU-3":9.87,"BLEU-4":4.58,"ROUGE-1":35.9,"ROUGE-2":10.66,"ROUGE-L":34.49,"METEOR":27.52,"CIDEr":0.073378},
+      "IU-Xray": {"RaTEScore":59.44,"BLEU-1":30.06,"BLEU-2":14.54,"BLEU-3":7.69,"BLEU-4":3.71,"ROUGE-1":34.47,"ROUGE-2":7.2,"ROUGE-L":31.83,"METEOR":26.8,"CIDEr":0.070357}
+    },
+    "Kimi-K3": {
+      "PMC-VQA": {"Accuracy (%)":64.48,"n":33377},
+      "VQA-RAD": {"Accuracy (%)":73.61,"n":451},
+      "SLAKE": {"Accuracy (%)":77.13,"n":2094},
+      "PathVQA": {"Accuracy (%)":53.9,"n":6703},
+      "MIMIC-CXR": {"RaTEScore":58.71,"BLEU-1":28.76,"BLEU-2":15.96,"BLEU-3":9.07,"BLEU-4":4.85,"ROUGE-1":34.07,"ROUGE-2":10.8,"ROUGE-L":32.46,"METEOR":34.1,"CIDEr":0.01272},
+      "IU-Xray": {"RaTEScore":56.01,"BLEU-1":21.61,"BLEU-2":10.88,"BLEU-3":5.43,"BLEU-4":2.82,"ROUGE-1":30.26,"ROUGE-2":6.93,"ROUGE-L":28.44,"METEOR":33.01,"CIDEr":0.001623}
+    },
+    "MiniMax-M3": {
+      "PMC-VQA": {"Accuracy (%)":57.33},
+      "VQA-RAD": {"Accuracy (%)":68.07,"n":451},
+      "SLAKE": {"Accuracy (%)":71.44,"n":2094},
+      "PathVQA": {"Accuracy (%)":57.80},
+      "MIMIC-CXR": {"RaTEScore":54.93,"BLEU-1":15.32,"BLEU-2":7.73,"BLEU-3":3.83,"BLEU-4":1.66,"ROUGE-1":22.99,"ROUGE-2":6.02,"ROUGE-L":21.63,"METEOR":26.18,"CIDEr":0.000003},
+      "IU-Xray": {"RaTEScore":55.11,"BLEU-1":10.81,"BLEU-2":5.47,"BLEU-3":2.66,"BLEU-4":1.13,"ROUGE-1":19.85,"ROUGE-2":4.74,"ROUGE-L":18.73,"METEOR":25.12,"CIDEr":0}
+    },
+    "Qwen3.8-Max": {
+      "PMC-VQA": {"Accuracy (%)":64.58,"n":31626},
+      "VQA-RAD": {"Accuracy (%)":76.81,"n":451},
+      "SLAKE": {"Accuracy (%)":85.05,"n":2094},
+      "PathVQA": {"Accuracy (%)":64.11,"n":6703},
+      "MIMIC-CXR": {"RaTEScore":57.59,"BLEU-1":22.93,"BLEU-2":13.26,"BLEU-3":8.09,"BLEU-4":4.86,"ROUGE-1":30.59,"ROUGE-2":9.82,"ROUGE-L":29.16,"METEOR":35.76,"CIDEr":0.001064},
+      "IU-Xray": {"RaTEScore":56.5,"BLEU-1":16.22,"BLEU-2":9.03,"BLEU-3":4.83,"BLEU-4":2.49,"ROUGE-1":26.31,"ROUGE-2":6.66,"ROUGE-L":24.85,"METEOR":32.27,"CIDEr":0.000835}
+    },
+    "Qwen3.6-27B": {
+      "PMC-VQA": {"Accuracy (%)":62.50},
+      "VQA-RAD": {"Accuracy (%)":71.62},
+      "SLAKE": {"Accuracy (%)":75.07},
+      "PathVQA": {"Accuracy (%)":46.93},
+      "MIMIC-CXR": {"n":303,"RaTEScore":61.92,"BLEU-1":29.78,"BLEU-2":18.80,"BLEU-3":12.20,"BLEU-4":7.72,"ROUGE-1":37.48,"ROUGE-2":14.35,"ROUGE-L":35.66,"METEOR":33.51,"CIDEr":0.1001},
+      "IU-Xray": {"n":590,"RaTEScore":61.98,"BLEU-1":30.14,"BLEU-2":18.24,"BLEU-3":10.96,"BLEU-4":6.24,"ROUGE-1":36.26,"ROUGE-2":12.33,"ROUGE-L":34.35,"METEOR":34.18,"CIDEr":0.1006}
+    },
+    "Qwen3-VL-32B": {
+      "model_id": "Qwen3-VL-32B-Instruct",
+      "source": "作者于 2026-09-18 提供的完整评测结果，替代此前 32B 基线记录。",
+      "PMC-VQA": {"Accuracy (%)":57.2420,"n":33430,"right":19136},
+      "VQA-RAD": {
+        "Accuracy (%)":65.8537,"n":451,"right":297,
+        "close": {"n":251,"right":197,"Accuracy (%)":78.4861},
+        "open": {"n":200,"right":100,"Accuracy (%)":50.0000,"BLEU-1":0.357234,"BLEU-2":0.087004,"BLEU-3":0.032321,"BLEU-4":0.000000,"ROUGE-1":0.394291,"ROUGE-2":0.087613,"ROUGE-L":0.393430,"Precision":0.393625,"Recall":0.418964,"F1":0.418173,"EM":0.285000}
+      },
+      "SLAKE": {
+        "Accuracy (%)":71.8720,"n":2094,"right":1505,
+        "close": {"n":836,"right":677,"Accuracy (%)":80.9809},
+        "open": {"n":1258,"right":828,"Accuracy (%)":65.8188,"BLEU-1":0.357215,"BLEU-2":0.019359,"BLEU-3":0.000501,"BLEU-4":0.000000,"ROUGE-1":0.368038,"ROUGE-2":0.028482,"ROUGE-L":0.365603,"Precision":0.367395,"Recall":0.367409,"F1":0.380131,"EM":0.325119}
+      },
+      "PathVQA": {
+        "Accuracy (%)":44.2774,"n":6719,"right":2975,
+        "close": {"n":3362,"right":2415,"Accuracy (%)":71.8322},
+        "open": {"n":3357,"right":560,"Accuracy (%)":16.6816,"BLEU-1":0.032204,"BLEU-2":0.005492,"BLEU-3":0.001363,"BLEU-4":0.000109,"ROUGE-1":0.045517,"ROUGE-2":0.005979,"ROUGE-L":0.044057,"Precision":0.044713,"Recall":0.039513,"F1":0.123104,"EM":0.012511}
+      },
+      "VQA_evaluation": {"judge_model":"deepseek-v4-flash","errors":0,"missing":0,"judged":{"VQA-RAD":200,"SLAKE":2094,"PathVQA":3357}},
+      "MIMIC-CXR": {"n":303,"RaTEScore":57.1905,"METEOR":28.8480,"BLEU-1":19.4619,"BLEU-2":8.9626,"BLEU-3":4.2508,"BLEU-4":1.1577,"ROUGE-1":26.4531,"ROUGE-2":5.0926,"ROUGE-L":24.8779,"CIDEr":0.001264,"skipped_empty":0},
+      "IU-Xray": {"n":590,"RaTEScore":58.5551,"METEOR":28.7793,"BLEU-1":15.0183,"BLEU-2":7.2535,"BLEU-3":3.4084,"BLEU-4":1.4736,"ROUGE-1":25.1247,"ROUGE-2":4.7575,"ROUGE-L":23.9449,"CIDEr":0.000000,"skipped_empty":0}
+    },
+    "Qwen3-VL-8B": {
+      "PMC-VQA": {"Accuracy (%)":54.13},
+      "VQA-RAD": {"Accuracy (%)":56.76},
+      "SLAKE": {"Accuracy (%)":64.84},
+      "PathVQA": {"Accuracy (%)":42.77},
+      "MIMIC-CXR": {"RaTEScore":50.76,"BLEU-1":19.51,"BLEU-2":9.45,"BLEU-3":4.05,"BLEU-4":1.43,"ROUGE-1":26.23,"ROUGE-2":5.17,"ROUGE-L":25.26,"METEOR":24.22,"CIDEr":0.003762},
+      "IU-Xray": {"RaTEScore":50.28,"BLEU-1":15.17,"BLEU-2":7.08,"BLEU-3":2.82,"BLEU-4":1.07,"ROUGE-1":23.86,"ROUGE-2":4.18,"ROUGE-L":23.26,"METEOR":26,"CIDEr":0.0001}
+    }
+  }
+}

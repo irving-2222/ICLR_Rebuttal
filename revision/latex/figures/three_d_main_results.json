@@ -1,0 +1,578 @@
+{
+  "precedence": "Current user-supplied evaluation > published missing benchmark. No imputation.",
+  "selection": "CoEvoMed and the four highest-scoring eligible baselines per benchmark after supplementing missing evaluations from Hulu-Med Figure 3(a-c).",
+  "excluded": "Hulu-Med-14B/32B remain excluded per the author's prior comparison scope. Photon released predictions do not replace local-input evaluations.",
+  "model_aliases": {
+    "M3D-Phi-3 (Hulu-Med)": "M3D-LaMed-Phi-3-4B (supplied); supplied result takes precedence"
+  },
+  "aggregation": "M3D: unweighted mean of five category accuracies; RAD: unweighted mean of three task ROUGE-1 scores; AMOS: RaTEScore. All scaled to 100.",
+  "published_reference": "Hulu-Med, local hulumed.pdf; bibliography key jiang2025hulumed",
+  "published_page": 21,
+  "missing": "Unavailable combinations remain unreported. Photon AMOS-MM is absent from Hulu-Med. No cross-checkpoint substitutions.",
+  "panels": [
+    {
+      "benchmark": "M3D-VQA",
+      "metric": "Macro accuracy (%)",
+      "rows": [
+        {
+          "model": "CoEvoMed",
+          "components": [
+            99.5,
+            91.9,
+            82.19999999999999,
+            73.87704409025046,
+            67.80405405405405
+          ],
+          "score": 83.0562196288609,
+          "source": "3D_result/m3d-vqa-closed.json",
+          "provenance": "supplied"
+        },
+        {
+          "model": "Med3DVLM-7B",
+          "source_model": "Med3DVLM-Qwen-2.5-7B",
+          "components": [
+            99.25,
+            90.65,
+            80,
+            73.28,
+            66.96
+          ],
+          "score": 82.028,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        },
+        {
+          "model": "Hulu-Med-7B",
+          "components": [
+            99.0,
+            88.0,
+            78.9,
+            70.7,
+            67.3
+          ],
+          "score": 80.78,
+          "source": "Hulu-Med, Figure 3(a-c), PDF page 21",
+          "provenance": "published; fills missing supplied benchmark"
+        },
+        {
+          "model": "M3D-Llama2-7B",
+          "components": [
+            98.8,
+            79.8,
+            74.8,
+            66.7,
+            58.9
+          ],
+          "score": 75.8,
+          "source": "Hulu-Med, Figure 3(a-c), PDF page 21",
+          "provenance": "published; fills missing supplied benchmark"
+        },
+        {
+          "model": "Qwen3.6-27B",
+          "source_model": "Qwen3.6-27B",
+          "components": [
+            96.45,
+            69.95,
+            63.75,
+            60.84,
+            59.56
+          ],
+          "score": 70.11,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        }
+      ],
+      "all_eligible_baselines": [
+        {
+          "model": "Med3DVLM-7B",
+          "source_model": "Med3DVLM-Qwen-2.5-7B",
+          "components": [
+            99.25,
+            90.65,
+            80,
+            73.28,
+            66.96
+          ],
+          "score": 82.028,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        },
+        {
+          "model": "Hulu-Med-7B",
+          "components": [
+            99.0,
+            88.0,
+            78.9,
+            70.7,
+            67.3
+          ],
+          "score": 80.78,
+          "source": "Hulu-Med, Figure 3(a-c), PDF page 21",
+          "provenance": "published; fills missing supplied benchmark"
+        },
+        {
+          "model": "M3D-Llama2-7B",
+          "components": [
+            98.8,
+            79.8,
+            74.8,
+            66.7,
+            58.9
+          ],
+          "score": 75.8,
+          "source": "Hulu-Med, Figure 3(a-c), PDF page 21",
+          "provenance": "published; fills missing supplied benchmark"
+        },
+        {
+          "model": "Qwen3.6-27B",
+          "source_model": "Qwen3.6-27B",
+          "components": [
+            96.45,
+            69.95,
+            63.75,
+            60.84,
+            59.56
+          ],
+          "score": 70.11,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        },
+        {
+          "model": "Qwen3.5-9B",
+          "source_model": "Qwen3.5-9B",
+          "components": [
+            96.5,
+            67.25,
+            59.5,
+            59.06,
+            57.33
+          ],
+          "score": 67.928,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        },
+        {
+          "model": "Lingshu-32B",
+          "components": [
+            93.8,
+            61.6,
+            60.9,
+            61.5,
+            57.6
+          ],
+          "score": 67.08,
+          "source": "Hulu-Med, Figure 3(a-c), PDF page 21",
+          "provenance": "published; fills missing supplied benchmark"
+        },
+        {
+          "model": "Qwen2.5VL-72B",
+          "components": [
+            94.8,
+            50.0,
+            62.4,
+            62.5,
+            59.8
+          ],
+          "score": 65.9,
+          "source": "Hulu-Med, Figure 3(a-c), PDF page 21",
+          "provenance": "published; fills missing supplied benchmark"
+        },
+        {
+          "model": "Qwen3.8-27B",
+          "source_model": "Qwen3.8-27B",
+          "components": [
+            95.6,
+            36.55,
+            63.7,
+            57.92,
+            56.39
+          ],
+          "score": 62.032,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        },
+        {
+          "model": "Photon-3B-S1",
+          "source_model": "Photon-3B (M3D: S1; 3D-RAD: S2 local)",
+          "components": [
+            51.5,
+            26.5,
+            42.8,
+            48.73,
+            48.65
+          ],
+          "score": 43.635999999999996,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        },
+        {
+          "model": "RadFM",
+          "components": [
+            19.6,
+            28.7,
+            16.8,
+            18.9,
+            14.9
+          ],
+          "score": 19.78,
+          "source": "Hulu-Med, Figure 3(a-c), PDF page 21",
+          "provenance": "published; fills missing supplied benchmark"
+        }
+      ]
+    },
+    {
+      "benchmark": "3D-RAD",
+      "metric": "Macro ROUGE-1",
+      "rows": [
+        {
+          "model": "CoEvoMed",
+          "components": [
+            44.861418297635595,
+            57.06338145688533,
+            39.296621224399004
+          ],
+          "score": 47.07380699297331,
+          "source": "3D_result/3d-rad.json",
+          "provenance": "supplied"
+        },
+        {
+          "model": "Photon-3B-S2",
+          "source_model": "Photon-3B (M3D: S1; 3D-RAD: S2 local)",
+          "components": [
+            37.58,
+            47.26,
+            31.13
+          ],
+          "score": 38.656666666666666,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        },
+        {
+          "model": "Hulu-Med-7B",
+          "components": [
+            35.9,
+            37.1,
+            26.0
+          ],
+          "score": 33.0,
+          "source": "Hulu-Med, Figure 3(a-c), PDF page 21",
+          "provenance": "published; fills missing supplied benchmark"
+        },
+        {
+          "model": "Qwen3.8-27B",
+          "source_model": "Qwen3.8-27B",
+          "components": [
+            26.63,
+            30,
+            13.77
+          ],
+          "score": 23.466666666666665,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        },
+        {
+          "model": "Qwen3.6-27B",
+          "source_model": "Qwen3.6-27B",
+          "components": [
+            29.68,
+            30.76,
+            7.99
+          ],
+          "score": 22.810000000000002,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        }
+      ],
+      "all_eligible_baselines": [
+        {
+          "model": "Photon-3B-S2",
+          "source_model": "Photon-3B (M3D: S1; 3D-RAD: S2 local)",
+          "components": [
+            37.58,
+            47.26,
+            31.13
+          ],
+          "score": 38.656666666666666,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        },
+        {
+          "model": "Hulu-Med-7B",
+          "components": [
+            35.9,
+            37.1,
+            26.0
+          ],
+          "score": 33.0,
+          "source": "Hulu-Med, Figure 3(a-c), PDF page 21",
+          "provenance": "published; fills missing supplied benchmark"
+        },
+        {
+          "model": "Qwen3.8-27B",
+          "source_model": "Qwen3.8-27B",
+          "components": [
+            26.63,
+            30,
+            13.77
+          ],
+          "score": 23.466666666666665,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        },
+        {
+          "model": "Qwen3.6-27B",
+          "source_model": "Qwen3.6-27B",
+          "components": [
+            29.68,
+            30.76,
+            7.99
+          ],
+          "score": 22.810000000000002,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        },
+        {
+          "model": "Qwen3.5-9B",
+          "source_model": "Qwen3.5-9B",
+          "components": [
+            25.04,
+            24.18,
+            15.17
+          ],
+          "score": 21.46333333333333,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        },
+        {
+          "model": "Qwen2.5VL-72B",
+          "components": [
+            25.2,
+            27.3,
+            11.6
+          ],
+          "score": 21.366666666666667,
+          "source": "Hulu-Med, Figure 3(a-c), PDF page 21",
+          "provenance": "published; fills missing supplied benchmark"
+        },
+        {
+          "model": "M3D-Llama2-7B",
+          "components": [
+            20.8,
+            18.6,
+            23.2
+          ],
+          "score": 20.866666666666667,
+          "source": "Hulu-Med, Figure 3(a-c), PDF page 21",
+          "provenance": "published; fills missing supplied benchmark"
+        },
+        {
+          "model": "Lingshu-7B",
+          "components": [
+            21.6,
+            22.2,
+            8.4
+          ],
+          "score": 17.4,
+          "source": "Hulu-Med, Figure 3(a-c), PDF page 21",
+          "provenance": "published; fills missing supplied benchmark"
+        },
+        {
+          "model": "M3D (Phi3-4B)",
+          "components": [
+            23.2,
+            23.2,
+            5.6
+          ],
+          "score": 17.333333333333332,
+          "source": "Hulu-Med, Figure 3(a-c), PDF page 21",
+          "provenance": "published; fills missing supplied benchmark"
+        },
+        {
+          "model": "Lingshu-32B",
+          "components": [
+            16.1,
+            16.3,
+            4.8
+          ],
+          "score": 12.4,
+          "source": "Hulu-Med, Figure 3(a-c), PDF page 21",
+          "provenance": "published; fills missing supplied benchmark"
+        },
+        {
+          "model": "Med3DVLM-7B",
+          "source_model": "Med3DVLM-Qwen-2.5-7B",
+          "components": [
+            6.23,
+            5.79,
+            0.46
+          ],
+          "score": 4.16,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        }
+      ]
+    },
+    {
+      "benchmark": "AMOS-MM",
+      "metric": "RaTEScore",
+      "rows": [
+        {
+          "model": "CoEvoMed",
+          "components": [
+            66.96703507576163
+          ],
+          "score": 66.96703507576163,
+          "source": "3D_result/amoss-mm.json",
+          "provenance": "supplied"
+        },
+        {
+          "model": "Hulu-Med-7B",
+          "source_model": "Hulu-Med-7B",
+          "components": [
+            64.35
+          ],
+          "score": 64.35,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        },
+        {
+          "model": "M3D-Llama3.1-8B",
+          "components": [
+            57.0
+          ],
+          "score": 57.0,
+          "source": "Hulu-Med, Figure 3(a-c), PDF page 21",
+          "provenance": "published; fills missing supplied benchmark"
+        },
+        {
+          "model": "M3D-Mistralv0.3-7B",
+          "components": [
+            56.9
+          ],
+          "score": 56.9,
+          "source": "Hulu-Med, Figure 3(a-c), PDF page 21",
+          "provenance": "published; fills missing supplied benchmark"
+        },
+        {
+          "model": "Qwen3.5-9B",
+          "source_model": "Qwen3.5-9B",
+          "components": [
+            53.68
+          ],
+          "score": 53.68,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        }
+      ],
+      "all_eligible_baselines": [
+        {
+          "model": "Hulu-Med-7B",
+          "source_model": "Hulu-Med-7B",
+          "components": [
+            64.35
+          ],
+          "score": 64.35,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        },
+        {
+          "model": "M3D-Llama3.1-8B",
+          "components": [
+            57.0
+          ],
+          "score": 57.0,
+          "source": "Hulu-Med, Figure 3(a-c), PDF page 21",
+          "provenance": "published; fills missing supplied benchmark"
+        },
+        {
+          "model": "M3D-Mistralv0.3-7B",
+          "components": [
+            56.9
+          ],
+          "score": 56.9,
+          "source": "Hulu-Med, Figure 3(a-c), PDF page 21",
+          "provenance": "published; fills missing supplied benchmark"
+        },
+        {
+          "model": "Qwen3.5-9B",
+          "source_model": "Qwen3.5-9B",
+          "components": [
+            53.68
+          ],
+          "score": 53.68,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        },
+        {
+          "model": "Qwen2.5VL-32B",
+          "components": [
+            52.9
+          ],
+          "score": 52.9,
+          "source": "Hulu-Med, Figure 3(a-c), PDF page 21",
+          "provenance": "published; fills missing supplied benchmark"
+        },
+        {
+          "model": "Lingshu-7B",
+          "source_model": "Lingshu-7B",
+          "components": [
+            50.75
+          ],
+          "score": 50.75,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        },
+        {
+          "model": "Qwen3.8-27B",
+          "source_model": "Qwen3.8-27B",
+          "components": [
+            50.02
+          ],
+          "score": 50.02,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        },
+        {
+          "model": "Qwen3.6-27B",
+          "source_model": "Qwen3.6-27B",
+          "components": [
+            46.44
+          ],
+          "score": 46.44,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        },
+        {
+          "model": "Lingshu-32B",
+          "source_model": "Lingshu-32B",
+          "components": [
+            45.22
+          ],
+          "score": 45.22,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        },
+        {
+          "model": "Med3DVLM-7B",
+          "source_model": "Med3DVLM-Qwen-2.5-7B",
+          "components": [
+            42.84
+          ],
+          "score": 42.84,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        },
+        {
+          "model": "M3D-LaMed-4B",
+          "source_model": "M3D-LaMed-Phi-3-4B",
+          "components": [
+            39
+          ],
+          "score": 39,
+          "source": "3D_result/3d_other_model.json.txt",
+          "provenance": "supplied"
+        }
+      ]
+    }
+  ]
+}

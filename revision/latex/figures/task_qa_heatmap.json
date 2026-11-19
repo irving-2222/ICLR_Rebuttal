@@ -1,0 +1,21 @@
+{
+  "source": "Author-supplied 概念图.pptx, slide 1, panel B; values also shown in the author's heatmap screenshot",
+  "round_mapping": "Author confirmed that the original six Ep0–Ep5 columns correspond to completed rounds R1–R6",
+  "learner": "Qwen3-VL-8B",
+  "evaluation_source": "Task validation sets; confirmed by the author on 2026-09-25",
+  "completed_rounds": [1, 2, 3, 4, 5, 6],
+  "metric": "QA accuracy (%) within each selected task category",
+  "task_scope": "Five selected QA task categories; not report-generation metrics",
+  "scores": {
+    "Abnormality detection": [62.56, 64.73, 66.39, 65.89, 66.56, 66.89],
+    "Organ recognition": [69.54, 69.89, 69.37, 70.60, 70.42, 70.42],
+    "Localization": [60.27, 59.36, 60.27, 56.16, 59.36, 62.10],
+    "Modality recognition": [70.83, 68.75, 71.18, 70.49, 72.92, 72.92],
+    "Attribute": [54.11, 57.53, 57.53, 58.90, 62.33, 64.38]
+  },
+  "annotations": {
+    "persistent_gap": "Abnormality-detection accuracy remains below 67% in all six displayed rounds; this is a category-level statement",
+    "improved": "Attribute accuracy increases from 54.11% to 64.38%, a gain of 10.27 percentage points"
+  },
+  "provenance_note": "This figure follows the latest author-supplied PPT values. The older 20260910 CSV differs at the last Attribute value and is not used. The old 130-item persistent-error count is omitted because paired item-level records for the confirmed round mapping have not been checked."
+}

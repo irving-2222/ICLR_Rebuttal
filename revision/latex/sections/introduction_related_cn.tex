@@ -1,0 +1,34 @@
+\section{引言}
+\label{sec:intro}
+
+训练数据所覆盖的知识及其监督组织方式，是医学多模态模型能力形成的重要约束。前者界定可供学习的医学证据范围，后者组织模型从这些证据中学习的任务目标与推理关系。监督的有效性依赖于其与学习者当前状态的匹配程度。随着训练推进，模型在不同任务上的掌握程度与学习收益持续分化，预先固定的监督组织方式因而难以维持对后续能力发展的适配性。医学多模态学习由此要求将数据构建视为训练过程的内生组成，使监督构造与训练分配随学习者的发展持续调整。
+
+现有的数据迭代实践通常依赖人工检视错误与归纳失效模式~\citep{wu2019errudite}，并据此定向构造监督~\citep{khan2025dataenvgym}。此类流程需要反复开展细粒度诊断和监督设计，具有较高的人力成本~\citep{ribeiro2022adaptive}，且难以将持续变化的学习需求及时转化为系统性的训练干预。这一局限推动了从静态监督供给向学习响应驱动的监督构造的转变：以观测到的学习响应修订可复用的监督构造原则，并以实际学习增益调节训练资源分配，使监督构造与模型学习形成相互驱动的演化过程。
+
+课程学习适应性地选择内容并分配资源~\citep{bengio2009curriculum,matiisen2017teacher}；DataEnvGym 利用学生反馈迭代生成数据~\citep{khan2025dataenvgym}；Evo-PI 演化医学推理评价与奖励原则~\citep{zheng2026evopi}。本文关注构造原则与学习者能力的双向发展：学习响应修订证据的监督表达，修订后的监督塑造后续学习，将监督构造的演化与有限构造资源的配置相联系。
+
+我们提出 \emph{CoEvoMed}，以\emph{学习响应驱动的监督构造}实现监督构造智能体与多模态学习者的共演化。可复用构造原则规定提问意图、证据关联与概念辨析；任务级能力状态评估引导原则演化与后续监督适配，残余错误进一步指导原则修订，实际学习增益调节固定预算下不同能力的构造投入。多智能体在匹配证据与目标下比较候选原则，评价监督适配性与事实一致性。选定原则塑造后续监督，所得学习响应引导进一步修订。按任务组织的独立验证集提供响应，共享支持集承载构造所依据的医学证据，独立外部基准评价学习结果。构造原则的演化与学习者能力的发展共同塑造学习轨迹。
+
+本文的主要贡献概括如下：
+
+\noindent\textbullet\enspace 我们提出一个共演化框架，将构造原则的演化纳入学习者训练，通过双向反馈将监督构造与能力发展相联系。
+
+\noindent\textbullet\enspace 我们设计课程分配策略，平衡较弱能力的提升与已掌握能力的保持。随着学习者能力发展，学习进展指导固定构造预算的重新分配。
+
+\noindent\textbullet\enspace 我们构建多智能体系统，整合课程分配与原则演化。课程分配引导不同能力的监督构造投入，持续演化的原则指导如何将医学证据组织为训练样本。
+
+
+\section{相关工作}
+\label{sec:related}
+
+\subsection{课程学习与自适应监督}
+
+课程学习依据样本难度组织训练~\citep{bengio2009curriculum}，自适应教学则根据学习进展或学习者状态选择样本~\citep{matiisen2017teacher,liu2017iterative}。研究进一步从样本选择拓展至监督构造：Generative Teaching Networks 通过元梯度优化合成监督~\citep{such2020generative}，DataEnvGym 利用学习者反馈引导数据生成~\citep{khan2025dataenvgym}。近期方法将任务生成、视觉监督或任务知识与学习者的发展相耦合~\citep{huang2026rzero,zhang2026viper,wu2026k2}。CoEvoMed 联合调整监督构造与课程分配：可复用构造原则随学习响应演化，实际学习增益则引导不同能力之间的构造投入。
+
+\subsection{多智能体适应与共演化}
+
+Self-Instruct 生成指令跟随监督~\citep{wang2023self}。AutoGen 组织智能体对话~\citep{wu2024autogen}，Graph-of-Agents 根据任务调整协作结构~\citep{yun2026graph}。Automated Design of Agentic Systems 通过元智能体搜索智能体程序~\citep{hu2025automated}。反馈也支持不同层面的适应：Self-Refine 修订输出~\citep{madaan2023selfrefine}，Reflexion 在多次尝试之间保留语言化反思~\citep{shinn2023reflexion}，ACE 完善上下文~\citep{zhang2026agentic}。CoMAS 利用交互奖励优化参与智能体的策略~\citep{xue2026comas}。CoEvoMed 研究跨越监督构造与多模态学习的共演化：智能体依据学习者的发展修订证据约束的构造原则，这些原则所诱导的监督则塑造后续学习。
+
+\subsection{医学多模态学习}
+
+医学视觉语言任务覆盖放射学、病理学、文献图像问答及报告生成~\citep{lau2018dataset,liu2021slake,he2020pathvqa,zhang2024pmc,johnson2019mimic,demnerfushman2016preparing}。LLaVA-Med 与 Med-Flamingo 分别研究生物医学指令训练和少样本适应~\citep{li2023llava,moor2023med}。RadFM 将文本与二维、三维放射影像输入相结合~\citep{wu2025radfm}，M3D 则构建面向三维医学任务的体积影像--文本及指令数据~\citep{bai2024m3d}。MedVLSynther 提出源条件生成与规则化验证~\citep{huang2026synthesizing}，MMedAgent-RL 引入面向协作的专科可靠性课程~\citep{xia2026mmedagent}。CoEvoMed 在不同视觉场景与骨干家族中研究适应学习者能力的监督构造。

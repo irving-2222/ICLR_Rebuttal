@@ -1,0 +1,30 @@
+\subsection{Evaluation datasets and inputs}
+\label{app:datasets_2d}
+
+\paragraph{2D benchmarks.}
+
+We evaluate on six public 2D medical benchmarks spanning radiological and pathological question answering, literature-based visual understanding, and chest radiograph report generation. CoEvoMed and the baselines evaluated in this study use the same evaluation sets and scoring rules, with dataset sizes listed in Table~\ref{tab:datasets_2d}. Question-answer pairs are counted for VQA and report generation instances for MRG.
+
+\begin{table}[H]
+\centering\small
+\caption{Datasets used for the 2D evaluations conducted in this study. Counts refer to evaluated instances, not the full source collections or unique patients. VQA: visual question answering; MRG: medical report generation.}
+\label{tab:datasets_2d}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.10}
+\begin{tabularx}{\linewidth}{@{}lcrY@{}}
+\toprule
+Benchmark & Task & Instances & Visual evidence and annotation source\\
+\midrule
+VQA-RAD & VQA & 451 & Radiological images with clinician-authored questions and answers.\\
+SLAKE & VQA & 1,061 & Radiological images with physician-annotated semantic information and a medical knowledge base.\\
+PMC-VQA & VQA & 33,430 & Diverse medical figures and captions from open-access biomedical articles, used to construct question-answer pairs.\\
+PathVQA & VQA & 6,761 & Pathological images and associated question-answer pairs derived from textbooks and digital libraries.\\
+MIMIC-CXR & MRG & 2,343 & Chest radiographs paired with clinical radiology reports.\\
+IU-Xray & MRG & 590 & Chest radiographic examinations paired with radiology reports.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+VQA-RAD, SLAKE, and PathVQA emphasize radiological or pathological understanding, whereas PMC-VQA spans heterogeneous medical figures \citep{lau2018dataset,liu2021slake,he2020pathvqa,zhang2024pmc}. MIMIC-CXR and IU-Xray assess the synthesis of image-grounded findings into reports \citep{johnson2019mimic,demnerfushman2016preparing}. VQA performance is reported as accuracy. Report generation is evaluated using RaTEScore for agreement in clinical meaning and METEOR, BLEU-1/2/3/4, and ROUGE-1/2/L for complementary lexical agreement.
+
+The medical baselines in Table~\ref{tab:main} include MedGemma~\citep{sellergren2025medgemma}, GMAI-VL~\citep{li2026gmai}, and MedDr~\citep{he2024meddr}. The report-generation comparisons in Figures~\ref{fig:report_results} and~\ref{fig:report_lexical} also include Qwen2.5-VL~\citep{bai2025qwen25} and HealthGPT~\citep{lin2025healthgpt}.

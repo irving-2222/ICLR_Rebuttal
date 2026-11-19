@@ -1,0 +1,705 @@
+{
+  "schema": "medeval-2d-leaderboard-v2",
+  "generated_at": "2026-09-16T18:34:32.770250+00:00",
+  "protocol": {
+    "main": "各模型各自实验口径（见每个模型的 protocol 字段）；Hulu-Med 主结果为官方 MedUniEval 贪心协议",
+    "accuracy_scale": "所有 VQA accuracy 统一为百分数（0-100）；报告指标为 0-1",
+    "reports": "IU-Xray n=590 / MIMIC-CXR n=303；指标 CIDEr/BLEU-1..4/ROUGE-1/2/L/METEOR/RaTEScore",
+    "datasets": {
+      "VQA-RAD": "官方 451",
+      "SLAKE": "Hulu-Med 官方 EN 1061；其他模型多为全量 2094（含中文）",
+      "PathVQA": "全量 6719-6761（LLM 判官含 close）",
+      "PMC-VQA": "全量 33430（静态多选）",
+      "IU-Xray": "590",
+      "MIMIC-CXR": "本地 303（官方 2343）"
+    }
+  },
+  "models": {
+    "Qwen3.8-27B": {
+      "PMC-VQA": {
+        "n": 33430,
+        "accuracy_percent": 60.3261
+      },
+      "VQA-RAD": {
+        "n": 451,
+        "accuracy_percent": 68.5144,
+        "open": {
+          "total": 200,
+          "right": 115,
+          "f1": 0.450653,
+          "precision": 0.377606,
+          "recall": 0.392715,
+          "bleu1": 0.337633,
+          "rouge1": 0.378615,
+          "em": 0.245,
+          "accuracy_percent": 57.5
+        },
+        "closed": {
+          "total": 251,
+          "right": 194,
+          "accuracy_percent": 77.2908
+        },
+        "judge": "deepseek-v4-flash",
+        "missing_judge": 0
+      },
+      "SLAKE": {
+        "n": 2094,
+        "accuracy_percent": 73.9255,
+        "open": {
+          "total": 1258,
+          "right": 832,
+          "f1": 0.530715,
+          "precision": 0.519131,
+          "recall": 0.522458,
+          "bleu1": 0.504209,
+          "rouge1": 0.519304,
+          "em": 0.464229,
+          "accuracy_percent": 66.1367
+        },
+        "closed": {
+          "total": 836,
+          "right": 716,
+          "accuracy_percent": 85.6459
+        },
+        "judge": "deepseek-v4-flash",
+        "missing_judge": 0
+      },
+      "PathVQA": {
+        "n": 6719,
+        "accuracy_percent": 45.1109,
+        "open": {
+          "total": 3357,
+          "right": 666,
+          "f1": 0.13995,
+          "precision": 0.08619,
+          "recall": 0.097554,
+          "bleu1": 0.071986,
+          "rouge1": 0.086565,
+          "em": 0.054215,
+          "accuracy_percent": 19.8391
+        },
+        "closed": {
+          "total": 3362,
+          "right": 2365,
+          "accuracy_percent": 70.345
+        },
+        "judge": "deepseek-v4-flash",
+        "missing_judge": 0
+      },
+      "MIMIC-CXR": {
+        "total_samples": 303,
+        "cider": 0.124283,
+        "bleu1": 0.35668,
+        "bleu2": 0.230451,
+        "bleu3": 0.157512,
+        "bleu4": 0.106737,
+        "rouge1": 0.42898,
+        "rouge2": 0.176813,
+        "rougeL": 0.410815,
+        "meteor": 0.360314,
+        "rate": 0.638239,
+        "skipped_empty": 0
+      },
+      "IU-Xray": {
+        "total_samples": 590,
+        "cider": 0.063347,
+        "bleu1": 0.31274,
+        "bleu2": 0.184696,
+        "bleu3": 0.110115,
+        "bleu4": 0.061028,
+        "rouge1": 0.375418,
+        "rouge2": 0.11767,
+        "rougeL": 0.353109,
+        "meteor": 0.352132,
+        "rate": 0.623722,
+        "skipped_empty": 0
+      },
+      "protocol": {
+        "decoding": "greedy (temp 0)",
+        "judge": "deepseek-v4-pro/flash (API)",
+        "SLAKE_note": "全量 2094（含中文）"
+      }
+    },
+    "GMAI-VL": {
+      "VQA-RAD": {
+        "n": 451,
+        "accuracy_percent": 57.2062,
+        "open": {
+          "total": 200,
+          "right": 85,
+          "f1": 0.317902,
+          "precision": 0.323581,
+          "recall": 0.376083,
+          "bleu1": 0.283261,
+          "rouge1": 0.329329,
+          "em": 0.195,
+          "accuracy_percent": 42.5
+        },
+        "closed": {
+          "total": 251,
+          "right": 173,
+          "accuracy_percent": 68.9243
+        },
+        "judge": "deepseek-v4-pro",
+        "missing_judge": 0
+      },
+      "SLAKE": {
+        "n": 2094,
+        "accuracy_percent": 59.6944,
+        "open": {
+          "total": 1258,
+          "right": 711,
+          "f1": 0.299284,
+          "precision": 0.299843,
+          "recall": 0.304733,
+          "bleu1": 0.295778,
+          "rouge1": 0.302293,
+          "em": 0.27027,
+          "accuracy_percent": 56.5183
+        },
+        "closed": {
+          "total": 836,
+          "right": 539,
+          "accuracy_percent": 64.4737
+        },
+        "judge": "deepseek-v4-pro",
+        "missing_judge": 0
+      },
+      "PathVQA": {
+        "n": 6719,
+        "accuracy_percent": 39.0534,
+        "open": {
+          "total": 3357,
+          "right": 497,
+          "f1": 0.15135,
+          "precision": 0.139344,
+          "recall": 0.147326,
+          "bleu1": 0.124531,
+          "rouge1": 0.141488,
+          "em": 0.093536,
+          "accuracy_percent": 14.8049
+        },
+        "closed": {
+          "total": 3362,
+          "right": 2127,
+          "accuracy_percent": 63.2659
+        },
+        "judge": "deepseek-v4-pro",
+        "missing_judge": 0
+      },
+      "PMC-VQA": {
+        "n": 33430,
+        "accuracy_percent": 56.0903
+      },
+      "IU-Xray": {
+        "total_samples": 590,
+        "cider": 0.242014,
+        "bleu1": 0.374859,
+        "bleu2": 0.228227,
+        "bleu3": 0.144109,
+        "bleu4": 0.088516,
+        "rouge1": 0.472449,
+        "rouge2": 0.166133,
+        "rougeL": 0.442453,
+        "meteor": 0.353941,
+        "rate": 0.590836,
+        "skipped_empty": 0
+      },
+      "MIMIC-CXR": {
+        "total_samples": 303,
+        "cider": 0.1538,
+        "bleu1": 0.195538,
+        "bleu2": 0.129063,
+        "bleu3": 0.09035,
+        "bleu4": 0.069084,
+        "rouge1": 0.312339,
+        "rouge2": 0.131373,
+        "rougeL": 0.302438,
+        "meteor": 0.204426,
+        "rate": 0.58299,
+        "skipped_empty": 0
+      },
+      "protocol": {
+        "decoding": "greedy",
+        "judge": "deepseek-v4-pro (API)",
+        "SLAKE_note": "全量 2094"
+      }
+    },
+    "GPT-5.6-sol": {
+      "VQA-RAD": {
+        "n": 451,
+        "accuracy_percent": 67.184,
+        "open": {
+          "total": 200,
+          "right": 114,
+          "f1": 0.312915,
+          "precision": 0.108787,
+          "recall": 0.073012,
+          "bleu1": 0.077762,
+          "rouge1": 0.14173,
+          "em": 0,
+          "accuracy_percent": 57
+        },
+        "closed": {
+          "total": 251,
+          "right": 189,
+          "accuracy_percent": 75.2988
+        },
+        "judge": "deepseek-v4-flash",
+        "missing_judge": 0
+      },
+      "SLAKE": {
+        "n": 2094,
+        "accuracy_percent": 69.15,
+        "open": {
+          "total": 1258,
+          "right": 810,
+          "f1": 0.148137,
+          "precision": 0.06523,
+          "recall": 0.048777,
+          "bleu1": 0.066618,
+          "rouge1": 0.112086,
+          "em": 0.017488,
+          "accuracy_percent": 64.3879
+        },
+        "closed": {
+          "total": 836,
+          "right": 638,
+          "accuracy_percent": 76.3158
+        },
+        "judge": "deepseek-v4-flash",
+        "missing_judge": 0
+      },
+      "IU-Xray": {
+        "total_samples": 590,
+        "cider": 0.070357,
+        "bleu1": 0.300556,
+        "bleu2": 0.145398,
+        "bleu3": 0.076931,
+        "bleu4": 0.03705,
+        "rouge1": 0.344702,
+        "rouge2": 0.071951,
+        "rougeL": 0.318266,
+        "meteor": 0.267961,
+        "rate": 0.59439,
+        "skipped_empty": 0
+      },
+      "MIMIC-CXR": {
+        "total_samples": 303,
+        "cider": 0.073378,
+        "bleu1": 0.30056,
+        "bleu2": 0.168952,
+        "bleu3": 0.098668,
+        "bleu4": 0.045848,
+        "rouge1": 0.358999,
+        "rouge2": 0.106619,
+        "rougeL": 0.344922,
+        "meteor": 0.275246,
+        "rate": 0.578653,
+        "skipped_empty": 0
+      },
+      "PathVQA": {
+        "n": 6652,
+        "accuracy_percent": 44.7234,
+        "open": {
+          "total": 3323,
+          "right": 756,
+          "accuracy_percent": 22.7505
+        },
+        "closed": {
+          "total": 3329,
+          "right": 2219,
+          "accuracy_percent": 66.6567
+        },
+        "judge": "deepseek-v4-flash",
+        "missing_judge": 0,
+        "partial": true,
+        "coverage": {
+          "expected": 6719,
+          "successful_samples": 6652
+        }
+      },
+      "PMC-VQA": {
+        "n": 27440,
+        "accuracy_percent": 58.8885,
+        "open": {
+          "total": 0,
+          "right": 0,
+          "accuracy_percent": null
+        },
+        "closed": {
+          "total": 27440,
+          "right": 16159,
+          "accuracy_percent": 58.8885
+        },
+        "missing_judge": 0,
+        "partial": true,
+        "coverage": {
+          "expected": 33430,
+          "successful_samples": 27399
+        }
+      },
+      "protocol": {
+        "decoding": "API defaults",
+        "status": "PMC-VQA/PathVQA 因 provider errors 未跑完；标注 partial 的为可用预测的重评分",
+        "judge": "deepseek (API)",
+        "SLAKE_note": "全量 2094"
+      }
+    },
+    "Kimi-K3": {
+      "VQA-RAD": {
+        "n": 451,
+        "accuracy_percent": 73.6142,
+        "open": {
+          "total": 200,
+          "right": 131,
+          "f1": 0.442464,
+          "precision": 0.142347,
+          "recall": 0.096285,
+          "bleu1": 0.090291,
+          "rouge1": 0.162833,
+          "em": 0,
+          "accuracy_percent": 65.5
+        },
+        "closed": {
+          "total": 251,
+          "right": 201,
+          "accuracy_percent": 80.0797
+        },
+        "judge": "deepseek-v4-flash",
+        "missing_judge": 0
+      },
+      "SLAKE": {
+        "n": 2094,
+        "accuracy_percent": 77.1251,
+        "open": {
+          "total": 1258,
+          "right": 896,
+          "f1": 0.197646,
+          "precision": 0.068177,
+          "recall": 0.047928,
+          "bleu1": 0.058151,
+          "rouge1": 0.100298,
+          "em": 0.013514,
+          "accuracy_percent": 71.2242
+        },
+        "closed": {
+          "total": 836,
+          "right": 719,
+          "accuracy_percent": 86.0048
+        },
+        "judge": "deepseek-v4-flash",
+        "missing_judge": 0
+      },
+      "IU-Xray": {
+        "total_samples": 590,
+        "cider": 0.001623,
+        "bleu1": 0.216089,
+        "bleu2": 0.108785,
+        "bleu3": 0.054279,
+        "bleu4": 0.028172,
+        "rouge1": 0.302598,
+        "rouge2": 0.069336,
+        "rougeL": 0.284361,
+        "meteor": 0.330147,
+        "rate": 0.560127,
+        "skipped_empty": 0
+      },
+      "MIMIC-CXR": {
+        "total_samples": 303,
+        "cider": 0.01272,
+        "bleu1": 0.287596,
+        "bleu2": 0.159598,
+        "bleu3": 0.090705,
+        "bleu4": 0.048496,
+        "rouge1": 0.340654,
+        "rouge2": 0.107991,
+        "rougeL": 0.324564,
+        "meteor": 0.340988,
+        "rate": 0.587117,
+        "skipped_empty": 0
+      },
+      "PathVQA": {
+        "n": 6703,
+        "accuracy_percent": 53.9012,
+        "open": {
+          "total": 3346,
+          "right": 1093,
+          "accuracy_percent": 32.6659
+        },
+        "closed": {
+          "total": 3357,
+          "right": 2520,
+          "accuracy_percent": 75.067
+        },
+        "judge": "deepseek-v4-flash",
+        "missing_judge": 0,
+        "partial": true,
+        "coverage": {
+          "expected": 6719,
+          "successful_samples": 6703
+        }
+      },
+      "PMC-VQA": {
+        "n": 33377,
+        "accuracy_percent": 64.4785,
+        "open": {
+          "total": 0,
+          "right": 0,
+          "accuracy_percent": null
+        },
+        "closed": {
+          "total": 33377,
+          "right": 21521,
+          "accuracy_percent": 64.4785
+        },
+        "missing_judge": 0,
+        "partial": true,
+        "coverage": {
+          "expected": 33430,
+          "successful_samples": 33377
+        }
+      },
+      "protocol": {
+        "decoding": "API defaults",
+        "status": "PMC-VQA/PathVQA 因 provider errors 未跑完；标注 partial 的为可用预测的重评分",
+        "judge": "deepseek (API)",
+        "SLAKE_note": "全量 2094"
+      }
+    },
+    "MiniMax-M3": {
+      "VQA-RAD": {
+        "n": 451,
+        "accuracy_percent": 68.071,
+        "open": {
+          "total": 200,
+          "right": 125,
+          "f1": 0.37281,
+          "precision": 0.086402,
+          "recall": 0.061963,
+          "bleu1": 0.060547,
+          "rouge1": 0.094675,
+          "em": 0.025,
+          "accuracy_percent": 62.5
+        },
+        "closed": {
+          "total": 251,
+          "right": 182,
+          "accuracy_percent": 72.51
+        },
+        "judge": "deepseek-v4-flash",
+        "missing_judge": 0
+      },
+      "SLAKE": {
+        "n": 2094,
+        "accuracy_percent": 71.4422,
+        "open": {
+          "total": 1258,
+          "right": 837,
+          "f1": 0.171406,
+          "precision": 0.035781,
+          "recall": 0.026187,
+          "bleu1": 0.028458,
+          "rouge1": 0.043758,
+          "em": 0.011129,
+          "accuracy_percent": 66.5342
+        },
+        "closed": {
+          "total": 836,
+          "right": 659,
+          "accuracy_percent": 78.8278
+        },
+        "judge": "deepseek-v4-flash",
+        "missing_judge": 0
+      },
+      "IU-Xray": {
+        "total_samples": 590,
+        "cider": 0,
+        "bleu1": 0.108116,
+        "bleu2": 0.054687,
+        "bleu3": 0.026625,
+        "bleu4": 0.011313,
+        "rouge1": 0.198515,
+        "rouge2": 0.047387,
+        "rougeL": 0.187327,
+        "meteor": 0.251204,
+        "rate": 0.551134,
+        "skipped_empty": 0
+      },
+      "MIMIC-CXR": {
+        "total_samples": 303,
+        "cider": 0.000003,
+        "bleu1": 0.153152,
+        "bleu2": 0.077271,
+        "bleu3": 0.038289,
+        "bleu4": 0.016636,
+        "rouge1": 0.229928,
+        "rouge2": 0.060153,
+        "rougeL": 0.2163,
+        "meteor": 0.261796,
+        "rate": 0.54927,
+        "skipped_empty": 0
+      },
+      "protocol": {
+        "decoding": "API defaults",
+        "status": "PMC-VQA/PathVQA 因 provider errors 未跑完；标注 partial 的为可用预测的重评分",
+        "judge": "deepseek (API)",
+        "SLAKE_note": "全量 2094"
+      }
+    },
+    "Qwen3.8-Max": {
+      "VQA-RAD": {
+        "n": 451,
+        "accuracy_percent": 76.8137,
+        "open": {
+          "total": 200,
+          "right": 146,
+          "f1": 0.555506,
+          "precision": 0.228039,
+          "recall": 0.180697,
+          "bleu1": 0.178885,
+          "rouge1": 0.255334,
+          "em": 0.085,
+          "accuracy_percent": 73
+        },
+        "closed": {
+          "total": 251,
+          "right": 232,
+          "accuracy_percent": 92.4303
+        },
+        "judge": "deepseek-v4-flash",
+        "missing_judge": 0
+      },
+      "SLAKE": {
+        "n": 2094,
+        "accuracy_percent": 85.0525,
+        "open": {
+          "total": 1258,
+          "right": 1012,
+          "f1": 0.351795,
+          "precision": 0.207876,
+          "recall": 0.188772,
+          "bleu1": 0.189277,
+          "rouge1": 0.215937,
+          "em": 0.156598,
+          "accuracy_percent": 80.4452
+        },
+        "closed": {
+          "total": 836,
+          "right": 769,
+          "accuracy_percent": 91.9856
+        },
+        "judge": "deepseek-v4-flash",
+        "missing_judge": 0
+      },
+      "IU-Xray": {
+        "total_samples": 590,
+        "cider": 0.000835,
+        "bleu1": 0.162159,
+        "bleu2": 0.090293,
+        "bleu3": 0.048265,
+        "bleu4": 0.024915,
+        "rouge1": 0.26314,
+        "rouge2": 0.066612,
+        "rougeL": 0.248494,
+        "meteor": 0.322712,
+        "rate": 0.564969,
+        "skipped_empty": 0
+      },
+      "MIMIC-CXR": {
+        "total_samples": 303,
+        "cider": 0.001064,
+        "bleu1": 0.2293,
+        "bleu2": 0.132631,
+        "bleu3": 0.080872,
+        "bleu4": 0.048554,
+        "rouge1": 0.305879,
+        "rouge2": 0.098244,
+        "rougeL": 0.291646,
+        "meteor": 0.357617,
+        "rate": 0.575926,
+        "skipped_empty": 0
+      },
+      "PathVQA": {
+        "n": 6703,
+        "accuracy_percent": 64.1056,
+        "open": {
+          "total": 3345,
+          "right": 1553,
+          "accuracy_percent": 46.4275
+        },
+        "closed": {
+          "total": 3358,
+          "right": 2744,
+          "accuracy_percent": 81.7153
+        },
+        "judge": "deepseek-v4-flash",
+        "missing_judge": 0,
+        "partial": true,
+        "coverage": {
+          "expected": 6719,
+          "successful_samples": 6703
+        }
+      },
+      "PMC-VQA": {
+        "n": 31626,
+        "accuracy_percent": 64.5766,
+        "open": {
+          "total": 0,
+          "right": 0,
+          "accuracy_percent": null
+        },
+        "closed": {
+          "total": 31626,
+          "right": 20423,
+          "accuracy_percent": 64.5766
+        },
+        "missing_judge": 0,
+        "partial": true,
+        "coverage": {
+          "expected": 33430,
+          "successful_samples": 31624
+        }
+      },
+      "protocol": {
+        "decoding": "API defaults",
+        "status": "PMC-VQA/PathVQA 因 provider errors 未跑完；标注 partial 的为可用预测的重评分",
+        "judge": "deepseek (API)",
+        "SLAKE_note": "全量 2094"
+      }
+    },
+    "Qwen3-VL-8B (zero-shot)": {
+      "IU-Xray": {
+        "total_samples": 590,
+        "cider": 0.0001,
+        "bleu1": 0.151684,
+        "bleu2": 0.070847,
+        "bleu3": 0.028199,
+        "bleu4": 0.010746,
+        "rouge1": 0.238637,
+        "rouge2": 0.041828,
+        "rougeL": 0.232591,
+        "meteor": 0.260033,
+        "rate": 0.502755,
+        "skipped_empty": 0
+      },
+      "MIMIC-CXR": {
+        "total_samples": 303,
+        "cider": 0.003762,
+        "bleu1": 0.195086,
+        "bleu2": 0.094514,
+        "bleu3": 0.040496,
+        "bleu4": 0.014254,
+        "rouge1": 0.262337,
+        "rouge2": 0.051721,
+        "rougeL": 0.252566,
+        "meteor": 0.242248,
+        "rate": 0.507559,
+        "skipped_empty": 0
+      },
+      "protocol": {
+        "note": "仅报告生成（IU-Xray/MIMIC-CXR）"
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+% Based on the author's updated 数据加工.txt; 500 is a target size, and 359,355 counts facts.
+\begin{samepage}
+\paragraph{Source evidence normalization and fact extraction.}
+\label{app:data_preparation}
+Source preparation converts heterogeneous medical image--text records into reusable factual evidence for learner-conditioned supervision construction. Each record retains its visual input, original text, and source association; report instances preserve multiple images from the same study. Native question--answer pairs and classification labels are converted into factual statements through rule-based transformations, reports are organized by Findings and Impression, and facts are extracted from image captions using Qwen3.6-27B. Source records are annotated along four dimensions---task form, visual capability, imaging modality, and anatomical region---to align evidence retrieval with the capability targets specified by the curriculum.
+
+Quality control examines structural completeness, medical relevance, and factual completeness; records without usable facts are excluded from supervision construction. New records are deduplicated by sample identifier, image path, and RGB pixel content, with additional checks for image overlap with the validation collection. The resulting source pool provides 359,355 reusable facts. This count refers to fact entries, distinct from the source record counts in Figure~\ref{fig:support_composition}.
+
+\par
+\end{samepage}
+
+\paragraph{Task-based construction of validation sets.}
+Validation sets take medical tasks as their organizing units, with stratified selection from existing medical VQA and report data according to task-specific input attributes and output requirements. Question answering tasks are stratified by language, answer type, question form, and content category; multiple-choice tasks additionally account for correct options and question length. Report generation tasks are stratified by input attributes such as image count. Each validation subset targets 500 instances and preserves instance identifiers, images, questions, and original reference annotations. The resulting task-specific collections support ongoing estimation of learner capabilities and learning responses under different task conditions.
+
+\paragraph{Task-based four-dimensional annotation and capability diagnosis.}
+Four-dimensional annotation characterizes the task conditions of each validation instance through its capability targets and evidence attributes (Table~\ref{tab:feedback_axes}). Task form and visual capability describe the output structure and principal capability target, while imaging modality and anatomy characterize the underlying medical evidence. Task form is assigned from task requirements and answer format. For visual question answering instances, Qwen3.6-27B supplements the other three dimensions from the image, question, and reference answer, preserving existing modality annotations. Chest X-ray report tasks are labeled as report generation, holistic description, chest X-ray, and chest. Following format and completeness checks, validation performance is aggregated by these task attributes to characterize capability profiles across these targets and identify task priorities for subsequent supervision construction and curriculum allocation.
+
+\begin{table}[H]
+\centering\small
+\caption{Task-based annotation of validation sets. Task form and visual capability describe capability targets; modality and anatomy describe evidence attributes. Together, they organize task-level capability diagnosis and curriculum adaptation. The visual capability dimension comprises nine categories.}
+\label{tab:feedback_axes}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{@{}lYY@{}}
+\toprule
+Dimension & Categories or content & Annotation basis\\
+\midrule
+Task form & Yes/no QA, short open-ended QA, long open-ended QA, multiple choice, report generation & Task requirements and answer format.\\
+Visual capability & Modality recognition, organ recognition, localization, spatial relations, abnormality detection, attribute assessment, comparison, holistic description, medical knowledge & The principal capability tested; reports use holistic description.\\
+Imaging modality & CT, MRI, X-ray, ultrasound, pathology images, publication figures, etc. & Existing annotations, supplemented by the model when absent.\\
+Anatomy or tissue & Chest, abdomen, brain, pelvis, limbs, spine, and specific organs or tissues & Visual and textual evidence; unresolved labels remain unknown / other.\\
+\bottomrule
+\end{tabularx}
+\end{table}

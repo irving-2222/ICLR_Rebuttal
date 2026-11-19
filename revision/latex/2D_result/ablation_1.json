@@ -1,0 +1,59 @@
+{
+  "source": "Author-supplied Experiment 1 results; feedback-source rounds and the shared R5 starting checkpoint confirmed on 2026-09-20; joint replacement of numerical capability statistics and error-semantic summaries confirmed on 2026-09-21.",
+  "experiment": "Feedback-learner alignment",
+  "protocol": {
+    "learner": "Qwen3-VL-8B-Instruct",
+    "starting_checkpoint": "R5 for all three conditions",
+    "feedback_source_rounds": [2, 3, 5],
+    "feedback_intervention": "Jointly replace numerical capability statistics and error-semantic summaries with records from the same source round to guide curriculum allocation and supervision construction.",
+    "current_feedback_round": 5,
+    "current_feedback_result": "Shared with Experiment 2 condition D (R5 + evolved principles); corresponds to completed round 6 in the learning trajectory."
+  },
+  "metrics": {
+    "VQA-RAD": "Accuracy (%)",
+    "SLAKE": "Accuracy (%)",
+    "PMC-VQA": "Accuracy (%)",
+    "PathVQA": "Accuracy (%)",
+    "MIMIC-CXR": "RaTEScore (x100)",
+    "IU-Xray": "RaTEScore (x100)"
+  },
+  "before_training": {
+    "VQA-RAD": 73.61,
+    "SLAKE": 89,
+    "PMC-VQA": 64.6,
+    "PathVQA": 65.8,
+    "MIMIC-CXR": 59,
+    "IU-Xray": 61.63
+  },
+  "conditions": {
+    "R2 feedback": {
+      "VQA-RAD": 72.51,
+      "SLAKE": 83.8,
+      "PMC-VQA": 61,
+      "PathVQA": 62.7,
+      "MIMIC-CXR": 59.11,
+      "IU-Xray": 58.61
+    },
+    "R3 feedback": {
+      "VQA-RAD": 71.84,
+      "SLAKE": 83.2,
+      "PMC-VQA": 62.8,
+      "PathVQA": 63.4,
+      "MIMIC-CXR": 58.16,
+      "IU-Xray": 57.59
+    },
+    "R5 feedback": {
+      "VQA-RAD": 76.23,
+      "SLAKE": 89.69,
+      "PMC-VQA": 65.12,
+      "PathVQA": 66.93,
+      "MIMIC-CXR": 61.77,
+      "IU-Xray": 62.91
+    }
+  },
+  "pending_protocol": [
+    "Matched training exposure, allocation policy and construction principles",
+    "Evaluation split and scoring configuration",
+    "Seed identifier"
+  ]
+}

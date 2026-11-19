@@ -1,0 +1,99 @@
+{
+  "model": "InternVL3-9B",
+  "source": "ablation/intervl\u6d88\u878d.md",
+  "training": "Separate VQA-RAD and MIMIC-CXR models; full-parameter SFT with LLaMA-Factory; consecutive rounds continue from previous weights.",
+  "raw_ratescore_scale": "0-1",
+  "displayed_ratescore_scale": "0-100",
+  "records": [
+    {
+      "round": 0,
+      "vqa_accuracy_pct": 56.98,
+      "mimic_rouge_l": 0.1357,
+      "mimic_bleu4": 0.0048,
+      "mimic_meteor": 0.2177,
+      "mimic_ratescore": 0.5055,
+      "mimic_composite": 0.1128,
+      "global_score": 0.3413
+    },
+    {
+      "round": 1,
+      "vqa_accuracy_pct": 61.86,
+      "mimic_rouge_l": 0.3806,
+      "mimic_bleu4": 0.134,
+      "mimic_meteor": 0.3686,
+      "mimic_ratescore": 0.6385,
+      "mimic_composite": 0.3042,
+      "global_score": 0.4614
+    },
+    {
+      "round": 2,
+      "vqa_accuracy_pct": 67.41,
+      "mimic_rouge_l": 0.3841,
+      "mimic_bleu4": 0.1362,
+      "mimic_meteor": 0.3717,
+      "mimic_ratescore": 0.6445,
+      "mimic_composite": 0.3072,
+      "global_score": 0.4906
+    },
+    {
+      "round": 3,
+      "vqa_accuracy_pct": 68.96,
+      "mimic_rouge_l": 0.3899,
+      "mimic_bleu4": 0.1418,
+      "mimic_meteor": 0.3817,
+      "mimic_ratescore": 0.6514,
+      "mimic_composite": 0.3138,
+      "global_score": 0.5017
+    },
+    {
+      "round": 4,
+      "vqa_accuracy_pct": 72.73,
+      "mimic_rouge_l": 0.3852,
+      "mimic_bleu4": 0.1398,
+      "mimic_meteor": 0.3797,
+      "mimic_ratescore": 0.6534,
+      "mimic_composite": 0.3105,
+      "global_score": 0.5189
+    },
+    {
+      "round": 5,
+      "vqa_accuracy_pct": 73.61,
+      "mimic_rouge_l": 0.3855,
+      "mimic_bleu4": 0.1405,
+      "mimic_meteor": 0.3817,
+      "mimic_ratescore": 0.6497,
+      "mimic_composite": 0.3112,
+      "global_score": 0.5237
+    },
+    {
+      "round": 6,
+      "vqa_accuracy_pct": 78.71,
+      "mimic_rouge_l": 0.385,
+      "mimic_bleu4": 0.1395,
+      "mimic_meteor": 0.3851,
+      "mimic_ratescore": 0.6522,
+      "mimic_composite": 0.3114,
+      "global_score": 0.5493
+    },
+    {
+      "round": 7,
+      "vqa_accuracy_pct": 78.27,
+      "mimic_rouge_l": 0.3618,
+      "mimic_bleu4": 0.1283,
+      "mimic_meteor": 0.3748,
+      "mimic_ratescore": 0.6478,
+      "mimic_composite": 0.2944,
+      "global_score": 0.5385
+    },
+    {
+      "round": 8,
+      "vqa_accuracy_pct": 77.38,
+      "mimic_rouge_l": 0.3442,
+      "mimic_bleu4": 0.1143,
+      "mimic_meteor": 0.3714,
+      "mimic_ratescore": 0.6383,
+      "mimic_composite": 0.2807,
+      "global_score": 0.5273
+    }
+  ]
+}

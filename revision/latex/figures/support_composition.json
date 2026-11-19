@@ -1,0 +1,41 @@
+{
+  "two_d": {
+    "unit": "source records",
+    "total": 259767,
+    "sources": [
+      ["PMC-OA", 79858], ["Quilt-1M", 49022], ["OmniMedVQA", 44911],
+      ["Med-MAT", 28154], ["ROCO", 22463], ["CheXpert", 12000],
+      ["LLaVA-Med", 9173], ["TCGA-CRC", 5000], ["ReXGradient", 4122],
+      ["PubMedVision-IU subset", 3129], ["MedTrinity BHX", 1935]
+    ]
+  },
+  "three_d": {
+    "unit": "source records",
+    "total": 215657,
+    "qa": {"total": 209329, "unique_videos": 4228, "sources": [
+      ["CT-RATE", 69891], ["RadGenome-ChestCT", 52318],
+      ["TotalSegmentator", 51056], ["AbdomenAtlas1.0Mini", 36064]
+    ]},
+    "reports": {"total": 6328, "sources": [["M3D-Cap", 5370], ["CT-RATE", 958]]}
+  },
+  "official_resources": [
+    ["2D", "PMC-OA", "https://weixionglin.github.io/PMC-CLIP/", "Project"],
+    ["2D", "Quilt-1M", "https://github.com/wisdomikezogwo/quilt1m", "Project"],
+    ["2D", "OmniMedVQA", "https://github.com/OpenGVLab/Multi-Modality-Arena", "Project"],
+    ["2D", "Med-MAT", "https://github.com/FreedomIntelligence/Med-MAT", "Project"],
+    ["2D", "ROCO", "https://github.com/razorx89/roco-dataset", "Project"],
+    ["2D", "CheXpert", "https://aimi.stanford.edu/datasets/chexpert-chest-x-rays", "Dataset"],
+    ["2D", "LLaVA-Med", "https://github.com/microsoft/LLaVA-Med", "Project"],
+    ["2D", "TCGA-CRC", "https://gdc.cancer.gov/about-data/publications/coadread_2012", "TCGA COAD/READ"],
+    ["2D", "ReXGradient", "https://huggingface.co/datasets/rajpurkarlab/ReXGradient-160K", "Dataset"],
+    ["2D", "PubMedVision-IU subset", "https://huggingface.co/datasets/FreedomIntelligence/PubMedVision", "PubMedVision"],
+    ["2D", "MedTrinity BHX", "https://github.com/UCSC-VLAA/MedTrinity-25M", "MedTrinity-25M"],
+    ["3D QA", "AbdomenAtlas1.0Mini", "https://huggingface.co/datasets/AbdomenAtlas/AbdomenAtlas1.0Mini", "Dataset"],
+    ["3D QA + reports", "CT-RATE", "https://huggingface.co/datasets/ibrahimhamamci/CT-RATE", "Dataset"],
+    ["3D QA", "RadGenome-ChestCT", "https://huggingface.co/datasets/RadGenome/RadGenome-ChestCT", "Dataset"],
+    ["3D QA", "TotalSegmentator", "https://github.com/wasserth/TotalSegmentator", "Project"],
+    ["3D reports", "M3D-Cap", "https://huggingface.co/datasets/GoodBaiBai88/M3D-Cap", "Dataset card"]
+  ],
+  "link_check_date": "2026-09-19",
+  "access_notes": {"M3D-Cap": "Official Hugging Face card displays access disabled / DMCA takedown notice; retained as provenance link, not a download guarantee."}
+}

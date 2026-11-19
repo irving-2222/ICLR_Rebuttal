@@ -1,0 +1,94 @@
+{
+  "model": "Qwen3.5-9B",
+  "source": "Author-provided evaluation summary in conversation, 2026-09-14",
+  "record_type": "Extracted overall accuracy and judging metadata; not the full original evaluation log",
+  "table_columns": [
+    "PMC-VQA",
+    "VQA-RAD",
+    "SLAKE",
+    "PathVQA"
+  ],
+  "metrics": {
+    "PMC-VQA": {
+      "total": 33430,
+      "right": 20297,
+      "acc": 0.6071492671253366
+    },
+    "VQA-RAD": {
+      "total": 451,
+      "right": 310,
+      "acc": 0.6873614190687362,
+      "open": {
+        "total": 200,
+        "right": 112
+      },
+      "close": {
+        "total": 251,
+        "right": 198
+      },
+      "judge_scope": "open_only",
+      "judged": 200,
+      "deterministic": 251,
+      "missing_judge": 0,
+      "judge_errors": 0,
+      "completed_at": "2026-07-23T11:33:43.645431+00:00"
+    },
+    "SLAKE": {
+      "total": 2094,
+      "right": 1505,
+      "acc": 0.7187201528175741,
+      "open": {
+        "total": 1258,
+        "right": 796
+      },
+      "close": {
+        "total": 836,
+        "right": 709
+      },
+      "judge_scope": "all",
+      "judged": 2094,
+      "deterministic": 0,
+      "missing_judge": 0,
+      "judge_errors": 0,
+      "completed_at": "2026-07-23T11:38:13.833724+00:00"
+    },
+    "PathVQA": {
+      "total": 6719,
+      "right": 3335,
+      "acc": 0.4963536240511981,
+      "open": {
+        "total": 3357,
+        "right": 715
+      },
+      "close": {
+        "total": 3362,
+        "right": 2620
+      },
+      "judge_scope": "open_only",
+      "judged": 3357,
+      "deterministic": 3362,
+      "missing_judge": 0,
+      "judge_errors": 0,
+      "completed_at": "2026-07-23T13:53:21.284527+00:00"
+    }
+  },
+  "evaluation": {
+    "applies_to": [
+      "VQA-RAD",
+      "SLAKE",
+      "PathVQA"
+    ],
+    "judge_model": "deepseek-v4-pro",
+    "judge_base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+    "judge_prompt_version": "gpt_eval_compare_prompt_v1",
+    "judge_label_semantics": {
+      "0": "correct",
+      "1": "incorrect"
+    },
+    "temperature": 0,
+    "max_tokens": 512,
+    "workers": 20,
+    "pmc_judging_metadata": "Not supplied"
+  },
+  "display": "Overall acc multiplied by 100 and rounded to two decimals; open/closed subsets are not averaged equally"
+}

@@ -1,0 +1,29 @@
+\paragraph{三维基准。}
+\label{app:datasets_3d}
+
+三维评测共包含18,883个条目，覆盖 M3D-VQA 的四选一识别、3D-RAD 的开放式问答与 AMOS-MM 的报告生成三类互补任务~\citep{bai2024m3d,gai2025threedrad,ji2024amosmm}。评测采用本地 M3D-VQA 测试划分的全部闭合题、本地 3D-RAD 测试划分的全部开放题，以及 AMOS-MM 验证划分的全部400例。
+
+\begin{table}[H]
+\centering\small
+\caption{本地三维评测集的组成。序列数按各基准的媒体路径去重，表示媒体文件数而非独立患者数。AMOS-MM 采用其验证划分进行评测。}
+\label{tab:datasets_3d}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.10}
+\begin{tabularx}{\linewidth}{@{}llYrr@{}}
+\toprule
+基准 & 原始划分 & 评测任务 & 条目数 & 序列数\\
+\midrule
+M3D-VQA & Test & 四选一问答 & 13,791 & 2,000\\
+3D-RAD & Test & 开放式问答 & 4,692 & 2,354\\
+AMOS-MM & Validation & 报告生成 & 400 & 400\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+M3D-VQA 考察成像平面、增强期相、器官识别、异常识别及解剖定位。3D-RAD 覆盖解剖与病理观察，异常特征、位置、类型及诊断，以及直径、大小和厚度的定量描述。AMOS-MM 评估较长影像所见的生成，参考内容涉及胸部、腹部及盆腔结构；评分采用 \emph{findings} 字段，不拼接 impression。参考答案仅用于评分，不作为推理输入。
+
+\paragraph{三维输入与预处理。}
+通用输入表示沿体积深度方向均匀采样64张切片，较短序列允许重复采样。切片以512像素为目标最长边缩放，按空间顺序保存为 H.264 MP4（yuv420p、16像素对齐、1 fps）。原生三维模型保留各自的输入适配器；Photon S2~\citep{fang2026photon}的本地评测使用32张切片重构的体积。解码采用贪心策略。所选数据的条目 ID 无重复、参考答案非空，引用媒体均可用。预处理在采样前排除四个 M3D 源序列中的109个不可识别图像成员，保留全部关联问题。
+
+\paragraph{三维指标与汇总方式。}
+M3D-VQA 同时报告全部问题的总体准确率与五类任务的宏平均准确率。Plane、Phase、Organ 各包含2,000道题，Abnormality 与 Location 分别包含4,831和2,960道题。3D-RAD 的异常检测、图像观察与医学计算分别包含2,666、1,024和1,002道题。本次评测采用 WMT~13a 分词、无平滑的 corpus BLEU-1 及 ROUGE-1 F1，各任务分别对其四个、两个和三个子任务分数等权平均。AMOS-MM 采用 RaTEScore、BLEU-1、ROUGE-L 与 METEOR。所有分数统一乘以100。正文图~\ref{fig:3d_main}分别采用 M3D-VQA 的类别宏平均准确率、3D-RAD 三类任务 ROUGE-1 的均值，以及 AMOS-MM 的 RaTEScore。

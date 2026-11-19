@@ -1,0 +1,17 @@
+# Source Data 数据来源
+
+源池共 **259,767 条记录**。下表为入池记录数，不是原始数据集总量、图片数或每轮训练量。
+
+| 数据集 | 入池记录数 | 主要内容与用途 |
+| --- | ---: | --- |
+| PMC-OA | 79,858 | 医学论文图像及 caption，主要支持 PMC-VQA |
+| Quilt-1M | 49,022 | 病理图像及文本，主要支持 PathVQA |
+| OmniMedVQA | 44,911 | 放射与病理问答，支持 VQA-RAD、SLAKE、PathVQA |
+| Med-MAT | 28,154 | 放射与病理图像及分类标签，补充器官、模态和疾病信息 |
+| ROCO | 22,463 | 放射图像及 caption，主要支持 VQA-RAD、SLAKE |
+| CheXpert | 12,000 | 胸片及疾病标签，补充胸片发现类事实 |
+| LLaVA-Med | 9,173 | 医学论文图像及文本，补充 PMC-VQA 来源 |
+| TCGA-CRC | 5,000 | 结直肠病理图像及标签 |
+| ReXGradient | 4,122 | 胸片及 Findings / Impression 报告 |
+| PubMedVision-IU 子集 | 3,129 | 筛选出的胸片图文，补充 IU 来源 |
+| MedTrinity BHX | 1,935 | 脑 CT 图像与描述，补充放射定位信息 |

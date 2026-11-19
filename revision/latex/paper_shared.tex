@@ -1,0 +1,87 @@
+% Shared packages and notation. The official ICLR style is not modified.
+\usepackage{amsmath,amssymb,mathrsfs}
+\usepackage{microtype}
+\usepackage{booktabs,array,tabularx}
+\usepackage{graphicx,xcolor}
+\usepackage{colortbl}
+% Near-white washes; typography, rather than saturated fills, carries emphasis.
+\definecolor{mainProp}{HTML}{F8FAFC}
+\definecolor{mainGeneral}{HTML}{F8FBFA}
+\definecolor{mainMedical}{HTML}{FDFAF8}
+\definecolor{mainOurs}{HTML}{F0F4FA}
+% User-selected VQA main-table palette; 3D tables retain their existing colors.
+\definecolor{vqaProp}{HTML}{F6D6D6}
+\definecolor{vqaGeneral}{HTML}{C0E0F8}
+\definecolor{vqaMedical}{HTML}{C2E2C2}
+% Table 1: retain the selected hues at 25% color on a white background.
+\colorlet{vqaProp}{vqaProp!25!white}
+\colorlet{vqaGeneral}{vqaGeneral!25!white}
+\colorlet{vqaMedical}{vqaMedical!25!white}
+\input{sections/main_results_rows}
+\input{sections/three_d_results_rows}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds}
+\usepackage{placeins}
+\usepackage{float}
+% Pseudocode uses the existing float/tabularx packages; captions remain below.
+\floatstyle{plain}
+\newfloat{algorithm}{htbp}{loa}
+\floatname{algorithm}{Algorithm}
+\usepackage{wrapfig}
+% Keep natural vertical spacing when an indivisible table moves to the next page.
+% Do not stretch headings and paragraph gaps to force page-bottom alignment.
+\AtBeginDocument{\raggedbottom}
+\usepackage{hyperref}
+% Allow long reference URLs to wrap without stretching the surrounding words.
+\usepackage{xurl}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black,pdfauthor={Anonymous authors}}
+\newcommand{\tbd}{\textcolor{black!65}{\textsf{TBD}}}
+\newcommand{\obs}{o}
+\newcommand{\hist}{h}
+\newcommand{\strategies}{\Sigma}
+\newcommand{\evol}{\mathscr E}
+\newcommand{\cellset}{\mathcal C}
+\newcommand{\source}{\mathcal S}
+\newcommand{\trainset}{\mathcal D}
+\newcommand{\E}{\mathbb E}
+\newcommand{\ind}{\mathbf 1}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+% Language-specific labels are supplied by each main file.
+\newcommand{\frameworkfigure}{%
+\begin{tikzpicture}[
+  box/.style={draw=black!60,rounded corners=2pt,align=center,font=\small,
+    minimum height=0.80cm,text width=3.45cm,inner sep=4pt},
+  arrow/.style={-{Latex[length=2mm]},thick,draw=black!70},
+  feed/.style={arrow,dashed},node distance=0.7cm and 0.6cm]
+  \node[box,fill=blue!6] (feedback) {\FigFeedback};
+  \node[box,fill=blue!6,right=of feedback] (policy) {\FigPolicy};
+  \node[box,fill=orange!9,right=of policy] (synth) {\FigSynthesis};
+  \node[box,fill=orange!9,below=of synth] (student) {\FigStudent};
+  \node[box,fill=orange!9,left=of student] (strategy) {\FigStrategy};
+  \node[box,fill=black!3,left=of strategy] (record) {\FigRecord};
+  \draw[arrow] (feedback) -- (policy);
+  \draw[arrow] (policy) -- (synth);
+  \draw[arrow] (synth) -- (student);
+  \draw[arrow] (student.south) -- ++(0,-0.45) -| (record.south);
+  \draw[arrow] (record) -- (feedback);
+  \draw[feed] (feedback.south) -- (strategy.north west);
+  \draw[arrow] (strategy.north east) -- (synth.south west);
+\end{tikzpicture}%
+}
+
+% An honest placeholder for future measurements, not an illustrative result curve.
+\newcommand{\trajectoryplaceholder}{%
+\begin{tikzpicture}[font=\small]
+  \draw[draw=black!45,rounded corners=2pt] (0,2.5) rectangle (12.8,4.6);
+  \node at (6.4,4.1) {\FigCapability};
+  \node[align=center,text width=11.5cm,text=black!60] at (6.4,3.25) {\FigPending};
+  \draw[draw=black!45,rounded corners=2pt] (0,0) rectangle (6.2,2.2);
+  \draw[draw=black!45,rounded corners=2pt] (6.6,0) rectangle (12.8,2.2);
+  \node at (3.1,1.7) {\FigVQA};
+  \node at (9.7,1.7) {\FigReport};
+  \node[align=center,text width=5.5cm,text=black!60] at (3.1,0.9) {\FigPending};
+  \node[align=center,text width=5.5cm,text=black!60] at (9.7,0.9) {\FigPending};
+\end{tikzpicture}%
+}

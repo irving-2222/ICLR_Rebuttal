@@ -1,0 +1,289 @@
+\input{sections/training_algorithm_en}
+
+\section{Training configuration}
+\label{app:implementation}
+
+\paragraph{Learner training.}
+Qwen3-VL-8B-Instruct is the primary learner, with Qwen3-VL-32B used for the 2D scaling experiments. Each round continues from the preceding learner's parameters, using accepted evidence-grounded supervision $\mathcal D_e^{\mathrm{syn}}$ mixed with the prescribed original or replay data $\mathcal R_e$. Supervised fine-tuning (FullSFT) updates all parameters of the language model and multimodal merger while freezing the vision tower. The 2D training configuration specifies one full epoch per round over $\mathcal D_e^{\mathrm{mix}}$, with training duration determined by the epoch count (\texttt{max\_steps=-1}). We use AdamW~\citep{loshchilov2019decoupled} with $\beta_1=0.9$, $\beta_2=0.999$, $\epsilon=10^{-8}$, and weight decay $0.1$, excluding biases and other exempt parameters. The language model and merger both use a learning rate of $10^{-5}$, with cosine decay and a warmup ratio of $0.03$. Training uses 24 NVIDIA A100 80\,GB GPUs across three nodes, with eight GPUs per node. A batch size of one per GPU and one gradient accumulation step yield an effective global batch size of 24. Computation uses BF16 and DeepSpeed ZeRO-3~\citep{rajbhandari2020zero}, with gradient checkpointing disabled. For volumetric inputs, TF32 is enabled and the pixel count per slice frame is constrained to 65,536--196,608.
+\paragraph{Agent roles and models.}
+The five agents coordinate supervision construction, curriculum allocation, and principle revision. The evidence selector uses deepseek-v4-flash to select supporting evidence, and the supervision constructor uses the same model to generate training examples under the construction principles. The evidence verifier uses Qwen3.6-27B to assess evidence support and factual consistency. The curriculum planner allocates construction effort based on capability feedback and learning progress: a learned Actor--Critic selects allocation actions, while deepseek-v4-flash specifies construction targets and provides action labels for supervised initialization. The revision agent uses deepseek-v4-flash to propose and assess revisions to construction principles based on learning responses. Qwen3.6-27B also supports factual evidence extraction and annotation of validation sets.
+
+\paragraph{Per-round supervision size and task composition.}
+Each training round incorporates 50,000 supervision examples in $\mathcal D_e^{\mathrm{syn}}$ that pass evidence verification, with an approximate $7:3$ ratio of visual question answering (VQA) to report generation (caption) by sample count. Within the VQA subset, multiple-choice, binary, and short-answer questions follow an approximate $92:4:4$ ratio. These two levels specify the composition across task families and the distribution of response formats within VQA, respectively.
+
+\paragraph{Learner training objective.}
+\label{app:learner_objective}
+For trainable learner parameters $\phi$, the update in Equation~\ref{eq:learning_dynamics} minimizes
+\begin{equation}
+\mathcal L_e(\phi)=-\E_{(v,x,y)\sim\mathcal D_e^{\mathrm{mix}}}
+\sum_{j=1}^{|y|}\log p_\phi(y_j\mid v,x,y_{<j}),
+\label{eq:student}
+\end{equation}
+where $v$, $x$, and $y$ denote visual input, instruction, and target response. Learning responses are measured on fixed validation cases for each task after each update.
+
+\paragraph{Curriculum-planner initialization.}
+The curriculum planner maps a 40-dimensional state through a shared two-layer MLP with hidden widths 128 and 64 to a four-action Actor and a scalar Critic. The four actions are balanced, repair-heavy, weakness-focused, and retention-heavy. Baseline evaluation statistics inform the construction of 800 capability states spanning balanced performance, broad deficiencies, localized deficiencies, and capability regression. The teacher deepseek-v4-flash assigns curriculum action labels. A split by state group yields 640 training and 160 validation states. Cross-entropy supervision initializes the shared MLP and Actor; the checkpoint after epoch 5 achieves the best validation performance and is selected. The Critic output head is initialized with zero weights and bias and subsequently learned from real feedback. The 800 states constitute initialization supervision, separate from online learner interactions.
+
+\paragraph{PPO optimization.}
+Each curriculum round comprises a decision, supervision construction, learner training, and validation feedback, yielding one environment transition. The Actor--Critic is updated after every round, with four optimization epochs over that round's rollout. With a one-transition rollout, generalized advantage estimation reduces to a one-step temporal-difference estimate. We use Adam~\citep{kingma2015adam} with learning rate $3\times10^{-4}$, discount $\gamma=0.90$, GAE parameter $\lambda=0.95$, clipping threshold $0.20$, value loss coefficient $0.50$, entropy coefficient $0.01$, and gradient norm limit $0.50$. PPO updates the curriculum planner, while external LLM weights remain fixed. When principle evolution is scheduled, planner optimization precedes principle revision.
+
+\paragraph{Sampling and likelihood ratios under the mixed policy.}
+Let $\pi_\theta(\cdot\mid s)=\operatorname{softmax}(\operatorname{Actor}_\theta(s))$. The executed allocation policy combines the Actor with uniform exploration over four actions:
+\[
+\mu_\theta(a\mid s)=0.8\pi_\theta(a\mid s)+0.05.
+\]
+Actions are sampled from $\mu_{\theta_{\mathrm{old}}}$, and their log probabilities $\ell_e^{\mathrm{old}}=\log\mu_{\theta_{\mathrm{old}}}(a_e\mid \mathbf{s}_e)$ are stored at sampling time. These values remain fixed throughout the four optimization epochs. Each epoch recomputes the probability under the mixed policy for the stored state and action, giving the PPO ratio
+\[
+\rho_e(\theta)=\exp\!\left(\log\mu_\theta(a_e\mid \mathbf{s}_e)-\ell_e^{\mathrm{old}}\right)
+=\frac{\mu_\theta(a_e\mid \mathbf{s}_e)}{\mu_{\theta_{\mathrm{old}}}(a_e\mid \mathbf{s}_e)}.
+\]
+Entropy regularization also uses $\mu_\theta$. This executed policy instantiates the allocation policy in Equation~\ref{eq:objective}.
+
+\paragraph{Reward based on learning progress.}
+Rewards measure validation gains following actual learner updates. VQA uses accuracy; report generation uses $0.5\,\mathrm{ROUGE\mbox{-}L}+0.3\,\mathrm{BLEU\mbox{-}4}+0.2\,\mathrm{METEOR}$. Gains are averaged within each task family, and the VQA and report families receive equal weight, as in Equation~\ref{eq:gain}.
+
+\paragraph{Principle revision and selection.}
+Persistent construction principles specify question intent, evidence--response relations, conceptual contrasts, and diversity. Learning responses observed within each window identify sufficiently used principles with nonpositive net repair. The revision agent uses summaries of residual errors to propose candidates while preserving the target capability and medical facts. Current and candidate principles are compared on the same $N>0$ evidence assignments. Let $I_{\mathrm{cur}}$ and $I_{\mathrm{cand}}$ index assignments yielding usable supervision. Relative usable yield and paired coverage are
+\begin{equation}
+\Delta_{\mathrm{use}}=\frac{|I_{\mathrm{cand}}|-|I_{\mathrm{cur}}|}{N},
+\qquad
+\rho_{\mathrm{pair}}=\frac{|I_{\mathrm{cand}}\cap I_{\mathrm{cur}}|}{N}.
+\label{eq:strategy_comparison}
+\end{equation}
+We use $N=100$ matched assignments, with all requested assignments included in the denominator. Acceptance requires
+\[
+\frac{|I_{\mathrm{cand}}|}{N}\geq0.80,\qquad
+\Delta_{\mathrm{use}}\geq-0.05,\qquad
+\rho_{\mathrm{pair}}\geq0.60,
+\]
+and a conclusive semantic review. Once paired coverage meets the bound, the revision agent examines up to 30 common usable pairs and must confirm both observable application of the revision and improved alignment with the target error semantics while preserving evidence support. Stylistic changes or changes limited to synonym substitution do not qualify as improvement.
+
+A drop in usable yield exceeding five percentage points, a candidate yield below 0.80 when the current version meets this bound, or semantic regression leads to rejection. Otherwise, insufficient assignments, unmet numerical bounds, or unconfirmed semantic improvement defer the decision. Both outcomes retain the current principle; accepted revisions govern subsequent construction. Selection uses paired supervision comparison, with learner responses assessed in subsequent training rounds.
+
+\section{Experimental setup and evaluation}
+\label{app:evaluation}
+\label{app:3d}
+
+We evaluate the trained CoEvoMed-8B model on both 2D and volumetric benchmarks, representing each volume as a video of 64 slice frames.
+
+\input{sections/evaluation_datasets_2d_en}
+
+\input{sections/evaluation_datasets_3d_en}
+
+\subsection{Supplementary benchmark results}
+\label{app:report_lexical}
+
+\paragraph{Report generation metrics.}
+
+Figure~\ref{fig:report_lexical} complements the RaTEScore comparison in the main text with METEOR, BLEU-1/2/3/4, and ROUGE-1/2/L on the same two report benchmarks. These metrics characterize lexical agreement with reference reports; RaTEScore provides the evaluation of clinical meaning in Figure~\ref{fig:report_results}.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\linewidth]{figures/report_lexical.pdf}
+\caption{Supplementary lexical metrics for MIMIC-CXR and IU-Xray report generation. Cells show scores on a 0--100 scale, rounded to one decimal; colors are min--max normalized within each metric and dataset. Higher is better. ``--'' marks unavailable values and is not treated as zero.}
+\label{fig:report_lexical}
+\end{figure}
+
+\input{sections/three_d_appendix_en}
+
+\subsection{Construction of support evidence and validation sets}
+
+The support pool $\mathcal S$ provides source evidence for supervision construction. Validation sets $\mathcal V=\{\mathcal V_t\}_{t\in\mathcal T}$ organized by task assess learner capabilities and guide adaptation through capability estimates, error semantics, and curriculum returns. External benchmark collections $\mathcal B_{\mathrm{ext}}$ are used to report performance of the final model and intermediate checkpoints. We detail the construction of support evidence and validation sets below.
+
+The task taxonomy $\mathcal T$ defines the units used for validation feedback. Support sources and their roles in supervision construction are detailed below. The evaluation datasets and input processing for 2D and volumetric tasks are described together in Appendix~\ref{app:datasets_2d}. Gemma-3-4B-IT trajectories appear in the main text (Figure~\ref{fig:gemma_trajectory}); InternVL3-9B results appear in Appendix~\ref{app:internvl}. InternVL3-9B uses independently trained models for the two tasks.
+
+\input{sections/support_sources_en}
+
+\input{sections/data_preparation_en}
+
+\subsection{Metrics and statistical reporting}
+
+VQA accuracy is computed using predefined exact or semantic matching criteria. Report evaluation includes BLEU-4, METEOR, and ROUGE-L \citep{papineni2002bleu,banerjee2005meteor,lin2004rouge}. The implemented feedback composite is
+$0.5\,\mathrm{ROUGE\mbox{-}L}+0.3\,\mathrm{BLEU\mbox{-}4}+0.2\,\mathrm{METEOR}$.
+Feedback scores $U_t^{\mathrm{val}}$ are computed on $\mathcal V_t$, while the controlled comparisons use independent external tests. Figure~\ref{fig:report_results} uses RaTEScore, a separate clinical report metric \citep{zhao2024ratescore}, scaled by 100. RaTEScore does not retrospectively replace feedback scores used for curriculum allocation. Metric implementations and exact/semantic matching choices must be fixed before controlled comparisons. Experiments~1 and~2 report scores and paired contrasts in Tables~\ref{tab:feedback_full} and~\ref{tab:stage_full}.
+
+For longitudinal capability analysis, freeze cell definitions, sample panels within $\mathcal V_t$, decoding settings, and scoring rules in which higher scores indicate better performance before comparison. Compute $\mathcal J_c[M_e]$ on fixed nonempty validation sets, reporting case counts, per-cell changes, and repaired/regressed case transitions. Learning responses are characterized by evaluation metrics aligned with each task's objective. Independent validation feedback at round $e$ guides subsequent curriculum allocation and revision of construction principles. External benchmarks evaluate model performance across rounds and do not inform curriculum decisions. Figure~\ref{fig:trajectory} reports all ten recorded rounds, including later performance declines. Sparse cells are reported as unsupported, not interpreted as evidence of capability change.
+
+\paragraph{Checkpoint selection.}
+\label{app:checkpoint_selection}
+The CoEvoMed-8B checkpoint is selected according to the overall balance of medical question answering and report generation across training rounds. R7 provides the most balanced overall capability profile among the ten recorded rounds and is used for all six main 2D results. Evaluation using the same checkpoint preserves the joint capability profile of a single learner; individual benchmark peaks occur at R7--R8 in Figure~\ref{fig:trajectory}.
+
+\input{sections/internvl_appendix_en}
+
+\subsection{Feedback provenance and independence}
+
+CoEvoMed uses validation sets $\mathcal V$ organized by task and independent of the final evaluation data. Learning responses on these validation sets provide capability estimates and curriculum rewards and guide the revision of construction principles. External benchmark collections $\mathcal B_{\mathrm{ext}}$ are reserved for performance evaluation and do not participate in supervision construction, learner training, or curriculum and principle updates.
+
+\section{Curriculum interventions and component controls}
+\label{app:mechanisms}
+
+\subsection{Experiment 1: feedback--learner alignment}
+\label{app:feedback_ablation}
+
+Experiment 1 fixes the learner's initial state at R5 and uses historical validation feedback from R2 or R3, or current R5 feedback. Feedback comprises numerical capability statistics describing task-level mastery and learning changes, and summaries of error semantics characterizing unresolved failure modes. Both components are jointly replaced with records from the same source round to guide curriculum allocation and supervision construction, testing alignment between validation-based diagnosis and the current learner state. Table~\ref{tab:feedback_full} extends panel A of Table~\ref{tab:ablations} to six 2D benchmarks under the evaluation settings in Appendix~\ref{app:datasets_2d}. All changes are measured against the same R5 reference scores measured before further training. The condition using current feedback shares its training result with condition D of Experiment 2 and corresponds to round 6 in Figure~\ref{fig:trajectory}.
+
+\begin{table}[H]
+\centering\scriptsize
+\caption{Full results with the R5 learner fixed and numerical capability statistics and summaries of error semantics jointly replaced by R2, R3, or R5 feedback. VQA reports accuracy (\%); report generation uses RaTEScore ($\times100$). Parentheses give changes from the R5 reference scores measured before further training.}
+\label{tab:feedback_full}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\linewidth}{@{}Yrrrrrr@{}}
+\toprule
+Condition & VQA-RAD & SLAKE & PMC-VQA & PathVQA & MIMIC-CXR & IU-Xray\\
+\midrule
+R5 reference & 73.61 & 89.00 & 64.60 & 65.80 & 59.00 & 61.63\\
+R2 feedback & 72.51 ($-1.10$) & 83.80 ($-5.20$) & 61.00 ($-3.60$) & 62.70 ($-3.10$) & 59.11 ($+0.11$) & 58.61 ($-3.02$)\\
+R3 feedback & 71.84 ($-1.77$) & 83.20 ($-5.80$) & 62.80 ($-1.80$) & 63.40 ($-2.40$) & 58.16 ($-0.84$) & 57.59 ($-4.04$)\\
+\rowcolor{mainOurs} \textbf{R5 feedback} & 76.23 ($+2.62$) & 89.69 ($+0.69$) & 65.12 ($+0.52$) & 66.93 ($+1.13$) & 61.77 ($+2.77$) & 62.91 ($+1.28$)\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Current R5 feedback outperforms both conditions using historical feedback and the reference scores measured before further training on all six benchmarks. Gains over the reference are 2.62 percentage points on VQA-RAD and 2.77 points on MIMIC-CXR, and 0.69, 0.52, 1.13, and 1.28 points on SLAKE, PMC-VQA, PathVQA, and IU-Xray, respectively. R3 feedback reduces performance on all six benchmarks, whereas R2 feedback yields only a marginal improvement on MIMIC-CXR; their relative ordering varies across tasks. These results support jointly updating numerical and semantic feedback to align subsequent curriculum interventions with the learner's current capabilities and error patterns.
+
+\subsection{Experiment 2: stage-dependent utility of construction principles}
+\label{app:stage_transfer}
+
+Experiment 2 applies original and evolved construction principles to learners after two (R2) and five (R5) completed training rounds. Conditions A/B initialize from the R2 checkpoint and C/D from R5, followed by training interventions using their assigned principles. Table~\ref{tab:stage_full} extends panel B of Table~\ref{tab:ablations} in the main text to six benchmarks under the same evaluation settings as Experiment 1. Changes are measured against reference scores measured before further training at the corresponding stage. The R5 reference and condition D correspond to rounds 5 and 6 in Figure~\ref{fig:trajectory}.
+
+\begin{table}[H]
+\centering\scriptsize
+\caption{Complete Experiment 2 results on six 2D benchmarks. Parentheses give changes from reference scores measured before further training at the corresponding stage.}
+\label{tab:stage_full}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\linewidth}{@{}Yrrrrrr@{}}
+\toprule
+Condition & VQA-RAD & SLAKE & PMC-VQA & PathVQA & MIMIC-CXR & IU-Xray\\
+\midrule
+R2 reference & 61.64 & 81.60 & 50.80 & 62.00 & 53.31 & 52.87\\
+A: R2 / original & 63.42 ($+1.78$) & 84.20 ($+2.60$) & 54.20 ($+3.40$) & 65.80 ($+3.80$) & 56.35 ($+3.04$) & 56.77 ($+3.90$)\\
+B: R2 / evolved & 59.20 ($-2.44$) & 81.00 ($-0.60$) & 48.00 ($-2.80$) & 65.40 ($+3.40$) & 56.47 ($+3.16$) & 56.69 ($+3.82$)\\
+\midrule
+R5 reference & 73.61 & 89.00 & 64.60 & 65.80 & 59.00 & 61.63\\
+C: R5 / original & 67.97 ($-5.64$) & 85.40 ($-3.60$) & 55.00 ($-9.60$) & 63.60 ($-2.20$) & 52.56 ($-6.44$) & 57.52 ($-4.11$)\\
+\rowcolor{mainOurs} D: R5 / evolved & 76.23 ($+2.62$) & 89.69 ($+0.69$) & 65.12 ($+0.52$) & 66.93 ($+1.13$) & 61.77 ($+2.77$) & 62.91 ($+1.28$)\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+All four VQA benchmarks exhibit a reversal in principle ordering: original principles perform better at R2, whereas evolved principles perform better at R5. On VQA-RAD, original principles lead by 4.22 percentage points at R2, while evolved principles lead by 8.26 at R5. The score differences (evolved minus original) on SLAKE, PMC-VQA, and PathVQA change from $-3.20$, $-6.20$, and $-0.40$ to $+4.29$, $+10.12$, and $+3.33$ percentage points, respectively. Both report tasks benefit from either version at R2, with small differences between the two principle versions: evolved principles lead by 0.12 points on MIMIC-CXR, while original principles lead by 0.08 on IU-Xray. At R5, evolved principles lead by 9.21 and 5.39 points, respectively. Condition D improves over the R5 reference on all six benchmarks. These results show that the utility of construction principles varies with learner stage, supporting their continued revision in response to learning.
+
+\subsection{Training on a larger collection of raw data}
+\label{app:raw_source}
+
+This comparison examines whether increasing the volume of raw data can account for CoEvoMed's performance gains. Starting from the same Qwen3-VL-8B initialization, Qwen3+Raw trains directly on approximately 700,000 original source examples, exceeding the number of training examples used by CoEvoMed. It retains the original supervision without supervision reconstruction or adaptive curriculum allocation. We evaluate both conditions on the four VQA benchmarks in Appendix~\ref{app:datasets_2d}.
+
+\begin{table}[!htbp]
+\centering\small
+\caption{Medical VQA accuracy (\%) from a shared Qwen3-VL-8B initialization. Qwen3+Raw uses approximately 700,000 source examples; CoEvoMed uses fewer training examples. The base model is included as a reference.}
+\label{tab:raw_source}
+\setlength{\tabcolsep}{7pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Training condition & PMC-VQA & VQA-RAD & SLAKE & PathVQA\\
+\midrule
+Qwen3-VL-8B (base) & 54.13 & 56.76 & 64.84 & 42.77\\
+Qwen3+Raw & 45.51 & 43.01 & 38.15 & 35.94\\
+\rowcolor{mainOurs} CoEvoMed-8B & \textbf{67.95} & \textbf{82.48} & \textbf{91.60} & \textbf{69.40}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Despite using less training data, CoEvoMed exceeds Qwen3+Raw by 22.44, 39.47, 53.45, and 33.46 percentage points on PMC-VQA, VQA-RAD, SLAKE, and PathVQA, respectively. Training directly on source data falls below the initial model on all four benchmarks, whereas CoEvoMed improves on each. Thus, a larger collection of raw data does not reproduce CoEvoMed's gains. These results support the effectiveness of supervision construction driven by learning responses and curriculum adaptation in translating source evidence into supervision suited to the learner's evolving needs.
+
+\section{Scope of the formulation}
+\label{sec:limitations}
+
+The curriculum construction map is a stochastic, learner-conditioned transformation. Experience generation and allocation shape learning trajectories by influencing capability development through training. Finite validation panels provide partial capability evidence, and covered cells retain their own scoring scales. Independent external tests assess generalization after repeated validation-driven adaptation.
+
+Local interventions establish evidence at the tested learner states and construction versions. Applicability claims are restricted to the evaluated data and backbone-specific settings. Medical benchmark performance and source-grounded verification do not establish clinical safety or patient benefit.
+
+\section{Formal model and notation}
+\label{app:formalization}
+
+This appendix formalizes the co-evolution described in Section~\ref{sec:problem}. The learner $M_e$ and the agents' construction principles $\Sigma_e$ are reciprocally dependent components of the complete state $X_e$. The map $\mathfrak C_e$ in Equation~\ref{eq:construction} combines allocation, active principles, and evidence verification to produce supervision for the learner update. Responses obtained after the learner update enter history and inform principle revision; $\Phi(h_e)$ supplies the input to the allocation policy. Fixed $\mathcal J_c$ evaluate successive capabilities to form the trajectory $\Gamma_E=(\widehat{\boldsymbol\kappa}_0,\ldots,\widehat{\boldsymbol\kappa}_E)$ over $E$ rounds. The allocation policy optimizes cumulative validation progress within these coupled dynamics.
+
+\subsection{Capability profile and validation observations}
+
+Equation~\ref{eq:capability_level} defines empirical mastery $\mathcal J_c[M_e]$ through a capability evaluation functional that maps the learner's predictive behavior on a fixed validation set to a scalar capability coordinate. The fixed validation set $\mathcal V_c$ and instance-level evaluation rule $u_c$ determine this functional. Each $\mathcal V_c$ belongs to the validation set $\mathcal V_t$ for its task; example identities, scoring rules, and decoding settings are fixed before comparison. Equation~\ref{eq:capability_change} measures learning progress as the difference in the same functional evaluated on successive learners, equivalently the mean of paired instance-level evaluation changes on the same set. Initial assessment provides mastery levels; missing observations are marked separately.
+
+VQA feedback records repaired and regressed cases. Report feedback tracks score changes and persistent low scores on $\mathcal V_t$; a fixed low-score criterion defines report gaps, rather than one minus a composite score. The feedback summary retains current performance, changes between consecutive rounds, capability gaps, and previous allocations.
+
+Let $o_e$ denote the validation observation at round $e$, including measured performance and error evidence. The observable interaction history is
+\[
+h_e=(o_0,a_0,r_0,\ldots,a_{e-1},r_{e-1},o_e),
+\qquad \mathbf{s}_e=\Phi(h_e).
+\]
+Here $a_e$ is a curriculum action, $r_e$ is the reward in Equation~\ref{eq:gain}, and $\Phi$ compresses history into the planner's input. Round $e$ uses $\Sigma_e$ to construct supervision and update the learner, then appends $a_e,r_e,o_{e+1}$ to history. Equation~\ref{eq:strategy_evolution} uses the resulting $h_{e+1}$ to revise principles, producing $\Sigma_{e+1}$ for the next round. The curriculum planner acts on the history summary; the transition of the complete system state is defined on $X_e$.
+
+\subsection{Complete state and partially observable dynamics}
+
+For a prescribed rule $\mathscr E$ governing the evolution of construction principles, the finite-horizon process is
+\[
+\mathcal M_{\mathscr E}=(\mathcal X,\mathcal A_{\mathrm{act}},\mathcal O,P_{\mathscr E},\Omega,R,\rho_0,\gamma,E).
+\]
+The spaces $\mathcal X$, $\mathcal A_{\mathrm{act}}$, and $\mathcal O$ contain complete system states, admissible curriculum actions, and validation observations, respectively. The kernel $P_{\mathscr E}$ describes state transitions including updates to construction principles, and $\Omega$ describes observations conditional on the complete state. The reward rule $R$ produces the reward in Equation~\ref{eq:gain}; $\rho_0$ is the initial state distribution, $\gamma$ the discount factor, and $E$ the number of decision rounds.
+
+The state $X_e\in\mathcal X$ contains the learner parameters and training state, active construction principles, retained training data, feedback and evolution statistics, scheduling information, and remaining resources. The state retains the information required for subsequent updates under the fixed execution rules.
+Equation~\ref{eq:transition} gives the Markov transition used in the main formulation.
+Initialization and observations satisfy $X_0\sim\rho_0$ and $o_e\sim\Omega(\cdot\mid X_e)$. Training-induced capability changes occur within the state transition; they do not require a time-varying transition kernel on this complete state. Construction, filtering, learner optimization, and scheduled updates to construction principles all contribute to the transition. One implementation episode corresponds to one decision step, not an entire POMDP trajectory.
+
+\subsection{Training distribution and resource constraints}
+
+The multi-agent roles in Section~\ref{sec:multiagent} realize the stochastic curriculum construction map
+\begin{equation}
+\mathcal D_e^{\mathrm{syn}}=\mathfrak C_e(\mathcal S,h_e),
+\qquad
+\mathfrak C_e=\mathfrak C[\mu_{\theta_e},\Sigma_e].
+\label{eq:construction}
+\end{equation}
+The map combines policy-guided allocation, principle-conditioned generation, and evidence-grounded verification. Its accepted supervision enters the training mixture in Equation~\ref{eq:learning_dynamics}. Equation~\ref{eq:supervision_mixture} characterizes the distribution of candidate examples before verification; the round index includes dependence on current history $h_e$ and curriculum action $a_e$.
+
+Let $z=(v,x,y)$ be a constructed example consisting of a visual input, instruction, and target response. Given feedback $\mathbf{s}_e$, the sampled action $a_e\sim\mu_\theta(\cdot\mid \mathbf{s}_e)$ determines quota shares $q_{e,c}$ for constructing candidate examples through the allocation map. The conditional constructor $g_{\Sigma_e}$ specifies generation using the active construction principles and support evidence. Before quality filtering, their joint contribution is
+\begin{equation}
+p_e(z,c\mid h_e,a_e,\Sigma_e)
+=q_{e,c}\,
+g_{\Sigma_e}(z\mid c,\mathcal S,h_e,a_e).
+\label{eq:factorization}
+\end{equation}
+Marginalizing over $c$ yields Equation~\ref{eq:supervision_mixture}, with $g_{e,c}(z;\Sigma_e,\mathcal S)=g_{\Sigma_e}(z\mid c,\mathcal S,h_e,a_e)$. The shares $q_{e,c}$ serve as mixture weights for the candidate distributions, sum to one over $\mathcal C$, and obey Equation~\ref{eq:quota}. This factorization describes the marginal distribution of an example drawn according to candidate quotas; generation within a batch may be dependent. Filtering changes accepted examples and their proportions; realized exposure additionally depends on original or replay data and sampling during training. Candidate counts, accepted counts, training tokens, and costs of model calls are recorded separately.
+
+Principles $\Sigma_e$ and shares $\boldsymbol q_e$ control candidate content and cross-capability composition, respectively; filtering and mixing further determine the training distribution. Learner optimization uses the loss over response tokens in Equation~\ref{eq:student}, allocation is learned through PPO, and principle revision compares examples generated from the same medical evidence (Section~\ref{sec:strategy_evolution}). Fixed validation criteria $\mathcal J_c$ record the resulting capability changes, supplying learning responses for subsequent adaptation.
+
+The shorthand objective in Equation~\ref{eq:objective} restricts the search to policies that satisfy the budget constraints. Writing the initialization and transition dependencies explicitly gives
+\begin{equation}
+\begin{aligned}
+\max_{\pi\in\Pi_{\mathrm{adm}}}\quad&
+\E_{\rho_0,\pi,P_{\mathscr E},\Omega}
+\left[\sum_{e=0}^{E-1}\gamma^e r_e\right]\\
+\text{subject to}\quad&
+\sum_{e=0}^{E-1}\mathbf k_e\preceq\mathbf B ,
+\end{aligned}
+\label{eq:objective_full}
+\end{equation}
+Here $\Pi_{\mathrm{adm}}$ is the class of policies satisfying constraints on curriculum actions and allocation quotas. The vector $\mathbf k_e$ records resource consumption in round $e$, $\mathbf B$ contains the corresponding total budgets, and $\preceq$ imposes each budget componentwise. The expectation includes stochastic curriculum actions, data construction, and learner updates under the fixed execution procedure.
+
+The prescribed rule governing the evolution of construction principles contributes to state transitions and future learning returns; PPO optimizes the allocation policy. The reward equals the validation gain between consecutive models, with equal weight assigned to VQA and report generation. It retains both improvements and regressions. Performance on independent external benchmarks assesses the resulting generalization separately from discounted training return.
+
+\subsection{Cumulative gains and the learning process}
+\label{app:cumulative_gains}
+
+Using the fixed task family weights and scoring scales in Equation~\ref{eq:gain}, define
+\[
+F_e=\frac{1}{2|\mathcal T_{\mathrm V}|}\sum_{t\in\mathcal T_{\mathrm V}}U_t^{\mathrm{val}}(M_e)
++\frac{1}{2|\mathcal T_{\mathrm R}|}\sum_{t\in\mathcal T_{\mathrm R}}U_t^{\mathrm{val}}(M_e).
+\]
+Then $r_e=F_{e+1}-F_e$. For a fixed horizon $E\geq1$ and $0<\gamma\leq1$, reindexing gives
+\begin{equation}
+\begin{aligned}
+\sum_{e=0}^{E-1}\gamma^e(F_{e+1}-F_e)
+&=\sum_{e=1}^{E}\gamma^{e-1}F_e-\sum_{e=0}^{E-1}\gamma^eF_e\\
+&=-F_0+(1-\gamma)\sum_{e=1}^{E-1}\gamma^{e-1}F_e+\gamma^{E-1}F_E.
+\end{aligned}
+\label{eq:trajectory_objective}
+\end{equation}
+The identity holds for each interaction trajectory; taking expectations yields an equivalent form of Equation~\ref{eq:objective}. A fixed starting learner makes $F_0$ constant. For $\gamma<1$, intermediate and terminal performance receive nonnegative weights; at $\gamma=1$, the intermediate terms cancel. This scalar objective aggregates task performance, while $\Gamma_E$ retains changes in each capability cell.
+
+\input{sections/showcase_appendix_en}

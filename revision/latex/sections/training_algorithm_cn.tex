@@ -1,0 +1,50 @@
+\clearpage
+\section{完整训练过程}
+\label{app:algorithm}
+
+算法~\ref{alg:coevomed}概括共演化闭环。其中 $\pi_\theta$ 为 Actor 的 softmax 分布，$\mu$ 为加入均匀探索后的实际执行策略。附录~\ref{app:implementation}给出预算、训练混合、PPO 设置与原则修订规则。
+
+\begin{algorithm}[H]
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabularx}{\linewidth}{@{}rY@{}}
+\toprule
+\multicolumn{2}{@{}p{\linewidth}@{}}{\textbf{输入：}学习者 $M_0$、原则集 $\Sigma_0$、已初始化的课程 Actor--Critic、验证集 $\mathcal V$、支持证据集 $\mathcal S$ 与时域 $E$。}\\
+\multicolumn{2}{@{}p{\linewidth}@{}}{\textbf{输出：}学习者检查点序列 $\mathcal K_E=(M_0,\ldots,M_E)$ 与最终原则集 $\Sigma_E$。}\\
+\midrule
+1 & 在 $\mathcal V$ 上评估 $M_0$ 得到 $o_0$；初始化 $h_0=(o_0)$、$\mathcal K_0=(M_0)$ 与使用量统计。\\
+2 & \textbf{for} $e=0,\ldots,E-1$ \textbf{do}\\
+3 & \hangindent=1em\hangafter=1\quad $\mathbf{s}_e\leftarrow\Phi(h_e)$; $\mu_{\mathrm{old}}\leftarrow0.8\pi_\theta(\cdot\mid\mathbf{s}_e)+0.05$.\\
+4 & \hangindent=1em\hangafter=1\quad $a_e\sim\operatorname{Categorical}(\mu_{\mathrm{old}})$; $\ell_e^{\mathrm{old}}\leftarrow\log\mu_{\mathrm{old}}(a_e)$.\\
+5 & \hangindent=1em\hangafter=1\quad $\boldsymbol q_e\leftarrow\mathcal A(a_e,h_e)$，保持任务配额（式~\ref{eq:quota}）。\\
+6 & \hangindent=1em\hangafter=1\quad 按 $\boldsymbol q_e$ 规划修复与保持目标，并从 $\mathcal S$ 选取支持事实。\\
+7 & \hangindent=1em\hangafter=1\quad 依据 $\Sigma_e$ 构造并验证 $\mathcal D_e^{\mathrm{syn}}$；记录来源与原则版本。\\
+8 & \hangindent=1em\hangafter=1\quad $\mathcal D_e^{\mathrm{mix}}\leftarrow\operatorname{Mix}(\mathcal D_e^{\mathrm{syn}},\mathcal R_e)$; $M_{e+1}\leftarrow\mathcal U(M_e,\mathcal D_e^{\mathrm{mix}})$.\\
+9 & \hangindent=1em\hangafter=1\quad 在相同的 $\mathcal V$ 上评估 $M_{e+1}$，得到 $o_{e+1}$ 与成对学习响应。\\
+10 & \hangindent=1em\hangafter=1\quad $r_e\leftarrow G_e$（式~\ref{eq:gain}）；$\mathcal K_{e+1}\leftarrow(\mathcal K_e,M_{e+1})$。\\
+11 & \hangindent=1em\hangafter=1\quad $h_{e+1}\leftarrow(h_e,a_e,r_e,o_{e+1})$; $\mathbf{s}_{e+1}\leftarrow\Phi(h_{e+1})$.\\
+12 & \hangindent=1em\hangafter=1\quad 依据 $(\mathbf{s}_e,a_e,r_e,\mathbf{s}_{e+1})$ 计算单步优势估计与价值目标。\\
+13 & \hangindent=1em\hangafter=1\quad \textbf{for} $k=1,\ldots,4$ \textbf{do}\\
+14 & \hangindent=2em\hangafter=1\qquad $\mu_{\mathrm{new}}\leftarrow0.8\pi_\theta(\cdot\mid\mathbf{s}_e)+0.05$; $\rho_e\leftarrow\exp\!\left(\log\mu_{\mathrm{new}}(a_e)-\ell_e^{\mathrm{old}}\right)$.\\
+15 & \hangindent=2em\hangafter=1\qquad 使用裁剪 PPO（$\rho_e$）、价值损失与熵项 $H(\mu_{\mathrm{new}})$ 更新 Actor--Critic。\\
+16 & \hangindent=1em\hangafter=1\quad \textbf{end for}\\
+17 & \hangindent=1em\hangafter=1\quad 按原则版本更新窗口统计；$\Sigma_{e+1}\leftarrow\Sigma_e$。\\
+18 & \hangindent=1em\hangafter=1\quad \textbf{if} 演化窗口结束 \textbf{then}\\
+19 & \hangindent=2em\hangafter=1\qquad 依据残余错误提出符合修订条件的原则候选，保持目标能力与医学事实不变。\\
+20 & \hangindent=2em\hangafter=1\qquad 在相同配额下，依据当前与候选原则，使用 $N=100$ 个相同证据任务构造并验证配对样本，得到可用索引集 $I_{\mathrm{cur}},I_{\mathrm{cand}}$。\\
+21 & \hangindent=2em\hangafter=1\qquad $\Delta_{\mathrm{use}}\leftarrow\dfrac{|I_{\mathrm{cand}}|-|I_{\mathrm{cur}}|}{N}$; $\rho_{\mathrm{pair}}\leftarrow\dfrac{|I_{\mathrm{cand}}\cap I_{\mathrm{cur}}|}{N}$.\\
+22 & \hangindent=2em\hangafter=1\qquad 若 $\rho_{\mathrm{pair}}\geq0.60$，由原则修订智能体对至多30组共同可用的配对样本进行语义审查。\\
+23 & \hangindent=2em\hangafter=1\qquad 当 $|I_{\mathrm{cand}}|/N\geq0.80$、$\Delta_{\mathrm{use}}\geq-0.05$、$\rho_{\mathrm{pair}}\geq0.60$ 且语义审查通过时，替换 $\Sigma_{e+1}$ 中对应原则。\\
+24 & \hangindent=1em\hangafter=1\quad \textbf{end if}\\
+25 & \textbf{end for}\\
+26 & \textbf{return} $\mathcal K_E,\Sigma_E$.\\
+\bottomrule
+\end{tabularx}
+\caption{CoEvoMed：学习响应驱动的监督构造。}
+\label{alg:coevomed}
+\end{algorithm}
+
+符合修订条件的原则在演化窗口内具有充分使用量且净修复不为正。语义审查要求修订实际体现在生成样本中、改善与目标错误的契合度，并保持证据支持。接受的修订于下一轮生效；拒绝或暂缓的候选均保留当前版本。保存的 $\ell_e^{\mathrm{old}}$ 在四个 PPO 优化 epoch 中保持不变。
+
+构造阶段使用选定事实而不直接读取图像，验证阶段结合图像检查候选样本。将监督样本与生成它们所用的构造原则版本关联，可把原则使用量与对应能力的验证变化相联系。训练混合排除 $\mathcal V$ 与外部基准 $\mathcal B_{\mathrm{ext}}$。保存的模型序列用于离线轨迹分析；六项二维 8B 主结果统一采用 R7（附录~\ref{app:checkpoint_selection}）。外部基准结果不返回适应闭环。

@@ -1,0 +1,50 @@
+% Shared by the English and Chinese manuscripts.
+% Columns: PMC-VQA, VQA-RAD, SLAKE, PathVQA. Reports are in figures/report_ratescore.
+% VQA: user-supplied comparison image, except Hulu-Med (Jiang et al., Table 1).
+% Report values are preserved in figures/report_results.json.
+% CoEvoMed-8B: user-confirmed same-checkpoint values; IU-Xray=68.22; PathVQA author-corrected to 69.40 on 2026-09-16.
+% CoEvoMed-32B: six author-supplied scores on 2026-09-13; VQA-RAD corrected by author to 82.71 on 2026-09-17; report lexical metrics pending.
+% A dash is unavailable, not zero.
+% Qwen3.5-9B: author-supplied overall accuracy; figures/qwen35_9b_vqa_results.json.
+% Qwen3-VL-8B: former Qwen3 (base) row, identity confirmed by author 2026-09-18.
+% Qwen3-VL-32B: Qwen3-VL-32B-Instruct, author-supplied full metrics on 2026-09-18; 2D_result/other_model.json.
+% MedVLSynther-7B: Huang et al., ICLR 2026, Table 6 (published results).
+\newcommand{\MainResultsRows}{%
+\midrule
+\multicolumn{5}{c}{\itshape Proprietary Models}\\
+\midrule
+\rowcolor{vqaProp} Gemini 3 Flash & 62.62 & 69.62 & 74.55 & 52.03\\
+\rowcolor{vqaProp} GPT-5.6-sol & 58.89 & 67.18 & 69.15 & 44.72\\
+\rowcolor{vqaProp} Kimi-K3 & 64.48 & 73.61 & 77.13 & 53.90\\
+\rowcolor{vqaProp} MiniMax-M3 & 57.33 & 68.07 & 71.44 & 57.80\\
+\rowcolor{vqaProp} Qwen3.8-Max & 64.58 & 76.81 & 85.05 & 64.11\\
+\midrule
+\multicolumn{5}{c}{\itshape General-purpose Multimodal VLMs}\\
+\midrule
+\rowcolor{vqaGeneral} Qwen3-VL-8B & 54.13 & 56.76 & 64.84 & 42.77\\
+\rowcolor{vqaGeneral} Qwen3.5-9B & 60.71 & 68.74 & 71.87 & 49.64\\
+\rowcolor{vqaGeneral} Llama3.2-11B & 48.10 & 58.80 & 65.80 & 32.90\\
+\rowcolor{vqaGeneral} InternVL3-14B & 54.10 & 66.30 & 72.80 & 48.00\\
+\rowcolor{vqaGeneral} Qwen3.6-27B & 62.50 & 71.62 & 75.07 & 46.93\\
+\rowcolor{vqaGeneral} Qwen3.8-27B & 60.33 & 68.51 & 73.93 & 45.11\\
+\rowcolor{vqaGeneral} Qwen3-VL-32B & 57.24 & 65.85 & 71.87 & 44.28\\
+\rowcolor{vqaGeneral} InternVL3-38B & 56.60 & 65.40 & 72.70 & 51.00\\
+\midrule
+\multicolumn{5}{c}{\itshape Medical Multimodal VLMs}\\
+\midrule
+\multicolumn{5}{l}{\itshape Models $<10$B}\\
+\rowcolor{vqaMedical} MedGemma-4B-IT & 49.20 & 72.30 & 78.20 & 48.10\\
+\rowcolor{vqaMedical} HuatuoGPT-V-7B & 53.10 & 67.60 & 68.10 & 44.80\\
+\rowcolor{vqaMedical} Lingshu-7B & 56.30 & 67.90 & 83.10 & 61.90\\
+\rowcolor{vqaMedical} GMAI-VL-7B & 56.09 & 57.21 & 59.69 & 39.05\\
+\rowcolor{vqaMedical} MedVLSynther-7B & 55.43 & 77.57 & 72.36 & 65.56\\
+\rowcolor{vqaMedical} Hulu-Med-7B & 66.80 & 78.00 & 86.80 & 65.60\\
+\rowcolor{vqaMedical} \textbf{CoEvoMed (8B)} & \textbf{67.95} & \textbf{82.48} & \textbf{91.60} & \textbf{69.40}\\
+\multicolumn{5}{l}{\itshape Models $>10$B}\\
+\rowcolor{vqaMedical} HuatuoGPT-V-34B & 56.60 & 61.40 & 69.50 & 44.40\\
+\rowcolor{vqaMedical} Lingshu-32B & 57.90 & 76.70 & 86.70 & 65.50\\
+\rowcolor{vqaMedical} MedDr-40B & 13.90 & 65.20 & 66.40 & 53.50\\
+\rowcolor{vqaMedical} Hulu-Med-32B & 69.40 & 81.40 & 85.70 & 67.30\\
+\rowcolor{vqaMedical} \textbf{CoEvoMed (32B)} & \textbf{70.20} & \textbf{82.71} & \textbf{92.60} & \textbf{69.60}\\
+\bottomrule
+}

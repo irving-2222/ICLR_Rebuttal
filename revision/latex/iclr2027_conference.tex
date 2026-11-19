@@ -1,0 +1,54 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage{iclr2027_conference,times}
+\input{paper_shared.tex}
+\title{\textls[-16]{CoEvoMed: Co-Evolving Supervision Principles}\\and Medical Vision--Language Models}
+\hypersetup{pdftitle={CoEvoMed: Co-Evolving Supervision Principles and Medical Vision–Language Models}}
+\author{Anonymous Authors}
+% Leave \iclrfinalcopy disabled for anonymous review.
+\newcommand{\FigFeedback}{Task-wise validation $\mathcal V$\\learning dynamics}
+\newcommand{\FigPolicy}{Curriculum adaptation\\repair / retention / focus}
+\newcommand{\FigSynthesis}{Multi-agent collaboration\\evidence-grounded supervision}
+\newcommand{\FigStudent}{Learner update\\$M_e\longrightarrow M_{e+1}$}
+\newcommand{\FigStrategy}{Construction principles\\evolution driven by learning responses}
+\newcommand{\FigRecord}{Capability development\\$\widehat{\boldsymbol\kappa}_e\longrightarrow\widehat{\boldsymbol\kappa}_{e+1}$}
+\newcommand{\FigExternal}{External testing\\$\mathcal B_{\mathrm{ext}}$ (after run)}
+\newcommand{\FigVQA}{External VQA benchmark}
+\newcommand{\FigReport}{External caption/report test}
+\newcommand{\FigPending}{CoEvoMed vs.\ static synthesis\\Measurements: TBD}
+\newcommand{\FigCapability}{Capability trajectories on task validation}
+\begin{document}
+\maketitle
+\begin{abstract}
+\frenchspacing
+Training medical vision--language models requires supervision that adapts as the learner's capabilities change across tasks. Existing pipelines typically rely on repeated manual error analysis and task-specific training data construction, making this adaptation costly. We introduce CoEvoMed, a co-evolutionary framework that couples a medical vision--language learner with a multi-agent supervision process integrating the evolution of construction principles with curriculum allocation. These reusable principles define question intent, guide how responses draw on medical evidence, and clarify conceptual distinctions in training examples. A revision agent updates these principles in response to the learner's evolving task-specific capabilities, guided by comparisons of factual consistency and task alignment between examples generated from the same medical evidence. Under fixed budgets for each task, curriculum allocation adjusts construction effort according to the learner's capability profile and learning progress. Using CoEvoMed, we train an 8B model supporting both 2D and 3D medical tasks. It surpasses Hulu-Med-7B by 1.15--4.80 percentage points on four 2D VQA benchmarks and achieves higher RaTEScore on MIMIC-CXR and IU-Xray, while delivering strong performance on 3D recognition, question answering, and report generation. Results at 32B further support the scalability of the framework.
+\end{abstract}
+\begingroup
+\setlength{\intextsep}{3pt}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/evoforma_concept.pdf}
+\caption{Co-evolution in CoEvoMed. (a) Learning responses guide principle evolution. (b) The multi-agent process connects supervision construction, learner updates, and principle revision.}
+\label{fig:concept}
+\end{figure}
+\endgroup
+\vspace{-7pt}
+\FloatBarrier
+\input{sections/introduction_related_en.tex}
+\input{sections/body_en.tex}
+\label{maintext:end}
+\clearpage
+\subsection*{AI use statement}
+We used AI tools to assist with manuscript writing and language editing. We reviewed the text and take responsibility for the final manuscript.
+
+\subsection*{Ethics statement}
+This methodological study uses existing publicly available or authorized research datasets, without new patient recruitment or clinical intervention. Relevant risks include unsupported medical statements, annotation-error propagation, and amplification of source-data or model biases. CoEvoMed incorporates evidence-grounded construction and verification to address factual inconsistency in synthesized supervision. Data access and redistribution of derived material remain subject to the original datasets' licenses, access conditions, and privacy requirements. Clinical deployment would require independent validation, assessment across patient populations, and qualified clinical oversight.
+
+\subsection*{Reproducibility statement}
+Sections~\ref{sec:problem}--\ref{sec:method} specify the formulation and mechanisms; Appendix~\ref{app:algorithm} provides training pseudocode. Appendix~\ref{app:implementation} documents learner training settings, curriculum-planner initialization, PPO hyperparameters, supervision budgets and composition, principle-acceptance criteria, agent models, and hardware. Appendix~\ref{app:evaluation} describes 2D and volumetric evaluation splits and inputs, dataset sources and links, evidence preparation, task-validation construction, metrics, checkpoint selection, and feedback--evaluation separation. Appendix~\ref{app:mechanisms} gives ablation settings and full results, and Appendix~\ref{app:formalization} provides formal definitions and the cumulative-gain derivation.
+
+\bibliography{iclr2027_conference}
+\bibliographystyle{iclr2027_conference}
+\appendix
+\input{sections/appendix_en.tex}
+\end{document}

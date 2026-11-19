@@ -1,0 +1,53 @@
+\clearpage
+\section{Complete training procedure}
+\label{app:algorithm}
+
+Algorithm~\ref{alg:coevomed} summarizes the co-evolution loop. Here $\pi_\theta$ is the Actor softmax distribution and $\mu$ is the executed policy with uniform exploration. Appendix~\ref{app:implementation} specifies budgets, training mixtures, PPO settings, and revision rules.
+
+\begin{algorithm}[H]
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabularx}{\linewidth}{@{}rY@{}}
+\toprule
+\multicolumn{2}{@{}p{\linewidth}@{}}{\textbf{Input:} Learner $M_0$, principles $\Sigma_0$, initialized curriculum Actor--Critic, validation sets $\mathcal V$, support evidence $\mathcal S$, and horizon $E$.}\\
+\multicolumn{2}{@{}p{\linewidth}@{}}{\textbf{Output:} Learner checkpoints $\mathcal K_E=(M_0,\ldots,M_E)$ and final principles $\Sigma_E$.}\\
+\midrule
+1 & Evaluate $M_0$ on $\mathcal V$ for $o_0$; initialize $h_0=(o_0)$, $\mathcal K_0=(M_0)$, and usage statistics.\\
+2 & \textbf{for} $e=0,\ldots,E-1$ \textbf{do}\\
+3 & \hangindent=1em\hangafter=1\quad $\mathbf{s}_e\leftarrow\Phi(h_e)$; $\mu_{\mathrm{old}}\leftarrow0.8\pi_\theta(\cdot\mid\mathbf{s}_e)+0.05$.\\
+4 & \hangindent=1em\hangafter=1\quad $a_e\sim\operatorname{Categorical}(\mu_{\mathrm{old}})$; $\ell_e^{\mathrm{old}}\leftarrow\log\mu_{\mathrm{old}}(a_e)$.\\
+5 & \hangindent=1em\hangafter=1\quad $\boldsymbol q_e\leftarrow\mathcal A(a_e,h_e)$, preserving task quotas (Eq.~\ref{eq:quota}).\\
+6 & \hangindent=1em\hangafter=1\quad Plan repair/retention targets and select supporting facts from $\mathcal S$ under $\boldsymbol q_e$.\\
+7 & \hangindent=1em\hangafter=1\quad Construct and verify $\mathcal D_e^{\mathrm{syn}}$ using $\Sigma_e$; record sources and principle versions.\\
+8 & \hangindent=1em\hangafter=1\quad $\mathcal D_e^{\mathrm{mix}}\leftarrow\operatorname{Mix}(\mathcal D_e^{\mathrm{syn}},\mathcal R_e)$; $M_{e+1}\leftarrow\mathcal U(M_e,\mathcal D_e^{\mathrm{mix}})$.\\
+9 & \hangindent=1em\hangafter=1\quad Evaluate $M_{e+1}$ on the same $\mathcal V$ for $o_{e+1}$ and paired learning responses.\\
+10 & \hangindent=1em\hangafter=1\quad $r_e\leftarrow G_e$ (Eq.~\ref{eq:gain}); $\mathcal K_{e+1}\leftarrow(\mathcal K_e,M_{e+1})$.\\
+11 & \hangindent=1em\hangafter=1\quad $h_{e+1}\leftarrow(h_e,a_e,r_e,o_{e+1})$; $\mathbf{s}_{e+1}\leftarrow\Phi(h_{e+1})$.\\
+12 & \hangindent=1em\hangafter=1\quad Compute one-step advantage and value target from $(\mathbf{s}_e,a_e,r_e,\mathbf{s}_{e+1})$.\\
+13 & \hangindent=1em\hangafter=1\quad \textbf{for} $k=1,\ldots,4$ \textbf{do}\\
+14 & \hangindent=2em\hangafter=1\qquad $\mu_{\mathrm{new}}\leftarrow0.8\pi_\theta(\cdot\mid\mathbf{s}_e)+0.05$; $\rho_e\leftarrow\exp\!\left(\log\mu_{\mathrm{new}}(a_e)-\ell_e^{\mathrm{old}}\right)$.\\
+15 & \hangindent=2em\hangafter=1\qquad Update Actor--Critic with clipped PPO ($\rho_e$), value loss, and entropy $H(\mu_{\mathrm{new}})$.\\
+16 & \hangindent=1em\hangafter=1\quad \textbf{end for}\\
+17 & \hangindent=1em\hangafter=1\quad Update window statistics by principle version; $\Sigma_{e+1}\leftarrow\Sigma_e$.\\
+18 & \hangindent=1em\hangafter=1\quad \textbf{if} an evolution window ends \textbf{then}\\
+19 & \hangindent=2em\hangafter=1\qquad Propose revisions from residual errors for eligible principles, preserving the target capability and medical facts.\\
+20 & \hangindent=2em\hangafter=1\qquad Construct and verify paired examples under current/candidate principles using $N=100$ identical evidence assignments and matched quotas; obtain usable sets $I_{\mathrm{cur}},I_{\mathrm{cand}}$.\\
+21 & \hangindent=2em\hangafter=1\qquad $\Delta_{\mathrm{use}}\leftarrow\dfrac{|I_{\mathrm{cand}}|-|I_{\mathrm{cur}}|}{N}$; $\rho_{\mathrm{pair}}\leftarrow\dfrac{|I_{\mathrm{cand}}\cap I_{\mathrm{cur}}|}{N}$.\\
+22 & \hangindent=2em\hangafter=1\qquad If $\rho_{\mathrm{pair}}\geq0.60$, the revision agent semantically reviews up to 30 common usable pairs.\\
+23 & \hangindent=2em\hangafter=1\qquad Replace a principle in $\Sigma_{e+1}$ if $|I_{\mathrm{cand}}|/N\geq0.80$, $\Delta_{\mathrm{use}}\geq-0.05$, $\rho_{\mathrm{pair}}\geq0.60$, and semantic review passes.\\
+24 & \hangindent=1em\hangafter=1\quad \textbf{end if}\\
+25 & \textbf{end for}\\
+26 & \textbf{return} $\mathcal K_E,\Sigma_E$.\\
+\bottomrule
+\end{tabularx}
+\caption{CoEvoMed: supervision construction driven by learning responses.}
+\label{alg:coevomed}
+\end{algorithm}
+
+Eligible principles have sufficient usage and nonpositive net repair within the evolution window. Semantic review requires the revision to be expressed in generated examples, improve alignment with the targeted errors, and preserve evidence support. Accepted revisions govern the next round; rejected or deferred candidates retain the current version. The stored $\ell_e^{\mathrm{old}}$ remains fixed across the four PPO epochs.
+
+Construction uses selected facts rather than direct image access; verification checks candidates using the image. Linking supervision examples to the construction principle versions used to generate them connects principle usage with validation changes in the corresponding capabilities. The training mixture excludes $\mathcal V$ and external benchmarks $\mathcal B_{\mathrm{ext}}$. Saved checkpoints support offline trajectory analysis; all six main 8B results use R7 (Appendix~\ref{app:checkpoint_selection}). External benchmark results do not guide adaptation.
+
+% Keep Appendix B on its existing page.
+\clearpage

@@ -1,0 +1,30 @@
+\subsection{评测数据与输入}
+\label{app:datasets_2d}
+
+\paragraph{二维基准。}
+
+本研究在六个公开二维医学基准上进行评测，覆盖放射与病理问答、医学文献图像理解及胸片报告生成。CoEvoMed 与本研究评测的基线统一采用相同的评测集与评分协议，评测规模见表~\ref{tab:datasets_2d}：VQA 按问答条目计数，MRG 按报告生成实例计数。
+
+\begin{table}[H]
+\centering\small
+\caption{本研究二维评测所用数据集。规模指实际评测条目数，不指完整源数据集规模或独立患者数。VQA：视觉问答；MRG：医学报告生成。}
+\label{tab:datasets_2d}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.10}
+\begin{tabularx}{\linewidth}{@{}lcrY@{}}
+\toprule
+基准 & 任务 & 条目数 & 视觉证据与标注来源\\
+\midrule
+VQA-RAD & VQA & 451 & 放射影像及临床医生撰写的问答。\\
+SLAKE & VQA & 1,061 & 放射影像，结合医生标注的语义信息与医学知识库。\\
+PMC-VQA & VQA & 33,430 & 从开放获取生物医学文献中的多类图像及图注构造问答。\\
+PathVQA & VQA & 6,761 & 来源于教材和数字图书馆的病理图像及相关问答。\\
+MIMIC-CXR & MRG & 2,343 & 胸部放射影像及配套临床报告。\\
+IU-Xray & MRG & 590 & 胸片检查及配套放射报告。\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+VQA-RAD、SLAKE 与 PathVQA 侧重放射或病理领域的理解，PMC-VQA 则覆盖异质医学图像 \citep{lau2018dataset,liu2021slake,he2020pathvqa,zhang2024pmc}。MIMIC-CXR 与 IU-Xray 考察模型将影像证据组织为报告的能力 \citep{johnson2019mimic,demnerfushman2016preparing}。VQA 采用准确率；报告生成采用 RaTEScore 评价临床语义一致性，并以 METEOR、BLEU-1/2/3/4 和 ROUGE-1/2/L 衡量互补的文本一致性。
+
+表~\ref{tab:main}中的医学基线包括 MedGemma~\citep{sellergren2025medgemma}、GMAI-VL~\citep{li2026gmai}和 MedDr~\citep{he2024meddr}。图~\ref{fig:report_results}与图~\ref{fig:report_lexical}中的报告生成比较还包括 Qwen2.5-VL~\citep{bai2025qwen25}和 HealthGPT~\citep{lin2025healthgpt}。

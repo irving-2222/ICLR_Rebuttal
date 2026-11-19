@@ -1,0 +1,94 @@
+{
+  "source": "ablation/消融实验2.txt; final author-supplied results in conversation",
+  "metrics": {
+    "VQA-RAD": "Accuracy (%)",
+    "SLAKE": "Accuracy (%)",
+    "PMC-VQA": "Accuracy (%)",
+    "PathVQA": "Accuracy (%)",
+    "MIMIC-CXR": "RaTEScore (x100)",
+    "IU-Xray": "RaTEScore (x100)"
+  },
+  "before_training": {
+    "R2": {
+      "VQA-RAD": 61.64,
+      "SLAKE": 81.6,
+      "PMC-VQA": 50.8,
+      "PathVQA": 62,
+      "MIMIC-CXR": 53.31,
+      "IU-Xray": 52.87
+    },
+    "R5": {
+      "VQA-RAD": 73.61,
+      "SLAKE": 89,
+      "PMC-VQA": 64.6,
+      "PathVQA": 65.8,
+      "MIMIC-CXR": 59,
+      "IU-Xray": 61.63
+    }
+  },
+  "conditions": {
+    "A": {
+      "learner_stage": "R2",
+      "principles": "original (old Skill)",
+      "scores": {
+        "VQA-RAD": 63.42,
+        "SLAKE": 84.2,
+        "PMC-VQA": 54.2,
+        "PathVQA": 65.8,
+        "MIMIC-CXR": 56.35,
+        "IU-Xray": 56.77
+      }
+    },
+    "B": {
+      "learner_stage": "R2",
+      "principles": "evolved (new Skill)",
+      "scores": {
+        "VQA-RAD": 59.2,
+        "SLAKE": 81,
+        "PMC-VQA": 48,
+        "PathVQA": 65.4,
+        "MIMIC-CXR": 56.47,
+        "IU-Xray": 56.69
+      }
+    },
+    "C": {
+      "learner_stage": "R5",
+      "principles": "original (old Skill)",
+      "scores": {
+        "VQA-RAD": 67.97,
+        "SLAKE": 85.4,
+        "PMC-VQA": 55,
+        "PathVQA": 63.6,
+        "MIMIC-CXR": 52.56,
+        "IU-Xray": 57.52
+      }
+    },
+    "D": {
+      "learner_stage": "R5",
+      "principles": "evolved (new Skill)",
+      "scores": {
+        "VQA-RAD": 76.23,
+        "SLAKE": 89.69,
+        "PMC-VQA": 65.12,
+        "PathVQA": 66.93,
+        "MIMIC-CXR": 61.77,
+        "IU-Xray": 62.91
+      }
+    }
+  },
+  "notes": [
+    "R2 and R5 denote checkpoints after 2 and 5 completed training rounds, respectively; confirmed by the author.",
+    "The author corrected the early baseline SLAKE to 81.60 and PathVQA to 62.00.",
+    "Conditions A/B initialize from R2; C/D initialize from R5 and then undergo their assigned intervention.",
+    "R5 reference and condition D match trajectory rounds 5 and 6.",
+    "Final row relabeled D to resolve duplicate C.",
+    "D matches Experiment 1 high feedback numerically; shared run identity is not yet confirmed."
+  ],
+  "pending_protocol": [
+    "Model/checkpoint and strategy-version identifiers",
+    "Source-evidence and task-allocation matching",
+    "Reuse of the same strategy-derived datasets across learner stages",
+    "Matched training budget and training-state initialization",
+    "Evaluation manifest, scoring configuration and seed identifier"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "说明": "指标统一乘以 100。M3D-VQA 为闭合题；3D-RAD 为开放任务。AMOS-MM 每模型 400 例，Qwen3.5-9B 采用已确认的新记录。",
+  "models": {
+    "Qwen3.5-9B": {
+      "M3D-VQA": {"Accuracy (%)":65.37,"Plane Accuracy (%)":96.5,"Phase Accuracy (%)":67.25,"Organ Accuracy (%)":59.5,"Abnormality Accuracy (%)":59.06,"Location Accuracy (%)":57.33},
+      "3D-RAD": {"Anomaly Detection":{"BLEU-1":12.85,"ROUGE-1":25.04},"Image Observation":{"BLEU-1":14.07,"ROUGE-1":24.18},"Medical Computation":{"BLEU-1":7.05,"ROUGE-1":15.17}},
+      "AMOS-MM": {"RaTEScore":53.68,"BLEU-1":29.26,"BLEU-2":14.66,"BLEU-3":5.8,"BLEU-4":2.24,"ROUGE-1":23.44,"ROUGE-2":5.94,"ROUGE-L":21.4,"METEOR":20.04,"Exact Match":15.38}
+    },
+    "Qwen3.6-27B": {
+      "M3D-VQA": {"Accuracy (%)":67.47,"Plane Accuracy (%)":96.45,"Phase Accuracy (%)":69.95,"Organ Accuracy (%)":63.75,"Abnormality Accuracy (%)":60.84,"Location Accuracy (%)":59.56},
+      "3D-RAD": {"Anomaly Detection":{"BLEU-1":22.47,"ROUGE-1":29.68},"Image Observation":{"BLEU-1":23.09,"ROUGE-1":30.76},"Medical Computation":{"BLEU-1":2.89,"ROUGE-1":7.99}},
+      "AMOS-MM": {"RaTEScore":46.44,"BLEU-1":15.49,"BLEU-2":7.74,"BLEU-3":2.99,"BLEU-4":1.09,"ROUGE-1":20.43,"ROUGE-2":4.26,"ROUGE-L":18.88,"METEOR":13.16,"Exact Match":22.2}
+    },
+    "Qwen3.8-27B": {
+      "M3D-VQA": {"Accuracy (%)":60.79,"Plane Accuracy (%)":95.6,"Phase Accuracy (%)":36.55,"Organ Accuracy (%)":63.7,"Abnormality Accuracy (%)":57.92,"Location Accuracy (%)":56.39},
+      "3D-RAD": {"Anomaly Detection":{"BLEU-1":12.7,"ROUGE-1":26.63},"Image Observation":{"BLEU-1":14.62,"ROUGE-1":30},"Medical Computation":{"BLEU-1":13.08,"ROUGE-1":13.77}},
+      "AMOS-MM": {"RaTEScore":50.02,"BLEU-1":23.06,"BLEU-2":10.99,"BLEU-3":3.55,"BLEU-4":0.95,"ROUGE-1":20.74,"ROUGE-2":4.5,"ROUGE-L":18.93,"METEOR":16.34,"Exact Match":17.4}
+    },
+    "Med3DVLM-Qwen-2.5-7B": {
+      "M3D-VQA": {"Accuracy (%)":79.18,"Plane Accuracy (%)":99.25,"Phase Accuracy (%)":90.65,"Organ Accuracy (%)":80,"Abnormality Accuracy (%)":73.28,"Location Accuracy (%)":66.96},
+      "3D-RAD": {"Anomaly Detection":{"BLEU-1":0.68,"ROUGE-1":6.23},"Image Observation":{"BLEU-1":0.77,"ROUGE-1":5.79},"Medical Computation":{"BLEU-1":0.11,"ROUGE-1":0.46}},
+      "AMOS-MM": {"RaTEScore":42.84,"BLEU-1":11.63,"BLEU-2":5.5,"BLEU-3":1.94,"BLEU-4":0.53,"ROUGE-1":16.58,"ROUGE-2":3.48,"ROUGE-L":15.66,"METEOR":10.34,"Exact Match":16.81}
+    },
+    "Photon-3B (M3D: S1; 3D-RAD: S2 local)": {
+      "M3D-VQA": {"Accuracy (%)":45.03,"Plane Accuracy (%)":51.5,"Phase Accuracy (%)":26.5,"Organ Accuracy (%)":42.8,"Abnormality Accuracy (%)":48.73,"Location Accuracy (%)":48.65},
+      "3D-RAD": {"Anomaly Detection":{"BLEU-1":37.93,"ROUGE-1":37.58},"Image Observation":{"BLEU-1":48.09,"ROUGE-1":47.26},"Medical Computation":{"BLEU-1":29.22,"ROUGE-1":31.13}}
+    },
+    "Photon-3B-S2 (released)": {
+      "3D-RAD": {"Anomaly Detection":{"BLEU-1":42.33,"ROUGE-1":47.49},"Image Observation":{"BLEU-1":51.59,"ROUGE-1":56.58},"Medical Computation":{"BLEU-1":37.74,"ROUGE-1":39.33}}
+    },
+    "Lingshu-7B": {
+      "AMOS-MM": {"RaTEScore":50.75,"BLEU-1":24.43,"BLEU-2":12.13,"BLEU-3":4.43,"BLEU-4":1.59,"ROUGE-1":21.89,"ROUGE-2":5.21,"ROUGE-L":19.89,"METEOR":17.75,"Exact Match":16.36}
+    },
+    "Lingshu-32B": {
+      "AMOS-MM": {"RaTEScore":45.22,"BLEU-1":24.45,"BLEU-2":11.56,"BLEU-3":3.71,"BLEU-4":1.03,"ROUGE-1":19.06,"ROUGE-2":4.32,"ROUGE-L":17.43,"METEOR":16.75,"Exact Match":13.79}
+    },
+    "M3D-LaMed-Phi-3-4B": {
+      "AMOS-MM": {"RaTEScore":39,"BLEU-1":4.32,"BLEU-2":1.91,"BLEU-3":0.42,"BLEU-4":0.1,"ROUGE-1":13.46,"ROUGE-2":2.4,"ROUGE-L":12.57,"METEOR":5.87,"Exact Match":21.76}
+    },
+    "Hulu-Med-7B": {
+      "AMOS-MM": {"RaTEScore":64.35,"BLEU-1":35.84,"BLEU-2":24.38,"BLEU-3":16.33,"BLEU-4":11.3,"ROUGE-1":39.7,"ROUGE-2":19.01,"ROUGE-L":37.49,"METEOR":30.51,"Exact Match":20.16,"Precision":64.02,"Recall":61.02,"F1":61.04}
+    }
+  }
+}

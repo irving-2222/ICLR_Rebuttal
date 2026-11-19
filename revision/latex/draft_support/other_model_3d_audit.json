@@ -1,0 +1,64 @@
+{
+  "sources": [
+    "Author-supplied reference panels matching Hulu-Med Figure 3(a,b)",
+    "3D_result/other_model.json.txt",
+    "3D_result/3d_other_model.json.txt"
+  ],
+  "checks": [],
+  "validation": {
+    "matched_source_metric_cells": 89,
+    "m3d_weighted_aggregates": "pass within 0.000002 rounding tolerance",
+    "rad_subtask_means_and_expected_counts": "pass within 0.000002 rounding tolerance",
+    "raw_source_files_unchanged": true,
+    "evoforma_3d_metrics_unchanged": true,
+    "two_d_table_data_and_figures_unchanged": true,
+    "english_abstract_whitespace_word_count": 187,
+    "pdf_pages": {"en": 30, "cn": 26},
+    "render_review": "English tables and figure; Chinese tables and figure inspected. No clipping or overlap."
+  },
+  "protocol_exceptions": [
+    "所有模型均在相同 64 帧 mp4 评测 bundle 上运行，评分器一致，结果可直接比较。",
+    "Med3DVLM-Qwen-2.5-7B 在 3D-RAD 上产生 3,874 条空响应（开放题约 40%），且二选一题常输出编造的 'C. Cannot be determined'——零样本真实行为。",
+    "Photon 3D-RAD（本机口径）输入为 32 层 npy → 364³ 近似（原始 CT-RATE valid 体积 gated 无法下载）；photon_official_3drad 为其官方输入下发布结果的同评分器参照。",
+    "Lingshu-7B/32B、M3D-LaMed-Phi-3-4B 仅在 AMOS-MM 上评测。",
+    "vividmed 因 Stage 2 在本环境输出乱码（结果无效）未纳入排行榜，详见 NEW_BASELINES_REPORT.md。",
+    "qwen3_vl_8b_verified 目录仅含 1 样本的验证运行，未纳入排行榜。"
+  ],
+  "resolved": [
+    {
+      "model": "Qwen3.5-9B",
+      "benchmark": "AMOSS-MM",
+      "A": {
+        "total_samples": 400,
+        "bleu1": 0.1327,
+        "bleu2": 0.0666,
+        "bleu3": 0.0241,
+        "bleu4": 0.0046,
+        "rouge1": 0.1585,
+        "rouge2": 0.0349,
+        "rougeL": 0.1516,
+        "meteor": 0.1952,
+        "precision": 0.2207,
+        "recall": 0.579,
+        "f1": 0.315,
+        "exact_match": 0.0443,
+        "rate": 0.4848
+      },
+      "B": {
+        "total_samples": 400,
+        "bleu1": 0.292602,
+        "bleu2": 0.146625,
+        "bleu3": 0.058022,
+        "bleu4": 0.022396,
+        "rouge1": 0.234424,
+        "rouge2": 0.059431,
+        "rougeL": 0.21396,
+        "meteor": 0.200425,
+        "rate": 0.536785,
+        "exact_match": 0.153847,
+        "empty_responses": 0
+      },
+      "decision": "Author confirmed 2026-09-17: use newer summary B (RaTEScore 53.6785); all corresponding AMOSS-MM metrics updated, source A retained only in provenance."
+    }
+  ]
+}

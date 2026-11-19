@@ -1,0 +1,61 @@
+{
+  "benchmark": "AMOS-MM (3D Medical Report Generation)",
+  "samples_per_model": 400,
+  "task": "生成 3D CT 影像结构化报告",
+  "metrics_note": "rate=RaTEScore; bleu1-4/rougeL/meteor 为报告生成标准NLG指标",
+  "models": {
+    "Qwen3.5-9B": {
+      "total_samples": 400,
+      "bleu1": 0.1327,
+      "bleu2": 0.0666,
+      "bleu3": 0.0241,
+      "bleu4": 0.0046,
+      "rouge1": 0.1585,
+      "rouge2": 0.0349,
+      "rougeL": 0.1516,
+      "meteor": 0.1952,
+      "precision": 0.2207,
+      "recall": 0.579,
+      "f1": 0.315,
+      "exact_match": 0.0443,
+      "rate": 0.4848
+    },
+    "Qwen3.6-27B": {
+      "total_samples": 400,
+      "bleu1": 0.1549,
+      "bleu2": 0.0774,
+      "bleu3": 0.0299,
+      "bleu4": 0.0109,
+      "rouge1": 0.2043,
+      "rouge2": 0.0426,
+      "rougeL": 0.1888,
+      "meteor": 0.1316,
+      "precision": 0.4259,
+      "recall": 0.2432,
+      "f1": 0.2779,
+      "exact_match": 0.222,
+      "rate": 0.4644
+    },
+    "Hulu-Med-7B": {
+      "total_samples": 400,
+      "bleu1": 0.3584,
+      "bleu2": 0.2438,
+      "bleu3": 0.1633,
+      "bleu4": 0.113,
+      "rouge1": 0.397,
+      "rouge2": 0.1901,
+      "rougeL": 0.3749,
+      "meteor": 0.3051,
+      "precision": 0.6402,
+      "recall": 0.6102,
+      "f1": 0.6104,
+      "exact_match": 0.2016,
+      "rate": 0.6435
+    }
+  },
+  "source": {
+    "qwen3_5_9b": "eval_results_3d/qwen3_5_9b/AMOS-MM/metrics.json",
+    "qwen3_6_27b": "eval_results_3d/qwen3_6_27b/AMOS-MM/metrics.json",
+    "hulumed_7b": "eval_results_3d/hulumed_7b/AMOS-MM/metrics.json"
+  }
+}

@@ -1,0 +1,834 @@
+{
+  "precedence": "Supplied cell > published fallback; no checkpoint substitution.",
+  "bleu_confirmation": "2026-09-19: user reports the Hulu-Med author confirmed that Figure 3(c) AMOS-MM BLEU means BLEU-1.",
+  "units": "All displayed values multiplied by 100; heatmap colors use a fixed 0-100 scale.",
+  "selection": {
+    "M3D-VQA": {
+      "baseline_count": 5,
+      "rank_by_mean_of": [
+        "Plane",
+        "Phase",
+        "Organ",
+        "Abnormality",
+        "Location"
+      ],
+      "models": [
+        "CoEvoMed",
+        "Med3DVLM-7B",
+        "Hulu-Med-7B",
+        "M3D-Llama2-7B",
+        "Qwen3.6-27B",
+        "Qwen3.5-9B"
+      ]
+    },
+    "3D-RAD": {
+      "baseline_count": 4,
+      "rank_by_mean_of": [
+        "Anomaly Detection/ROUGE-1",
+        "Image Observation/ROUGE-1",
+        "Medical Computation/ROUGE-1"
+      ],
+      "models": [
+        "CoEvoMed",
+        "Photon-3B-S2 (local)",
+        "Hulu-Med-7B",
+        "Qwen3.8-27B",
+        "Qwen3.6-27B"
+      ]
+    },
+    "AMOS-MM": {
+      "baseline_count": 7,
+      "rank_by_mean_of": [
+        "RaTEScore"
+      ],
+      "models": [
+        "CoEvoMed",
+        "Hulu-Med-7B",
+        "M3D-Llama3.1-8B",
+        "M3D-Mistralv0.3-7B",
+        "Qwen3.5-9B",
+        "Qwen2.5VL-32B",
+        "Lingshu-7B",
+        "Qwen3.8-27B"
+      ]
+    }
+  },
+  "cells": {
+    "M3D-VQA": {
+      "Hulu-Med-7B": {
+        "Plane": {
+          "value": 99.0,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Phase": {
+          "value": 88.0,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Organ": {
+          "value": 78.9,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Abnormality": {
+          "value": 70.7,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Location": {
+          "value": 67.3,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        }
+      },
+      "M3D-Llama2-7B": {
+        "Plane": {
+          "value": 98.8,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Phase": {
+          "value": 79.8,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Organ": {
+          "value": 74.8,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Abnormality": {
+          "value": 66.7,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Location": {
+          "value": 58.9,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        }
+      },
+      "Lingshu-32B": {
+        "Plane": {
+          "value": 93.8,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Phase": {
+          "value": 61.6,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Organ": {
+          "value": 60.9,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Abnormality": {
+          "value": 61.5,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Location": {
+          "value": 57.6,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        }
+      },
+      "Qwen2.5VL-72B": {
+        "Plane": {
+          "value": 94.8,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Phase": {
+          "value": 50.0,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Organ": {
+          "value": 62.4,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Abnormality": {
+          "value": 62.5,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Location": {
+          "value": 59.8,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        }
+      },
+      "RadFM": {
+        "Plane": {
+          "value": 19.6,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Phase": {
+          "value": 28.7,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Organ": {
+          "value": 16.8,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Abnormality": {
+          "value": 18.9,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Location": {
+          "value": 14.9,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        }
+      },
+      "Qwen3.5-9B": {
+        "Plane": {
+          "value": 96.5,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Phase": {
+          "value": 67.25,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Organ": {
+          "value": 59.5,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Abnormality": {
+          "value": 59.06,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Location": {
+          "value": 57.33,
+          "source": "3D_result/3d_other_model.json.txt"
+        }
+      },
+      "Qwen3.6-27B": {
+        "Plane": {
+          "value": 96.45,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Phase": {
+          "value": 69.95,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Organ": {
+          "value": 63.75,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Abnormality": {
+          "value": 60.84,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Location": {
+          "value": 59.56,
+          "source": "3D_result/3d_other_model.json.txt"
+        }
+      },
+      "Qwen3.8-27B": {
+        "Plane": {
+          "value": 95.6,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Phase": {
+          "value": 36.55,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Organ": {
+          "value": 63.7,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Abnormality": {
+          "value": 57.92,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Location": {
+          "value": 56.39,
+          "source": "3D_result/3d_other_model.json.txt"
+        }
+      },
+      "Med3DVLM-7B": {
+        "Plane": {
+          "value": 99.25,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Phase": {
+          "value": 90.65,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Organ": {
+          "value": 80,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Abnormality": {
+          "value": 73.28,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Location": {
+          "value": 66.96,
+          "source": "3D_result/3d_other_model.json.txt"
+        }
+      },
+      "Photon-3B-S1": {
+        "Plane": {
+          "value": 51.5,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Phase": {
+          "value": 26.5,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Organ": {
+          "value": 42.8,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Abnormality": {
+          "value": 48.73,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Location": {
+          "value": 48.65,
+          "source": "3D_result/3d_other_model.json.txt"
+        }
+      },
+      "CoEvoMed": {
+        "Plane": {
+          "value": 99.5,
+          "source": "3D_result/m3d-vqa-closed.json"
+        },
+        "Phase": {
+          "value": 91.9,
+          "source": "3D_result/m3d-vqa-closed.json"
+        },
+        "Organ": {
+          "value": 82.19999999999999,
+          "source": "3D_result/m3d-vqa-closed.json"
+        },
+        "Abnormality": {
+          "value": 73.87704409025046,
+          "source": "3D_result/m3d-vqa-closed.json"
+        },
+        "Location": {
+          "value": 67.80405405405405,
+          "source": "3D_result/m3d-vqa-closed.json"
+        }
+      }
+    },
+    "3D-RAD": {
+      "Hulu-Med-7B": {
+        "Anomaly Detection/BLEU-1": {
+          "value": 23.4,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Anomaly Detection/ROUGE-1": {
+          "value": 35.9,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Image Observation/BLEU-1": {
+          "value": 23.0,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Image Observation/ROUGE-1": {
+          "value": 37.1,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Medical Computation/BLEU-1": {
+          "value": 23.5,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Medical Computation/ROUGE-1": {
+          "value": 26.0,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        }
+      },
+      "Qwen2.5VL-72B": {
+        "Anomaly Detection/BLEU-1": {
+          "value": 15.5,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Anomaly Detection/ROUGE-1": {
+          "value": 25.2,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Image Observation/BLEU-1": {
+          "value": 16.9,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Image Observation/ROUGE-1": {
+          "value": 27.3,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Medical Computation/BLEU-1": {
+          "value": 6.7,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Medical Computation/ROUGE-1": {
+          "value": 11.6,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        }
+      },
+      "M3D-LaMed-4B": {
+        "Anomaly Detection/BLEU-1": {
+          "value": 16.3,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Anomaly Detection/ROUGE-1": {
+          "value": 23.2,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Image Observation/BLEU-1": {
+          "value": 15.1,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Image Observation/ROUGE-1": {
+          "value": 23.2,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Medical Computation/BLEU-1": {
+          "value": 2.5,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Medical Computation/ROUGE-1": {
+          "value": 5.6,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        }
+      },
+      "Lingshu-7B": {
+        "Anomaly Detection/BLEU-1": {
+          "value": 9.3,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Anomaly Detection/ROUGE-1": {
+          "value": 21.6,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Image Observation/BLEU-1": {
+          "value": 10.4,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Image Observation/ROUGE-1": {
+          "value": 22.2,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Medical Computation/BLEU-1": {
+          "value": 0.9,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Medical Computation/ROUGE-1": {
+          "value": 8.4,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        }
+      },
+      "M3D-Llama2-7B": {
+        "Anomaly Detection/BLEU-1": {
+          "value": 10.7,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Anomaly Detection/ROUGE-1": {
+          "value": 20.8,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Image Observation/BLEU-1": {
+          "value": 9.1,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Image Observation/ROUGE-1": {
+          "value": 18.6,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Medical Computation/BLEU-1": {
+          "value": 15.9,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Medical Computation/ROUGE-1": {
+          "value": 23.2,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        }
+      },
+      "Lingshu-32B": {
+        "Anomaly Detection/BLEU-1": {
+          "value": 7.6,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Anomaly Detection/ROUGE-1": {
+          "value": 16.1,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Image Observation/BLEU-1": {
+          "value": 7.8,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Image Observation/ROUGE-1": {
+          "value": 16.3,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Medical Computation/BLEU-1": {
+          "value": 0.9,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "Medical Computation/ROUGE-1": {
+          "value": 4.8,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        }
+      },
+      "Qwen3.5-9B": {
+        "Anomaly Detection/BLEU-1": {
+          "value": 12.85,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Anomaly Detection/ROUGE-1": {
+          "value": 25.04,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Image Observation/BLEU-1": {
+          "value": 14.07,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Image Observation/ROUGE-1": {
+          "value": 24.18,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Medical Computation/BLEU-1": {
+          "value": 7.05,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Medical Computation/ROUGE-1": {
+          "value": 15.17,
+          "source": "3D_result/3d_other_model.json.txt"
+        }
+      },
+      "Qwen3.6-27B": {
+        "Anomaly Detection/BLEU-1": {
+          "value": 22.47,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Anomaly Detection/ROUGE-1": {
+          "value": 29.68,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Image Observation/BLEU-1": {
+          "value": 23.09,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Image Observation/ROUGE-1": {
+          "value": 30.76,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Medical Computation/BLEU-1": {
+          "value": 2.89,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Medical Computation/ROUGE-1": {
+          "value": 7.99,
+          "source": "3D_result/3d_other_model.json.txt"
+        }
+      },
+      "Qwen3.8-27B": {
+        "Anomaly Detection/BLEU-1": {
+          "value": 12.7,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Anomaly Detection/ROUGE-1": {
+          "value": 26.63,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Image Observation/BLEU-1": {
+          "value": 14.62,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Image Observation/ROUGE-1": {
+          "value": 30,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Medical Computation/BLEU-1": {
+          "value": 13.08,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Medical Computation/ROUGE-1": {
+          "value": 13.77,
+          "source": "3D_result/3d_other_model.json.txt"
+        }
+      },
+      "Med3DVLM-7B": {
+        "Anomaly Detection/BLEU-1": {
+          "value": 0.68,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Anomaly Detection/ROUGE-1": {
+          "value": 6.23,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Image Observation/BLEU-1": {
+          "value": 0.77,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Image Observation/ROUGE-1": {
+          "value": 5.79,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Medical Computation/BLEU-1": {
+          "value": 0.11,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Medical Computation/ROUGE-1": {
+          "value": 0.46,
+          "source": "3D_result/3d_other_model.json.txt"
+        }
+      },
+      "Photon-3B-S2 (local)": {
+        "Anomaly Detection/BLEU-1": {
+          "value": 37.93,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Anomaly Detection/ROUGE-1": {
+          "value": 37.58,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Image Observation/BLEU-1": {
+          "value": 48.09,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Image Observation/ROUGE-1": {
+          "value": 47.26,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Medical Computation/BLEU-1": {
+          "value": 29.22,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "Medical Computation/ROUGE-1": {
+          "value": 31.13,
+          "source": "3D_result/3d_other_model.json.txt"
+        }
+      },
+      "CoEvoMed": {
+        "Anomaly Detection/BLEU-1": {
+          "value": 38.598920892655144,
+          "source": "3D_result/3d-rad.json"
+        },
+        "Anomaly Detection/ROUGE-1": {
+          "value": 44.861418297635595,
+          "source": "3D_result/3d-rad.json"
+        },
+        "Image Observation/BLEU-1": {
+          "value": 52.35743368731845,
+          "source": "3D_result/3d-rad.json"
+        },
+        "Image Observation/ROUGE-1": {
+          "value": 57.06338145688533,
+          "source": "3D_result/3d-rad.json"
+        },
+        "Medical Computation/BLEU-1": {
+          "value": 37.834122102806546,
+          "source": "3D_result/3d-rad.json"
+        },
+        "Medical Computation/ROUGE-1": {
+          "value": 39.296621224399004,
+          "source": "3D_result/3d-rad.json"
+        }
+      }
+    },
+    "AMOS-MM": {
+      "Hulu-Med-7B": {
+        "RaTEScore": {
+          "value": 64.35,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "BLEU-1": {
+          "value": 35.84,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "ROUGE-L": {
+          "value": 37.49,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "METEOR": {
+          "value": 30.51,
+          "source": "3D_result/3d_other_model.json.txt"
+        }
+      },
+      "M3D-LaMed-4B": {
+        "RaTEScore": {
+          "value": 39,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "BLEU-1": {
+          "value": 4.32,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "ROUGE-L": {
+          "value": 12.57,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "METEOR": {
+          "value": 5.87,
+          "source": "3D_result/3d_other_model.json.txt"
+        }
+      },
+      "M3D-Llama3.1-8B": {
+        "RaTEScore": {
+          "value": 57.0,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "BLEU-1": {
+          "value": 26.4,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "ROUGE-L": {
+          "value": 37.9,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "METEOR": {
+          "value": 35.5,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        }
+      },
+      "M3D-Mistralv0.3-7B": {
+        "RaTEScore": {
+          "value": 56.9,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "BLEU-1": {
+          "value": 25.8,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "ROUGE-L": {
+          "value": 37.4,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "METEOR": {
+          "value": 34.6,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        }
+      },
+      "Qwen2.5VL-32B": {
+        "RaTEScore": {
+          "value": 52.9,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "BLEU-1": {
+          "value": 24.6,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "ROUGE-L": {
+          "value": 19.1,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        },
+        "METEOR": {
+          "value": 21.1,
+          "source": "Hulu-Med Figure 3(a-c), author-supplied screenshot"
+        }
+      },
+      "Lingshu-7B": {
+        "RaTEScore": {
+          "value": 50.75,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "BLEU-1": {
+          "value": 24.43,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "ROUGE-L": {
+          "value": 19.89,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "METEOR": {
+          "value": 17.75,
+          "source": "3D_result/3d_other_model.json.txt"
+        }
+      },
+      "Lingshu-32B": {
+        "RaTEScore": {
+          "value": 45.22,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "BLEU-1": {
+          "value": 24.45,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "ROUGE-L": {
+          "value": 17.43,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "METEOR": {
+          "value": 16.75,
+          "source": "3D_result/3d_other_model.json.txt"
+        }
+      },
+      "Qwen3.5-9B": {
+        "RaTEScore": {
+          "value": 53.68,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "BLEU-1": {
+          "value": 29.26,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "ROUGE-L": {
+          "value": 21.4,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "METEOR": {
+          "value": 20.04,
+          "source": "3D_result/3d_other_model.json.txt"
+        }
+      },
+      "Qwen3.6-27B": {
+        "RaTEScore": {
+          "value": 46.44,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "BLEU-1": {
+          "value": 15.49,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "ROUGE-L": {
+          "value": 18.88,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "METEOR": {
+          "value": 13.16,
+          "source": "3D_result/3d_other_model.json.txt"
+        }
+      },
+      "Qwen3.8-27B": {
+        "RaTEScore": {
+          "value": 50.02,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "BLEU-1": {
+          "value": 23.06,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "ROUGE-L": {
+          "value": 18.93,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "METEOR": {
+          "value": 16.34,
+          "source": "3D_result/3d_other_model.json.txt"
+        }
+      },
+      "Med3DVLM-7B": {
+        "RaTEScore": {
+          "value": 42.84,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "BLEU-1": {
+          "value": 11.63,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "ROUGE-L": {
+          "value": 15.66,
+          "source": "3D_result/3d_other_model.json.txt"
+        },
+        "METEOR": {
+          "value": 10.34,
+          "source": "3D_result/3d_other_model.json.txt"
+        }
+      },
+      "CoEvoMed": {
+        "RaTEScore": {
+          "value": 66.96703507576163,
+          "source": "3D_result/amoss-mm.json"
+        },
+        "BLEU-1": {
+          "value": 39.298818571556296,
+          "source": "3D_result/amoss-mm.json"
+        },
+        "ROUGE-L": {
+          "value": 40.39651334928745,
+          "source": "3D_result/amoss-mm.json"
+        },
+        "METEOR": {
+          "value": 31.90507025800026,
+          "source": "3D_result/amoss-mm.json"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+\section{Introduction}
+\label{sec:intro}
+
+The knowledge covered by training data and the organization of its supervision constrain capability formation in medical multimodal models. The former defines the medical evidence available for learning; the latter organizes the task objectives and reasoning relations to be learned from that evidence. Supervisory utility depends on alignment with the learner's current state. As training proceeds, task-specific mastery and learning gains evolve unevenly, limiting the continued suitability of a fixed organization of training supervision. This motivates treating data construction as an endogenous component of training, with supervision construction and training allocation continually adapting to learner development.
+
+Existing data refinement practices often rely on manual error inspection and failure mode analysis~\citep{wu2019errudite}, followed by targeted supervision construction~\citep{khan2025dataenvgym}. Repeated fine-grained diagnosis and supervision design incur substantial human effort~\citep{ribeiro2022adaptive} and limit the timely translation of evolving learning needs into systematic training interventions. This limitation motivates a shift from static supervision provision to supervision construction driven by learning responses: observed learning responses inform revisions to reusable construction principles, while realized learning gains regulate the allocation of training resources, establishing a reciprocal evolutionary process between supervision construction and model learning.
+
+Curriculum learning adapts content selection and allocation~\citep{bengio2009curriculum,matiisen2017teacher}; DataEnvGym uses student feedback for iterative data generation~\citep{khan2025dataenvgym}; Evo-PI evolves principles for evaluating and rewarding medical reasoning~\citep{zheng2026evopi}. We focus on the reciprocal development of construction principles and learner capabilities: learning responses revise how evidence is expressed as supervision, and those revisions shape subsequent learning. This connects the evolution of supervision construction with the allocation of finite construction resources.
+
+We introduce \emph{CoEvoMed}, a framework for co-evolving supervision agents and multimodal learners through \emph{supervision construction driven by learning responses}. CoEvoMed constructs training supervision from medical evidence through reusable principles. The learner updates its parameters using this supervision, while task-specific assessments of its capability profile guide the evolution of the principles and the adaptation of subsequent supervision. Residual errors guide their revision, while realized learning gains regulate construction effort across capabilities under a fixed budget. Multi-agent collaboration compares candidate principles under matched evidence and objectives, evaluating supervisory alignment and factual consistency. Selected principles shape subsequent supervision; the learner's ensuing responses guide further revision. Independent validation sets organized by task supply these responses, a shared support set grounds construction in medical evidence, and independent external benchmarks measure outcomes. The evolution of construction principles and the development of learner capabilities jointly shape the learning trajectory.
+
+\begingroup
+\frenchspacing
+Overall, our main contributions are summarized as follows:
+
+\noindent\textbullet\enspace We propose a co-evolutionary framework that incorporates the evolution of construction principles into learner training, coupling supervision construction and capability development through reciprocal feedback.
+
+\noindent\textbullet\enspace We develop a curriculum allocation policy that balances the development of weaker capabilities with the retention of acquired capabilities. Learning progress informs how a fixed construction budget is redistributed as the learner develops.
+
+\noindent\textbullet\enspace We design a multi-agent system that integrates curriculum allocation and principle evolution. Allocation directs construction effort across capabilities, while evolving principles guide how medical evidence is organized into training examples.
+\par\endgroup
+
+
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Curriculum Learning and Adaptive Supervision}
+
+Curriculum learning orders examples by difficulty~\citep{bengio2009curriculum}; adaptive teaching selects them according to learning progress or learner state~\citep{matiisen2017teacher,liu2017iterative}. Beyond selection, Generative Teaching Networks optimize synthetic supervision through meta-gradients~\citep{such2020generative}, and DataEnvGym guides data generation with learner feedback~\citep{khan2025dataenvgym}. Recent approaches couple task generation, visual supervision, or task knowledge with learner development~\citep{huang2026rzero,zhang2026viper,wu2026k2}. CoEvoMed jointly adapts supervision construction and curriculum allocation: reusable construction principles evolve with learning responses, while realized gains guide construction effort across capabilities.
+
+\subsection{Multi-agent adaptation and co-evolution}
+
+Self-Instruct generates instruction-following supervision~\citep{wang2023self}. AutoGen organizes agent conversations~\citep{wu2024autogen}, Graph-of-Agents adapts collaboration structures~\citep{yun2026graph}, and Automated Design of Agentic Systems searches agent programs through a meta agent~\citep{hu2025automated}. Feedback supports output refinement in Self-Refine~\citep{madaan2023selfrefine}, cross-trial reflection in Reflexion~\citep{shinn2023reflexion}, context refinement in ACE~\citep{zhang2026agentic}, and policy optimization through interaction rewards in CoMAS~\citep{xue2026comas}. CoEvoMed connects the revision of construction principles with the development of learner capabilities: learning responses revise evidence-grounded construction principles, whose induced supervision shapes subsequent learning.
+
+\subsection{Medical multimodal learning}
+
+Medical vision-language tasks span radiology, pathology, literature-derived VQA, and report generation~\citep{lau2018dataset,liu2021slake,he2020pathvqa,zhang2024pmc,johnson2019mimic,demnerfushman2016preparing}. LLaVA-Med and Med-Flamingo study biomedical instruction tuning and few-shot adaptation~\citep{li2023llava,moor2023med}. RadFM integrates 2D/3D radiological inputs with text~\citep{wu2025radfm}; M3D develops volumetric image--text and instruction data~\citep{bai2024m3d}. MedVLSynther combines source-conditioned generation with rubric-based verification~\citep{huang2026synthesizing}, and MMedAgent-RL introduces specialist-reliability curricula~\citep{xia2026mmedagent}. CoEvoMed studies supervision construction adapted to the learner's capabilities across visual settings and backbone families.

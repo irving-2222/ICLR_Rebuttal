@@ -1,0 +1,289 @@
+\input{sections/training_algorithm_cn}
+
+\section{训练设置}
+\label{app:implementation}
+
+\paragraph{学习者训练。}
+主要学习者为 Qwen3-VL-8B-Instruct，Qwen3-VL-32B 用于二维任务的规模扩展实验。各轮训练均从上一轮学习者参数继续更新，训练数据由已接受的证据约束监督 $\mathcal D_e^{\mathrm{syn}}$ 与规定的原始或回放数据 $\mathcal R_e$ 混合构成。监督微调（FullSFT）更新语言模型与多模态 merger 的全部参数，同时冻结视觉塔。二维训练配置规定每轮完整遍历 $\mathcal D_e^{\mathrm{mix}}$ 一次，训练时长由 epoch 数决定（\texttt{max\_steps=-1}）。采用 AdamW~\citep{loshchilov2019decoupled}，参数为 $\beta_1=0.9$、$\beta_2=0.999$、$\epsilon=10^{-8}$，权重衰减为 $0.1$，bias 等免衰减参数除外。语言模型与 merger 的学习率均为 $10^{-5}$，采用余弦衰减，预热比例为 $0.03$。训练使用3个节点，每节点8张 NVIDIA A100 80\,GB，共24张 GPU；单卡 batch size 为1，梯度累积为1步，全局有效 batch size 为24。计算采用 BF16 与 DeepSpeed ZeRO-3~\citep{rajbhandari2020zero}，并关闭梯度检查点。对于体数据输入，开启 TF32，并将每个切片帧的像素数量限制为65,536--196,608。
+\paragraph{智能体分工与模型。}
+五个智能体共同完成监督构造、课程分配与原则修订。证据选择智能体使用 deepseek-v4-flash 选择支持证据，监督构造智能体使用同一模型依据构造原则生成训练样本。证据核验智能体使用 Qwen3.6-27B 评估证据支持与事实一致性。课程规划器根据能力反馈与学习进展分配构造投入：学习得到的 Actor--Critic 选择分配动作，deepseek-v4-flash 明确构造目标，并为监督初始化提供动作标签。原则修订智能体使用 deepseek-v4-flash 根据学习响应提出并评估构造原则修订。Qwen3.6-27B 还用于事实证据抽取与验证集标注。
+
+\paragraph{每轮监督规模与任务构成。}
+每轮训练引入50,000条通过证据验证的监督样本，组成$\mathcal D_e^{\mathrm{syn}}$，视觉问答（VQA）与报告生成（caption）的样本数量比约为 $7:3$。在 VQA 子集中，多项选择题、二值判断题与简短回答题的样本数量比约为 $92:4:4$。上述两级比例分别描述任务族之间的监督构成及问答任务内部的回答形式分布。
+
+\paragraph{学习者训练目标。}
+\label{app:learner_objective}
+对于可训练参数为 $\phi$ 的学习者，式~\ref{eq:learning_dynamics}的更新最小化
+\begin{equation}
+\mathcal L_e(\phi)=-\E_{(v,x,y)\sim\mathcal D_e^{\mathrm{mix}}}
+\sum_{j=1}^{|y|}\log p_\phi(y_j\mid v,x,y_{<j}),
+\label{eq:student}
+\end{equation}
+其中 $v$、$x$、$y$ 分别表示视觉输入、指令与目标回答。每次更新后，在固定任务验证样本上测量学习响应。
+
+\paragraph{课程规划器初始化。}
+课程规划器将40维状态映射至隐层宽度为128与64的共享两层 MLP，并连接四动作 Actor 与标量 Critic。四类课程动作分别为均衡、修复优先、弱点聚焦与保持优先。依据基线评测统计构造800条能力状态，覆盖均衡表现、整体薄弱、局部薄弱与能力回退四类情形，由教师模型 deepseek-v4-flash 标注课程动作。按状态组划分640条训练状态与160条验证状态，通过交叉熵监督初始化共享 MLP 与 Actor，并选取验证表现最佳的第5个 epoch 检查点。Critic 输出头的权重与偏置初始化为零，随后依据真实反馈学习。上述800条状态用于监督初始化，与在线学习者交互分别计数。
+
+\paragraph{PPO 优化。}
+每个课程轮次包含决策、监督构造、学习者训练与验证反馈，形成一条环境转移。Actor--Critic 在每轮结束后更新一次，对该轮交互记录执行四个优化 epoch。单步交互记录下，广义优势估计简化为单步时序差分估计。采用 Adam~\citep{kingma2015adam}，学习率为 $3\times10^{-4}$，折扣因子 $\gamma=0.90$，GAE 参数 $\lambda=0.95$，裁剪阈值为0.20，价值损失与熵正则系数分别为0.50与0.01，梯度范数上限为0.50。PPO 更新课程规划器，外部大语言模型的权重保持固定。到达原则演化边界时，先优化规划器，再修订构造原则。
+
+\paragraph{混合策略下的采样与概率比。}
+令 $\pi_\theta(\cdot\mid s)=\operatorname{softmax}(\operatorname{Actor}_\theta(s))$。实际执行策略将 Actor 分布与四动作上的均匀探索混合：
+\[
+\mu_\theta(a\mid s)=0.8\pi_\theta(a\mid s)+0.05.
+\]
+动作从 $\mu_{\theta_{\mathrm{old}}}$ 采样，并在采样时保存对数概率 $\ell_e^{\mathrm{old}}=\log\mu_{\theta_{\mathrm{old}}}(a_e\mid \mathbf{s}_e)$；该值在四个优化 epoch 中保持固定。每个 epoch 在已保存的状态与动作上重新计算混合策略概率，得到 PPO 概率比
+\[
+\rho_e(\theta)=\exp\!\left(\log\mu_\theta(a_e\mid \mathbf{s}_e)-\ell_e^{\mathrm{old}}\right)
+=\frac{\mu_\theta(a_e\mid \mathbf{s}_e)}{\mu_{\theta_{\mathrm{old}}}(a_e\mid \mathbf{s}_e)}.
+\]
+熵正则同样作用于 $\mu_\theta$。该执行策略对应式~\ref{eq:objective}中的分配策略。
+
+\paragraph{基于学习进展的奖励。}
+奖励来自真实学习者更新后的验证增益。VQA 采用准确率，报告生成采用 $0.5\,\mathrm{ROUGE\mbox{-}L}+0.3\,\mathrm{BLEU\mbox{-}4}+0.2\,\mathrm{METEOR}$。各任务增益先在任务族内平均，再对 VQA 与报告两族等权汇总，与式~\ref{eq:gain}一致。
+
+\paragraph{原则修订与选择。}
+持续保留的监督构造原则规定问题意图、证据与回答的关联、概念对比及多样性。各窗口内观测到的学习响应识别使用量充分且净修复不为正的原则，修订智能体根据残余错误摘要提出候选，同时保持目标能力与医学事实不变。当前原则与候选原则在相同的 $N>0$ 组支持证据分配上比较。以 $I_{\mathrm{cur}}$ 与 $I_{\mathrm{cand}}$ 表示产出可用监督的分配索引集合，相对可用产出率与配对覆盖率为
+\begin{equation}
+\Delta_{\mathrm{use}}=\frac{|I_{\mathrm{cand}}|-|I_{\mathrm{cur}}|}{N},
+\qquad
+\rho_{\mathrm{pair}}=\frac{|I_{\mathrm{cand}}\cap I_{\mathrm{cur}}|}{N}.
+\label{eq:strategy_comparison}
+\end{equation}
+比较采用 $N=100$ 个匹配任务，分母包含全部请求任务。接受候选须满足
+\[
+\frac{|I_{\mathrm{cand}}|}{N}\geq0.80,\qquad
+\Delta_{\mathrm{use}}\geq-0.05,\qquad
+\rho_{\mathrm{pair}}\geq0.60,
+\]
+并通过明确的语义审查。配对覆盖达到门槛后，原则修订智能体考察至多30组共同可用的配对样本，确认修订实际体现于监督内容，且在保持证据支持的同时改善对目标错误语义的覆盖。仅改变措辞或替换同义词不计为改善。
+
+可用监督产出率下降超过五个百分点、当前版本达到0.80而候选低于该门槛，或出现语义退化时，拒绝候选。其余因任务不足、数值条件未满足或语义改善未获确认的情况暂缓决定。两种情形均保留当前原则，接受的修订用于后续构造。选择依据配对监督比较，学习者响应则在后续训练轮次中评价。
+
+\section{实验设置与评价}
+\label{app:evaluation}
+\label{app:3d}
+
+我们在二维与三维基准上评估训练后的 CoEvoMed-8B，其中每个体数据表示为包含64个切片帧的视频。
+
+\input{sections/evaluation_datasets_2d_cn}
+
+\input{sections/evaluation_datasets_3d_cn}
+
+\subsection{基准补充结果}
+\label{app:report_lexical}
+
+\paragraph{报告生成指标。}
+
+图~\ref{fig:report_lexical}在相同的两个报告基准上补充 METEOR、BLEU-1/2/3/4 和 ROUGE-1/2/L，与正文的 RaTEScore 比较相互补充。这些指标刻画生成报告与参考报告的文本重合程度，图~\ref{fig:report_results}中的 RaTEScore 提供临床语义层面的评价。
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\linewidth]{figures/report_lexical.pdf}
+\caption{MIMIC-CXR 与 IU-Xray 报告生成的补充文本指标。单元格显示 0--100 标度的分数，保留一位小数；颜色在各数据集的每项指标内作最小--最大归一化，指标越高越好。``--''表示缺失值，不作为零分处理。}
+\label{fig:report_lexical}
+\end{figure}
+
+\input{sections/three_d_appendix_cn}
+
+\subsection{支持证据与验证集的构建}
+
+支持集 $\mathcal S$ 提供监督构造所需的源证据。按任务组织的验证集 $\mathcal V=\{\mathcal V_t\}_{t\in\mathcal T}$ 通过提供能力估计、错误语义与课程回报，评估学习者能力并指导适应过程。外部基准集合 $\mathcal B_{\mathrm{ext}}$ 用于报告最终模型及中间检查点的表现。下文介绍支持证据与验证集的构建。
+
+任务划分 $\mathcal T$ 定义验证反馈所用的任务单元，下文列出支持集来源及其监督构造用途。二维与三维任务的评测数据及输入处理统一见附录~\ref{app:datasets_2d}。Gemma-3-4B-IT 的学习轨迹见正文图~\ref{fig:gemma_trajectory}，InternVL3-9B 的结果见附录~\ref{app:internvl}；InternVL3-9B 的两项任务分别训练独立模型。
+
+\input{sections/support_sources_cn}
+
+\input{sections/data_preparation_cn}
+
+\subsection{评价指标与统计报告}
+
+VQA 准确率依据预先确定的精确匹配或语义匹配准则计算。报告评价包含 BLEU-4、METEOR 和 ROUGE-L \citep{papineni2002bleu,banerjee2005meteor,lin2004rouge}。实现中的反馈复合指标为
+$0.5\,\mathrm{ROUGE\mbox{-}L}+0.3\,\mathrm{BLEU\mbox{-}4}+0.2\,\mathrm{METEOR}$。
+反馈分数 $U_t^{\mathrm{val}}$ 在 $\mathcal V_t$ 上计算，受控对照使用独立外部测试。图~\ref{fig:report_results}采用独立的医学报告评价指标 RaTEScore \citep{zhao2024ratescore}，乘以 100 展示。RaTEScore 不追溯替代用于课程分配的反馈分数。指标实现及精确/语义匹配选择须在受控对比前固定。实验一、二的结果与配对差值见表~\ref{tab:feedback_full}与表~\ref{tab:stage_full}。
+
+纵向能力分析在比较前固定单元定义、$\mathcal V_t$ 内的样本面板、解码设置与越高越好的评分规则。在固定非空验证样本集合上计算$\mathcal J_c[M_e]$，报告样本数、单元内变化及修复/回退样本转移。不同任务采用与其目标相适应的评价指标刻画学习响应。第 $e$ 轮的独立验证反馈指导后续课程分配与构造原则的修订；外部基准用于评价各轮模型的学习结果，不参与课程决策。图~\ref{fig:trajectory}报告全部十轮记录，包括后续轮次的性能下降。稀疏单元标记为证据不足，不解释为能力变化。
+
+\paragraph{检查点选择。}
+\label{app:checkpoint_selection}
+CoEvoMed-8B 的检查点选择依据医学问答与报告生成能力在不同训练轮次中的整体均衡性。R7 在所记录的十轮训练中呈现最为均衡的综合能力，因此六项二维主结果统一采用该检查点。使用同一检查点评价保留了同一学习者的联合能力表现；图~\ref{fig:trajectory}中各基准的单项峰值分别出现在 R7--R8。
+
+\input{sections/internvl_appendix_cn}
+
+\subsection{反馈来源与评价独立性}
+
+CoEvoMed 使用独立于终测数据的任务验证集 $\mathcal V$。该验证集上的学习响应提供能力估计与课程回报，并指导构造原则的修订。外部基准集合 $\mathcal B_{\mathrm{ext}}$ 仅用于性能评价，不参与监督构造、学习者训练以及课程与原则更新。
+
+\section{课程干预与组件对照}
+\label{app:mechanisms}
+
+\subsection{实验一：反馈与学习者状态的匹配性}
+\label{app:feedback_ablation}
+
+实验一将学习者初始状态固定为同一 R5 检查点，分别采用 R2、R3 的历史验证反馈与当前 R5 反馈。反馈由数值能力统计与错误语义摘要组成，前者刻画各任务的掌握水平与学习变化，后者概括尚未解决的错误模式。两部分共同替换为同一来源轮次的记录，用于指导课程分配与监督构造，以考察验证诊断与当前学习者状态的匹配性。表~\ref{tab:feedback_full}将正文表~\ref{tab:ablations}面板 A 扩展至六项二维基准，评测设置沿用附录~\ref{app:datasets_2d}。各组变化量均相对于同一 R5 进一步训练前的参照分数计算。R5 当前反馈组与实验二 D 组共用同一训练结果，对应图~\ref{fig:trajectory}中的第6轮。
+
+\begin{table}[H]
+\centering\scriptsize
+\caption{固定 R5 学习者、共同替换数值能力统计与错误语义摘要的完整结果，反馈来源为 R2、R3 或 R5。VQA 为准确率（\%），报告生成为 RaTEScore（$\times100$）；括号内为相对 R5 进一步训练前的参照分数的变化。}
+\label{tab:feedback_full}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\linewidth}{@{}Yrrrrrr@{}}
+\toprule
+组别 & VQA-RAD & SLAKE & PMC-VQA & PathVQA & MIMIC-CXR & IU-Xray\\
+\midrule
+R5 训练前 & 73.61 & 89.00 & 64.60 & 65.80 & 59.00 & 61.63\\
+R2 反馈 & 72.51 ($-1.10$) & 83.80 ($-5.20$) & 61.00 ($-3.60$) & 62.70 ($-3.10$) & 59.11 ($+0.11$) & 58.61 ($-3.02$)\\
+R3 反馈 & 71.84 ($-1.77$) & 83.20 ($-5.80$) & 62.80 ($-1.80$) & 63.40 ($-2.40$) & 58.16 ($-0.84$) & 57.59 ($-4.04$)\\
+\rowcolor{mainOurs} \textbf{R5 反馈} & 76.23 ($+2.62$) & 89.69 ($+0.69$) & 65.12 ($+0.52$) & 66.93 ($+1.13$) & 61.77 ($+2.77$) & 62.91 ($+1.28$)\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+当前 R5 反馈在六项基准上均优于历史反馈，并超过进一步训练前的参照分数：VQA-RAD 与 MIMIC-CXR 分别提高2.62个百分点与2.77分，SLAKE、PMC-VQA、PathVQA 与 IU-Xray 分别提高0.69、0.52、1.13和1.28分。R3 反馈在六项基准上均出现退化，R2 反馈仅在 MIMIC-CXR 上小幅提高，二者的相对排序随任务变化。这些结果支持同步更新数值与语义反馈，使后续课程干预适应学习者当前的能力状态与错误模式。
+
+\subsection{实验二：监督构造原则的阶段依赖性}
+\label{app:stage_transfer}
+
+实验二将原始与演化构造原则分别用于完成第2轮（R2）和第5轮（R5）训练后的学习者。A、B 组从 R2 检查点出发，C、D 组从 R5 检查点出发，接受相应原则的训练干预。表~\ref{tab:stage_full}将正文表~\ref{tab:ablations}面板 B 扩展至六项基准，评测设置与实验一相同，变化量相对于各自阶段进一步训练前的参照分数计算。R5 参照与 D 组对应正文图~\ref{fig:trajectory}的第5轮与第6轮。
+
+\begin{table}[H]
+\centering\scriptsize
+\caption{实验二在六项二维基准上的完整结果。括号内为相对对应阶段进一步训练前参照分数的变化。}
+\label{tab:stage_full}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\linewidth}{@{}Yrrrrrr@{}}
+\toprule
+组别 & VQA-RAD & SLAKE & PMC-VQA & PathVQA & MIMIC-CXR & IU-Xray\\
+\midrule
+R2 训练前 & 61.64 & 81.60 & 50.80 & 62.00 & 53.31 & 52.87\\
+A: R2 / 原始 & 63.42 ($+1.78$) & 84.20 ($+2.60$) & 54.20 ($+3.40$) & 65.80 ($+3.80$) & 56.35 ($+3.04$) & 56.77 ($+3.90$)\\
+B: R2 / 演化 & 59.20 ($-2.44$) & 81.00 ($-0.60$) & 48.00 ($-2.80$) & 65.40 ($+3.40$) & 56.47 ($+3.16$) & 56.69 ($+3.82$)\\
+\midrule
+R5 训练前 & 73.61 & 89.00 & 64.60 & 65.80 & 59.00 & 61.63\\
+C: R5 / 原始 & 67.97 ($-5.64$) & 85.40 ($-3.60$) & 55.00 ($-9.60$) & 63.60 ($-2.20$) & 52.56 ($-6.44$) & 57.52 ($-4.11$)\\
+\rowcolor{mainOurs} D: R5 / 演化 & 76.23 ($+2.62$) & 89.69 ($+0.69$) & 65.12 ($+0.52$) & 66.93 ($+1.13$) & 61.77 ($+2.77$) & 62.91 ($+1.28$)\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+四项 VQA 均呈现构造原则的排序反转：原始原则在 R2 上更优，演化原则在 R5 上更优。VQA-RAD 上，原始原则在 R2 领先4.22个百分点，演化原则在 R5 领先8.26个百分点；SLAKE、PMC-VQA 与 PathVQA 的演化减原始分差分别从$-3.20$、$-6.20$、$-0.40$变为$+4.29$、$+10.12$、$+3.33$个百分点。两项报告任务在 R2 上均受益于两种原则，原则间分差较小：MIMIC-CXR 上演化原则领先0.12分，IU-Xray 上原始原则领先0.08分；到 R5，演化原则分别领先9.21和5.39分。D 组在六项基准上均超过 R5 参照。这些结果表明，监督构造原则的效用随学习者阶段变化，支持依据学习响应持续修订监督。
+
+\subsection{更大数据规模的原始数据训练对照}
+\label{app:raw_source}
+
+本对照考察增加原始数据量能否解释 CoEvoMed 的性能增益。两组从相同的 Qwen3-VL-8B 初始化出发，Qwen3+Raw 直接使用约 70 万条原始源数据训练，其训练样本量高于 CoEvoMed。该对照保留原始监督形式，不使用监督重构与自适应课程配置。两组均在附录~\ref{app:datasets_2d}中的四项 VQA 基准上进行评测。
+
+\begin{table}[!htbp]
+\centering\small
+\caption{采用相同 Qwen3-VL-8B 初始化的医学 VQA 准确率（\%）。Qwen3+Raw 使用约 70 万条源数据，CoEvoMed 的训练样本量更少；初始模型作为参照。}
+\label{tab:raw_source}
+\setlength{\tabcolsep}{7pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+训练条件 & PMC-VQA & VQA-RAD & SLAKE & PathVQA\\
+\midrule
+Qwen3-VL-8B (base) & 54.13 & 56.76 & 64.84 & 42.77\\
+Qwen3+Raw & 45.51 & 43.01 & 38.15 & 35.94\\
+\rowcolor{mainOurs} CoEvoMed-8B & \textbf{67.95} & \textbf{82.48} & \textbf{91.60} & \textbf{69.40}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+CoEvoMed 以更少的训练数据，在 PMC-VQA、VQA-RAD、SLAKE 与 PathVQA 上分别较 Qwen3+Raw 提升 22.44、39.47、53.45 与 33.46 个百分点。原始源数据直接训练在四项基准上均低于初始模型，而 CoEvoMed 均取得提升。因此，扩大原始数据规模未能复现 CoEvoMed 的性能增益。这些结果支持学习响应驱动的监督构造与课程适配的有效性：将源证据转化为契合学习者动态需求的监督，能够提高训练数据的学习价值。
+
+\section{形式化的适用范围}
+\label{sec:limitations}
+
+课程构造映射是随机的学习者条件化转换。经验生成与分配通过训练影响能力发展，从而塑造学习轨迹。有限验证样本提供部分能力证据，各能力单元保留自身评分尺度；独立外部测试评价重复使用验证反馈后的泛化表现。
+
+局部干预提供被测学习者状态与构造版本上的证据。适用性论断以被评价的数据与骨干协议为范围；医学基准表现及源证据验证不等同于临床安全性或患者获益。
+
+\section{完整形式化模型与符号说明}
+\label{app:formalization}
+
+本附录形式化第~\ref{sec:problem}节所述的共演化。学习者$M_e$与智能体的构造原则$\Sigma_e$构成完整状态$X_e$中相互依赖的两个部分。式~\ref{eq:construction}中的映射$\mathfrak C_e$结合分配、生效原则与证据验证形成学习者更新所需的监督。更新后的响应进入历史并引导原则修订，$\Phi(h_e)$提供分配策略输入。固定的$\mathcal J_c$评价各轮能力，形成$E$轮训练的能力轨迹$\Gamma_E=(\widehat{\boldsymbol\kappa}_0,\ldots,\widehat{\boldsymbol\kappa}_E)$，分配策略在这一耦合动态中优化累积验证进展。
+
+\subsection{能力分布与验证观测}
+
+式~\ref{eq:capability_level}以能力评价泛函$\mathcal J_c$将学习者在固定验证集上的预测行为映射为标量能力坐标，定义实测掌握水平$\mathcal J_c[M_e]$。该泛函由固定验证集$\mathcal V_c$及实例评价规则$u_c$确定。每个$\mathcal V_c$属于相应任务验证集$\mathcal V_t$，在比较前确定样本身份、评分规则与解码设置。式~\ref{eq:capability_change}以同一泛函在相邻轮次学习者上的取值之差衡量学习进展，等价于对同一集合逐样本计算评价变化后取平均。初始评估提供掌握水平；缺失观测单独标记。
+
+VQA反馈记录修复与回退的样本。报告反馈在$\mathcal V_t$上跟踪分数变化与持续低分情况；报告缺口采用固定低分标准，而非用1减去复合分数。反馈摘要保留当前表现、相邻轮次的变化、能力缺口与既往资源分配。
+
+以$o_e$表示第$e$轮验证观测，包括测量表现与错误证据。可观测交互历史为
+\[
+h_e=(o_0,a_0,r_0,\ldots,a_{e-1},r_{e-1},o_e),
+\qquad \mathbf{s}_e=\Phi(h_e).
+\]
+其中，$a_e$为课程动作，$r_e$为式~\ref{eq:gain}定义的奖励，$\Phi$将交互历史压缩为规划器输入。第$e$轮使用$\Sigma_e$构造监督并更新学习者，随后将$a_e,r_e,o_{e+1}$加入历史。式~\ref{eq:strategy_evolution}依据所得$h_{e+1}$修订原则，更新后的$\Sigma_{e+1}$供下一轮使用。课程规划器依据历史摘要决策，完整状态转移定义在$X_e$上。
+
+\subsection{完整状态与部分可观测动态}
+
+对于预先规定的构造原则演化规则$\mathscr E$，有限时域过程为
+\[
+\mathcal M_{\mathscr E}=(\mathcal X,\mathcal A_{\mathrm{act}},\mathcal O,P_{\mathscr E},\Omega,R,\rho_0,\gamma,E).
+\]
+$\mathcal X$、$\mathcal A_{\mathrm{act}}$与$\mathcal O$分别表示完整系统状态、允许的课程动作及验证观测所在的空间。$P_{\mathscr E}$描述包含构造原则更新的状态转移，$\Omega$描述给定完整状态时的观测分布。奖励规则$R$产生式~\ref{eq:gain}~中的奖励；$\rho_0$为初始状态分布，$\gamma$为折扣因子，$E$为决策轮数。
+
+状态$X_e\in\mathcal X$包含学习者参数与训练状态、当前构造原则、保留的训练数据、反馈与演化统计、调度信息以及剩余资源。状态保留固定运行规则下后续更新所需的信息。
+式~\ref{eq:transition}给出正文采用的马尔可夫状态转移。
+初始化与观测分别满足$X_0\sim\rho_0$和$o_e\sim\Omega(\cdot\mid X_e)$。训练引起的能力变化发生在状态转移内部，无需假设该完整状态上的转移核随时间改变。数据构造、筛选、学习者优化以及计划内的构造原则更新共同构成转移。实现中的一个 episode 对应一个决策步，而非完整的 POMDP 轨迹。
+
+\subsection{训练分布与资源约束}
+
+第~\ref{sec:multiagent}节中的多智能体角色共同实现随机的课程构造映射
+\begin{equation}
+\mathcal D_e^{\mathrm{syn}}=\mathfrak C_e(\mathcal S,h_e),
+\qquad
+\mathfrak C_e=\mathfrak C[\mu_{\theta_e},\Sigma_e].
+\label{eq:construction}
+\end{equation}
+该映射结合策略引导的分配、原则约束的生成与证据一致性验证，所得监督进入式~\ref{eq:learning_dynamics}的训练混合。式~\ref{eq:supervision_mixture}刻画验证前候选样本的分布，下标$e$包含对当前历史$h_e$与课程动作$a_e$的依赖。
+
+令$z=(v,x,y)$表示由视觉输入、指令与目标回答组成的构造样本。给定反馈$\mathbf{s}_e$，采样动作$a_e\sim\mu_\theta(\cdot\mid \mathbf{s}_e)$通过分配映射确定各能力单元的候选样本配额份额$q_{e,c}$。条件构造器$g_{\Sigma_e}$规定使用当前构造原则与支持证据生成样本的方式。质量筛选前，二者的共同作用可分解为
+\begin{equation}
+p_e(z,c\mid h_e,a_e,\Sigma_e)
+=q_{e,c}\,
+g_{\Sigma_e}(z\mid c,\mathcal S,h_e,a_e).
+\label{eq:factorization}
+\end{equation}
+对$c$求边缘分布可得式~\ref{eq:supervision_mixture}，其中$g_{e,c}(z;\Sigma_e,\mathcal S)=g_{\Sigma_e}(z\mid c,\mathcal S,h_e,a_e)$。$q_{e,c}$在候选数据分布中充当混合权重，在$\mathcal C$上的总和为1，并满足式~\ref{eq:quota}。该分解描述按候选配额抽取一条记录的边缘分布，批内生成可以相互依赖。质量筛选改变接受样本及其比例；实际训练曝光还取决于原始或回放数据的混合与训练采样。候选数、接受数、训练 token 及模型调用成本分别核算。
+
+构造原则$\Sigma_e$与份额$\boldsymbol q_e$分别控制候选监督的内容与能力间构成，筛选及混合协议进一步决定训练分布。学习者采用式~\ref{eq:student}的回答 token 损失进行优化，课程分配通过 PPO 学习，原则修订比较基于相同医学证据生成的样本（第~\ref{sec:strategy_evolution}节）。固定的验证评价准则$\mathcal J_c$记录所得能力变化，为后续适应提供学习响应。
+
+式~\ref{eq:objective}~中的简写目标将策略搜索限制在满足预算的范围内。显式写出初始化与转移依赖，可得
+\begin{equation}
+\begin{aligned}
+\max_{\pi\in\Pi_{\mathrm{adm}}}\quad&
+\E_{\rho_0,\pi,P_{\mathscr E},\Omega}
+\left[\sum_{e=0}^{E-1}\gamma^e r_e\right]\\
+\text{subject to}\quad&
+\sum_{e=0}^{E-1}\mathbf k_e\preceq\mathbf B ,
+\end{aligned}
+\label{eq:objective_full}
+\end{equation}
+其中，$\Pi_{\mathrm{adm}}$表示满足课程动作与分配配额约束的策略集合。向量$\mathbf k_e$记录第$e$轮资源消耗，$\mathbf B$给出各类资源的总预算，$\preceq$表示逐分量满足预算约束。期望涵盖固定运行协议下随机的课程动作、数据构造与学习者更新。
+
+规定的构造原则演化规则参与状态转移并影响后续学习回报，PPO 优化分配策略。奖励等于相邻模型之间的验证增益，对 VQA 与报告生成赋予相同权重，同时保留改善与回退。独立外部测试另行评价所得泛化表现，与折扣训练回报分别报告。
+
+\subsection{累积增益与学习过程的关系}
+\label{app:cumulative_gains}
+
+采用式~\ref{eq:gain}中固定的任务族权重与评分尺度，定义
+\[
+F_e=\frac{1}{2|\mathcal T_{\mathrm V}|}\sum_{t\in\mathcal T_{\mathrm V}}U_t^{\mathrm{val}}(M_e)
++\frac{1}{2|\mathcal T_{\mathrm R}|}\sum_{t\in\mathcal T_{\mathrm R}}U_t^{\mathrm{val}}(M_e).
+\]
+于是$r_e=F_{e+1}-F_e$。对于固定时域$E\geq1$及$0<\gamma\leq1$，移动求和下标可得
+\begin{equation}
+\begin{aligned}
+\sum_{e=0}^{E-1}\gamma^e(F_{e+1}-F_e)
+&=\sum_{e=1}^{E}\gamma^{e-1}F_e-\sum_{e=0}^{E-1}\gamma^eF_e\\
+&=-F_0+(1-\gamma)\sum_{e=1}^{E-1}\gamma^{e-1}F_e+\gamma^{E-1}F_E.
+\end{aligned}
+\label{eq:trajectory_objective}
+\end{equation}
+该恒等式对每条交互轨迹成立，取期望后即得到式~\ref{eq:objective}的等价目标。固定初始学习者使$F_0$为常数；$\gamma<1$赋予中间阶段及终点表现非负权重，$\gamma=1$时中间项抵消。这里的标量目标聚合任务表现，能力轨迹$\Gamma_E$保留单元级变化。
+
+\input{sections/showcase_appendix_cn}
