@@ -84,6 +84,29 @@ Figure~\ref{fig:report_lexical} complements the RaTEScore comparison in the main
 \label{fig:report_lexical}
 \end{figure}
 
+\paragraph{\rev{MedVLSynther on the same base model.}}
+\rev{Table~\ref{tab:main} reports the published MedVLSynther-7B results, which use Qwen2.5-VL-7B~\citep{huang2026synthesizing}. To control for the base model, we retrained MedVLSynther on our Qwen3-VL-8B base with its released data and GRPO training script and evaluated it under our protocol. CoEvoMed-8B exceeds both versions on all four VQA benchmarks (Table~\ref{tab:medvlsynther}).}
+
+\begin{table}[!htbp]
+\centering\small\color{blue}
+\revtablenumber
+\caption{\rev{MedVLSynther with its published base and retrained on our base, compared with CoEvoMed-8B. VQA accuracy (\%).}}
+\label{tab:medvlsynther}
+\setlength{\tabcolsep}{7pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Model & PMC-VQA & VQA-RAD & SLAKE & PathVQA\\
+\midrule
+MedVLSynther-7B (published, Qwen2.5-VL-7B) & 55.43 & 77.57 & 72.36 & 65.56\\
+MedVLSynther (retrained, Qwen3-VL-8B) & 53.18 & 70.95 & 73.33 & 68.69\\
+\rowcolor{mainOurs} CoEvoMed-8B & \textbf{67.95} & \textbf{82.48} & \textbf{91.60} & \textbf{69.40}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{\rev{MMMU Health \& Medicine.}}
+\rev{On the Health \& Medicine test questions of MMMU~\citep{yue2024mmmu} (1,752 questions, scored with the publicly released answers under the protocol of Appendix~\ref{app:datasets_2d}), CoEvoMed-8B scores 62.04\%, compared with 49.66\% for its Qwen3-VL-8B base and 61.30\% for MediX-R1-8B, a medical model built on the same base.}
+
 \input{sections/three_d_appendix_en}
 
 \subsection{Construction of support evidence and validation sets}
@@ -104,15 +127,39 @@ Feedback scores $U_t^{\mathrm{val}}$ are computed on $\mathcal V_t$, while the c
 
 For longitudinal capability analysis, freeze cell definitions, sample panels within $\mathcal V_t$, decoding settings, and scoring rules in which higher scores indicate better performance before comparison. Compute $\mathcal J_c[M_e]$ on fixed nonempty validation sets, reporting case counts, per-cell changes, and repaired/regressed case transitions. Learning responses are characterized by evaluation metrics aligned with each task's objective. Independent validation feedback at round $e$ guides subsequent curriculum allocation and revision of construction principles. External benchmarks evaluate model performance across rounds and do not inform curriculum decisions. Figure~\ref{fig:trajectory} reports all ten recorded rounds, including later performance declines. Sparse cells are reported as unsupported, not interpreted as evidence of capability change.
 
+\paragraph{\rev{Decoding variability and paired intervals.}}
+\rev{Each learner was trained once. To estimate decoding variability, we re-evaluated the R7 checkpoint of CoEvoMed-8B by sampling with three seeds; these standard deviations therefore do not include training variability. For paired 95\% confidence intervals, we re-evaluated Hulu-Med-7B~\citep{jiang2025hulumed} with the same prompts and its own evaluation code, and bootstrapped the per-item score differences between the greedy CoEvoMed-8B run and this baseline (percentile intervals). On MIMIC-CXR, the baseline is Qwen3.6-27B, the strongest baseline in Figure~\ref{fig:report_results}. Every interval excludes zero (Table~\ref{tab:ci}). The re-evaluated Hulu-Med-7B scores lie below its published scores, which Table~\ref{tab:main} and Figure~\ref{fig:report_results} retain; on IU-Xray, CoEvoMed-8B leads by 2.16 points under the same protocol and by 0.92 against the published 67.30.}
+
+\begin{table}[!htbp]
+\centering\scriptsize\color{blue}
+\revtablenumber
+\caption{\rev{Decoding variability of CoEvoMed-8B (R7) and paired 95\% confidence intervals for its lead over a baseline evaluated with the same protocol. VQA reports accuracy (\%); report generation uses RaTEScore ($\times100$). Baseline: Hulu-Med-7B re-evaluated by us; Qwen3.6-27B on MIMIC-CXR.}}
+\label{tab:ci}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\linewidth}{@{}Yrrrrrr@{}}
+\toprule
+ & VQA-RAD & SLAKE & PMC-VQA & PathVQA & MIMIC-CXR & IU-Xray\\
+\midrule
+Greedy (Table~\ref{tab:main}, Figure~\ref{fig:report_results}) & 82.48 & 91.60 & 67.95 & 69.40 & 63.62 & 68.22\\
+Sampling, 3 seeds (mean $\pm$ std) & 82.63$\pm$1.26 & 91.74$\pm$0.71 & 67.64$\pm$0.32 & 69.17$\pm$0.36 & 63.31$\pm$0.83 & 68.53$\pm$0.74\\
+Baseline, same protocol & 72.5 & 84.8 & 61.4 & 58.5 & 61.92 & 66.06\\
+95\% paired CI (greedy $-$ baseline) & [5.99, 14.19] & [4.52, 9.14] & [6.08, 7.02] & [9.76, 12.07] & [0.71, 2.68] & [1.15, 3.15]\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
 \paragraph{Checkpoint selection.}
 \label{app:checkpoint_selection}
-The CoEvoMed-8B checkpoint is selected according to the overall balance of medical question answering and report generation across training rounds. R7 provides the most balanced overall capability profile among the ten recorded rounds and is used for all six main 2D results. Evaluation using the same checkpoint preserves the joint capability profile of a single learner; individual benchmark peaks occur at R7--R8 in Figure~\ref{fig:trajectory}.
+\rev{The CoEvoMed-8B checkpoint is selected on internal validation only. For each round $e$, let $Q_e$ be the mean validation score of the four question answering tasks and $R_e$ the mean feedback composite of the two report tasks; we select the round with the highest $F_e=(Q_e+R_e)/2$. The per-round change $F_e-F_{e-1}$ is the planner's reward, so this rule selects the round with the largest cumulative validation gain. R7 attains the highest $F_e$ among the ten recorded rounds} and is used for all six main 2D results. Evaluation using the same checkpoint preserves the joint capability profile of a single learner; individual benchmark peaks occur at R7--R8 in Figure~\ref{fig:trajectory}.
 
 \input{sections/internvl_appendix_en}
 
 \subsection{Feedback provenance and independence}
 
 CoEvoMed uses validation sets $\mathcal V$ organized by task and independent of the final evaluation data. Learning responses on these validation sets provide capability estimates and curriculum rewards and guide the revision of construction principles. External benchmark collections $\mathcal B_{\mathrm{ext}}$ are reserved for performance evaluation and do not participate in supervision construction, learner training, or curriculum and principle updates.
+
+\rev{Support, validation, and test data are separate partitions at the patient, study, and image levels. We screened all 11 2D and 5 volumetric support sources against every external test set at four levels: identifiers (study, case, and PubMed Central article IDs), image paths, pixel hashes (exact and near-duplicate), and normalized text. All checks found zero overlap, including between PubMedVision-IU and IU-Xray. Checkpoint selection (Appendix~\ref{app:checkpoint_selection}) uses validation scores only.}
 
 \section{Curriculum interventions and component controls}
 \label{app:mechanisms}
@@ -173,25 +220,92 @@ All four VQA benchmarks exhibit a reversal in principle ordering: original princ
 \subsection{Training on a larger collection of raw data}
 \label{app:raw_source}
 
-This comparison examines whether increasing the volume of raw data can account for CoEvoMed's performance gains. Starting from the same Qwen3-VL-8B initialization, Qwen3+Raw trains directly on approximately 700,000 original source examples, exceeding the number of training examples used by CoEvoMed. It retains the original supervision without supervision reconstruction or adaptive curriculum allocation. We evaluate both conditions on the four VQA benchmarks in Appendix~\ref{app:datasets_2d}.
+This comparison examines whether increasing the volume of raw data can account for CoEvoMed's performance gains. Starting from the same Qwen3-VL-8B initialization, Qwen3+Raw trains directly on approximately 700,000 original source examples, exceeding the number of training examples used by CoEvoMed. It retains the original supervision without supervision reconstruction or adaptive curriculum allocation. We evaluate both conditions on the four VQA benchmarks in Appendix~\ref{app:datasets_2d}. \rev{In revision, Table~\ref{tab:raw_source} adds the two report benchmarks and a run that starts from the same initialization and keeps the original construction principles throughout, under the same total training budget as CoEvoMed.}
 
 \begin{table}[!htbp]
 \centering\small
-\caption{Medical VQA accuracy (\%) from a shared Qwen3-VL-8B initialization. Qwen3+Raw uses approximately 700,000 source examples; CoEvoMed uses fewer training examples. The base model is included as a reference.}
+\caption{Medical VQA accuracy (\%) from a shared Qwen3-VL-8B initialization. Qwen3+Raw uses approximately 700,000 source examples; CoEvoMed uses fewer training examples. The base model is included as a reference. \rev{Report generation uses RaTEScore ($\times100$). Fixed principles uses the same total budget as CoEvoMed.}}
 \label{tab:raw_source}
-\setlength{\tabcolsep}{7pt}
-\begin{tabular}{@{}lrrrr@{}}
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}lrrrr>{\color{blue}}r>{\color{blue}}r@{}}
 \toprule
-Training condition & PMC-VQA & VQA-RAD & SLAKE & PathVQA\\
+Training condition & PMC-VQA & VQA-RAD & SLAKE & PathVQA & MIMIC-CXR & IU-Xray\\
 \midrule
-Qwen3-VL-8B (base) & 54.13 & 56.76 & 64.84 & 42.77\\
-Qwen3+Raw & 45.51 & 43.01 & 38.15 & 35.94\\
-\rowcolor{mainOurs} CoEvoMed-8B & \textbf{67.95} & \textbf{82.48} & \textbf{91.60} & \textbf{69.40}\\
+Qwen3-VL-8B (base) & 54.13 & 56.76 & 64.84 & 42.77 & 50.76 & 50.28\\
+Qwen3+Raw & 45.51 & 43.01 & 38.15 & 35.94 & 46.65 & 49.18\\
+\rev{Fixed principles} & \rev{61.49} & \rev{74.72} & \rev{88.88} & \rev{62.46} & 62.27 & 61.31\\
+\rowcolor{mainOurs} CoEvoMed-8B & \textbf{67.95} & \textbf{82.48} & \textbf{91.60} & \textbf{69.40} & \textbf{63.62} & \textbf{68.22}\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Despite using less training data, CoEvoMed exceeds Qwen3+Raw by 22.44, 39.47, 53.45, and 33.46 percentage points on PMC-VQA, VQA-RAD, SLAKE, and PathVQA, respectively. Training directly on source data falls below the initial model on all four benchmarks, whereas CoEvoMed improves on each. Thus, a larger collection of raw data does not reproduce CoEvoMed's gains. These results support the effectiveness of supervision construction driven by learning responses and curriculum adaptation in translating source evidence into supervision suited to the learner's evolving needs.
+Despite using less training data, CoEvoMed exceeds Qwen3+Raw by 22.44, 39.47, 53.45, and 33.46 percentage points on PMC-VQA, VQA-RAD, SLAKE, and PathVQA, respectively. Training directly on source data falls below the initial model on all four benchmarks, whereas CoEvoMed improves on each. Thus, a larger collection of raw data does not reproduce CoEvoMed's gains. \rev{On the report benchmarks, Qwen3+Raw also falls below the base model. The fixed-principle run improves on the base model but trails CoEvoMed on all six benchmarks, by 1.35--7.76 points. Because fixed principles help early but hurt from R5 (Table~\ref{tab:stage_full}), sustained gains require principles that co-evolve with the learner.} These results support the effectiveness of supervision construction driven by learning responses and curriculum adaptation in translating source evidence into supervision suited to the learner's evolving needs.
+
+\subsection{\rev{Principle evolution and curriculum adaptation: all four combinations}}
+\label{app:factorial}
+
+\rev{Experiment 2 varies principles under adaptive allocation. To cover all four combinations, we add two runs from the same R5 checkpoint with the same pipeline and budget that replace adaptive allocation with a uniform split across capability cells, while construction still uses current feedback; one keeps the evolved principles and one the original principles. Table~\ref{tab:factorial} reports changes from the R5 reference; conditions C and D are from Table~\ref{tab:stage_full}.}
+
+\begin{table}[H]
+\centering\scriptsize\color{blue}
+\revtablenumber
+\caption{\rev{All four combinations of principle evolution and curriculum adaptation, each trained for one round from the same R5 checkpoint. Entries are changes from the R5 reference.}}
+\label{tab:factorial}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\linewidth}{@{}Yccrrrrrr@{}}
+\toprule
+Setting & Principles & Allocation & VQA-RAD & SLAKE & PMC-VQA & PathVQA & MIMIC-CXR & IU-Xray\\
+\midrule
+Both fixed (new) & Original & Uniform & $-6.21$ & $-4.52$ & $-10.48$ & $-2.84$ & $-7.65$ & $-4.75$\\
+C: curriculum only & Original & Adaptive & $-5.64$ & $-3.60$ & $-9.60$ & $-2.20$ & $-6.44$ & $-4.11$\\
+Principles only (new) & Evolved & Uniform & $+1.55$ & $+0.09$ & $+0.12$ & $+0.81$ & $+1.94$ & $+0.59$\\
+\rowcolor{mainOurs} D: CoEvoMed & Evolved & Adaptive & $+2.62$ & $+0.69$ & $+0.52$ & $+1.13$ & $+2.77$ & $+1.28$\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\rev{Principle evolution has the larger effect: with either allocation, original principles lower all six benchmarks and evolved principles raise all six. Adaptive allocation adds a smaller but consistent gain, exceeding uniform allocation on all six benchmarks with either principle set (by 0.32--1.07 points with evolved principles and 0.57--1.21 with original principles). Each condition was trained once, so these smaller differences should be read alongside the decoding variability in Table~\ref{tab:ci}.}
+
+\subsection{\rev{Replacing individual agents}}
+\label{app:agent_ablation}
+
+\rev{To test the agent roles, we replace one agent at a time and train one round from the same R5 checkpoint with all else fixed (Table~\ref{tab:agents}). Random evidence is drawn from the support pool without matching the target cell's modality and anatomy (Appendix~\ref{app:data_preparation}). Without the verifier, all constructed examples enter training. The single agent is one LLM that selects evidence, constructs and checks examples, and revises principles, under the same allocation. The constructor is not replaced: it writes every training example, so without it only raw records remain, as in Appendix~\ref{app:raw_source}; what it writes is governed by the principles, which the revision row replaces.}
+
+\begin{table}[H]
+\centering\scriptsize\color{blue}
+\revtablenumber
+\caption{\rev{Replacing one agent at a time, each trained for one round from the same R5 checkpoint. Entries are changes from the R5 reference. The first and fourth rows are conditions D and C of Table~\ref{tab:stage_full}.}}
+\label{tab:agents}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\linewidth}{@{}Yrrrrrr@{}}
+\toprule
+Setting & VQA-RAD & SLAKE & PMC-VQA & PathVQA & MIMIC-CXR & IU-Xray\\
+\midrule
+\rowcolor{mainOurs} Full CoEvoMed (D) & $+2.62$ & $+0.69$ & $+0.52$ & $+1.13$ & $+2.77$ & $+1.28$\\
+Selector $\rightarrow$ random evidence & $-2.00$ & $-5.28$ & $-1.77$ & $-3.62$ & $-2.73$ & $-4.70$\\
+Verifier $\rightarrow$ none & $-3.33$ & $-2.83$ & $-3.13$ & $-2.91$ & $-4.17$ & $-4.42$\\
+Revision $\rightarrow$ original principles (C) & $-5.64$ & $-3.60$ & $-9.60$ & $-2.20$ & $-6.44$ & $-4.11$\\
+Allocation $\rightarrow$ uniform & $+1.55$ & $+0.09$ & $+0.12$ & $+0.81$ & $+1.94$ & $+0.59$\\
+Single agent & $-10.42$ & $-11.59$ & $-6.74$ & $-7.38$ & $-7.93$ & $-9.50$\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\rev{Replacing the selector, the verifier, or the revision agent turns the round's gain into a loss on all six benchmarks. Uniform allocation still gains, but less on all six. The single agent loses most on five of six benchmarks.}
+
+\subsection{\rev{Forgetting and retention}}
+\label{app:forgetting}
+
+\rev{CoEvoMed trains all tasks every round under fixed task quotas (Equation~\ref{eq:quota}) and mixes in permitted original or replay data (Equation~\ref{eq:learning_dynamics}), so it is a curriculum rather than a continual-learning setting. We nonetheless measure forgetting case by case on the validation sets (Equation~\ref{eq:capability_change}), counting a case as learned when a VQA answer is correct or a report reaches ROUGE-L $\geq 0.3$. Through R7, each round lost 2.3--4.7\% of the previously learned cases and repaired 10.9--23.8\% of the previously unlearned ones. Average cell-level forgetting~\citep{chaudhry2018riemannian}, the case-weighted mean over capability cells of the drop from each cell's best earlier score, is 1.27 points at R7 and 2.84 at R10.}
+
+\rev{Retention is the share of the planner's budget allocated to learned cells (Section~\ref{sec:curriculum}). Setting this share to zero from R5, with all else as in Appendix~\ref{app:agent_ablation}, loses 6.9\% of learned validation cases in that round, compared with 3.3\% for CoEvoMed.}
+
+\subsection{\rev{Principle revisions and later learning}}
+\label{app:revision_followup}
+
+\rev{In our logs, 12 of 15 accepted revisions turned their target cell's net repair (validation cases repaired minus regressed) positive in the next evolution window, compared with 6 of 20 eligible principles that were kept unrevised. This comparison is observational: revisions were not assigned at random.}
 
 \section{Scope of the formulation}
 \label{sec:limitations}

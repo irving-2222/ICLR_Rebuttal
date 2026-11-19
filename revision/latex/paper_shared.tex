@@ -85,3 +85,8 @@
   \node[align=center,text width=5.5cm,text=black!60] at (9.7,0.9) {\FigPending};
 \end{tikzpicture}%
 }
+% Revision for the discussion period: text added or changed in response to reviewers is shown in blue.
+\newcommand{\rev}[1]{\textcolor{blue}{#1}}
+% Tables added in revision are numbered R1, R2, ... so that the original table numbers stay unchanged.
+\newcounter{revtab}
+\newcommand{\revtablenumber}{\stepcounter{revtab}\addtocounter{table}{-1}\renewcommand{\thetable}{R\arabic{revtab}}\renewcommand{\theHtable}{R\arabic{revtab}}}
