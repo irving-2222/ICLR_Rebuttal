@@ -11,7 +11,7 @@ Thank you to all reviewers: summary of revisions in the updated PDF
 **Comment:**
 
 ````markdown
-We thank all reviewers for their feedback. We have uploaded a revised PDF in which all new or changed text is shown in blue. Section, table, figure, and equation numbers from the submission are unchanged, so the references in our responses still apply; new tables are numbered R1–R5. The main text remains nine pages.
+We thank all reviewers for their feedback. We have uploaded a revised PDF in which all new or changed text is shown in blue. The blue only helps the reviewers and the AC find the changes; if the paper is accepted, the final version will use the standard text color. Section, table, figure, and equation numbers from the submission are unchanged, so the references in our responses still apply; new tables are numbered R1–R5. The main text remains nine pages.
 
 **Main text**
 
@@ -47,7 +47,7 @@ New references: Chaudhry et al. (2018), Landis & Koch (1977), and Yue et al. (20
 
 **正文：**
 
-感谢各位审稿人的意见。我们已上传修订版 PDF，所有新增或改动的文字都用蓝色标出。投稿版中的章节、表格、图和公式编号均未改变，因此各份回复中的引用仍然有效；新增表格编号为 R1–R5。正文仍为九页。
+感谢各位审稿人的意见。我们已上传修订版 PDF，所有新增或改动的文字都用蓝色标出。标蓝只是为了方便审稿人和 AC 查看改动；如果论文被录用，最终版会改回正常的文字颜色。投稿版中的章节、表格、图和公式编号均未改变，因此各份回复中的引用仍然有效；新增表格编号为 R1–R5。正文仍为九页。
 
 **正文**
 
