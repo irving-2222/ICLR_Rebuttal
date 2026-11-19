@@ -117,7 +117,7 @@ The fixed principles lower all six benchmarks (C), while the evolved principles 
 Thank you for the thorough questions: component ablations, overlap screening, paired confidence intervals, and MMMU
 ```
 
-**Comment** (4,983 / 5,000 characters):
+**Comment** (4,987 / 5,000 characters):
 
 ````markdown
 **Q1 & W1 (Contributions, PPO, raw data, selection criteria).** The paper already ablates both components with the same teachers, data, budget, and R5 checkpoint (**Table 2, Sec. 5.3; App. D**). We add a uniform split across capability cells as the simpler curriculum, to be added to the revision. Change from R5 on each benchmark:
@@ -146,7 +146,7 @@ R7 was selected on internal validation only: it has the highest equal-weight mea
 | | VQA-RAD | SLAKE | PMC-VQA | PathVQA | MIMIC-CXR | IU-Xray |
 |---|---|---|---|---|---|---|
 | Mean±std | 82.63±1.26 | 91.74±0.71 | 67.64±0.32 | 69.17±0.36 | 63.31±0.83 | 68.53±0.74 |
-| Baseline | 72.5 | 84.8 | 61.4 | 58.5 | 61.92 | 66.06 |
+| Baseline | 72.51 | 84.83 | 61.44 | 58.45 | 61.92 | 66.06 |
 | 95% paired CI | [5.99, 14.19] | [4.52, 9.14] | [6.08, 7.02] | [9.76, 12.07] | [0.71, 2.68] | [1.15, 3.15] |
 
 Sampled means stay within one std of the greedy scores, and every CI excludes zero. The rerun scores below Hulu-Med's published numbers, which Table 1 keeps, so its margins are conservative. On IU-Xray, the gain is 2.16 under the same protocol and 0.92 against the published 67.30.
