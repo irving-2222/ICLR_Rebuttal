@@ -168,17 +168,17 @@ CoEvoMed ranks first in the three benchmark summaries in Figure~\ref{fig:3d_main
 \label{sec:analysis}
 \label{sec:mechanisms}
 
-We examine learning trajectories, feedback--learner alignment, and stage-dependent principle utility. Mechanism comparisons use VQA-RAD and MIMIC-CXR; full results and experimental details appear in Appendix~\ref{app:mechanisms}.
+\rev{We examine learning trajectories and ablate the two adaptive mechanisms from the same checkpoints: curriculum adaptation (panel A) and principle evolution (panel B). The main text uses VQA-RAD and MIMIC-CXR; Appendix~\ref{app:mechanisms} gives all six benchmarks and further ablations of allocation, individual agents, and retention.}
 
-\paragraph{Feedback--learner alignment.}
+\paragraph{\rev{Ablating curriculum adaptation.}}
 From the same R5 checkpoint, we jointly vary numerical capability statistics and summaries of error semantics using R2, R3, or R5 validation feedback. Current feedback improves VQA-RAD accuracy by 2.62 percentage points and MIMIC-CXR RaTEScore by 2.77 points, outperforming historical feedback (Table~\ref{tab:ablations}, panel A). This supports aligning curriculum allocation and supervision construction with current capabilities and error patterns.
 
-\paragraph{Dependence on training stage.}
-Original and evolved principles show stage-dependent utility at checkpoints after rounds 2 and 5 (R2 and R5) (Table~\ref{tab:ablations}, panel B). On VQA-RAD, original principles lead by 4.22 points at R2, whereas evolved principles lead by 8.26 at R5. On MIMIC-CXR, their difference grows from 0.12 to 9.21 points in favor of evolved principles. This stage dependence supports revising supervision as the learner develops; all six benchmarks appear in Appendix~\ref{app:stage_transfer}.
+\paragraph{\rev{Ablating principle evolution.}}
+Original and evolved principles show stage-dependent utility at checkpoints after rounds 2 and 5 (R2 and R5) (Table~\ref{tab:ablations}, panel B). On VQA-RAD, original principles lead by 4.22 points at R2, whereas evolved principles lead by 8.26 at R5. On MIMIC-CXR, their difference grows from 0.12 to 9.21 points in favor of evolved principles. This stage dependence supports revising supervision as the learner develops.
 
 \begin{table}[H]
 \centering\small
-\caption{Mechanism ablations: (A) the same R5 learner with R2, R3, or current R5 feedback; (B) original versus evolved construction principles at R2 and R5. VQA-RAD reports accuracy (\%); MIMIC-CXR reports RaTEScore ($\times100$). Reference scores are measured before further training.}
+\caption{\rev{Ablations of curriculum adaptation and principle evolution}: (A) the same R5 learner with R2, R3, or current R5 feedback; (B) original versus evolved construction principles at R2 and R5. VQA-RAD reports accuracy (\%); MIMIC-CXR reports RaTEScore ($\times100$). Reference scores are measured before further training.}
 \label{tab:ablations}
 \setlength{\tabcolsep}{3.5pt}
 \renewcommand{\arraystretch}{1.0}

@@ -161,10 +161,33 @@ CoEvoMed uses validation sets $\mathcal V$ organized by task and independent of 
 
 \rev{Support, validation, and test data are separate partitions at the patient, study, and image levels. We screened all 11 2D and 5 volumetric support sources against every external test set at four levels: identifiers (study, case, and PubMed Central article IDs), image paths, pixel hashes (exact and near-duplicate), and normalized text. All checks found zero overlap, including between PubMedVision-IU and IU-Xray. Checkpoint selection (Appendix~\ref{app:checkpoint_selection}) uses validation scores only.}
 
-\section{Curriculum interventions and component controls}
+\section{\rev{Ablations of CoEvoMed's components}}
 \label{app:mechanisms}
 
-\subsection{Experiment 1: feedback--learner alignment}
+\rev{Table~\ref{tab:ablation_map} maps each component of CoEvoMed to the ablations that test it. Unless noted otherwise, each ablation starts from the same checkpoint and trains one round with the same pipeline and budget, changing one factor.}
+
+\begin{table}[H]
+\centering\small\color{blue}
+\revtablenumber
+\caption{\rev{Components of CoEvoMed and the ablations that test them.}}
+\label{tab:ablation_map}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{@{}lYl@{}}
+\toprule
+Component & Ablation & Appendix\\
+\midrule
+Curriculum adaptation & Stale R2 or R3 feedback; uniform allocation across capability cells & \ref{app:feedback_ablation}, \ref{app:factorial}\\
+Principle evolution & Original principles at R2 and R5; with uniform allocation; from the base under the same budget & \ref{app:stage_transfer}, \ref{app:factorial}, \ref{app:raw_source}\\
+All agents & Training on raw source records & \ref{app:raw_source}\\
+Individual agents & Random evidence for the selector; no verifier; a single agent for all roles & \ref{app:agent_ablation}\\
+Retention & Zero retention share & \ref{app:forgetting}\\
+Principle selection & Accepted revisions versus eligible principles kept unrevised & \ref{app:revision_followup}\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Experiment 1: feedback--learner alignment \rev{(ablating curriculum adaptation)}}
 \label{app:feedback_ablation}
 
 Experiment 1 fixes the learner's initial state at R5 and uses historical validation feedback from R2 or R3, or current R5 feedback. Feedback comprises numerical capability statistics describing task-level mastery and learning changes, and summaries of error semantics characterizing unresolved failure modes. Both components are jointly replaced with records from the same source round to guide curriculum allocation and supervision construction, testing alignment between validation-based diagnosis and the current learner state. Table~\ref{tab:feedback_full} extends panel A of Table~\ref{tab:ablations} to six 2D benchmarks under the evaluation settings in Appendix~\ref{app:datasets_2d}. All changes are measured against the same R5 reference scores measured before further training. The condition using current feedback shares its training result with condition D of Experiment 2 and corresponds to round 6 in Figure~\ref{fig:trajectory}.
@@ -189,7 +212,7 @@ R3 feedback & 71.84 ($-1.77$) & 83.20 ($-5.80$) & 62.80 ($-1.80$) & 63.40 ($-2.4
 
 Current R5 feedback outperforms both conditions using historical feedback and the reference scores measured before further training on all six benchmarks. Gains over the reference are 2.62 percentage points on VQA-RAD and 2.77 points on MIMIC-CXR, and 0.69, 0.52, 1.13, and 1.28 points on SLAKE, PMC-VQA, PathVQA, and IU-Xray, respectively. R3 feedback reduces performance on all six benchmarks, whereas R2 feedback yields only a marginal improvement on MIMIC-CXR; their relative ordering varies across tasks. These results support jointly updating numerical and semantic feedback to align subsequent curriculum interventions with the learner's current capabilities and error patterns.
 
-\subsection{Experiment 2: stage-dependent utility of construction principles}
+\subsection{Experiment 2: stage-dependent utility of construction principles \rev{(ablating principle evolution)}}
 \label{app:stage_transfer}
 
 Experiment 2 applies original and evolved construction principles to learners after two (R2) and five (R5) completed training rounds. Conditions A/B initialize from the R2 checkpoint and C/D from R5, followed by training interventions using their assigned principles. Table~\ref{tab:stage_full} extends panel B of Table~\ref{tab:ablations} in the main text to six benchmarks under the same evaluation settings as Experiment 1. Changes are measured against reference scores measured before further training at the corresponding stage. The R5 reference and condition D correspond to rounds 5 and 6 in Figure~\ref{fig:trajectory}.
@@ -220,7 +243,7 @@ All four VQA benchmarks exhibit a reversal in principle ordering: original princ
 \subsection{Training on a larger collection of raw data}
 \label{app:raw_source}
 
-This comparison examines whether increasing the volume of raw data can account for CoEvoMed's performance gains. Starting from the same Qwen3-VL-8B initialization, Qwen3+Raw trains directly on approximately 700,000 original source examples, exceeding the number of training examples used by CoEvoMed. It retains the original supervision without supervision reconstruction or adaptive curriculum allocation. We evaluate both conditions on the four VQA benchmarks in Appendix~\ref{app:datasets_2d}. \rev{Table~\ref{tab:raw_source} also reports the two report benchmarks and a run that starts from the same initialization and keeps the original construction principles throughout, under the same total training budget as CoEvoMed.}
+This comparison examines whether increasing the volume of raw data can account for CoEvoMed's performance gains. \rev{It also ablates the agents as a whole: without them, only raw source records remain to train on.} Starting from the same Qwen3-VL-8B initialization, Qwen3+Raw trains directly on approximately 700,000 original source examples, exceeding the number of training examples used by CoEvoMed. It retains the original supervision without supervision reconstruction or adaptive curriculum allocation. We evaluate both conditions on the four VQA benchmarks in Appendix~\ref{app:datasets_2d}. \rev{Table~\ref{tab:raw_source} also reports the two report benchmarks and a run that starts from the same initialization and keeps the original construction principles throughout, under the same total training budget as CoEvoMed.}
 
 \begin{table}[!htbp]
 \centering\small

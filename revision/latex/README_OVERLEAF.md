@@ -1,5 +1,7 @@
 # CoEvoMed：ICLR 2027 中英文 LaTeX 初稿
 
+- 2026-11-19：把消融实验的表述改成审稿人熟悉的说法（蓝色）。正文 5.3 节开头说明 panel A、B 分别消融课程自适应和原则演化，两段小标题改为 Ablating curriculum adaptation / Ablating principle evolution，Table 2 表题改为 Ablations of curriculum adaptation and principle evolution；附录 D 标题改为 Ablations of CoEvoMed's components，开头新增组件与消融的对照表（Table R3），D.1、D.2 标题注明各自消融的组件，D.3 补一句说明它同时是去掉全部智能体的消融。新增表格编号顺延为 R1–R5（R4 为四种组合，R5 为逐个替换智能体）。原有编号全部不变；英文正文仍为 9 页，全文 37 页。
+
 - 2026-11-19：讨论阶段修订版（只改英文版）。新增和改动的文字一律用蓝色（`\rev{}`）标出；新增表格编号为 Table R1–R4，原有表格、图、章节和公式编号全部不变，以免与回复中的引用错位。改动：附录 C.1 注明 Table 1 与 Figure 3 用贪心解码；C.2 新增 MedVLSynther 在 Qwen3-VL-8B 上的复现（Table R1）与 MMMU Health & Medicine 结果；C.3 新增 200 道 SLAKE 题的标签一致性；C.4 新增三种子解码波动与配对置信区间（Table R2），并把 R7 的选择规则改为 F_e=(Q_e+R_e)/2 最大；C.6 新增重叠筛查；D.3 的 Table 9 增加两个报告基准列和同预算固定原则一行；新增 D.4 原则演化与课程自适应四种组合（Table R3）、D.5 逐个替换智能体（Table R4）、D.6 遗忘与保留、D.7 原则修订的后续效果。新增文献 Chaudhry et al. 2018、Landis & Koch 1977、Yue et al. 2024（MMMU）。MMMU 条目作者较多（22 位），只列前三位加 et al.，使参考文献在第 15 页排完、附录仍从第 16 页开始；74 条文献全部保留。英文正文仍为 9 页，全文 36 页。
 
 - 2026-09-26：将中英文 AI 使用声明统一改为第一人称 We / 我们，保留辅助论文写作与语言润色、审阅文本及作者责任这两句内容。中英文仅声明所在页文字变化，正文和分页不变；已检查排版并同步中英文 PDF 与 Overleaf 包。
