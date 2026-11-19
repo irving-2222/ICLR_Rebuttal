@@ -670,6 +670,7 @@ IU-Xray 的参考报告较短（平均 30.5 词，MIMIC-CXR 为 53.4 词）：8B
 
 ### 发布前待核对
 
+- [x] **MIMIC-CXR 上 Qwen3.6-27B 的评测范围（作者确认）**：Qwen3.6-27B 在 MIMIC-CXR 全部 2,343 份报告上测试，配对区间 [0.71, 2.68] 有效。论文数据文件 figures/report_results.json 中"MIMIC-CXR n=303"的来源记录已过时，不影响 PDF。
 - [x] **Q3 MIMIC-CXR 配对区间改为贪心口径（作者提供）**：原来六列中只有 MIMIC-CXR 用三种子均值（63.31）对比 Qwen3.6-27B，区间 [0.40, 2.37]，中点 1.39 = 63.31 − 61.92。为统一口径，作者用 Figure 3 已有的贪心逐报告 RaTEScore 重算：[0.71, 2.68]，中点 1.695，与 63.62 − 61.92 = 1.70 一致；区间宽度 1.97 与原区间相同。正文括号 "(MIMIC-CXR: seed mean vs. top baseline Qwen3.6-27B)" 改为 "(MIMIC-CXR: top baseline Qwen3.6-27B)"，中文同步。现在六个基准的区间都是"贪心运行对比基线"，只有 MIMIC-CXR 的基线是 Qwen3.6-27B 而非重测的 Hulu-Med-7B。
 - [x] **交叉核对后修正（作者确认）**：Q1 "Principle evolution drives most of the gain" 改为 "Of the two, principle evolution has the larger effect"，与 jcb6 一致，避免与 jcb6 中"从基础模型出发"的固定原则对比表矛盾。
 - [x] **Q4 加入 MMMU Health & Medicine 实测结果（作者提供）**：测试集 1,752 题，用后来公开的答案在本地打分，三个模型同一协议（论文附录 C.1 的评测设置）。CoEvoMed-8B 62.04（1,087/1,752），MediX-R1-8B 61.30（1,074/1,752），Qwen3-VL-8B 49.66（870/1,752），已核对。替换了原来解释"为什么没测 MedXpertQA-MM 和 MMMU"的一句。注意：与 MediX-R1-8B 只差 13 题，正文不写"超过"；MedXpertQA-MM 仍未测，若被问到如实说明。可能被问：基础模型 49.66 偏低，建议备好其答案解析失败率。为腾字数：Q4 表中 M3D-VQA、3D-RAD 的括注缩短；"the next-best model" 改为 "the next-best"。
