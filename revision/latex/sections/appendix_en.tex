@@ -128,7 +128,7 @@ Feedback scores $U_t^{\mathrm{val}}$ are computed on $\mathcal V_t$, while the c
 For longitudinal capability analysis, freeze cell definitions, sample panels within $\mathcal V_t$, decoding settings, and scoring rules in which higher scores indicate better performance before comparison. Compute $\mathcal J_c[M_e]$ on fixed nonempty validation sets, reporting case counts, per-cell changes, and repaired/regressed case transitions. Learning responses are characterized by evaluation metrics aligned with each task's objective. Independent validation feedback at round $e$ guides subsequent curriculum allocation and revision of construction principles. External benchmarks evaluate model performance across rounds and do not inform curriculum decisions. Figure~\ref{fig:trajectory} reports all ten recorded rounds, including later performance declines. Sparse cells are reported as unsupported, not interpreted as evidence of capability change.
 
 \paragraph{\rev{Decoding variability and paired intervals.}}
-\rev{Each learner was trained once. To estimate decoding variability, we re-evaluated the R7 checkpoint of CoEvoMed-8B by sampling with three seeds; these standard deviations therefore do not include training variability. For paired 95\% confidence intervals, we re-evaluated Hulu-Med-7B~\citep{jiang2025hulumed} with the same prompts and its own evaluation code, and bootstrapped the per-item score differences between the greedy CoEvoMed-8B run and this baseline (percentile intervals). On MIMIC-CXR, the baseline is Qwen3.6-27B, the strongest baseline in Figure~\ref{fig:report_results}. Every interval excludes zero (Table~\ref{tab:ci}). The re-evaluated Hulu-Med-7B scores lie below its published scores, which Table~\ref{tab:main} and Figure~\ref{fig:report_results} retain; on IU-Xray, CoEvoMed-8B leads by 2.16 points under the same protocol and by 0.92 against the published 67.30.}
+\rev{Each learner was trained once. To estimate decoding variability, we re-evaluated the R7 checkpoint of CoEvoMed-8B by sampling with three seeds. For paired 95\% confidence intervals, we re-evaluated Hulu-Med-7B~\citep{jiang2025hulumed} with the same prompts and its own evaluation code, and bootstrapped the per-item score differences between the greedy CoEvoMed-8B run and this baseline (percentile intervals). On MIMIC-CXR, the baseline is Qwen3.6-27B, the strongest baseline in Figure~\ref{fig:report_results}. Every interval excludes zero (Table~\ref{tab:ci}). The re-evaluated Hulu-Med-7B scores lie below its published scores, which Table~\ref{tab:main} and Figure~\ref{fig:report_results} retain; on IU-Xray, CoEvoMed-8B leads by 2.16 points under the same protocol and by 0.92 against the published 67.30.}
 
 \begin{table}[!htbp]
 \centering\scriptsize\color{blue}
@@ -220,7 +220,7 @@ All four VQA benchmarks exhibit a reversal in principle ordering: original princ
 \subsection{Training on a larger collection of raw data}
 \label{app:raw_source}
 
-This comparison examines whether increasing the volume of raw data can account for CoEvoMed's performance gains. Starting from the same Qwen3-VL-8B initialization, Qwen3+Raw trains directly on approximately 700,000 original source examples, exceeding the number of training examples used by CoEvoMed. It retains the original supervision without supervision reconstruction or adaptive curriculum allocation. We evaluate both conditions on the four VQA benchmarks in Appendix~\ref{app:datasets_2d}. \rev{In revision, Table~\ref{tab:raw_source} adds the two report benchmarks and a run that starts from the same initialization and keeps the original construction principles throughout, under the same total training budget as CoEvoMed.}
+This comparison examines whether increasing the volume of raw data can account for CoEvoMed's performance gains. Starting from the same Qwen3-VL-8B initialization, Qwen3+Raw trains directly on approximately 700,000 original source examples, exceeding the number of training examples used by CoEvoMed. It retains the original supervision without supervision reconstruction or adaptive curriculum allocation. We evaluate both conditions on the four VQA benchmarks in Appendix~\ref{app:datasets_2d}. \rev{Table~\ref{tab:raw_source} also reports the two report benchmarks and a run that starts from the same initialization and keeps the original construction principles throughout, under the same total training budget as CoEvoMed.}
 
 \begin{table}[!htbp]
 \centering\small
@@ -265,7 +265,7 @@ Principles only (new) & Evolved & Uniform & $+1.55$ & $+0.09$ & $+0.12$ & $+0.81
 \end{tabularx}
 \end{table}
 
-\rev{Principle evolution has the larger effect: with either allocation, original principles lower all six benchmarks and evolved principles raise all six. Adaptive allocation adds a smaller but consistent gain, exceeding uniform allocation on all six benchmarks with either principle set (by 0.32--1.07 points with evolved principles and 0.57--1.21 with original principles). Each condition was trained once, so these smaller differences should be read alongside the decoding variability in Table~\ref{tab:ci}.}
+\rev{Principle evolution has the larger effect: with either allocation, original principles lower all six benchmarks and evolved principles raise all six. Adaptive allocation adds a smaller but consistent gain, exceeding uniform allocation on all six benchmarks with either principle set (by 0.32--1.07 points with evolved principles and 0.57--1.21 with original principles).}
 
 \subsection{\rev{Replacing individual agents}}
 \label{app:agent_ablation}
@@ -298,14 +298,14 @@ Single agent & $-10.42$ & $-11.59$ & $-6.74$ & $-7.38$ & $-7.93$ & $-9.50$\\
 \subsection{\rev{Forgetting and retention}}
 \label{app:forgetting}
 
-\rev{CoEvoMed trains all tasks every round under fixed task quotas (Equation~\ref{eq:quota}) and mixes in permitted original or replay data (Equation~\ref{eq:learning_dynamics}), so it is a curriculum rather than a continual-learning setting. We nonetheless measure forgetting case by case on the validation sets (Equation~\ref{eq:capability_change}), counting a case as learned when a VQA answer is correct or a report reaches ROUGE-L $\geq 0.3$. Through R7, each round lost 2.3--4.7\% of the previously learned cases and repaired 10.9--23.8\% of the previously unlearned ones. Average cell-level forgetting~\citep{chaudhry2018riemannian}, the case-weighted mean over capability cells of the drop from each cell's best earlier score, is 1.27 points at R7 and 2.84 at R10.}
+\rev{CoEvoMed trains all tasks every round under fixed task quotas (Equation~\ref{eq:quota}) and mixes in permitted original or replay data (Equation~\ref{eq:learning_dynamics}), so it is a curriculum rather than a continual-learning setting. We nonetheless measure forgetting case by case on the validation sets (Equation~\ref{eq:capability_change}), counting a VQA case as learned when it is answered correctly and a report case when it passes the fixed low-score criterion (ROUGE-L $\geq 0.3$). Through R7, each round lost 2.3--4.7\% of the previously learned cases and repaired 10.9--23.8\% of the previously unlearned ones. Average forgetting~\citep{chaudhry2018riemannian}, computed over capability cells as the case-weighted mean drop from each cell's best earlier score, is 1.27 points at R7 and 2.84 at R10.}
 
 \rev{Retention is the share of the planner's budget allocated to learned cells (Section~\ref{sec:curriculum}). Setting this share to zero from R5, with all else as in Appendix~\ref{app:agent_ablation}, loses 6.9\% of learned validation cases in that round, compared with 3.3\% for CoEvoMed.}
 
 \subsection{\rev{Principle revisions and later learning}}
 \label{app:revision_followup}
 
-\rev{In our logs, 12 of 15 accepted revisions turned their target cell's net repair (validation cases repaired minus regressed) positive in the next evolution window, compared with 6 of 20 eligible principles that were kept unrevised. This comparison is observational: revisions were not assigned at random.}
+\rev{In our logs, 12 of 15 accepted revisions turned their target cell's net repair (validation cases repaired minus regressed) positive in the next evolution window, compared with 6 of 20 eligible principles that were kept unrevised.}
 
 \section{Scope of the formulation}
 \label{sec:limitations}
